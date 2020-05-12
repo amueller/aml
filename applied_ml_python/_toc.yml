@@ -1,54 +1,37 @@
 file: index
-title: Applied Ml Python
 sections:
-- file: 01-introduction/index
-  title: 01-introduction
+- file: 01 - Introduction/index
   sections:
-  - file: 01-introduction/01 - Data Loading
-    title: 01 - data loading
-  - file: 01-introduction/09 - Pipelines
-    title: 09 - pipelines
-- file: 02-supervised_learning/index
-  title: 02-supervised Learning
+  - file: 01 - Introduction/00 - Preliminarities
+  - file: 01 - Introduction/01 - Data Loading
+  - file: 01 - Introduction/02 - Supervised Learning
+  - file: 01 - Introduction/03 - Preprocessing
+  - file: 01 - Introduction/04 - Categorical Variables
+  - file: 01 - Introduction/05 - Feature Engineering
+  - file: 01 - Introduction/08 - imputation
+  - file: 01 - Introduction/09 - Pipelines
+  - file: 01 - Introduction/10 - Cross-validation and Grid Search
+- file: 02 - Supervised Learning/index
   sections:
-  - file: 02-supervised_learning/02 - Supervised Learning
-    title: 02 - supervised learning
-  - file: 02-supervised_learning/03 - Preprocessing
-    title: 03 - preprocessing
-  - file: 02-supervised_learning/04 - Review of Supervised Learning
-    title: 04 - review of supervised learning
-  - file: 02-supervised_learning/05 - Linear Models for Classification
-    title: 05 - linear models for classification
-  - file: 02-supervised_learning/06 - Linear Models for Regression
-    title: 06 - linear models for regression
-  - file: 02-supervised_learning/07 - Trees
-    title: 07 - trees
-  - file: 02-supervised_learning/08 - Gradient Boosting
-    title: 08 - gradient boosting
-  - file: 02-supervised_learning/08 - Gradient Boosting2
-    title: 08 - gradient boosting2
-- file: 03-unsupervised_learning/index
-  title: 03-unsupervised Learning
+  - file: 02 - Supervised Learning/02 - Supervised Learning
+  - file: 02 - Supervised Learning/04 - Review of Supervised Learning
+  - file: 02 - Supervised Learning/05 - Linear Models for Classification
+  - file: 02 - Supervised Learning/06 - Linear Models for Regression
+  - file: 02 - Supervised Learning/07 - Trees
+  - file: 02 - Supervised Learning/08 - Gradient Boosting
+  - file: 02 - Supervised Learning/08 - Gradient Boosting2
+- file: 03 - Unsupervised Learning/index
   sections:
-  - file: 03-unsupervised_learning/aml-14-pca-discriminant-manifold
-    title: Aml-14-pca-discriminant-manifold
-  - file: 03-unsupervised_learning/aml-16-clustering-mixture-models
-    title: Aml-16-clustering-mixture-models
-- file: 04-model_evaluation/index
-  title: 04-model Evaluation
+  - file: 03 - Unsupervised Learning/aml-14-pca-discriminant-manifold
+  - file: 03 - Unsupervised Learning/aml-16-clustering-mixture-models
+- file: 04 - Model Evaluation/index
   sections:
-  - file: 04-model_evaluation/10 - Evaluation Metrics
-    title: 10 - evaluation metrics
-  - file: 04-model_evaluation/aml-11-calibration
-    title: Aml-11-calibration
-- file: 05-advanced_topics/index
-  title: 05-advanced Topics
+  - file: 04 - Model Evaluation/10 - Evaluation Metrics
+  - file: 04 - Model Evaluation/aml-11-calibration
+  - file: 04 - Model Evaluation/aml-12-interpretation
+- file: 05 - Advanced Topics/index
   sections:
-  - file: 05-advanced_topics/11 - Imbalanced Datasets
-    title: 11 - imbalanced datasets
-  - file: 05-advanced_topics/12 - Feature selection
-    title: 12 - feature selection
-  - file: 05-advanced_topics/13 - working with text data
-    title: 13 - working with text data
-  - file: 05-advanced_topics/14 - Custom Estimators
-    title: 14 - custom estimators
+  - file: 05 - Advanced Topics/11 - Imbalanced Datasets
+  - file: 05 - Advanced Topics/12 - Feature selection
+  - file: 05 - Advanced Topics/13 - working with text data
+  - file: 05 - Advanced Topics/14 - Custom Estimators
