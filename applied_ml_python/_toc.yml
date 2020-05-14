@@ -15,18 +15,20 @@ sections:
   - file: 011 - The ML workflow/10 - Cross-validation and Grid Search
 - file: 02 - Supervised Learning/index
   sections:
-  - file: 02 - Supervised Learning/02 - Supervised Learning
   - file: 02 - Supervised Learning/05 - Linear Models for Classification
   - file: 02 - Supervised Learning/06 - Linear Models for Regression
-  - file: 02 - Supervised Learning/07 - SVMs
-  - file: 02 - Supervised Learning/07 - Trees
+  - file: 02 - Supervised Learning/070 - SVMs
+  - file: 02 - Supervised Learning/071 - Decision Trees
+  - file: 02 - Supervised Learning/072 - Random Forests
   - file: 02 - Supervised Learning/08 - Gradient Boosting
   - file: 02 - Supervised Learning/09-neural-networks
   - file: 02 - Supervised Learning/10-advanced-nets
 - file: 03 - Unsupervised Learning/index
   sections:
-  - file: 03 - Unsupervised Learning/aml-14-pca-discriminant-manifold
-  - file: 03 - Unsupervised Learning/aml-16-clustering-mixture-models
+  - file: 03 - Unsupervised Learning/01 - matrix factorization and dimensionality
+      reduction
+  - file: 03 - Unsupervised Learning/02 - clustering-mixture-models
+  - file: 03 - Unsupervised Learning/03 - outlier-detection
 - file: 04 - Model Evaluation/index
   sections:
   - file: 04 - Model Evaluation/10 - Evaluation Metrics
