@@ -1,25 +1,28 @@
 file: index
 sections:
-- file: 01 - Introduction/index
+- file: 01 - Introduction/00 - Introduction
   sections:
-  - file: 01 - Introduction/00 - Preliminarities
-  - file: 01 - Introduction/01 - Data Loading
-  - file: 01 - Introduction/02 - Supervised Learning
-  - file: 01 - Introduction/03 - Preprocessing
-  - file: 01 - Introduction/04 - Categorical Variables
-  - file: 01 - Introduction/05 - Feature Engineering
-  - file: 01 - Introduction/08 - imputation
-  - file: 01 - Introduction/09 - Pipelines
-  - file: 01 - Introduction/10 - Cross-validation and Grid Search
+  - file: 01 - Introduction/00 - Preliminaries
+- file: 011 - The ML workflow/00 - the ml workflow
+  sections:
+  - file: 011 - The ML workflow/01 - Data Loading
+  - file: 011 - The ML workflow/02 - Supervised Learning
+  - file: 011 - The ML workflow/03 - Preprocessing
+  - file: 011 - The ML workflow/04 - Categorical Variables
+  - file: 011 - The ML workflow/05 - Feature Engineering
+  - file: 011 - The ML workflow/08 - imputation
+  - file: 011 - The ML workflow/09 - Pipelines
+  - file: 011 - The ML workflow/10 - Cross-validation and Grid Search
 - file: 02 - Supervised Learning/index
   sections:
   - file: 02 - Supervised Learning/02 - Supervised Learning
-  - file: 02 - Supervised Learning/04 - Review of Supervised Learning
   - file: 02 - Supervised Learning/05 - Linear Models for Classification
   - file: 02 - Supervised Learning/06 - Linear Models for Regression
+  - file: 02 - Supervised Learning/07 - SVMs
   - file: 02 - Supervised Learning/07 - Trees
   - file: 02 - Supervised Learning/08 - Gradient Boosting
-  - file: 02 - Supervised Learning/08 - Gradient Boosting2
+  - file: 02 - Supervised Learning/09-neural-networks
+  - file: 02 - Supervised Learning/10-advanced-nets
 - file: 03 - Unsupervised Learning/index
   sections:
   - file: 03 - Unsupervised Learning/aml-14-pca-discriminant-manifold
@@ -29,6 +32,7 @@ sections:
   - file: 04 - Model Evaluation/10 - Evaluation Metrics
   - file: 04 - Model Evaluation/aml-11-calibration
   - file: 04 - Model Evaluation/aml-12-interpretation
+  - file: 04 - Model Evaluation/parameter_tuning_automl
 - file: 05 - Advanced Topics/index
   sections:
   - file: 05 - Advanced Topics/11 - Imbalanced Datasets
