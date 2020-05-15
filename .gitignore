@@ -1,6 +1,7 @@
 _build
 notebooks-old/
 data/
+slides-markdown/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
