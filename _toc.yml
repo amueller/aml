@@ -1,7 +1,5 @@
 file: index
 sections:
-- file: README
-- file: utils
 - file: 00-introduction/00-introduction
   sections:
   - file: 00-introduction/01-preliminaries
