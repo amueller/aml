@@ -1,43 +1,85 @@
 file: index
 sections:
-- file: 01 - Introduction/00 - Introduction
+- file: README
+- file: utils
+- file: 00-introduction/00-introduction
   sections:
-  - file: 01 - Introduction/00 - Preliminaries
-- file: 011 - The ML workflow/00 - the ml workflow
+  - file: 00-introduction/01-preliminaries
+- file: 01-ml-workflow/00-ml-workflow
   sections:
-  - file: 011 - The ML workflow/01 - Data Loading
-  - file: 011 - The ML workflow/02 - Supervised Learning
-  - file: 011 - The ML workflow/03 - Preprocessing
-  - file: 011 - The ML workflow/04 - Categorical Variables
-  - file: 011 - The ML workflow/05 - Feature Engineering
-  - file: 011 - The ML workflow/08 - imputation
-  - file: 011 - The ML workflow/09 - Pipelines
-  - file: 011 - The ML workflow/10 - Cross-validation and Grid Search
-- file: 02 - Supervised Learning/index
+  - file: 01-ml-workflow/01-data-loading
+  - file: 01-ml-workflow/02-supervised-learning
+  - file: 01-ml-workflow/03-preprocessing
+  - file: 01-ml-workflow/04-categorical-variables
+  - file: 01-ml-workflow/05-feature-engineering
+  - file: 01-ml-workflow/08-imputation
+  - file: 01-ml-workflow/09-pipeline
+  - file: 01-ml-workflow/10-cross-validation-grid-search
+- file: 02-supervised-learning/index
   sections:
-  - file: 02 - Supervised Learning/05 - Linear Models for Classification
-  - file: 02 - Supervised Learning/06 - Linear Models for Regression
-  - file: 02 - Supervised Learning/070 - SVMs
-  - file: 02 - Supervised Learning/071 - Decision Trees
-  - file: 02 - Supervised Learning/072 - Random Forests
-  - file: 02 - Supervised Learning/08 - Gradient Boosting
-  - file: 02 - Supervised Learning/09-neural-networks
-  - file: 02 - Supervised Learning/10-advanced-nets
-- file: 03 - Unsupervised Learning/index
+  - file: 02-supervised-learning/05-linear-models-classification
+  - file: 02-supervised-learning/06-linear-models-regression
+  - file: 02-supervised-learning/07-support-vector-machines
+  - file: 02-supervised-learning/08-decision-trees
+  - file: 02-supervised-learning/09-random-forests
+  - file: 02-supervised-learning/10-gradient-boosting
+  - file: 02-supervised-learning/11-neural-networks
+  - file: 02-supervised-learning/12-advanced-nets
+- file: 03-unsupervised-learning/index
   sections:
-  - file: 03 - Unsupervised Learning/01 - matrix factorization and dimensionality
-      reduction
-  - file: 03 - Unsupervised Learning/02 - clustering-mixture-models
-  - file: 03 - Unsupervised Learning/03 - outlier-detection
-- file: 04 - Model Evaluation/index
+  - file: 03-unsupervised-learning/01-matrix-factorization-dimensionality-reduction
+  - file: 03-unsupervised-learning/02-clustering-mixture-models
+  - file: 03-unsupervised-learning/03-outlier-detection
+- file: 04-model-evaluation/index
   sections:
-  - file: 04 - Model Evaluation/10 - Evaluation Metrics
-  - file: 04 - Model Evaluation/aml-11-calibration
-  - file: 04 - Model Evaluation/aml-12-interpretation
-  - file: 04 - Model Evaluation/parameter_tuning_automl
-- file: 05 - Advanced Topics/index
+  - file: 04-model-evaluation/10-evaluation-metrics
+  - file: 04-model-evaluation/aml-11-calibration
+  - file: 04-model-evaluation/aml-12-interpretation
+  - file: 04-model-evaluation/parameter_tuning_automl
+- file: 05-advanced-topics/index
   sections:
-  - file: 05 - Advanced Topics/11 - Imbalanced Datasets
-  - file: 05 - Advanced Topics/12 - Feature selection
-  - file: 05 - Advanced Topics/13 - working with text data
-  - file: 05 - Advanced Topics/14 - Custom Estimators
+  - file: 05-advanced-topics/11-imbalanced-datasets
+  - file: 05-advanced-topics/12-feature-selection
+  - file: 05-advanced-topics/13-text-data
+  - file: 05-advanced-topics/14-custom-estimators
+- file: notebooks-old/01 - Data Loading
+  sections:
+  - file: notebooks-old/02 - Supervised Learning
+  - file: notebooks-old/03 - Preprocessing
+  - file: notebooks-old/04 - Review of Supervised Learning
+  - file: notebooks-old/05 - Linear Models for Classification
+  - file: notebooks-old/06 - Linear Models for Regression
+  - file: notebooks-old/07 - Trees
+  - file: notebooks-old/08 - Gradient Boosting
+  - file: notebooks-old/08 - Gradient Boosting2
+  - file: notebooks-old/09 - Pipelines
+  - file: notebooks-old/10 - Evaluation Metrics
+  - file: notebooks-old/11 - Imbalanced Datasets
+  - file: notebooks-old/12 - Feature selection
+  - file: notebooks-old/13 - working with text data
+  - file: notebooks-old/14 - Custom Estimators
+  - file: notebooks-old/9001 Review of Supervised Learning
+  - file: notebooks-old/9006 - Cross-validation and Grid Search
+  - file: notebooks-old/aml-03-012517
+  - file: notebooks-old/aml-04-supervised-learning
+  - file: notebooks-old/aml-05-linear-models-regression-Copy1
+  - file: notebooks-old/aml-05-linear-models-regression
+  - file: notebooks-old/aml-06-linear-models-classification
+  - file: notebooks-old/aml-07-preprocessing
+  - file: notebooks-old/aml-08-imputation-feature-selection
+  - file: notebooks-old/aml-10
+  - file: notebooks-old/aml-11-calibration
+  - file: notebooks-old/aml-11-gradient-boosting-stacking
+  - file: notebooks-old/aml-11-resampling-imbalanced-data
+  - file: notebooks-old/aml-12-feature-selection-interpretation
+  - file: notebooks-old/aml-12-model-evaluation
+  - file: notebooks-old/aml-14-pca-discriminant-manifold
+  - file: notebooks-old/aml-16-clustering-mixture-models
+  - file: notebooks-old/aml-19-text-data
+  - file: notebooks-old/aml-20-topic-models
+  - file: notebooks-old/aml-21-word-embeddings
+  - file: notebooks-old/aml-22-neural-networks
+  - file: notebooks-old/aml-25-time-series
+  - file: notebooks-old/aml-advanced-nets
+  - file: notebooks-old/aml-convolutional-nets
+  - file: notebooks-old/parameter_tuning_automl
