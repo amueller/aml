@@ -1,0 +1,786 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Working with Text data &#8212; Applied Machine Learning in Python</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/mystnb.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Custom Estimators" href="14-custom-estimators.html" />
+    <link rel="prev" title="Automatic Feature Selection" href="12-feature-selection.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Applied Machine Learning in Python</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  
+  <ul class="nav sidenav_l1">
+  <li class="">
+    <a href="../index.html">Welcome</a>
+  </li>
+  <li class="">
+    <a href="../00-introduction/00-introduction.html">Introduction</a>
+  </li>
+  <li class="">
+    <a href="../01-ml-workflow/00-ml-workflow.html">The Machine Learning Workflow</a>
+  </li>
+  <li class="">
+    <a href="../02-supervised-learning/index.html">Supervised Learning Algorithms</a>
+  </li>
+  <li class="">
+    <a href="../03-unsupervised-learning/index.html">Unsupervised Learning Algorithms</a>
+  </li>
+  <li class="">
+    <a href="../04-model-evaluation/index.html">Model Evaluation</a>
+  </li>
+  <li class="active">
+    <a href="index.html">Advanced Topics</a>
+  <ul class="nav sidenav_l2">
+    <li class="">
+      <a href="11-imbalanced-datasets.html">Working with highly imbalanced data</a>
+    </li>
+    <li class="">
+      <a href="12-feature-selection.html">Automatic Feature Selection</a>
+    </li>
+    <li class="active">
+      <a href="">Working with Text data</a>
+    </li>
+    <li class="">
+      <a href="14-custom-estimators.html">Custom Estimators</a>
+    </li>
+  </ul>
+  </li>
+</ul>
+</nav>
+<p class="navbar_footer">Powered by <a href="https://jupyterbook.org">Jupyter Book</a></p>
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse" data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu" aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation" title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="dropdown-buttons-trigger">
+            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+            
+            <div class="dropdown-buttons">
+                <!-- ipynb file if we had a myst markdown file -->
+                
+                <!-- Download raw file -->
+                <a class="dropdown-buttons" href="../_sources/05-advanced-topics/13-text-data.ipynb.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+                <!-- Download PDF via print -->
+                <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+            </div>
+            
+        </div>
+
+        <!-- Edit this page -->
+        
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+        
+        <div class="dropdown-buttons-trigger">
+            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+            <div class="dropdown-buttons">
+                
+                <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/05-advanced-topics/13-text-data.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+                
+                
+                
+            </div>
+        </div>
+        
+
+        
+    </div>
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#http-ai-stanford-edu-amaas-data-sentiment" class="nav-link">http://ai.stanford.edu/~amaas/data/sentiment/</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#example-application-sentiment-analysis-of-movie-reviews" class="nav-link">Example application: Sentiment analysis of movie reviews</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#applying-bag-of-words-to-a-toy-dataset" class="nav-link">Applying bag-of-words to a toy dataset</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#bag-of-word-for-movie-reviews" class="nav-link">Bag-of-word for movie reviews</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#stop-words" class="nav-link">Stop-words</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#rescaling-the-data-with-tfidf" class="nav-link">Rescaling the data with TFIDF</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#investigating-model-coefficients" class="nav-link">Investigating model coefficients</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#bag-of-words-with-more-than-one-word-n-grams" class="nav-link">Bag of words with more than one word (n-grams)</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#exercise" class="nav-link">Exercise</a>
+        </li>
+    
+    </ul>
+</nav>
+
+
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="working-with-text-data">
+<h1>Working with Text data<a class="headerlink" href="#working-with-text-data" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">sklearn</span>
+<span class="n">sklearn</span><span class="o">.</span><span class="n">set_config</span><span class="p">(</span><span class="n">print_changed_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="http-ai-stanford-edu-amaas-data-sentiment">
+<h2>http://ai.stanford.edu/~amaas/data/sentiment/<a class="headerlink" href="#http-ai-stanford-edu-amaas-data-sentiment" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="example-application-sentiment-analysis-of-movie-reviews">
+<h2>Example application: Sentiment analysis of movie reviews<a class="headerlink" href="#example-application-sentiment-analysis-of-movie-reviews" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!tree -L 2 data/aclImdb
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_files</span>
+
+<span class="n">reviews_train</span> <span class="o">=</span> <span class="n">load_files</span><span class="p">(</span><span class="s2">&quot;data/aclImdb/train/&quot;</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;neg&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">])</span>
+<span class="c1"># load_files returns a bunch, containing training texts and training labels</span>
+<span class="n">text_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">reviews_train</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">reviews_train</span><span class="o">.</span><span class="n">target</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;type of text_train: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">text_train</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;length of text_train: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text_train</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;text_train[1]:</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text_train</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">text_train</span> <span class="o">=</span> <span class="p">[</span><span class="n">doc</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&lt;br /&gt;&quot;</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">text_train</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Samples per class (training):&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">reviews_test</span> <span class="o">=</span> <span class="n">load_files</span><span class="p">(</span><span class="s2">&quot;data/aclImdb/test/&quot;</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;neg&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">])</span>
+<span class="n">text_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">reviews_test</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">reviews_test</span><span class="o">.</span><span class="n">target</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of documents in test data:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_test</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Samples per class (test):&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+<span class="n">text_test</span> <span class="o">=</span> <span class="p">[</span><span class="n">doc</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&lt;br /&gt;&quot;</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">text_test</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="applying-bag-of-words-to-a-toy-dataset">
+<h3>Applying bag-of-words to a toy dataset<a class="headerlink" href="#applying-bag-of-words-to-a-toy-dataset" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bards_words</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;The fool doth think he is wise,&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;but the wise man knows himself to be a fool&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">CountVectorizer</span>
+<span class="n">vect</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">()</span>
+<span class="n">vect</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">bards_words</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Vocabulary size:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">vect</span><span class="o">.</span><span class="n">vocabulary_</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Vocabulary content:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vect</span><span class="o">.</span><span class="n">vocabulary_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bag_of_words</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">bards_words</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;bag_of_words:&quot;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">bag_of_words</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dense representation of bag_of_words:</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+      <span class="n">bag_of_words</span><span class="o">.</span><span class="n">toarray</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vect</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vect</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">bag_of_words</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="bag-of-word-for-movie-reviews">
+<h3>Bag-of-word for movie reviews<a class="headerlink" href="#bag-of-word-for-movie-reviews" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vect</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">text_train</span><span class="p">)</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">text_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;X_train:</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">X_train</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">feature_names</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of features:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">feature_names</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;First 20 features:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">feature_names</span><span class="p">[:</span><span class="mi">20</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Features 20010 to 20030:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">feature_names</span><span class="p">[</span><span class="mi">20010</span><span class="p">:</span><span class="mi">20030</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Every 2000th feature:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">feature_names</span><span class="p">[::</span><span class="mi">2000</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">LogisticRegression</span><span class="p">(),</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean cross-validation accuracy: </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">LogisticRegression</span><span class="p">(),</span> <span class="n">param_grid</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best cross-validation score: </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_score_</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best parameters: &quot;</span><span class="p">,</span> <span class="n">grid</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_test</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">text_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test score: </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vect</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">text_train</span><span class="p">)</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">text_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;X_train with min_df:&quot;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">feature_names</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;First 50 features:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">feature_names</span><span class="p">[:</span><span class="mi">50</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Features 20010 to 20030:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">feature_names</span><span class="p">[</span><span class="mi">20010</span><span class="p">:</span><span class="mi">20030</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Every 700th feature:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">feature_names</span><span class="p">[::</span><span class="mi">700</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">LogisticRegression</span><span class="p">(),</span> <span class="n">param_grid</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best cross-validation score: </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_score_</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="stop-words">
+<h3>Stop-words<a class="headerlink" href="#stop-words" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">ENGLISH_STOP_WORDS</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of stop words:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ENGLISH_STOP_WORDS</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Every 10th stopword:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">ENGLISH_STOP_WORDS</span><span class="p">)[::</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># specifying stop_words=&quot;english&quot; uses the build-in list.</span>
+<span class="c1"># We could also augment it and pass our own.</span>
+<span class="n">vect</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">stop_words</span><span class="o">=</span><span class="s2">&quot;english&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">text_train</span><span class="p">)</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">text_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;X_train with stop words:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">LogisticRegression</span><span class="p">(),</span> <span class="n">param_grid</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best cross-validation score: </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_score_</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="rescaling-the-data-with-tfidf">
+<h3>Rescaling the data with TFIDF<a class="headerlink" href="#rescaling-the-data-with-tfidf" title="Permalink to this headline">¶</a></h3>
+<p>\begin{equation*}
+\text{tfidf}(w, d) = \text{tf} \log\big(\frac{N + 1}{N_w + 1}\big) + 1
+\end{equation*}</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+                     <span class="n">LogisticRegression</span><span class="p">())</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;logisticregression__C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">]}</span>
+
+<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">text_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best cross-validation score: </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_score_</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vectorizer</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s2">&quot;tfidfvectorizer&quot;</span><span class="p">]</span>
+<span class="c1"># transform the training dataset:</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">text_train</span><span class="p">)</span>
+<span class="c1"># find maximum value for each of the features over dataset:</span>
+<span class="n">max_value</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="n">sorted_by_tfidf</span> <span class="o">=</span> <span class="n">max_value</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
+<span class="c1"># get feature names</span>
+<span class="n">feature_names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vectorizer</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Features with lowest tfidf:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">feature_names</span><span class="p">[</span><span class="n">sorted_by_tfidf</span><span class="p">[:</span><span class="mi">20</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Features with highest tfidf:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">feature_names</span><span class="p">[</span><span class="n">sorted_by_tfidf</span><span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">:]])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sorted_by_idf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">vectorizer</span><span class="o">.</span><span class="n">idf_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Features with lowest idf:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">feature_names</span><span class="p">[</span><span class="n">sorted_by_idf</span><span class="p">[:</span><span class="mi">100</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="investigating-model-coefficients">
+<h3>Investigating model coefficients<a class="headerlink" href="#investigating-model-coefficients" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">visualize_coefficients</span><span class="p">(</span><span class="n">coefficients</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">n_top_features</span><span class="o">=</span><span class="mi">25</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Visualize coefficients of a linear model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    coefficients : nd-array, shape (n_features,)</span>
+<span class="sd">        Model coefficients.</span>
+
+<span class="sd">    feature_names : list or nd-array of strings, shape (n_features,)</span>
+<span class="sd">        Feature names for labeling the coefficients.</span>
+
+<span class="sd">    n_top_features : int, default=25</span>
+<span class="sd">        How many features to show. The function will show the largest (most</span>
+<span class="sd">        positive) and smallest (most negative)  n_top_features coefficients,</span>
+<span class="sd">        for a total of 2 * n_top_features coefficients.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coefficients</span> <span class="o">=</span> <span class="n">coefficients</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">coefficients</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># this is not a row or column vector</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;coeffients must be 1d array or column vector, got&quot;</span>
+                         <span class="s2">&quot; shape </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">coefficients</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+    <span class="n">coefficients</span> <span class="o">=</span> <span class="n">coefficients</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">feature_names</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Number of coefficients </span><span class="si">{}</span><span class="s2"> doesn&#39;t match number of&quot;</span>
+                         <span class="s2">&quot;feature names </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coefficients</span><span class="p">),</span>
+                                                    <span class="nb">len</span><span class="p">(</span><span class="n">feature_names</span><span class="p">)))</span>
+    <span class="c1"># get coefficients with large absolute values</span>
+    <span class="n">coef</span> <span class="o">=</span> <span class="n">coefficients</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">positive_coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">coef</span><span class="p">)[</span><span class="o">-</span><span class="n">n_top_features</span><span class="p">:]</span>
+    <span class="n">negative_coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">coef</span><span class="p">)[:</span><span class="n">n_top_features</span><span class="p">]</span>
+    <span class="n">interesting_coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">negative_coefficients</span><span class="p">,</span>
+                                          <span class="n">positive_coefficients</span><span class="p">])</span>
+    <span class="c1"># plot them</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;r&#39;</span> <span class="k">if</span> <span class="n">c</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;b&#39;</span>
+              <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">coef</span><span class="p">[</span><span class="n">interesting_coefficients</span><span class="p">]]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n_top_features</span><span class="p">),</span> <span class="n">coef</span><span class="p">[</span><span class="n">interesting_coefficients</span><span class="p">],</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
+    <span class="n">feature_names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">feature_names</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_top_features</span><span class="p">),</span>
+               <span class="n">feature_names</span><span class="p">[</span><span class="n">interesting_coefficients</span><span class="p">],</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+               <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Coefficient magnitude&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Feature&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">visualize_coefficients</span><span class="p">(</span>
+    <span class="n">grid</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s2">&quot;logisticregression&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span>
+    <span class="n">feature_names</span><span class="p">,</span> <span class="n">n_top_features</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="bag-of-words-with-more-than-one-word-n-grams">
+<h2>Bag of words with more than one word (n-grams)<a class="headerlink" href="#bag-of-words-with-more-than-one-word-n-grams" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;bards_words:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">bards_words</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cv</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">bards_words</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Vocabulary size:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">vocabulary_</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Vocabulary:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cv</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">bards_words</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Vocabulary size:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">vocabulary_</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Vocabulary:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Transformed data (dense):</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">bards_words</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cv</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">bards_words</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Vocabulary size:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">vocabulary_</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Vocabulary:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span> <span class="n">LogisticRegression</span><span class="p">())</span>
+<span class="c1"># running the grid-search takes a long time because of the</span>
+<span class="c1"># relatively large grid and the inclusion of trigrams</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;logisticregression__C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
+              <span class="s2">&quot;tfidfvectorizer__ngram_range&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]}</span>
+
+<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">text_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best cross-validation score: </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_score_</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best parameters:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">CountVectorizer</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">text_train</span><span class="p">)</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">CountVectorizer</span><span class="p">(</span><span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">text_train</span><span class="p">)</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">CountVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">text_train</span><span class="p">)</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">CountVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">text_train</span><span class="p">)</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">CountVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">stop_words</span><span class="o">=</span><span class="s2">&quot;english&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">text_train</span><span class="p">)</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># extract scores from grid_search</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="c1"># visualize heatmap</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="n">param_grid</span><span class="p">[</span><span class="s1">&#39;logisticregression__C&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">param_grid</span><span class="p">[</span><span class="s1">&#39;tfidfvectorizer__ngram_range&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># extract feature names and coefficients</span>
+<span class="n">vect</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s1">&#39;tfidfvectorizer&#39;</span><span class="p">]</span>
+<span class="n">feature_names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vect</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">())</span>
+<span class="n">coef</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s1">&#39;logisticregression&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">coef_</span>
+<span class="n">visualize_coefficients</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">n_top_features</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># find 3-gram features</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">feature</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">))</span> <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">feature_names</span><span class="p">])</span> <span class="o">==</span> <span class="mi">3</span>
+<span class="c1"># visualize only 3-gram features:</span>
+<span class="n">visualize_coefficients</span><span class="p">(</span><span class="n">coef</span><span class="o">.</span><span class="n">ravel</span><span class="p">()[</span><span class="n">mask</span><span class="p">],</span>
+                                     <span class="n">feature_names</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">n_top_features</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="exercise">
+<h2>Exercise<a class="headerlink" href="#exercise" title="Permalink to this headline">¶</a></h2>
+<p>Compare unigram and bigram models on the 20 newsgroup dataset</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_20newsgroups</span>
+<span class="n">categories</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;alt.atheism&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;talk.religion.misc&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;comp.graphics&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sci.space&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">remove</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">,</span> <span class="s1">&#39;footers&#39;</span><span class="p">,</span> <span class="s1">&#39;quotes&#39;</span><span class="p">)</span>
+
+<span class="n">data_train</span> <span class="o">=</span> <span class="n">fetch_20newsgroups</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span>
+                                <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+                                <span class="n">remove</span><span class="o">=</span><span class="n">remove</span><span class="p">)</span>
+
+<span class="n">data_test</span> <span class="o">=</span> <span class="n">fetch_20newsgroups</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span>
+                               <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+                               <span class="n">remove</span><span class="o">=</span><span class="n">remove</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data_train</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="12-feature-selection.html" title="previous page">Automatic Feature Selection</a>
+    <a class='right-next' id="next-link" href="14-custom-estimators.html" title="next page">Custom Estimators</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Andreas C. Müller<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../_static/js/index.js"></script>
+    
+  </body>
+</html>

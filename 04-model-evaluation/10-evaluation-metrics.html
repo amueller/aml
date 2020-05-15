@@ -1,0 +1,583 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Evaluation Metrics and scoring &#8212; Applied Machine Learning in Python</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/mystnb.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Calibration" href="aml-11-calibration.html" />
+    <link rel="prev" title="Model Evaluation" href="index.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Applied Machine Learning in Python</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  
+  <ul class="nav sidenav_l1">
+  <li class="">
+    <a href="../index.html">Welcome</a>
+  </li>
+  <li class="">
+    <a href="../00-introduction/00-introduction.html">Introduction</a>
+  </li>
+  <li class="">
+    <a href="../01-ml-workflow/00-ml-workflow.html">The Machine Learning Workflow</a>
+  </li>
+  <li class="">
+    <a href="../02-supervised-learning/index.html">Supervised Learning Algorithms</a>
+  </li>
+  <li class="">
+    <a href="../03-unsupervised-learning/index.html">Unsupervised Learning Algorithms</a>
+  </li>
+  <li class="active">
+    <a href="index.html">Model Evaluation</a>
+  <ul class="nav sidenav_l2">
+    <li class="active">
+      <a href="">Evaluation Metrics and scoring</a>
+    </li>
+    <li class="">
+      <a href="aml-11-calibration.html">Calibration</a>
+    </li>
+    <li class="">
+      <a href="aml-12-interpretation.html">Feature importances and Model interpretation</a>
+    </li>
+    <li class="">
+      <a href="parameter_tuning_automl.html">Multifidelity Search</a>
+    </li>
+  </ul>
+  </li>
+  <li class="">
+    <a href="../05-advanced-topics/index.html">Advanced Topics</a>
+  </li>
+</ul>
+</nav>
+<p class="navbar_footer">Powered by <a href="https://jupyterbook.org">Jupyter Book</a></p>
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse" data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu" aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation" title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="dropdown-buttons-trigger">
+            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+            
+            <div class="dropdown-buttons">
+                <!-- ipynb file if we had a myst markdown file -->
+                
+                <!-- Download raw file -->
+                <a class="dropdown-buttons" href="../_sources/04-model-evaluation/10-evaluation-metrics.ipynb.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+                <!-- Download PDF via print -->
+                <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+            </div>
+            
+        </div>
+
+        <!-- Edit this page -->
+        
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+        
+        <div class="dropdown-buttons-trigger">
+            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+            <div class="dropdown-buttons">
+                
+                <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/04-model-evaluation/10-evaluation-metrics.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+                
+                
+                
+            </div>
+        </div>
+        
+
+        
+    </div>
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#metrics-for-binary-classification" class="nav-link">Metrics for binary classification</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#confusion-matrices" class="nav-link">Confusion matrices</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#taking-uncertainty-into-account" class="nav-link">Taking uncertainty into account</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#precision-recall-curves-and-roc-curves" class="nav-link">Precision-Recall curves and ROC curves</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#receiver-operating-characteristics-roc-and-auc" class="nav-link">Receiver Operating Characteristics (ROC) and AUC</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#using-evaluation-metrics-in-model-selection" class="nav-link">Using evaluation metrics in model selection</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#exercise" class="nav-link">Exercise</a>
+        </li>
+    
+    </ul>
+</nav>
+
+
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="evaluation-metrics-and-scoring">
+<h1>Evaluation Metrics and scoring<a class="headerlink" href="#evaluation-metrics-and-scoring" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">sklearn</span>
+<span class="n">sklearn</span><span class="o">.</span><span class="n">set_config</span><span class="p">(</span><span class="n">print_changed_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;legend.numpoints&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="metrics-for-binary-classification">
+<h2>Metrics for binary classification<a class="headerlink" href="#metrics-for-binary-classification" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/bank-campaign.csv&quot;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;target&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.dummy</span> <span class="kn">import</span> <span class="n">DummyClassifier</span>
+<span class="n">dummy_majority</span> <span class="o">=</span> <span class="n">DummyClassifier</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;most_frequent&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">pred_most_frequent</span> <span class="o">=</span> <span class="n">dummy_majority</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;predicted labels: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">pred_most_frequent</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;score: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">dummy_majority</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">pred_tree</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">tree</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+
+<span class="n">dummy</span> <span class="o">=</span> <span class="n">DummyClassifier</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;most_frequent&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">pred_dummy</span> <span class="o">=</span> <span class="n">dummy</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dummy score: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">dummy</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+
+<span class="n">logreg</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">pred_logreg</span> <span class="o">=</span> <span class="n">logreg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;logreg score: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">logreg</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="confusion-matrices">
+<h2>Confusion matrices<a class="headerlink" href="#confusion-matrices" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
+
+<span class="n">confusion</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_logreg</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">plot_confusion_matrix</span>
+<span class="n">plot_confusion_matrix</span><span class="p">(</span><span class="n">logreg</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Most frequent class:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_most_frequent</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Dummy model:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_dummy</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Decision tree:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_tree</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Logistic Regression&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_logreg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">f1_score</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;f1 score most frequent: </span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_most_frequent</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="s2">&quot;yes&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;f1 score dummy: </span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_dummy</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="s2">&quot;yes&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;f1 score tree: </span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_tree</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="s2">&quot;yes&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;f1 score logreg: </span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_logreg</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="s2">&quot;yes&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_most_frequent</span><span class="p">,</span>
+                            <span class="n">target_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;no&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_tree</span><span class="p">,</span>
+                            <span class="n">target_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;no&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_logreg</span><span class="p">,</span>
+                            <span class="n">target_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;no&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="taking-uncertainty-into-account">
+<h2>Taking uncertainty into account<a class="headerlink" href="#taking-uncertainty-into-account" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="precision-recall-curves-and-roc-curves">
+<h2>Precision-Recall curves and ROC curves<a class="headerlink" href="#precision-recall-curves-and-roc-curves" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">plot_precision_recall_curve</span>
+
+
+<span class="c1"># create a similar dataset as before, but with more samples to get a smoother curve</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">8000</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cluster_std</span><span class="o">=</span><span class="p">[</span><span class="mf">7.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="mi">4500</span><span class="p">],</span> <span class="n">y</span><span class="p">[:</span><span class="mi">4500</span><span class="p">]</span>
+
+<span class="c1"># build an imbalanced synthetic dataset</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">svc</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">gamma</span><span class="o">=.</span><span class="mi">05</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">pr_svc</span> <span class="o">=</span> <span class="n">plot_precision_recall_curve</span><span class="p">(</span><span class="n">svc</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+
+<span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># RandomForestClassifier has predict_proba, but not decision_function</span>
+<span class="n">pr_rf</span> <span class="o">=</span> <span class="n">plot_precision_recall_curve</span><span class="p">(</span><span class="n">rf</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot both in the same axes</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">pr_rf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">pr_svc</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;f1_score of random forest: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;f1_score of svc: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">svc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">average_precision_score</span>
+<span class="n">ap_rf</span> <span class="o">=</span> <span class="n">average_precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">ap_svc</span> <span class="o">=</span> <span class="n">average_precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">svc</span><span class="o">.</span><span class="n">decision_function</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;average precision of random forest: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">ap_rf</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;average precision of svc: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">ap_svc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;average precision of svc: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">pr_svc</span><span class="o">.</span><span class="n">average_precision</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="receiver-operating-characteristics-roc-and-auc">
+<h2>Receiver Operating Characteristics (ROC) and AUC<a class="headerlink" href="#receiver-operating-characteristics-roc-and-auc" title="Permalink to this headline">¶</a></h2>
+<p>\begin{equation}
+\text{FPR} = \frac{\text{FP}}{\text{FP} + \text{TN}}
+\end{equation}</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">plot_roc_curve</span>
+<span class="n">roc_svc</span> <span class="o">=</span> <span class="n">plot_roc_curve</span><span class="p">(</span><span class="n">svc</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">roc_svc</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">roc_rf</span> <span class="o">=</span> <span class="n">plot_roc_curve</span><span class="p">(</span><span class="n">rf</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">roc_svc</span><span class="o">.</span><span class="n">ax_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_auc_score</span>
+<span class="n">rf_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">svc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">svc</span><span class="o">.</span><span class="n">decision_function</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;AUC for Random Forest: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">rf_auc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;AUC for SVC: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">svc_auc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="using-evaluation-metrics-in-model-selection">
+<h2>Using evaluation metrics in model selection<a class="headerlink" href="#using-evaluation-metrics-in-model-selection" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_breast_cancer</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">scale</span>
+
+<span class="n">cancer</span> <span class="o">=</span> <span class="n">load_breast_cancer</span><span class="p">()</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">cancer</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">cancer</span><span class="o">.</span><span class="n">target</span>
+
+<span class="c1"># default scoring for classification is accuracy</span>
+<span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;default scoring &quot;</span><span class="p">,</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">rf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+<span class="c1"># providing scoring=&quot;accuracy&quot; doesn&#39;t change the results</span>
+<span class="n">explicit_accuracy</span> <span class="o">=</span>  <span class="n">cross_val_score</span><span class="p">(</span><span class="n">rf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>  <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;explicit accuracy scoring &quot;</span><span class="p">,</span> <span class="n">explicit_accuracy</span><span class="p">)</span>
+<span class="n">ap</span> <span class="o">=</span>  <span class="n">cross_val_score</span><span class="p">(</span><span class="n">rf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;average_precision&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;average precision&quot;</span><span class="p">,</span> <span class="n">ap</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_validate</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">RandomForestClassifier</span><span class="p">(),</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                     <span class="n">scoring</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;average_precision&quot;</span><span class="p">,</span> <span class="s2">&quot;recall_macro&quot;</span><span class="p">],</span>
+                     <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics.scorer</span> <span class="kn">import</span> <span class="n">SCORERS</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">SCORERS</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/bank-campaign.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># back to the bank campaign</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;target&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">values</span> <span class="o">==</span> <span class="s2">&quot;no&quot;</span>
+
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=.</span><span class="mi">1</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=.</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;logisticregression__C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">]}</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">))</span>
+
+<span class="c1"># using AUC scoring instead:</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span>
+                    <span class="n">scoring</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;roc_auc&quot;</span><span class="p">,</span> <span class="s1">&#39;average_precision&#39;</span><span class="p">,</span> <span class="s1">&#39;accuracy&#39;</span><span class="p">],</span>
+                    <span class="n">refit</span><span class="o">=</span><span class="s1">&#39;roc_auc&#39;</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Grid-Search with AUC&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best parameters:&quot;</span><span class="p">,</span> <span class="n">grid</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best cross-validation score (AUC):&quot;</span><span class="p">,</span> <span class="n">grid</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test set AUC: </span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">grid</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">)</span>
+<span class="n">res</span><span class="p">[[</span><span class="s1">&#39;mean_test_roc_auc&#39;</span><span class="p">,</span> <span class="s1">&#39;mean_test_accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;mean_test_average_precision&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="exercise">
+<h2>Exercise<a class="headerlink" href="#exercise" title="Permalink to this headline">¶</a></h2>
+<p>Load the adult dataset from <code class="docutils literal notranslate"><span class="pre">data/adult.csv</span></code> (or pick another dataset), and split it into training and test set.
+Apply grid-search to the training set, searching for the best C for Logistic Regression using AUC.
+Plot the ROC curve and precision-recall curve of the best model on the test set.</p>
+</div>
+</div>
+
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="index.html" title="previous page">Model Evaluation</a>
+    <a class='right-next' id="next-link" href="aml-11-calibration.html" title="next page">Calibration</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Andreas C. Müller<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../_static/js/index.js"></script>
+    
+  </body>
+</html>
