@@ -390,16 +390,19 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "toc-hr-collapsed": true,
+    "toc-nb-collapsed": true
+   },
    "source": [
-    "# Materials: https://github.com/amueller/ml-workshop-1-of-4"
+    "## Materials: https://github.com/amueller/ml-workshop-1-of-4"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Exercises\n",
+    "## Exercises\n",
     "\n",
     "## Exercise 1\n",
     "Load the iris dataset from the ``sklearn.datasets`` module using the ``load_iris`` function.\n",
@@ -442,7 +445,8 @@
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
    "version": "3.7.6"
-  }
+  },
+  "toc-autonumbering": true
  },
  "nbformat": 4,
  "nbformat_minor": 4
