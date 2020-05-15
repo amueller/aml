@@ -1,0 +1,1786 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Categorical Variables &#8212; Applied Machine Learning in Python</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/mystnb.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Feature Engineering" href="05 - Feature Engineering.html" />
+    <link rel="prev" title="Preprocessing and Scaling" href="03 - Preprocessing.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Applied Machine Learning in Python</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  
+  <ul class="nav sidenav_l1">
+  <li class="">
+    <a href="../index.html">Welcome</a>
+  </li>
+  <li class="">
+    <a href="../01 - Introduction/00 - Introduction.html">Introduction</a>
+  </li>
+  <li class="active">
+    <a href="00 - the ml workflow.html">The Machine Learning Workflow</a>
+  <ul class="nav sidenav_l2">
+    <li class="">
+      <a href="01 - Data Loading.html">Data Loading</a>
+    </li>
+    <li class="">
+      <a href="02 - Supervised Learning.html">Supervised learning with scikit-learn</a>
+    </li>
+    <li class="">
+      <a href="03 - Preprocessing.html">Preprocessing and Scaling</a>
+    </li>
+    <li class="active">
+      <a href="">Categorical Variables</a>
+    </li>
+    <li class="">
+      <a href="05 - Feature Engineering.html">Feature Engineering</a>
+    </li>
+    <li class="">
+      <a href="08 - imputation.html">Imputation</a>
+    </li>
+    <li class="">
+      <a href="09 - Pipelines.html">Algorithm Chains and Pipelines</a>
+    </li>
+    <li class="">
+      <a href="10 - Cross-validation and Grid Search.html">Cross-validation and Grid Search</a>
+    </li>
+  </ul>
+  </li>
+  <li class="">
+    <a href="../02 - Supervised Learning/index.html">Supervised Learning Algorithms</a>
+  </li>
+  <li class="">
+    <a href="../03 - Unsupervised Learning/index.html">Unsupervised Learning Algorithms</a>
+  </li>
+  <li class="">
+    <a href="../04 - Model Evaluation/index.html">Model Evaluation</a>
+  </li>
+  <li class="">
+    <a href="../05 - Advanced Topics/index.html">Advanced Topics</a>
+  </li>
+</ul>
+</nav>
+<p class="navbar_footer">Powered by <a href="https://jupyterbook.org">Jupyter Book</a></p>
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse" data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu" aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation" title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="dropdown-buttons-trigger">
+            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+            
+            <div class="dropdown-buttons">
+                <!-- ipynb file if we had a myst markdown file -->
+                
+                <!-- Download raw file -->
+                <a class="dropdown-buttons" href="../_sources/011 - The ML workflow/04 - Categorical Variables.ipynb.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+                <!-- Download PDF via print -->
+                <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+            </div>
+            
+        </div>
+
+        <!-- Edit this page -->
+        
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+        
+        <div class="dropdown-buttons-trigger">
+            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+            <div class="dropdown-buttons">
+                
+                <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/011 - The ML workflow/04 - Categorical Variables.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+                
+                
+                
+            </div>
+        </div>
+        
+
+        
+    </div>
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="categorical-variables">
+<h1>Categorical Variables<a class="headerlink" href="#categorical-variables" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="k">def</span> <span class="nf">df2html</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">shorter</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">_repr_html_</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;th&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;th&gt;&quot;</span><span class="p">)</span>
+    <span class="n">shorter</span> <span class="o">=</span> <span class="n">shorter</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&lt;tr&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;tr&gt;&quot;</span><span class="p">)</span>
+
+    <span class="n">shorter</span> <span class="o">=</span> <span class="n">shorter</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;td&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;td&gt;&quot;</span><span class="p">)</span>
+    <span class="n">shorter</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;&gt;[ </span><span class="se">\t</span><span class="s2">]+&lt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&gt;&lt;&quot;</span><span class="p">,</span> <span class="n">shorter</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">shorter</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;boro&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Manhattan&#39;</span><span class="p">,</span> <span class="s1">&#39;Queens&#39;</span><span class="p">,</span> <span class="s1">&#39;Manhattan&#39;</span><span class="p">,</span> <span class="s1">&#39;Brooklyn&#39;</span><span class="p">,</span> <span class="s1">&#39;Brooklyn&#39;</span><span class="p">,</span> <span class="s1">&#39;Bronx&#39;</span><span class="p">],</span>
+                   <span class="s1">&#39;salary&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">103</span><span class="p">,</span> <span class="mi">89</span><span class="p">,</span> <span class="mi">142</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">219</span><span class="p">],</span>
+                   <span class="s1">&#39;vegan&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;No&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">,</span><span class="s1">&#39;No&#39;</span><span class="p">,</span><span class="s1">&#39;Yes&#39;</span><span class="p">,</span> <span class="s1">&#39;Yes&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">]})</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>boro</th>
+      <th>salary</th>
+      <th>vegan</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Manhattan</td>
+      <td>103</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Queens</td>
+      <td>89</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Manhattan</td>
+      <td>142</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Brooklyn</td>
+      <td>54</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Brooklyn</td>
+      <td>63</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Bronx</td>
+      <td>219</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df2html</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+&lt;/style&gt;
+&lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&quot;text-align: right;&quot;&gt;
+      &lt;th&gt;&lt;/th&gt;&lt;th&gt;boro&lt;/th&gt;&lt;th&gt;salary&lt;/th&gt;&lt;th&gt;vegan&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;th&gt;0&lt;/th&gt;&lt;td&gt;Manhattan&lt;/td&gt;&lt;td&gt;103&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;1&lt;/th&gt;&lt;td&gt;Queens&lt;/td&gt;&lt;td&gt;89&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;2&lt;/th&gt;&lt;td&gt;Manhattan&lt;/td&gt;&lt;td&gt;142&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;3&lt;/th&gt;&lt;td&gt;Brooklyn&lt;/td&gt;&lt;td&gt;54&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;4&lt;/th&gt;&lt;td&gt;Brooklyn&lt;/td&gt;&lt;td&gt;63&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;5&lt;/th&gt;&lt;td&gt;Bronx&lt;/td&gt;&lt;td&gt;219&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;boro_ordinal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">boro</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span>
+<span class="c1"># reorder columns so it looks nice</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;boro&#39;</span><span class="p">,</span> <span class="s1">&#39;boro_ordinal&#39;</span><span class="p">,</span> <span class="s1">&#39;vegan&#39;</span><span class="p">]]</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>boro</th>
+      <th>boro_ordinal</th>
+      <th>vegan</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Manhattan</td>
+      <td>2</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Queens</td>
+      <td>3</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Manhattan</td>
+      <td>2</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Brooklyn</td>
+      <td>1</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Brooklyn</td>
+      <td>1</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Bronx</td>
+      <td>0</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df2html</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+&lt;/style&gt;
+&lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&quot;text-align: right;&quot;&gt;
+      &lt;th&gt;&lt;/th&gt;&lt;th&gt;boro&lt;/th&gt;&lt;th&gt;boro_ordinal&lt;/th&gt;&lt;th&gt;vegan&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;th&gt;0&lt;/th&gt;&lt;td&gt;Manhattan&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;1&lt;/th&gt;&lt;td&gt;Queens&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;2&lt;/th&gt;&lt;td&gt;Manhattan&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;3&lt;/th&gt;&lt;td&gt;Brooklyn&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;4&lt;/th&gt;&lt;td&gt;Brooklyn&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;5&lt;/th&gt;&lt;td&gt;Bronx&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df_int</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_int</span><span class="p">[</span><span class="s1">&#39;vegan&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">vegan</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">df_int</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;boro_ordinal&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;vegan&#39;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;images/boro_ordinal.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/04 - Categorical Variables_6_0.png" src="../_images/04 - Categorical Variables_6_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="n">lr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;boro_ordinal&#39;</span><span class="p">]],</span> <span class="n">df</span><span class="o">.</span><span class="n">vegan</span><span class="p">)</span>
+<span class="n">lr</span><span class="o">.</span><span class="n">coef_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([[-0.45784715]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lr</span><span class="o">.</span><span class="n">intercept_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([-0.03782071])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dec</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">decision_function</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([&#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;,
+       &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;,
+       &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;,
+       &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;,
+       &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;], dtype=object)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">df_int</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;boro_ordinal&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;vegan&#39;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">([</span><span class="mf">1.5</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;linear_classifier&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;images/boro_ordinal_classification.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/04 - Categorical Variables_11_0.png" src="../_images/04 - Categorical Variables_11_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;boro&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Manhattan&#39;</span><span class="p">,</span> <span class="s1">&#39;Queens&#39;</span><span class="p">,</span> <span class="s1">&#39;Manhattan&#39;</span><span class="p">,</span> <span class="s1">&#39;Brooklyn&#39;</span><span class="p">,</span> <span class="s1">&#39;Brooklyn&#39;</span><span class="p">,</span> <span class="s1">&#39;Bronx&#39;</span><span class="p">],</span>
+                   <span class="s1">&#39;salary&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">103</span><span class="p">,</span> <span class="mi">89</span><span class="p">,</span> <span class="mi">142</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">219</span><span class="p">],</span>
+                   <span class="s1">&#39;vegan&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;No&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">,</span><span class="s1">&#39;No&#39;</span><span class="p">,</span><span class="s1">&#39;Yes&#39;</span><span class="p">,</span> <span class="s1">&#39;Yes&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">]})</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>boro</th>
+      <th>salary</th>
+      <th>vegan</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Manhattan</td>
+      <td>103</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Queens</td>
+      <td>89</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Manhattan</td>
+      <td>142</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Brooklyn</td>
+      <td>54</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Brooklyn</td>
+      <td>63</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Bronx</td>
+      <td>219</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df2html</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+&lt;/style&gt;
+&lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&quot;text-align: right;&quot;&gt;
+      &lt;th&gt;&lt;/th&gt;&lt;th&gt;boro&lt;/th&gt;&lt;th&gt;salary&lt;/th&gt;&lt;th&gt;vegan&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;th&gt;0&lt;/th&gt;&lt;td&gt;Manhattan&lt;/td&gt;&lt;td&gt;103&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;1&lt;/th&gt;&lt;td&gt;Queens&lt;/td&gt;&lt;td&gt;89&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;2&lt;/th&gt;&lt;td&gt;Manhattan&lt;/td&gt;&lt;td&gt;142&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;3&lt;/th&gt;&lt;td&gt;Brooklyn&lt;/td&gt;&lt;td&gt;54&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;4&lt;/th&gt;&lt;td&gt;Brooklyn&lt;/td&gt;&lt;td&gt;63&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;5&lt;/th&gt;&lt;td&gt;Bronx&lt;/td&gt;&lt;td&gt;219&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df2html</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+&lt;/style&gt;
+&lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&quot;text-align: right;&quot;&gt;
+      &lt;th&gt;&lt;/th&gt;&lt;th&gt;salary&lt;/th&gt;&lt;th&gt;boro_Bronx&lt;/th&gt;&lt;th&gt;boro_Brooklyn&lt;/th&gt;&lt;th&gt;boro_Manhattan&lt;/th&gt;&lt;th&gt;boro_Queens&lt;/th&gt;&lt;th&gt;vegan_No&lt;/th&gt;&lt;th&gt;vegan_Yes&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;th&gt;0&lt;/th&gt;&lt;td&gt;103&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;1&lt;/th&gt;&lt;td&gt;89&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;2&lt;/th&gt;&lt;td&gt;142&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;3&lt;/th&gt;&lt;td&gt;54&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;4&lt;/th&gt;&lt;td&gt;63&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;5&lt;/th&gt;&lt;td&gt;219&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="k">def</span> <span class="nf">df2html</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">shorter</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">to_html</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;th&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;th&gt;&quot;</span><span class="p">)</span>
+    <span class="n">shorter</span> <span class="o">=</span> <span class="n">shorter</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&lt;tr&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;tr&gt;&quot;</span><span class="p">)</span>
+
+    <span class="n">shorter</span> <span class="o">=</span> <span class="n">shorter</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;td&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;td&gt;&quot;</span><span class="p">)</span>
+    <span class="n">shorter</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;&gt;[ </span><span class="se">\t</span><span class="s2">]+&lt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&gt;&lt;&quot;</span><span class="p">,</span> <span class="n">shorter</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">shorter</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df2html</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&quot;text-align: right;&quot;&gt;
+      &lt;th&gt;&lt;/th&gt;&lt;th&gt;salary&lt;/th&gt;&lt;th&gt;boro_Bronx&lt;/th&gt;&lt;th&gt;boro_Brooklyn&lt;/th&gt;&lt;th&gt;boro_Manhattan&lt;/th&gt;&lt;th&gt;boro_Queens&lt;/th&gt;&lt;th&gt;vegan_No&lt;/th&gt;&lt;th&gt;vegan_Yes&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;th&gt;0&lt;/th&gt;&lt;td&gt;103&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;1&lt;/th&gt;&lt;td&gt;89&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;2&lt;/th&gt;&lt;td&gt;142&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;3&lt;/th&gt;&lt;td&gt;54&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;4&lt;/th&gt;&lt;td&gt;63&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;5&lt;/th&gt;&lt;td&gt;219&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;boro&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>salary</th>
+      <th>vegan</th>
+      <th>boro_Bronx</th>
+      <th>boro_Brooklyn</th>
+      <th>boro_Manhattan</th>
+      <th>boro_Queens</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>103</td>
+      <td>No</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>89</td>
+      <td>No</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>142</td>
+      <td>No</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>54</td>
+      <td>Yes</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>63</td>
+      <td>Yes</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>219</td>
+      <td>No</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df2html</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;boro&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&quot;text-align: right;&quot;&gt;
+      &lt;th&gt;&lt;/th&gt;&lt;th&gt;salary&lt;/th&gt;&lt;th&gt;vegan&lt;/th&gt;&lt;th&gt;boro_Bronx&lt;/th&gt;&lt;th&gt;boro_Brooklyn&lt;/th&gt;&lt;th&gt;boro_Manhattan&lt;/th&gt;&lt;th&gt;boro_Queens&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;th&gt;0&lt;/th&gt;&lt;td&gt;103&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;1&lt;/th&gt;&lt;td&gt;89&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;2&lt;/th&gt;&lt;td&gt;142&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;3&lt;/th&gt;&lt;td&gt;54&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;4&lt;/th&gt;&lt;td&gt;63&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;5&lt;/th&gt;&lt;td&gt;219&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df_ordinal</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_ordinal</span><span class="p">[</span><span class="s1">&#39;boro&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">boro</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span>
+<span class="n">df_ordinal</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>boro</th>
+      <th>salary</th>
+      <th>vegan</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>103</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>89</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>142</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>54</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>63</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0</td>
+      <td>219</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df2html</span><span class="p">(</span><span class="n">df_ordinal</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&quot;text-align: right;&quot;&gt;
+      &lt;th&gt;&lt;/th&gt;&lt;th&gt;boro&lt;/th&gt;&lt;th&gt;salary&lt;/th&gt;&lt;th&gt;vegan&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;th&gt;0&lt;/th&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;103&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;1&lt;/th&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;89&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;2&lt;/th&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;142&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;3&lt;/th&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;54&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;4&lt;/th&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;63&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;5&lt;/th&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;219&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df_ordinal</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;boro&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>salary</th>
+      <th>vegan</th>
+      <th>boro_0</th>
+      <th>boro_1</th>
+      <th>boro_2</th>
+      <th>boro_3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>103</td>
+      <td>No</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>89</td>
+      <td>No</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>142</td>
+      <td>No</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>54</td>
+      <td>Yes</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>63</td>
+      <td>Yes</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>219</td>
+      <td>No</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df2html</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df_ordinal</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;boro&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&quot;text-align: right;&quot;&gt;
+      &lt;th&gt;&lt;/th&gt;&lt;th&gt;salary&lt;/th&gt;&lt;th&gt;vegan&lt;/th&gt;&lt;th&gt;boro_0&lt;/th&gt;&lt;th&gt;boro_1&lt;/th&gt;&lt;th&gt;boro_2&lt;/th&gt;&lt;th&gt;boro_3&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;th&gt;0&lt;/th&gt;&lt;td&gt;103&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;1&lt;/th&gt;&lt;td&gt;89&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;2&lt;/th&gt;&lt;td&gt;142&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;3&lt;/th&gt;&lt;td&gt;54&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;4&lt;/th&gt;&lt;td&gt;63&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;5&lt;/th&gt;&lt;td&gt;219&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;boro&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Manhattan&#39;</span><span class="p">,</span> <span class="s1">&#39;Queens&#39;</span><span class="p">,</span> <span class="s1">&#39;Manhattan&#39;</span><span class="p">,</span> <span class="s1">&#39;Brooklyn&#39;</span><span class="p">,</span> <span class="s1">&#39;Brooklyn&#39;</span><span class="p">,</span> <span class="s1">&#39;Bronx&#39;</span><span class="p">],</span>
+                   <span class="s1">&#39;salary&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">103</span><span class="p">,</span> <span class="mi">89</span><span class="p">,</span> <span class="mi">142</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">219</span><span class="p">],</span>
+                   <span class="s1">&#39;vegan&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;No&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">,</span><span class="s1">&#39;No&#39;</span><span class="p">,</span><span class="s1">&#39;Yes&#39;</span><span class="p">,</span> <span class="s1">&#39;Yes&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">]})</span>
+<span class="n">df_dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;boro&#39;</span><span class="p">])</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_dummies</span><span class="p">)</span>
+<span class="n">df2html</span><span class="p">(</span><span class="n">df_dummies</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>salary</th>
+      <th>vegan</th>
+      <th>boro_Bronx</th>
+      <th>boro_Brooklyn</th>
+      <th>boro_Manhattan</th>
+      <th>boro_Queens</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>103</td>
+      <td>No</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>89</td>
+      <td>No</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>142</td>
+      <td>No</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>54</td>
+      <td>Yes</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>63</td>
+      <td>Yes</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>219</td>
+      <td>No</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&quot;text-align: right;&quot;&gt;
+      &lt;th&gt;&lt;/th&gt;&lt;th&gt;salary&lt;/th&gt;&lt;th&gt;vegan&lt;/th&gt;&lt;th&gt;boro_Bronx&lt;/th&gt;&lt;th&gt;boro_Brooklyn&lt;/th&gt;&lt;th&gt;boro_Manhattan&lt;/th&gt;&lt;th&gt;boro_Queens&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;th&gt;0&lt;/th&gt;&lt;td&gt;103&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;1&lt;/th&gt;&lt;td&gt;89&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;2&lt;/th&gt;&lt;td&gt;142&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;3&lt;/th&gt;&lt;td&gt;54&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;4&lt;/th&gt;&lt;td&gt;63&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;5&lt;/th&gt;&lt;td&gt;219&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;boro&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Brooklyn&#39;</span><span class="p">,</span> <span class="s1">&#39;Manhattan&#39;</span><span class="p">,</span> <span class="s1">&#39;Brooklyn&#39;</span><span class="p">,</span> <span class="s1">&#39;Queens&#39;</span><span class="p">,</span> <span class="s1">&#39;Brooklyn&#39;</span><span class="p">,</span> <span class="s1">&#39;Staten Island&#39;</span><span class="p">],</span>
+                   <span class="s1">&#39;salary&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">61</span><span class="p">,</span> <span class="mi">146</span><span class="p">,</span> <span class="mi">142</span><span class="p">,</span> <span class="mi">212</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">47</span><span class="p">],</span>
+                   <span class="s1">&#39;vegan&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Yes&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">,</span><span class="s1">&#39;Yes&#39;</span><span class="p">,</span><span class="s1">&#39;No&#39;</span><span class="p">,</span> <span class="s1">&#39;Yes&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">]})</span>
+<span class="n">df_dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;boro&#39;</span><span class="p">])</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_dummies</span><span class="p">)</span>
+<span class="n">df2html</span><span class="p">(</span><span class="n">df_dummies</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>salary</th>
+      <th>vegan</th>
+      <th>boro_Brooklyn</th>
+      <th>boro_Manhattan</th>
+      <th>boro_Queens</th>
+      <th>boro_Staten Island</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>61</td>
+      <td>Yes</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>146</td>
+      <td>No</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>142</td>
+      <td>Yes</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>212</td>
+      <td>No</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>98</td>
+      <td>Yes</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>47</td>
+      <td>No</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&quot;text-align: right;&quot;&gt;
+      &lt;th&gt;&lt;/th&gt;&lt;th&gt;salary&lt;/th&gt;&lt;th&gt;vegan&lt;/th&gt;&lt;th&gt;boro_Brooklyn&lt;/th&gt;&lt;th&gt;boro_Manhattan&lt;/th&gt;&lt;th&gt;boro_Queens&lt;/th&gt;&lt;th&gt;boro_Staten Island&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;th&gt;0&lt;/th&gt;&lt;td&gt;61&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;1&lt;/th&gt;&lt;td&gt;146&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;2&lt;/th&gt;&lt;td&gt;142&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;3&lt;/th&gt;&lt;td&gt;212&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;4&lt;/th&gt;&lt;td&gt;98&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;5&lt;/th&gt;&lt;td&gt;47&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;boro&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Manhattan&#39;</span><span class="p">,</span> <span class="s1">&#39;Queens&#39;</span><span class="p">,</span> <span class="s1">&#39;Manhattan&#39;</span><span class="p">,</span> <span class="s1">&#39;Brooklyn&#39;</span><span class="p">,</span> <span class="s1">&#39;Brooklyn&#39;</span><span class="p">,</span> <span class="s1">&#39;Bronx&#39;</span><span class="p">],</span>
+                   <span class="s1">&#39;salary&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">103</span><span class="p">,</span> <span class="mi">89</span><span class="p">,</span> <span class="mi">142</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">219</span><span class="p">],</span>
+                   <span class="s1">&#39;vegan&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;No&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">,</span><span class="s1">&#39;No&#39;</span><span class="p">,</span><span class="s1">&#39;Yes&#39;</span><span class="p">,</span> <span class="s1">&#39;Yes&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">]})</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;boro&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">boro</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Manhattan&#39;</span><span class="p">,</span> <span class="s1">&#39;Queens&#39;</span><span class="p">,</span> <span class="s1">&#39;Brooklyn&#39;</span><span class="p">,</span> <span class="s1">&#39;Bronx&#39;</span><span class="p">,</span> <span class="s1">&#39;Staten Island&#39;</span><span class="p">])</span>
+<span class="n">df_dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;boro&#39;</span><span class="p">])</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_dummies</span><span class="p">)</span>
+<span class="n">df2html</span><span class="p">(</span><span class="n">df_dummies</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>salary</th>
+      <th>vegan</th>
+      <th>boro_Manhattan</th>
+      <th>boro_Queens</th>
+      <th>boro_Brooklyn</th>
+      <th>boro_Bronx</th>
+      <th>boro_Staten Island</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>103</td>
+      <td>No</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>89</td>
+      <td>No</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>142</td>
+      <td>No</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>54</td>
+      <td>Yes</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>63</td>
+      <td>Yes</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>219</td>
+      <td>No</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&quot;text-align: right;&quot;&gt;
+      &lt;th&gt;&lt;/th&gt;&lt;th&gt;salary&lt;/th&gt;&lt;th&gt;vegan&lt;/th&gt;&lt;th&gt;boro_Manhattan&lt;/th&gt;&lt;th&gt;boro_Queens&lt;/th&gt;&lt;th&gt;boro_Brooklyn&lt;/th&gt;&lt;th&gt;boro_Bronx&lt;/th&gt;&lt;th&gt;boro_Staten Island&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;th&gt;0&lt;/th&gt;&lt;td&gt;103&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;1&lt;/th&gt;&lt;td&gt;89&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;2&lt;/th&gt;&lt;td&gt;142&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;3&lt;/th&gt;&lt;td&gt;54&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;4&lt;/th&gt;&lt;td&gt;63&lt;/td&gt;&lt;td&gt;Yes&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;5&lt;/th&gt;&lt;td&gt;219&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">103</span><span class="p">,</span> <span class="mi">89</span><span class="p">,</span> <span class="mi">142</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">219</span><span class="p">],</span>
+                   <span class="s1">&#39;boro&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Manhattan&#39;</span><span class="p">,</span> <span class="s1">&#39;Queens&#39;</span><span class="p">,</span> <span class="s1">&#39;Manhattan&#39;</span><span class="p">,</span> <span class="s1">&#39;Brooklyn&#39;</span><span class="p">,</span> <span class="s1">&#39;Brooklyn&#39;</span><span class="p">,</span> <span class="s1">&#39;Bronx&#39;</span><span class="p">]})</span>
+<span class="n">ce</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([[0., 0., 0., 1., 0., 0., 0., 0., 1., 0.],
+       [0., 0., 1., 0., 0., 0., 0., 0., 0., 1.],
+       [0., 0., 0., 0., 1., 0., 0., 0., 1., 0.],
+       [1., 0., 0., 0., 0., 0., 0., 1., 0., 0.],
+       [0., 1., 0., 0., 0., 0., 0., 1., 0., 0.],
+       [0., 0., 0., 0., 0., 1., 1., 0., 0., 0.]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.compose</span> <span class="kn">import</span> <span class="n">make_column_transformer</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="c1"># The Future!</span>
+
+<span class="n">categorical</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="nb">object</span>
+<span class="n">preprocess</span> <span class="o">=</span> <span class="n">make_column_transformer</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="o">~</span><span class="n">categorical</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">OneHotEncoder</span><span class="p">(),</span> <span class="n">categorical</span><span class="p">))</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">preprocess</span><span class="p">,</span> <span class="n">LogisticRegression</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="target-featurizer">
+<h1>target featurizer<a class="headerlink" href="#target-featurizer" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Index([&#39;date&#39;, &#39;price&#39;, &#39;bedrooms&#39;, &#39;bathrooms&#39;, &#39;sqft_living&#39;, &#39;sqft_lot&#39;,
+       &#39;floors&#39;, &#39;waterfront&#39;, &#39;view&#39;, &#39;condition&#39;, &#39;grade&#39;, &#39;sqft_above&#39;,
+       &#39;sqft_basement&#39;, &#39;yr_built&#39;, &#39;yr_renovated&#39;, &#39;zipcode&#39;, &#39;lat&#39;, &#39;long&#39;,
+       &#39;sqft_living15&#39;, &#39;sqft_lot15&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">zipcode</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>98103.0    602
+98038.0    590
+98115.0    583
+98052.0    574
+98117.0    553
+          ... 
+98102.0    105
+98010.0    100
+98024.0     81
+98148.0     57
+98039.0     50
+Name: zipcode, Length: 70, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">zipcode</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">price</span><span class="p">)</span>
+<span class="c1">#plt.tight_layout()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">(),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;images/zip_code_prices.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/04 - Categorical Variables_31_0.png" src="../_images/04 - Categorical Variables_31_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">&quot;house_sales&quot;</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+<span class="n">X_train</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="stderr docutils container">
+<pre class="stderr literal-block">/home/andy/checkout/scikit-learn/sklearn/datasets/_openml.py:372: UserWarning: Multiple active versions of the dataset matching the name house_sales exist. Versions may be fundamentally different, returning version 1.
+  &quot; {version}.&quot;.format(name=name, version=res[0]['version']))
+</pre>
+</div>
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Index([&#39;bedrooms&#39;, &#39;bathrooms&#39;, &#39;sqft_living&#39;, &#39;sqft_lot&#39;, &#39;floors&#39;,
+       &#39;waterfront&#39;, &#39;view&#39;, &#39;condition&#39;, &#39;grade&#39;, &#39;sqft_above&#39;,
+       &#39;sqft_basement&#39;, &#39;yr_built&#39;, &#39;yr_renovated&#39;, &#39;zipcode&#39;, &#39;lat&#39;, &#39;long&#39;,
+       &#39;sqft_living15&#39;, &#39;sqft_lot15&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># drop some stuff so it fits on slide</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="c1">#disp = X_train.drop([&#39;waterfront&#39;, &#39;view&#39;, &#39;condition&#39;, &#39;grade&#39;, &#39;sqft_basement&#39;, &#39;yr_renovated&#39;], axis=1).head()</span>
+<span class="n">disp</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">disp</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bedrooms</th>
+      <th>bathrooms</th>
+      <th>sqft_living</th>
+      <th>sqft_lot</th>
+      <th>floors</th>
+      <th>...</th>
+      <th>zipcode</th>
+      <th>lat</th>
+      <th>long</th>
+      <th>sqft_living15</th>
+      <th>sqft_lot15</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3054</th>
+      <td>2.0</td>
+      <td>1.00</td>
+      <td>1080.0</td>
+      <td>6250.0</td>
+      <td>1.0</td>
+      <td>...</td>
+      <td>98118.0</td>
+      <td>47.5128</td>
+      <td>-122.251</td>
+      <td>2100.0</td>
+      <td>6875.0</td>
+    </tr>
+    <tr>
+      <th>19002</th>
+      <td>2.0</td>
+      <td>1.00</td>
+      <td>830.0</td>
+      <td>26329.0</td>
+      <td>1.0</td>
+      <td>...</td>
+      <td>98070.0</td>
+      <td>47.4012</td>
+      <td>-122.425</td>
+      <td>2030.0</td>
+      <td>27338.0</td>
+    </tr>
+    <tr>
+      <th>11673</th>
+      <td>5.0</td>
+      <td>3.50</td>
+      <td>5000.0</td>
+      <td>26540.0</td>
+      <td>2.0</td>
+      <td>...</td>
+      <td>98040.0</td>
+      <td>47.5665</td>
+      <td>-122.210</td>
+      <td>3360.0</td>
+      <td>17398.0</td>
+    </tr>
+    <tr>
+      <th>13758</th>
+      <td>3.0</td>
+      <td>3.25</td>
+      <td>2940.0</td>
+      <td>5432.0</td>
+      <td>3.0</td>
+      <td>...</td>
+      <td>98109.0</td>
+      <td>47.6299</td>
+      <td>-122.354</td>
+      <td>4400.0</td>
+      <td>5500.0</td>
+    </tr>
+    <tr>
+      <th>12526</th>
+      <td>3.0</td>
+      <td>1.75</td>
+      <td>1550.0</td>
+      <td>8134.0</td>
+      <td>1.0</td>
+      <td>...</td>
+      <td>98008.0</td>
+      <td>47.6136</td>
+      <td>-122.121</td>
+      <td>1360.0</td>
+      <td>8000.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 18 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp</span><span class="o">.</span><span class="n">_repr_html_</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&#39;&lt;div&gt;\n&lt;style scoped&gt;\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n&lt;/style&gt;\n&lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;\n  &lt;thead&gt;\n    &lt;tr style=&quot;text-align: right;&quot;&gt;\n      &lt;th&gt;&lt;/th&gt;\n      &lt;th&gt;bedrooms&lt;/th&gt;\n      &lt;th&gt;bathrooms&lt;/th&gt;\n      &lt;th&gt;sqft_living&lt;/th&gt;\n      &lt;th&gt;sqft_lot&lt;/th&gt;\n      &lt;th&gt;floors&lt;/th&gt;\n      &lt;th&gt;...&lt;/th&gt;\n      &lt;th&gt;zipcode&lt;/th&gt;\n      &lt;th&gt;lat&lt;/th&gt;\n      &lt;th&gt;long&lt;/th&gt;\n      &lt;th&gt;sqft_living15&lt;/th&gt;\n      &lt;th&gt;sqft_lot15&lt;/th&gt;\n    &lt;/tr&gt;\n  &lt;/thead&gt;\n  &lt;tbody&gt;\n    &lt;tr&gt;\n      &lt;th&gt;3054&lt;/th&gt;\n      &lt;td&gt;2.0&lt;/td&gt;\n      &lt;td&gt;1.00&lt;/td&gt;\n      &lt;td&gt;1080.0&lt;/td&gt;\n      &lt;td&gt;6250.0&lt;/td&gt;\n      &lt;td&gt;1.0&lt;/td&gt;\n      &lt;td&gt;...&lt;/td&gt;\n      &lt;td&gt;98118.0&lt;/td&gt;\n      &lt;td&gt;47.5128&lt;/td&gt;\n      &lt;td&gt;-122.251&lt;/td&gt;\n      &lt;td&gt;2100.0&lt;/td&gt;\n      &lt;td&gt;6875.0&lt;/td&gt;\n    &lt;/tr&gt;\n    &lt;tr&gt;\n      &lt;th&gt;19002&lt;/th&gt;\n      &lt;td&gt;2.0&lt;/td&gt;\n      &lt;td&gt;1.00&lt;/td&gt;\n      &lt;td&gt;830.0&lt;/td&gt;\n      &lt;td&gt;26329.0&lt;/td&gt;\n      &lt;td&gt;1.0&lt;/td&gt;\n      &lt;td&gt;...&lt;/td&gt;\n      &lt;td&gt;98070.0&lt;/td&gt;\n      &lt;td&gt;47.4012&lt;/td&gt;\n      &lt;td&gt;-122.425&lt;/td&gt;\n      &lt;td&gt;2030.0&lt;/td&gt;\n      &lt;td&gt;27338.0&lt;/td&gt;\n    &lt;/tr&gt;\n    &lt;tr&gt;\n      &lt;th&gt;11673&lt;/th&gt;\n      &lt;td&gt;5.0&lt;/td&gt;\n      &lt;td&gt;3.50&lt;/td&gt;\n      &lt;td&gt;5000.0&lt;/td&gt;\n      &lt;td&gt;26540.0&lt;/td&gt;\n      &lt;td&gt;2.0&lt;/td&gt;\n      &lt;td&gt;...&lt;/td&gt;\n      &lt;td&gt;98040.0&lt;/td&gt;\n      &lt;td&gt;47.5665&lt;/td&gt;\n      &lt;td&gt;-122.210&lt;/td&gt;\n      &lt;td&gt;3360.0&lt;/td&gt;\n      &lt;td&gt;17398.0&lt;/td&gt;\n    &lt;/tr&gt;\n    &lt;tr&gt;\n      &lt;th&gt;13758&lt;/th&gt;\n      &lt;td&gt;3.0&lt;/td&gt;\n      &lt;td&gt;3.25&lt;/td&gt;\n      &lt;td&gt;2940.0&lt;/td&gt;\n      &lt;td&gt;5432.0&lt;/td&gt;\n      &lt;td&gt;3.0&lt;/td&gt;\n      &lt;td&gt;...&lt;/td&gt;\n      &lt;td&gt;98109.0&lt;/td&gt;\n      &lt;td&gt;47.6299&lt;/td&gt;\n      &lt;td&gt;-122.354&lt;/td&gt;\n      &lt;td&gt;4400.0&lt;/td&gt;\n      &lt;td&gt;5500.0&lt;/td&gt;\n    &lt;/tr&gt;\n    &lt;tr&gt;\n      &lt;th&gt;12526&lt;/th&gt;\n      &lt;td&gt;3.0&lt;/td&gt;\n      &lt;td&gt;1.75&lt;/td&gt;\n      &lt;td&gt;1550.0&lt;/td&gt;\n      &lt;td&gt;8134.0&lt;/td&gt;\n      &lt;td&gt;1.0&lt;/td&gt;\n      &lt;td&gt;...&lt;/td&gt;\n      &lt;td&gt;98008.0&lt;/td&gt;\n      &lt;td&gt;47.6136&lt;/td&gt;\n      &lt;td&gt;-122.121&lt;/td&gt;\n      &lt;td&gt;1360.0&lt;/td&gt;\n      &lt;td&gt;8000.0&lt;/td&gt;\n    &lt;/tr&gt;\n  &lt;/tbody&gt;\n&lt;/table&gt;\n&lt;p&gt;5 rows × 18 columns&lt;/p&gt;\n&lt;/div&gt;&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df2html</span><span class="p">(</span><span class="n">disp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&quot;text-align: right;&quot;&gt;
+      &lt;th&gt;&lt;/th&gt;&lt;th&gt;bedrooms&lt;/th&gt;&lt;th&gt;bathrooms&lt;/th&gt;&lt;th&gt;sqft_living&lt;/th&gt;&lt;th&gt;sqft_lot&lt;/th&gt;&lt;th&gt;floors&lt;/th&gt;&lt;th&gt;waterfront&lt;/th&gt;&lt;th&gt;view&lt;/th&gt;&lt;th&gt;condition&lt;/th&gt;&lt;th&gt;grade&lt;/th&gt;&lt;th&gt;sqft_above&lt;/th&gt;&lt;th&gt;sqft_basement&lt;/th&gt;&lt;th&gt;yr_built&lt;/th&gt;&lt;th&gt;yr_renovated&lt;/th&gt;&lt;th&gt;zipcode&lt;/th&gt;&lt;th&gt;lat&lt;/th&gt;&lt;th&gt;long&lt;/th&gt;&lt;th&gt;sqft_living15&lt;/th&gt;&lt;th&gt;sqft_lot15&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;th&gt;3054&lt;/th&gt;&lt;td&gt;2.0&lt;/td&gt;&lt;td&gt;1.00&lt;/td&gt;&lt;td&gt;1080.0&lt;/td&gt;&lt;td&gt;6250.0&lt;/td&gt;&lt;td&gt;1.0&lt;/td&gt;&lt;td&gt;0.0&lt;/td&gt;&lt;td&gt;2.0&lt;/td&gt;&lt;td&gt;4.0&lt;/td&gt;&lt;td&gt;7.0&lt;/td&gt;&lt;td&gt;1080.0&lt;/td&gt;&lt;td&gt;0.0&lt;/td&gt;&lt;td&gt;1942.0&lt;/td&gt;&lt;td&gt;1968.0&lt;/td&gt;&lt;td&gt;98118.0&lt;/td&gt;&lt;td&gt;47.5128&lt;/td&gt;&lt;td&gt;-122.251&lt;/td&gt;&lt;td&gt;2100.0&lt;/td&gt;&lt;td&gt;6875.0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;19002&lt;/th&gt;&lt;td&gt;2.0&lt;/td&gt;&lt;td&gt;1.00&lt;/td&gt;&lt;td&gt;830.0&lt;/td&gt;&lt;td&gt;26329.0&lt;/td&gt;&lt;td&gt;1.0&lt;/td&gt;&lt;td&gt;1.0&lt;/td&gt;&lt;td&gt;3.0&lt;/td&gt;&lt;td&gt;4.0&lt;/td&gt;&lt;td&gt;6.0&lt;/td&gt;&lt;td&gt;830.0&lt;/td&gt;&lt;td&gt;0.0&lt;/td&gt;&lt;td&gt;1928.0&lt;/td&gt;&lt;td&gt;0.0&lt;/td&gt;&lt;td&gt;98070.0&lt;/td&gt;&lt;td&gt;47.4012&lt;/td&gt;&lt;td&gt;-122.425&lt;/td&gt;&lt;td&gt;2030.0&lt;/td&gt;&lt;td&gt;27338.0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;11673&lt;/th&gt;&lt;td&gt;5.0&lt;/td&gt;&lt;td&gt;3.50&lt;/td&gt;&lt;td&gt;5000.0&lt;/td&gt;&lt;td&gt;26540.0&lt;/td&gt;&lt;td&gt;2.0&lt;/td&gt;&lt;td&gt;0.0&lt;/td&gt;&lt;td&gt;3.0&lt;/td&gt;&lt;td&gt;3.0&lt;/td&gt;&lt;td&gt;10.0&lt;/td&gt;&lt;td&gt;3410.0&lt;/td&gt;&lt;td&gt;1590.0&lt;/td&gt;&lt;td&gt;2008.0&lt;/td&gt;&lt;td&gt;0.0&lt;/td&gt;&lt;td&gt;98040.0&lt;/td&gt;&lt;td&gt;47.5665&lt;/td&gt;&lt;td&gt;-122.210&lt;/td&gt;&lt;td&gt;3360.0&lt;/td&gt;&lt;td&gt;17398.0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;13758&lt;/th&gt;&lt;td&gt;3.0&lt;/td&gt;&lt;td&gt;3.25&lt;/td&gt;&lt;td&gt;2940.0&lt;/td&gt;&lt;td&gt;5432.0&lt;/td&gt;&lt;td&gt;3.0&lt;/td&gt;&lt;td&gt;0.0&lt;/td&gt;&lt;td&gt;3.0&lt;/td&gt;&lt;td&gt;4.0&lt;/td&gt;&lt;td&gt;10.0&lt;/td&gt;&lt;td&gt;2440.0&lt;/td&gt;&lt;td&gt;500.0&lt;/td&gt;&lt;td&gt;1978.0&lt;/td&gt;&lt;td&gt;0.0&lt;/td&gt;&lt;td&gt;98109.0&lt;/td&gt;&lt;td&gt;47.6299&lt;/td&gt;&lt;td&gt;-122.354&lt;/td&gt;&lt;td&gt;4400.0&lt;/td&gt;&lt;td&gt;5500.0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;12526&lt;/th&gt;&lt;td&gt;3.0&lt;/td&gt;&lt;td&gt;1.75&lt;/td&gt;&lt;td&gt;1550.0&lt;/td&gt;&lt;td&gt;8134.0&lt;/td&gt;&lt;td&gt;1.0&lt;/td&gt;&lt;td&gt;0.0&lt;/td&gt;&lt;td&gt;0.0&lt;/td&gt;&lt;td&gt;4.0&lt;/td&gt;&lt;td&gt;7.0&lt;/td&gt;&lt;td&gt;1550.0&lt;/td&gt;&lt;td&gt;0.0&lt;/td&gt;&lt;td&gt;1959.0&lt;/td&gt;&lt;td&gt;0.0&lt;/td&gt;&lt;td&gt;98008.0&lt;/td&gt;&lt;td&gt;47.6136&lt;/td&gt;&lt;td&gt;-122.121&lt;/td&gt;&lt;td&gt;1360.0&lt;/td&gt;&lt;td&gt;8000.0&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">te</span> <span class="o">=</span> <span class="n">TargetEncoder</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="s1">&#39;zipcode&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">te</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">85</span><span class="o">-</span><span class="mi">36</span><span class="n">c63ba85b49</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">te</span> <span class="o">=</span> <span class="n">TargetEncoder</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="s1">&#39;zipcode&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">te</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="ne">NameError</span>: name &#39;TargetEncoder&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp2</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">df2html</span><span class="p">(</span><span class="n">disp2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">zipcode</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()[</span><span class="n">X_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">zipcode</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df2html</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">zipcode</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()[</span><span class="n">X_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">zipcode</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">category_encoders</span> <span class="kn">import</span> <span class="n">LeaveOneOutEncoder</span><span class="p">,</span> <span class="n">TargetEncoder</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pipe_target</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">TargetEncoder</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="s1">&#39;zipcode&#39;</span><span class="p">),</span> <span class="n">Ridge</span><span class="p">())</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">pipe_target</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;zipcode&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">Ridge</span><span class="p">(),</span> <span class="n">X</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.compose</span> <span class="kn">import</span> <span class="n">make_column_transformer</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">pipe_ohe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">make_column_transformer</span><span class="p">((</span><span class="n">OneHotEncoder</span><span class="p">(),</span> <span class="p">[</span><span class="s1">&#39;zipcode&#39;</span><span class="p">]),</span> <span class="n">remainder</span><span class="o">=</span><span class="s1">&#39;passthrough&#39;</span><span class="p">),</span> <span class="n">Ridge</span><span class="p">())</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">pipe_ohe</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TargetEncoder</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="s1">&#39;zipcode&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="03 - Preprocessing.html" title="previous page">Preprocessing and Scaling</a>
+    <a class='right-next' id="next-link" href="05 - Feature Engineering.html" title="next page">Feature Engineering</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Andreas C. Müller<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../_static/js/index.js"></script>
+    
+  </body>
+</html>
