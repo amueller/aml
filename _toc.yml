@@ -15,8 +15,8 @@ sections:
   - file: 01-ml-workflow/10-cross-validation-grid-search
 - file: 02-supervised-learning/index
   sections:
-  - file: 02-supervised-learning/05-linear-models-classification
-  - file: 02-supervised-learning/06-linear-models-regression
+  - file: 02-supervised-learning/05-linear-models-regression
+  - file: 02-supervised-learning/06-linear-models-classification
   - file: 02-supervised-learning/07-support-vector-machines
   - file: 02-supervised-learning/08-decision-trees
   - file: 02-supervised-learning/09-random-forests
