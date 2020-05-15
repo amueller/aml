@@ -45,9 +45,9 @@
     <div class="container-xl">
       <div class="row">
           
-
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    <div class="navbar-brand-box">
+    
+        <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="../index.html">
   
   <img src="../_static/logo.png" class="logo" alt="logo">
@@ -82,13 +82,13 @@
     <a href="index.html">5. Unsupervised Learning Algorithms</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="01-matrix-factorization-dimensionality-reduction.html">1. Matrix Factorization and Dimensionality Reduction</a>
+      <a href="01-matrix-factorization-dimensionality-reduction.html">5.1 Matrix Factorization and Dimensionality Reduction</a>
     </li>
     <li class="active">
-      <a href="">2. Clustering and Mixture Models</a>
+      <a href="">5.2 Clustering and Mixture Models</a>
     </li>
     <li class="">
-      <a href="03-outlier-detection.html">3. Outlier Detection</a>
+      <a href="03-outlier-detection.html">5.3 Outlier Detection</a>
     </li>
   </ul>
   </li>
@@ -120,6 +120,7 @@
             <i class="fas fa-arrow-left"></i>
             <i class="fas fa-arrow-up"></i>
         </button>
+        
         <div class="dropdown-buttons-trigger">
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
 
@@ -153,8 +154,6 @@
                 
             </div>
         </div>
-        
-
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
@@ -354,19 +353,19 @@ debugging (what did I mean?!)</p>
 <div class="section" id="clustering">
 <h2>Clustering<a class="headerlink" href="#clustering" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 70%" src="03-unsupervised-learning/images/cluster_intro_1.png" />
+<img alt=":scale 70%" src="../_images/cluster_intro_1.png" />
 ]</p>
 <p>The ideas is that you start out with a bunch of data points,
 and the assumption is that they fall into groups or
 clusters, and the goal is to discover these underlying
 groups.</p>
 <p>.center[
-<img alt=":scale 70%" src="03-unsupervised-learning/images/cluster_intro_2.png" />
+<img alt=":scale 70%" src="../_images/cluster_intro_2.png" />
 ]</p>
 <p>For example you want to find that these points belong to the
 same groups, and these, and these.</p>
 <p>.center[
-<img alt=":scale 70%" src="03-unsupervised-learning/images/cluster_intro_3.png" />
+<img alt=":scale 70%" src="../_images/cluster_intro_3.png" />
 ]</p>
 <p>Usually the clusters are identified by a cluster label or cluster indicator,
 though these numbers are arbitrary. What you care about is which points belong to the same cluster.
@@ -401,7 +400,7 @@ different ways.</p>
 <li><p>Identify groups by assigning “cluster labels” to each data point. FIXME!</p></li>
 </ul>
 <p>.center[
-<img alt=":scale 70%" src="03-unsupervised-learning/images/cluster_intro_3.png" />
+<img alt=":scale 70%" src="../_images/cluster_intro_3.png" />
 ]</p>
 <p>The cluster algorithms have many parameters, and one of the
 most common ones is the number of clusters. In this dataset
@@ -410,7 +409,7 @@ and if it’s this obvious there is usually a way to figure
 out how many groups there are. But for many algorithms, you
 need to specify the number of groups in advance.</p>
 <p>.center[
-<img alt=":scale 70%" src="03-unsupervised-learning/images/cluster_intro_4.png" />
+<img alt=":scale 70%" src="../_images/cluster_intro_4.png" />
 ]</p>
 <p>Group into 4 clusters</p>
 <p>If you misspecify the number of groups you’d get something
@@ -517,7 +516,7 @@ and it will provide us with some local minimum of this objective.</p>
 <h2>K-Means algorithm (Lloyd’s)<a class="headerlink" href="#k-means-algorithm-lloyd-s" title="Permalink to this headline">¶</a></h2>
 <p>.wide-left-column[
 .center[
-<img alt=":scale 100%" src="03-unsupervised-learning/images/kmeans.png" />
+<img alt=":scale 100%" src="../_images/kmeans.png" />
 ]
 ]</p>
 <p>.narrow-right-column[
@@ -561,7 +560,7 @@ points. That’s not the case for all clustering algorithms.</p>
 <h2>K-Means API<a class="headerlink" href="#k-means-api" title="Permalink to this headline">¶</a></h2>
 <p>.narrow-right-column[
 .center[
-<img alt=":scale 100%" src="03-unsupervised-learning/images/kmeans_api.png" />
+<img alt=":scale 100%" src="../_images/kmeans_api.png" />
 ]
 ]</p>
 <p>.wide-left-column[
@@ -617,10 +616,10 @@ dataset.</p>
 <div class="section" id="restriction-of-cluster-shapes">
 <h2>Restriction of Cluster Shapes<a class="headerlink" href="#restriction-of-cluster-shapes" title="Permalink to this headline">¶</a></h2>
 <p>.left-column[
-<img alt=":scale 85%" src="03-unsupervised-learning/images/cluster_shapes_1.png" />
+<img alt=":scale 85%" src="../_images/cluster_shapes_1.png" />
 ]
 .right-column[
-<img alt=":scale 100%" src="03-unsupervised-learning/images/cluster_shapes_2.png" />
+<img alt=":scale 100%" src="../_images/cluster_shapes_2.png" />
 ]
 .reset-column[
 Clusters are Voronoi-diagrams of centers
@@ -645,7 +644,7 @@ limitations.</p>
 <div class="section" id="limitations-of-k-means">
 <h2>Limitations of K-Means<a class="headerlink" href="#limitations-of-k-means" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 60%" src="03-unsupervised-learning/images/kmeans_limitations_1.png" />
+<img alt=":scale 60%" src="../_images/kmeans_limitations_1.png" />
 ]</p>
 <ul class="simple">
 <li><p>Cluster boundaries equidistant to centers</p></li>
@@ -663,7 +662,7 @@ middle between the cluster centers.</p>
 <div class="section" id="id3">
 <h2>Limitations of K-Means<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 60%" src="03-unsupervised-learning/images/kmeans_limitations_2.png" />
+<img alt=":scale 60%" src="../_images/kmeans_limitations_2.png" />
 ]</p>
 <ul class="simple">
 <li><p>Can’t model covariances well</p></li>
@@ -675,7 +674,7 @@ doesn’t really pick up on these shapes.</p>
 <div class="section" id="id4">
 <h2>Limitations of K-Means<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 60%" src="03-unsupervised-learning/images/kmeans_limitations_3.png" />
+<img alt=":scale 60%" src="../_images/kmeans_limitations_3.png" />
 ]</p>
 <ul class="simple">
 <li><p>Only simple cluster shapes</p></li>
@@ -850,7 +849,7 @@ classical, it’s called agglomerative clustering.</p>
 <li><p>Greedily merge the two most similar clusters.</p></li>
 </ul>
 <p>.center[
-<img alt=":scale 80%" src="03-unsupervised-learning/images/agglomerative_clustering.png" />
+<img alt=":scale 80%" src="../_images/agglomerative_clustering.png" />
 ]</p>
 <p>In agglomerative clustering, the idea is that you start out
 with a bunch of points again. You assign each point its own
@@ -869,10 +868,10 @@ sizes from n_samples to single cluster.</p></li>
 <div class="section" id="dendograms">
 <h2>Dendograms<a class="headerlink" href="#dendograms" title="Permalink to this headline">¶</a></h2>
 <p>.left-column[
-<img alt=":scale 100%" src="03-unsupervised-learning/images/dendograms_1.png" />
+<img alt=":scale 100%" src="../_images/dendograms_1.png" />
 ]</p>
 <p>.left-column[
-<img alt=":scale 80%" src="03-unsupervised-learning/images/dendograms_2.png" />
+<img alt=":scale 80%" src="../_images/dendograms_2.png" />
 ]</p>
 <p>Dendogram is another visualization of agglomerative
 clustering. Here, given this procedure, you can visualize
@@ -922,7 +921,7 @@ FIXME dendrogram code!</p>
 <div class="section" id="linkage-criteria">
 <h2>Linkage Criteria<a class="headerlink" href="#linkage-criteria" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 100%" src="03-unsupervised-learning/images/merging_criteria.png" />
+<img alt=":scale 100%" src="../_images/merging_criteria.png" />
 ]</p>
 <p>.narrow-left-column[
 .smaller[
@@ -1053,7 +1052,7 @@ practice.</p>
 <div class="section" id="algorithm">
 <h2>Algorithm<a class="headerlink" href="#algorithm" title="Permalink to this headline">¶</a></h2>
 <p>.left-column[
-<img alt=":scale 100%" src="03-unsupervised-learning/images/DBSCAN-Illustration.svg" />
+<img alt=":scale 100%" src="../_images/DBSCAN-Illustration.svg" />
 ]
 .right-column[</p>
 <ul class="simple">
@@ -1134,7 +1133,7 @@ sample, start new cluster.</p></li>
 <li><p>Outliers can later be relabeled to belong to a cluster.
 ]</p></li>
 </ul>
-<p><img alt=":scale 100%" src="03-unsupervised-learning/images/dbscan_animation.gif" /></p>
+<p><img alt=":scale 100%" src="../_images/dbscan_animation.gif" /></p>
 <p>by David Sheehan
 dashee87.github.io</p>
 <p>This is from a blog post that shows you how DBSCAN works
@@ -1158,7 +1157,7 @@ clusters for you. So you can define that at priori.</p>
 <div class="section" id="illustration-of-parameters">
 <h2>Illustration of Parameters<a class="headerlink" href="#illustration-of-parameters" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 70%" src="03-unsupervised-learning/images/dbscan_illustration.png" />
+<img alt=":scale 70%" src="../_images/dbscan_illustration.png" />
 ]</p>
 <p>In this illustration, all the big points are core points,
 all the small ones are not core points, and all the white
@@ -1187,7 +1186,7 @@ cluster.</p>
 <li><p>Improved version: HDBSCAN</p></li>
 </ul>
 <p>.center[
-<img alt=":scale 50%" src="03-unsupervised-learning/images/dbscan_pro_con.png" />
+<img alt=":scale 50%" src="../_images/dbscan_pro_con.png" />
 ]</p>
 <p>What’s nice about this is that it can learn arbitrary
 cluster shapes. Even with agglomerative clustering, even if
@@ -1320,10 +1319,10 @@ parametric form of the density.</p>
 </ul>
 <p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">p(\mathbf{x})</span> <span class="pre">=</span> <span class="pre">\sum_{j=1}^k</span> <span class="pre">\pi_k</span> <span class="pre">\mathcal{N}(\mathbf{x},</span> <span class="pre">\mu_k,</span> <span class="pre">\Sigma_k)</span> <span class="pre">$$</span></code></p>
 <p>.center[
-<img alt=":scale 40%" src="03-unsupervised-learning/images/gmm1.png" />
+<img alt=":scale 40%" src="../_images/gmm1.png" />
 ]</p>
 <p>.center[
-<img alt=":scale 40%" src="03-unsupervised-learning/images/gmm2.png" />
+<img alt=":scale 40%" src="../_images/gmm2.png" />
 ]</p>
 <p>This is just sort of trying to illustrate what a mixture
 model might look like. So here I drew three Gaussian and the
@@ -1393,11 +1392,11 @@ helpful.</p>
 <div class="section" id="narrow-right-column-center-scale-80">
 <h2>.narrow-right-column[
 .center[
-<img alt=":scale 80%" src="03-unsupervised-learning/images/mm_examples_1.png" />
+<img alt=":scale 80%" src="../_images/mm_examples_1.png" />
 ]]<a class="headerlink" href="#narrow-right-column-center-scale-80" title="Permalink to this headline">¶</a></h2>
 <p>.narrow-right-column[
 .center[
-<img alt=":scale 80%" src="03-unsupervised-learning/images/mm_examples_2.png" />
+<img alt=":scale 80%" src="../_images/mm_examples_2.png" />
 ]
 ]</p>
 <p>Here’s how you do this with scikit-learn. So you only need
@@ -1424,7 +1423,7 @@ out than the green component which KMeans couldn’t.</p>
 </pre></div>
 </div>
 <p>.center[
-<img alt=":scale 60%" src="03-unsupervised-learning/images/prob_est1.png" />
+<img alt=":scale 60%" src="../_images/prob_est1.png" />
 ]
 ]
 ]</p>
@@ -1440,7 +1439,7 @@ out than the green component which KMeans couldn’t.</p>
 </pre></div>
 </div>
 <p>.center[
-<img alt=":scale 60%" src="03-unsupervised-learning/images/prob_est2.png" />
+<img alt=":scale 60%" src="../_images/prob_est2.png" />
 ]
 ]
 ]</p>
@@ -1466,7 +1465,7 @@ zero for the other two components.</p>
 </div>
 <div class="section" id="covariance-restrictions">
 <h2>Covariance restrictions<a class="headerlink" href="#covariance-restrictions" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 100%" src="03-unsupervised-learning/images/covariance_types.png" /></p>
+<p><img alt=":scale 100%" src="../_images/covariance_types.png" /></p>
 <p>So thing that’s commonly done in higher dimensions is to
 restrict the shape of the covariance matrix and thereby the
 shape of the clusters. So basically, we’re taking a step
@@ -1517,8 +1516,8 @@ We can restric it to be spherical, diagonal, tied or full.</p>
 </div>
 <div class="section" id="gmm-vs-kmeans">
 <h2>GMM vs KMeans<a class="headerlink" href="#gmm-vs-kmeans" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 47%" src="03-unsupervised-learning/images/gmm_vs_kmeans_1.png" /></p>
-<p><img alt=":scale 47%" src="03-unsupervised-learning/images/gmm_vs_kmeans_2.png" /></p>
+<p><img alt=":scale 47%" src="../_images/gmm_vs_kmeans_1.png" /></p>
+<p><img alt=":scale 47%" src="../_images/gmm_vs_kmeans_2.png" /></p>
 <p>Here are two of the cases that KMeans failed, but the
 Gaussian mixture model can learn the covariance structure of
 these components and below, it can learn the variance.</p>
@@ -1574,7 +1573,7 @@ only find the diagonal covariance matrix, it’s not so bad.</p>
 possibly, and they’re like a local search procedure.</p>
 <p>KMeans requires initialization, as do GMMs.</p>
 <p>.center[
-<img alt=":scale 95%" src="03-unsupervised-learning/images/bim_2.png" />
+<img alt=":scale 95%" src="../_images/bim_2.png" />
 .smaller[
 http://scikit-learn.org/dev/auto_examples/cluster/plot_cluster_comparison.html]
 ]</p>

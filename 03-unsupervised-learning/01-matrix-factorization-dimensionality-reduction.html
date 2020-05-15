@@ -45,9 +45,9 @@
     <div class="container-xl">
       <div class="row">
           
-
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    <div class="navbar-brand-box">
+    
+        <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="../index.html">
   
   <img src="../_static/logo.png" class="logo" alt="logo">
@@ -82,13 +82,13 @@
     <a href="index.html">5. Unsupervised Learning Algorithms</a>
   <ul class="nav sidenav_l2">
     <li class="active">
-      <a href="">1. Matrix Factorization and Dimensionality Reduction</a>
+      <a href="">5.1 Matrix Factorization and Dimensionality Reduction</a>
     </li>
     <li class="">
-      <a href="02-clustering-mixture-models.html">2. Clustering and Mixture Models</a>
+      <a href="02-clustering-mixture-models.html">5.2 Clustering and Mixture Models</a>
     </li>
     <li class="">
-      <a href="03-outlier-detection.html">3. Outlier Detection</a>
+      <a href="03-outlier-detection.html">5.3 Outlier Detection</a>
     </li>
   </ul>
   </li>
@@ -120,6 +120,7 @@
             <i class="fas fa-arrow-left"></i>
             <i class="fas fa-arrow-up"></i>
         </button>
+        
         <div class="dropdown-buttons-trigger">
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
 
@@ -153,8 +154,6 @@
                 
             </div>
         </div>
-        
-
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
@@ -329,7 +328,7 @@ FIXME show unwhitened vs whitened plot</p>
 <div class="section" id="principal-component-analysis">
 <h2>Principal Component Analysis<a class="headerlink" href="#principal-component-analysis" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 70%" src="03-unsupervised-learning/images/pca-intuition.png" />
+<img alt=":scale 70%" src="../_images/pca-intuition.png" />
 ]</p>
 <p>Here, we have a 2D input space, there’s some point scattered
 here. The color is supposed to show you where the data goes
@@ -384,7 +383,7 @@ you still have a lot of information from this dataset.</p>
 <h2>PCA objective(s)<a class="headerlink" href="#pca-objective-s" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">$$\large\min_{X',</span> <span class="pre">\text{rank}(X')</span> <span class="pre">=</span> <span class="pre">r}\|X-X'\|$$</span></code>
 .center[
-<img alt=":scale 45%" src="03-unsupervised-learning/images/pca-intuition.png" />
+<img alt=":scale 45%" src="../_images/pca-intuition.png" />
 ]</p>
 <p>The maximum variance view can be formalized like this. So
 basically, you look at the variance of a projection. So you
@@ -416,7 +415,7 @@ meaningless.</p>
 ]
 .smaller.right-column[
 .center[
-<img alt=":scale 90%" src="03-unsupervised-learning/images/pca-intuition.png" />
+<img alt=":scale 90%" src="../_images/pca-intuition.png" />
 ]
 ]</p>
 <p>So second way to describe PCA is using Reconstruction Error.
@@ -445,7 +444,7 @@ Only well-defined up to sign / direction of arrow!</p>
 <li><p>Center X (subtract mean).</p></li>
 <li><p>In practice: Also scale to unit variance.</p></li>
 <li><p>Compute singular value decomposition:
-<img alt=":scale 100%" src="03-unsupervised-learning/images/pca-computation.png" /></p></li>
+<img alt=":scale 100%" src="../_images/pca-computation.png" /></p></li>
 </ul>
 <p>If I want to apply PCA to my dataset, the first thing I have
 to do, which is sort of part of the algorithm subtracts the
@@ -470,7 +469,7 @@ of the new dimensions.</p>
 </div>
 <div class="section" id="whitening">
 <h2>Whitening<a class="headerlink" href="#whitening" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 100%" src="03-unsupervised-learning/images/whitening.png" /></p>
+<p><img alt=":scale 100%" src="../_images/whitening.png" /></p>
 <p>So I take my original data, I rotate it, and then I scale
 each of the dimension so that they have standard deviation
 one. It’s basically the same as doing PCA and then doing
@@ -515,10 +514,10 @@ StandardScaler.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><img alt=":scale 80%" src="03-unsupervised-learning/images/pca-for-visualization-cancer-data.png" />
+<p><img alt=":scale 80%" src="../_images/pca-for-visualization-cancer-data.png" />
 ]
 .right-column[
-<img alt=":scale 90%" src="03-unsupervised-learning/images/pca-for-visualization-components-color-bar.png" />]</p>
+<img alt=":scale 90%" src="../_images/pca-for-visualization-components-color-bar.png" />]</p>
 <p>I want to show you an example on real data set. So the first
 data set I’m going to use it on is the breast cancer data
 set.</p>
@@ -559,7 +558,7 @@ that has a larger variance than that.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;second principal component&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>.center[<img alt=":scale 45%" src="03-unsupervised-learning/images/scaled-pca-for-visualization-cancer-data.png" />]</p>
+<p>.center[<img alt=":scale 45%" src="../_images/scaled-pca-for-visualization-cancer-data.png" />]</p>
 <p>So now I scale the data. And then I get two components on
 the cancer data set. And now actually the data looks even
 better separated. Even with this unsupervised methods it
@@ -583,10 +582,10 @@ it’s guaranteed to be the first principal component!</p>
 </pre></div>
 </div>
 <p>.smaller.left-column[
-<img alt=":scale 70%" src="03-unsupervised-learning/images/inspecting-pca-scaled-components.png" />
+<img alt=":scale 70%" src="../_images/inspecting-pca-scaled-components.png" />
 ]</p>
 <p>.right-column[
-<img alt=":scale 100%" src="03-unsupervised-learning/images/inspecting-pca-scaled-components-2.png" />]</p>
+<img alt=":scale 100%" src="../_images/inspecting-pca-scaled-components-2.png" />]</p>
 <p>So components are stored in the components attribute of the
 PCA class. And you can see now all of the features
 contribute to the principal components.</p>
@@ -668,7 +667,7 @@ basically the singular values.</p>
 <div class="section" id="variance-covered">
 <h2>Variance covered<a class="headerlink" href="#variance-covered" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 55%" src="03-unsupervised-learning/images/variance-covered.png" />
+<img alt=":scale 55%" src="../_images/variance-covered.png" />
 ]</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pca_lr</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">6</span><span class="p">),</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">10000</span><span class="p">))</span>
 <span class="n">pca_lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
@@ -710,10 +709,10 @@ them back into the original space.</p>
 <p>.tiny-code[<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">pca</span> <span class="pre">=</span> <span class="pre">pca_lr.named_steps['pca']</span> <span class="pre">lr</span> <span class="pre">=</span> <span class="pre">pca_lr.named_steps['logisticregression']</span> <span class="pre">coef_pca</span> <span class="pre">=</span> <span class="pre">pca.inverse_transform(lr.coef_)</span></code>]
 .center[Comparing PCA + Logreg vs plain Logreg:]</p>
 <p>.left-column[
-<img alt=":scale 100%" src="03-unsupervised-learning/images/PCA+logreg.png" />
+<img alt=":scale 100%" src="../_images/PCA+logreg.png" />
 ]
 .right-column[
-<img alt=":scale 100%" src="03-unsupervised-learning/images/logreg+noPCA.png" />
+<img alt=":scale 100%" src="../_images/logreg+noPCA.png" />
 ]</p>
 <p>So that’s what I’m doing here. I use the logistic
 regression coefficients in the PCA space, I think this was
@@ -745,10 +744,10 @@ because model is linear! Otherwise more tricky.</p>
 </div>
 <div class="section" id="left-column-scale-100">
 <h2>.left-column[
-<img alt=":scale 100%" src="03-unsupervised-learning/images/pca-is-unsupervised-1.png" />
+<img alt=":scale 100%" src="../_images/pca-is-unsupervised-1.png" />
 ]<a class="headerlink" href="#left-column-scale-100" title="Permalink to this headline">¶</a></h2>
 <p>.right-column[
-<img alt=":scale 100%" src="03-unsupervised-learning/images/pca-is-unsupervised-2.png" />
+<img alt=":scale 100%" src="../_images/pca-is-unsupervised-2.png" />
 ]</p>
 <p>Look at this dataset. It’s a very fabricated data set. This
 is a 3d classification problem in two dimensions. This looks
@@ -777,7 +776,7 @@ component!</p>
 <div class="section" id="pca-for-feature-extraction">
 <h2>PCA for feature extraction<a class="headerlink" href="#pca-for-feature-extraction" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 85%" src="03-unsupervised-learning/images/pca-for-feature-extraction.png" />
+<img alt=":scale 85%" src="../_images/pca-for-feature-extraction.png" />
 ]</p>
 <p>Next, I want to give an example of where PCA has been used,
 at least historically, for faces. This is a data set
@@ -887,7 +886,7 @@ or you could look at the explained variance ratio.</p>
 <div class="section" id="reconstruction">
 <h2>Reconstruction<a class="headerlink" href="#reconstruction" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 70%" src="03-unsupervised-learning/images/reconstruction.png" />
+<img alt=":scale 70%" src="../_images/reconstruction.png" />
 ]</p>
 <p>Another way to select how many components you want for
 classification instead of looking at the explained various
@@ -1588,7 +1587,7 @@ It’s a particular algorithm in a wider family of matrix
 factorization algorithms.</p>
 <p>#Matrix Factorization</p>
 <p>.center[
-<img alt=":scale 80%" src="03-unsupervised-learning/images/matrix_factorization.png" />
+<img alt=":scale 80%" src="../_images/matrix_factorization.png" />
 ]</p>
 <p>So matrix factorization algorithm works like this. We have
 our data matrix, X, which is number of samples times number
@@ -1606,12 +1605,12 @@ A, somehow represent the rows of X and the features are
 encoded in B.</p>
 <p>#Matrix Factorization</p>
 <p>.center[
-<img alt=":scale 80%" src="03-unsupervised-learning/images/matrix_factorization_2.png" />
+<img alt=":scale 80%" src="../_images/matrix_factorization_2.png" />
 ]
 sklearn speak: <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">=</span> <span class="pre">mf.transform(X)</span></code></p>
 <p>#PCA</p>
 <p>.center[
-<img alt=":scale 80%" src="03-unsupervised-learning/images/pca.png" />
+<img alt=":scale 80%" src="../_images/pca.png" />
 ]</p>
 <p>The one example of this that we already saw is principal
 component analysis. In PCA, B was basically the rotation and
@@ -1657,7 +1656,7 @@ that is, each entry is a positive number.</p>
 <div class="section" id="nmf">
 <h2>NMF<a class="headerlink" href="#nmf" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 80%" src="03-unsupervised-learning/images/nmf.png" />
+<img alt=":scale 80%" src="../_images/nmf.png" />
 ]</p>
 <p>In NMF, we compute X as a product of W and H. W stands for
 weights, and H stands for hidden representation. We want to
@@ -1746,11 +1745,11 @@ positive linear combination of weights.</p></li>
 </ul>
 <p>.center[
 PCA (ordered by projection, not eigenvalue)</p>
-<p><img alt=":scale 70%" src="03-unsupervised-learning/images/pca_projection.png" />
+<p><img alt=":scale 70%" src="../_images/pca_projection.png" />
 ]</p>
 <p>.center[
 NMF (ordered by hidden representation)
-<img alt=":scale 70%" src="03-unsupervised-learning/images/nmf_hid_rep.png" />
+<img alt=":scale 70%" src="../_images/nmf_hid_rep.png" />
 ]</p>
 <p>Here’s an example of what this looks like in practice. Here
 we have NMF and PCA.</p>
@@ -1796,7 +1795,7 @@ interpretability.</p>
 </ul>
 <p>–</p>
 <p>.center[
-<img alt=":scale 60%" src="03-unsupervised-learning/images/nmf_downsides.png" />
+<img alt=":scale 60%" src="../_images/nmf_downsides.png" />
 ]</p>
 <p>There’s a couple of downsides. The most obvious one is it
 can only be applied to non-negative data, if your data has
@@ -1867,11 +1866,11 @@ and then I compute 10 components, the 10 will be just
 completely different from any subset of the 20 components.</p>
 <p>.center[
 NMF with 20 components on MNIST</p>
-<p><img alt=":scale 60%" src="03-unsupervised-learning/images/nmf_20_mnist.png" />
+<p><img alt=":scale 60%" src="../_images/nmf_20_mnist.png" />
 ]</p>
 <p>.center[
 NMF with 5 components on MNIST</p>
-<p><img alt=":scale 60%" src="03-unsupervised-learning/images/nmf_5_mnist.png" />
+<p><img alt=":scale 60%" src="../_images/nmf_5_mnist.png" />
 ]</p>
 <p>Here’s another illustration of this. If I do 20 components,
 I get the top, if I do 5 components, I get the bottom. And

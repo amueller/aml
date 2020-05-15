@@ -45,9 +45,9 @@
     <div class="container-xl">
       <div class="row">
           
-
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    <div class="navbar-brand-box">
+    
+        <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="../index.html">
   
   <img src="../_static/logo.png" class="logo" alt="logo">
@@ -79,28 +79,28 @@
     <a href="index.html">4. Supervised Learning Algorithms</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="05-linear-models-regression.html">1. Linear Models for Regression</a>
+      <a href="05-linear-models-regression.html">4.1 Linear Models for Regression</a>
     </li>
     <li class="active">
-      <a href="">2. Linear Models for Classification</a>
+      <a href="">4.2 Linear Models for Classification</a>
     </li>
     <li class="">
-      <a href="07-support-vector-machines.html">3. Support Vector Machines</a>
+      <a href="07-support-vector-machines.html">4.3 Support Vector Machines</a>
     </li>
     <li class="">
-      <a href="08-decision-trees.html">4. Decision Trees</a>
+      <a href="08-decision-trees.html">4.4 Decision Trees</a>
     </li>
     <li class="">
-      <a href="09-random-forests.html">5. Random Forests</a>
+      <a href="09-random-forests.html">4.5 Random Forests</a>
     </li>
     <li class="">
-      <a href="10-gradient-boosting.html">6. (Stochastic) Gradient Descent, Gradient Boosting</a>
+      <a href="10-gradient-boosting.html">4.6 (Stochastic) Gradient Descent, Gradient Boosting</a>
     </li>
     <li class="">
-      <a href="11-neural-networks.html">7. Neural Networks</a>
+      <a href="11-neural-networks.html">4.7 Neural Networks</a>
     </li>
     <li class="">
-      <a href="12-advanced-nets.html">8. Neural Networks beyond scikit-learn</a>
+      <a href="12-advanced-nets.html">4.8 Neural Networks beyond scikit-learn</a>
     </li>
   </ul>
   </li>
@@ -135,6 +135,7 @@
             <i class="fas fa-arrow-left"></i>
             <i class="fas fa-arrow-up"></i>
         </button>
+        
         <div class="dropdown-buttons-trigger">
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
 
@@ -168,8 +169,6 @@
                 
             </div>
         </div>
-        
-
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
@@ -334,7 +333,7 @@ classfication</p>
 classification, so if there are only two classes. That makes
 the models much easier to understand.</p>
 <p>.center[
-<img alt=":scale 55%" src="02-supervised-learning/images/linear_boundary_vector.png" />
+<img alt=":scale 55%" src="../_images/linear_boundary_vector.png" />
 ]</p>
 <div class="math notranslate nohighlight">
 \[\hat{y} = \text{sign}(w^T \textbf{x} + b) = \text{sign}\left(\sum\limits_{i}w_ix_i + b\right)\]</div>
@@ -381,7 +380,7 @@ misclassifications.</p>
 \[\hat{y} = \text{sign}(w^T \textbf{x} + b)\]</div>
 <p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">1_{y_i</span> <span class="pre">\neq</span> <span class="pre">\text{sign}(w^T</span> <span class="pre">\textbf{x}</span> <span class="pre">+</span> <span class="pre">b)}$$</span></code></p>
 <p>.center[
-<img alt=":scale 40%" src="02-supervised-learning/images/binary_loss.png" />
+<img alt=":scale 40%" src="../_images/binary_loss.png" />
 ]</p>
 <p>So we need to define a loss function for given w and b that
 tell us how well they fit the training set. Obvious Idea:
@@ -419,7 +418,7 @@ starting with the logistic loss.</p>
 \[\hat{y} = \text{sign}(w^T\textbf{x} + b)\]</div>
 <p>]
 .right-column[
-<img alt=":scale 90%" src="02-supervised-learning/images/logit.png" />]</p>
+<img alt=":scale 90%" src="../_images/logit.png" />]</p>
 <p>Logistic regression is probably the most commonly used
 linear classifier, maybe the most commonly used classifier
 overall. The idea is to model the log-odds, which is log
@@ -497,7 +496,7 @@ we saw last time.</p>
 <div class="section" id="effect-of-regularization">
 <h2>Effect of regularization<a class="headerlink" href="#effect-of-regularization" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 90%" src="02-supervised-learning/images/logreg_regularization.png" />
+<img alt=":scale 90%" src="../_images/logreg_regularization.png" />
 ]</p>
 <ul class="simple">
 <li><p>Small C (a lot of regularization) limits the influence of individual points!</p></li>
@@ -522,7 +521,7 @@ influence of these outlier points becomes limited, and the
 other points get more influence.</p>
 <p>#Max-Margin and Support Vectors</p>
 <p>.center[
-<img alt=":scale 75%" src="02-supervised-learning/images/max_margin.png" />
+<img alt=":scale 75%" src="../_images/max_margin.png" />
 ]</p>
 <p>A point is within the margin if 〖y_i w〗^T x is smaller
 than one. That means if you have a smaller w, you basically
@@ -541,10 +540,10 @@ you also have a loss.</p>
 <p>class: center</p>
 <p>#Max-Margin and Support Vectors</p>
 <p>.left-column[
-<img alt=":scale 80%" src="02-supervised-learning/images/max_margin_C_0.1.png" />
+<img alt=":scale 80%" src="../_images/max_margin_C_0.1.png" />
 ]
 .right-column[
-<img alt=":scale 80%" src="02-supervised-learning/images/max_margin_C_1.png" />
+<img alt=":scale 80%" src="../_images/max_margin_C_1.png" />
 ]</p>
 <p>Here are two examples on the same dataset. Where I learned
 linear support vector machine with c-0.1, and c=1. With
@@ -607,7 +606,7 @@ solution and they are called the support vectors.</p>
 <p>.compact[
 <code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}C</span> <span class="pre">\sum_{i=1}^n\log(\exp(-y_i(w^T</span> <span class="pre">\textbf{x}_i+b))</span> <span class="pre">+</span> <span class="pre">1)</span> <span class="pre">+</span> <span class="pre">||w||_2^2$$</span></code>
 <code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}C</span> <span class="pre">\sum_{i=1}^n\max(0,1-y_i(w^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">+</span> <span class="pre">b))</span> <span class="pre">+</span> <span class="pre">||w||_2^2$$</span></code></p>
-<p><img alt=":scale 35%" src="02-supervised-learning/images/binary_loss.png" />
+<p><img alt=":scale 35%" src="../_images/binary_loss.png" />
 ]</p>
 <p>So this is the main difference between logistic regression
 and linear SVMs: Does it penalize misclassifications
@@ -617,7 +616,7 @@ In practice it doesn’t make a big difference.</p>
 <div class="section" id="svm-or-logreg">
 <h2>SVM or LogReg?<a class="headerlink" href="#svm-or-logreg" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 80%" src="02-supervised-learning/images/svm_or_lr.png" />
+<img alt=":scale 80%" src="../_images/svm_or_lr.png" />
 ]</p>
 <ul class="simple">
 <li><p>Need compact model or believe solution is sparse? Use L1</p></li>
@@ -703,7 +702,7 @@ bias b for each class.</p>
 <div class="section" id="one-vs-rest-prediction">
 <h2>One vs Rest Prediction<a class="headerlink" href="#one-vs-rest-prediction" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 80%" src="02-supervised-learning/images/ovr_lines.png" />
+<img alt=":scale 80%" src="../_images/ovr_lines.png" />
 ]</p>
 <p>Here is an illustration of what that looks like.
 Unfortunately it’s a bit hard to draw 4 classes in general
@@ -718,7 +717,7 @@ class from the other two classes.</p>
 <div class="section" id="id2">
 <h2>One vs Rest Prediction<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 80%" src="02-supervised-learning/images/ovr_boundaries.png" />
+<img alt=":scale 80%" src="../_images/ovr_boundaries.png" />
 ]</p>
 <p>Here are the decision boundaries resulting from the these
 three binary classifiers. Basically what they say is that
@@ -758,7 +757,7 @@ good theoretical explanation why this should work.</p>
 </div>
 <div class="section" id="one-vs-one-prediction">
 <h2>One vs One Prediction<a class="headerlink" href="#one-vs-one-prediction" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 80%" src="02-supervised-learning/images/ovo_lines.png" /></p>
+<p><img alt=":scale 80%" src="../_images/ovo_lines.png" /></p>
 <p>Here is an example for predicting on three classes in 2d
 using the one-vs-one heuristic. In the case of three
 classes, there’s also three pairs. Three is a bit of a
@@ -772,7 +771,7 @@ grey class were not used in building this model at all.</p>
 </div>
 <div class="section" id="id4">
 <h2>One vs One Prediction<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 80%" src="02-supervised-learning/images/ovo_boundaries.png" /></p>
+<p><img alt=":scale 80%" src="../_images/ovo_boundaries.png" /></p>
 <p>Looking at the predictions made by the one vs one classifier
 the correspondence to the binary decision boundaries is a
 bit more clear than for the one vs rest heuristic, because
@@ -804,7 +803,7 @@ these hacks.</p>
 <li><p>n_classes classifiers</p></li>
 <li><p>trained on imbalanced datasets of original size</p></li>
 <li><p>Retains some uncertainty?
-<img alt=":scale 80%" src="02-supervised-learning/images/ovr_boundaries.png" />
+<img alt=":scale 80%" src="../_images/ovr_boundaries.png" />
 ]</p></li>
 </ul>
 <p>.right-column[</p>
@@ -815,7 +814,7 @@ these hacks.</p>
 <li><p>n_classes * (n_classes - 1)/2  classifiers</p></li>
 <li><p>trained on balanced subsets</p></li>
 <li><p>No uncertainty propagated
-<img alt=":scale 80%" src="02-supervised-learning/images/ovo_boundaries.png" />
+<img alt=":scale 80%" src="../_images/ovo_boundaries.png" />
 ]</p></li>
 </ul>
 <p>If original problem was balanced, that is…</p>
@@ -889,7 +888,7 @@ give you the probabilities as given by the model.</p>
 <h2>Multi-Class in Practice<a class="headerlink" href="#multi-class-in-practice" title="Permalink to this headline">¶</a></h2>
 <p>OvR and multinomial LogReg produce one coef per class:</p>
 <p>.center[
-<img alt=":scale 80%" src="02-supervised-learning/images/multiclass_coef.png" />
+<img alt=":scale 80%" src="../_images/multiclass_coef.png" />
 ]</p>
 <p>SVC would produce the same shape, but with different semantics!</p>
 <p>FIXME screenshots</p>
@@ -906,8 +905,8 @@ logistic regression and linear Support Vector Machine,
 they’re the same shape, three classes times four features
 but they have different semantics</p>
 <p>class: center</p>
-<p><img alt=":scale 80%" src="02-supervised-learning/images/multiclass_array.png" /></p>
-<p><img alt=":scale 80%" src="02-supervised-learning/images/multiclass_barchart.png" /></p>
+<p><img alt=":scale 80%" src="../_images/multiclass_array.png" /></p>
+<p><img alt=":scale 80%" src="../_images/multiclass_barchart.png" /></p>
 <p>(after centering data, without intercept)</p>
 <p>FIXME screenshots</p>
 <p>Here I’ve interpreted them. You can see the four features,

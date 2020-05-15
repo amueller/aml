@@ -45,9 +45,9 @@
     <div class="container-xl">
       <div class="row">
           
-
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    <div class="navbar-brand-box">
+    
+        <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="../index.html">
   
   <img src="../_static/logo.png" class="logo" alt="logo">
@@ -88,16 +88,16 @@
     <a href="index.html">7. Advanced Topics</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="11-imbalanced-datasets.html">1. Working with highly imbalanced data</a>
+      <a href="11-imbalanced-datasets.html">7.1 Working with highly imbalanced data</a>
     </li>
     <li class="active">
-      <a href="">2. Automatic Feature Selection</a>
+      <a href="">7.2 Automatic Feature Selection</a>
     </li>
     <li class="">
-      <a href="13-text-data.html">3. Working with Text data</a>
+      <a href="13-text-data.html">7.3 Working with Text data</a>
     </li>
     <li class="">
-      <a href="14-custom-estimators.html">4. Custom Estimators</a>
+      <a href="14-custom-estimators.html">7.4 Custom Estimators</a>
     </li>
   </ul>
   </li>
@@ -123,6 +123,7 @@
             <i class="fas fa-arrow-left"></i>
             <i class="fas fa-arrow-up"></i>
         </button>
+        
         <div class="dropdown-buttons-trigger">
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
 
@@ -156,8 +157,6 @@
                 
             </div>
         </div>
-        
-
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
@@ -402,7 +401,7 @@ your prediction problem.</p>
 </div>
 <p>]
 .center[
-<img alt=":scale 32%" src="05-advanced-topics/images/img_17.png" />
+<img alt=":scale 32%" src="../_images/img_17.png" />
 ]</p>
 <p>Here’s what the covariance matrix looks like for the Boston
 housing data set. The way you could do covariance based
@@ -416,7 +415,7 @@ correlated with the other ones and drop that.</p>
 </pre></div>
 </div>
 <p>.center[
-<img alt=":scale 90%" src="05-advanced-topics/images/img_19.png" />
+<img alt=":scale 90%" src="../_images/img_19.png" />
 ]</p>
 <p>So if you look at covariance, it should probably try to sort
 your features using some clustering. Here I’m using
@@ -451,7 +450,7 @@ clustering on the rows and columns to resort them.</p>
 </div>
 <p>]
 .center[
-<img alt=":scale 60%" src="05-advanced-topics/images/img_20.png" />
+<img alt=":scale 60%" src="../_images/img_20.png" />
 ]</p>
 <p>So the simplest way is univariate features selection without
 models. The most classical one is to use statistical test
@@ -544,7 +543,7 @@ information.</p>
 </pre></div>
 </div>
 <p>.center[
-<img alt=":scale 90%" src="05-advanced-topics/images/img_22.png" />
+<img alt=":scale 90%" src="../_images/img_22.png" />
 ]</p>
 <p>Another univariate statistics that you can use which is a
 little bit more complicated, which is called Mutual
@@ -613,7 +612,7 @@ feature is.</p>
 -2.133  0.729 -3.615]
 ]</p>
 <p>.center[
-<img alt=":scale 55%" src="05-advanced-topics/images/img_23.png" />
+<img alt=":scale 55%" src="../_images/img_23.png" />
 ]</p>
 <p>Using, say, a linear model, you fit the single model, and
 you discard all the features that the model doesn’t think
@@ -653,7 +652,7 @@ predictions.</p>
 -1.701  0.132 -3.606]
 ]</p>
 <p>.center[
-<img alt=":scale 80%" src="05-advanced-topics/images/img_24.png" />
+<img alt=":scale 80%" src="../_images/img_24.png" />
 ]</p>
 <p>If I look at the different alpha, it might be quite
 different. For example here with a default alpha of one, a
@@ -769,7 +768,7 @@ remove the features.</p>
 <p>array([ 9,  8, 13, 11,  5,  2, 12,  4,  7,  6,  3, 10,  1])
 ]</p>
 <p>.center[
-<img alt=":scale 95%" src="05-advanced-topics/images/img_27.png" />
+<img alt=":scale 95%" src="../_images/img_27.png" />
 ]</p>
 <p>This is implemented in RFE, for recursive feature
 elimination, it works similar to SelectFromModel. To do RFE,

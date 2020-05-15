@@ -45,9 +45,9 @@
     <div class="container-xl">
       <div class="row">
           
-
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    <div class="navbar-brand-box">
+    
+        <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="../index.html">
   
   <img src="../_static/logo.png" class="logo" alt="logo">
@@ -82,13 +82,13 @@
     <a href="index.html">5. Unsupervised Learning Algorithms</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="01-matrix-factorization-dimensionality-reduction.html">1. Matrix Factorization and Dimensionality Reduction</a>
+      <a href="01-matrix-factorization-dimensionality-reduction.html">5.1 Matrix Factorization and Dimensionality Reduction</a>
     </li>
     <li class="">
-      <a href="02-clustering-mixture-models.html">2. Clustering and Mixture Models</a>
+      <a href="02-clustering-mixture-models.html">5.2 Clustering and Mixture Models</a>
     </li>
     <li class="active">
-      <a href="">3. Outlier Detection</a>
+      <a href="">5.3 Outlier Detection</a>
     </li>
   </ul>
   </li>
@@ -120,6 +120,7 @@
             <i class="fas fa-arrow-left"></i>
             <i class="fas fa-arrow-up"></i>
         </button>
+        
         <div class="dropdown-buttons-trigger">
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
 
@@ -153,8 +154,6 @@
                 
             </div>
         </div>
-        
-
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
@@ -193,10 +192,10 @@ outlier detection and novelty detection.</p>
 <p>#Motivation
 .padding-top[
 .left-column[
-<img alt=":scale 100%" src="03-unsupervised-learning/images/outlier_detection.png" />
+<img alt=":scale 100%" src="../_images/outlier_detection.png" />
 ]</p>
 <p>.right-column[
-<img alt=":scale 100%" src="03-unsupervised-learning/images/novelty_detection.png" />
+<img alt=":scale 100%" src="../_images/novelty_detection.png" />
 ]
 ]</p>
 <p>Both are unsupervised methods. The idea is to find things
@@ -307,7 +306,7 @@ real data distribution).</p></li>
 <p>#Elliptic Envelope</p>
 <p><code class="docutils literal notranslate"><span class="pre">$$p(X)</span> <span class="pre">=</span> <span class="pre">\mathcal{N}(\mu,</span> <span class="pre">\Sigma)$$</span></code></p>
 <p>.center[
-<img alt=":scale 60%" src="03-unsupervised-learning/images/elliptic_envelope.png" />
+<img alt=":scale 60%" src="../_images/elliptic_envelope.png" />
 ]</p>
 <p>This leads to the elliptic envelope outlier detection.
 Basically, it fits a Gaussian into the data, and then it

@@ -45,9 +45,9 @@
     <div class="container-xl">
       <div class="row">
           
-
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    <div class="navbar-brand-box">
+    
+        <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="../index.html">
   
   <img src="../_static/logo.png" class="logo" alt="logo">
@@ -85,19 +85,19 @@
     <a href="index.html">6. Model Evaluation</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="10-evaluation-metrics.html">1. Evaluation Metrics and scoring</a>
+      <a href="10-evaluation-metrics.html">6.1 Evaluation Metrics and scoring</a>
     </li>
     <li class="">
-      <a href="aml-11-calibration.html">2. Calibration</a>
+      <a href="aml-11-calibration.html">6.2 Calibration</a>
     </li>
     <li class="active">
-      <a href="">3. Feature importances and Model interpretation</a>
+      <a href="">6.3 Feature importances and Model interpretation</a>
     </li>
     <li class="">
-      <a href="aml-17-cluster-evaluation.html">4. Cluster Stability</a>
+      <a href="aml-17-cluster-evaluation.html">6.4 Cluster Stability</a>
     </li>
     <li class="">
-      <a href="parameter_tuning_automl.html">5. Parameter Tuning and AutoML</a>
+      <a href="parameter_tuning_automl.html">6.5 Parameter Tuning and AutoML</a>
     </li>
   </ul>
   </li>
@@ -126,6 +126,7 @@
             <i class="fas fa-arrow-left"></i>
             <i class="fas fa-arrow-up"></i>
         </button>
+        
         <div class="dropdown-buttons-trigger">
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
 
@@ -159,8 +160,6 @@
                 
             </div>
         </div>
-        
-
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
@@ -463,7 +462,7 @@ def permutation_importance(est, X, y, n_repeat=100):
 ]</p></li>
 </ul>
 <p>.center[
-<img alt=":scale 60%" src="04-model-evaluation/images/lime_paper.png" />
+<img alt=":scale 60%" src="../_images/lime_paper.png" />
 ]</p>
 </div>
 <div class="section" id="shap">
@@ -490,10 +489,10 @@ def permutation_importance(est, X, y, n_repeat=100):
 </pre></div>
 </div>
 <p>.wide-left-column[
-<img alt=":scale 100%" src="04-model-evaluation/images/toy_data_scatter.png" /></p>
+<img alt=":scale 100%" src="../_images/toy_data_scatter.png" /></p>
 <p>]
 .narrow-right-column[
-<img alt=":scale 100%" src="04-model-evaluation/images/covariance.png" /></p>
+<img alt=":scale 100%" src="../_images/covariance.png" /></p>
 <p>]</p>
 <p>class: compact</p>
 </div>
@@ -531,7 +530,7 @@ def permutation_importance(est, X, y, n_repeat=100):
 </div>
 <div class="section" id="coefficients-and-default-feature-importance">
 <h2>Coefficients and default feature importance<a class="headerlink" href="#coefficients-and-default-feature-importance" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 100%" src="04-model-evaluation/images/standard_importances.png" /></p>
+<p><img alt=":scale 100%" src="../_images/standard_importances.png" /></p>
 <ul class="simple">
 <li><p>tree and RF have no directionality in importances</p></li>
 <li><p>lasso (and to some degree tree) selected randomly among correlated</p></li>
@@ -541,15 +540,15 @@ def permutation_importance(est, X, y, n_repeat=100):
 <div class="section" id="permutation-importances">
 <h2>Permutation Importances<a class="headerlink" href="#permutation-importances" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 50%" src="04-model-evaluation/images/standard_importances.png" />
-<img alt=":scale 50%" src="04-model-evaluation/images/permutation_importance_big.png" />
+<img alt=":scale 50%" src="../_images/standard_importances.png" />
+<img alt=":scale 50%" src="../_images/permutation_importance_big.png" />
 ]</p>
 </div>
 <div class="section" id="shap-values">
 <h2>SHAP values<a class="headerlink" href="#shap-values" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 50%" src="04-model-evaluation/images/standard_importances.png" />
-<img alt=":scale 50%" src="04-model-evaluation/images/shap_big.png" />
+<img alt=":scale 50%" src="../_images/standard_importances.png" />
+<img alt=":scale 50%" src="../_images/shap_big.png" />
 ]</p>
 <p>class: middle</p>
 </div>
@@ -585,7 +584,7 @@ def permutation_importance(est, X, y, n_repeat=100):
 <p>]</p>
 <p>–</p>
 <p>.center[
-<img alt=":scale 60%" src="04-model-evaluation/images/feat_impo_part_dep.png" />
+<img alt=":scale 60%" src="../_images/feat_impo_part_dep.png" />
 ]</p>
 <p>But there’s also something else that’s quite interesting,
 which is called Partial Dependence Plots that’s actually
@@ -640,7 +639,7 @@ similar.</p>
 </div>
 <p>]
 .center[
-<img alt=":scale 80%" src="04-model-evaluation/images/feature_importance.png" />
+<img alt=":scale 80%" src="../_images/feature_importance.png" />
 ]</p>
 <p>You can also do this in bivariate. So here, looking at the
 two most important features in a bivariate plot, I’m
@@ -666,7 +665,7 @@ very hard to do. Way more tricky to do in neural networks.</p>
 </div>
 <p>]
 .center[
-<img alt=":scale 50%" src="04-model-evaluation/images/feat_impo_part_dep_class.png" />
+<img alt=":scale 50%" src="../_images/feat_impo_part_dep_class.png" />
 ]</p>
 <p>We can do the same for classification. Here is a partial
 dependency plot for the iris dataset.</p>
@@ -685,10 +684,10 @@ function and then normalized.</p>
 </div>
 <div class="section" id="left-column-scale-100">
 <h2>.left-column[
-<img alt=":scale 100%" src="04-model-evaluation/images/pdp_failure.png" />
+<img alt=":scale 100%" src="../_images/pdp_failure.png" />
 ]<a class="headerlink" href="#left-column-scale-100" title="Permalink to this headline">¶</a></h2>
 <p>.right-column[
-<img alt=":scale 100%" src="04-model-evaluation/images/pdp_failure_data.png" />
+<img alt=":scale 100%" src="../_images/pdp_failure_data.png" />
 ]</p>
 <p>class:compact</p>
 </div>
@@ -700,7 +699,7 @@ function and then normalized.</p>
 ]</p></li>
 </ul>
 <p>.center[
-<img alt=":scale 60%" src="04-model-evaluation/images/ice_cross.png" />
+<img alt=":scale 60%" src="../_images/ice_cross.png" />
 ]
 .tiny[</p>
 <ul class="simple">

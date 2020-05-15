@@ -45,9 +45,9 @@
     <div class="container-xl">
       <div class="row">
           
-
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    <div class="navbar-brand-box">
+    
+        <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="../index.html">
   
   <img src="../_static/logo.png" class="logo" alt="logo">
@@ -79,28 +79,28 @@
     <a href="index.html">4. Supervised Learning Algorithms</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="05-linear-models-regression.html">1. Linear Models for Regression</a>
+      <a href="05-linear-models-regression.html">4.1 Linear Models for Regression</a>
     </li>
     <li class="">
-      <a href="06-linear-models-classification.html">2. Linear Models for Classification</a>
+      <a href="06-linear-models-classification.html">4.2 Linear Models for Classification</a>
     </li>
     <li class="">
-      <a href="07-support-vector-machines.html">3. Support Vector Machines</a>
+      <a href="07-support-vector-machines.html">4.3 Support Vector Machines</a>
     </li>
     <li class="">
-      <a href="08-decision-trees.html">4. Decision Trees</a>
+      <a href="08-decision-trees.html">4.4 Decision Trees</a>
     </li>
     <li class="">
-      <a href="09-random-forests.html">5. Random Forests</a>
+      <a href="09-random-forests.html">4.5 Random Forests</a>
     </li>
     <li class="">
-      <a href="10-gradient-boosting.html">6. (Stochastic) Gradient Descent, Gradient Boosting</a>
+      <a href="10-gradient-boosting.html">4.6 (Stochastic) Gradient Descent, Gradient Boosting</a>
     </li>
     <li class="active">
-      <a href="">7. Neural Networks</a>
+      <a href="">4.7 Neural Networks</a>
     </li>
     <li class="">
-      <a href="12-advanced-nets.html">8. Neural Networks beyond scikit-learn</a>
+      <a href="12-advanced-nets.html">4.8 Neural Networks beyond scikit-learn</a>
     </li>
   </ul>
   </li>
@@ -135,6 +135,7 @@
             <i class="fas fa-arrow-left"></i>
             <i class="fas fa-arrow-up"></i>
         </button>
+        
         <div class="dropdown-buttons-trigger">
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
 
@@ -168,8 +169,6 @@
                 
             </div>
         </div>
-        
-
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
@@ -338,7 +337,7 @@ today and next time as well.</p>
 <div class="section" id="logistic-regression-as-neural-net">
 <h2>Logistic regression as neural net<a class="headerlink" href="#logistic-regression-as-neural-net" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 40%" src="02-supervised-learning/images/log_reg_nn.png" />
+<img alt=":scale 40%" src="../_images/log_reg_nn.png" />
 ]</p>
 <p>Before I introduce you to neural networks, I want to
 introduce you to how people often draw neural networks, but
@@ -369,7 +368,7 @@ circles mean sums, and they often imply some non-linear
 function like the logistic sigmoid.</p>
 <p>#Basic Architecture</p>
 <p>.center[
-<img alt=":scale 50%" src="02-supervised-learning/images/nn_basic_arch.png" />
+<img alt=":scale 50%" src="../_images/nn_basic_arch.png" />
 ]</p>
 <p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">h(x)</span> <span class="pre">=</span> <span class="pre">f(W_1x+b_1)</span> <span class="pre">$</span></code></p>
 <p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">o(x)</span> <span class="pre">=</span> <span class="pre">g(W_2h(x)</span> <span class="pre">+</span> <span class="pre">b_2)</span> <span class="pre">$</span></code></p>
@@ -424,7 +423,7 @@ and the graph just illustrates very simple computations.</p>
 <div class="section" id="more-layers">
 <h2>More layers<a class="headerlink" href="#more-layers" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 60%" src="02-supervised-learning/images/nn_manylayers.png" />
+<img alt=":scale 60%" src="../_images/nn_manylayers.png" />
 ]</p>
 <ul class="simple">
 <li><p>Hidden layers usually all have the same non-linear
@@ -451,7 +450,7 @@ usually have the same non-linear function f, but that’s not
 usually the same as the output function.</p>
 <p>#Nonlinear activation function</p>
 <p>.center[
-<img alt=":scale 65%" src="02-supervised-learning/images/nonlin_fn.png" />
+<img alt=":scale 65%" src="../_images/nonlin_fn.png" />
 ]</p>
 <p>The two standard choices for the non-linear activation
 function are shown here, either the tanh, which is the more
@@ -579,7 +578,7 @@ how this works. Let me know if anything is unclear.</p>
 <li><p>Need <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">\frac{\partial</span> <span class="pre">l(y,</span> <span class="pre">o)}{\partial</span> <span class="pre">W_i}</span> <span class="pre">$</span></code> and <code class="docutils literal notranslate"><span class="pre">$\frac{\partial</span> <span class="pre">l(y,</span> <span class="pre">o)}{\partial</span> <span class="pre">b_i}$</span></code></p></li>
 </ul>
 <p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\text{net}(x)</span> <span class="pre">:=</span> <span class="pre">W_1x</span> <span class="pre">+</span> <span class="pre">b_1</span> <span class="pre">$$</span></code></p>
-<p>.center[<img alt=":scale 70%" src="02-supervised-learning/images/backprop_eqn.png" />]</p>
+<p>.center[<img alt=":scale 70%" src="../_images/backprop_eqn.png" />]</p>
 <p>To run an optimizer, we do need to compute the gradients for
 all our parameters though, and that’s a bit non-obious.
 Luckily there’s a simple algorithm to do that, called
@@ -618,7 +617,7 @@ to walk you through the algebra.</p>
 of the non-linearity?</p>
 <p>#But wait!</p>
 <p>.center[
-<img alt=":scale 75%" src="02-supervised-learning/images/relu_differentiability.png" />
+<img alt=":scale 75%" src="../_images/relu_differentiability.png" />
 ]</p>
 <p>So if you’re a mathematician you might be slightly confused
 now. I showed you these non-linearities earlier, the relu
@@ -755,7 +754,7 @@ with scikit-learn.</p>
 <h2>Neural Nets in Practice<a class="headerlink" href="#neural-nets-in-practice" title="Permalink to this headline">¶</a></h2>
 <p>#Neural Nets with sklearn</p>
 <p>.center[
-<img alt=":scale 45%" src="02-supervised-learning/images/nn_sklearn.png" />
+<img alt=":scale 45%" src="../_images/nn_sklearn.png" />
 ]</p>
 <p>.smaller[</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mlp</span> <span class="o">=</span> <span class="n">MLPClassifier</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;lbfgs&#39;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
@@ -776,7 +775,7 @@ neural nets.</p></li>
 </ul>
 <p>#Random State</p>
 <p>.center[
-<img alt=":scale 75%" src="02-supervised-learning/images/random_state.png" />
+<img alt=":scale 75%" src="../_images/random_state.png" />
 ]</p>
 <p>This net is also way over capacity and can overfit in many
 ways.
@@ -798,7 +797,7 @@ initialization.</p>
 </div>
 <p>]
 .center[
-<img alt=":scale 50%" src="02-supervised-learning/images/hidden_layer_size.png" />
+<img alt=":scale 50%" src="../_images/hidden_layer_size.png" />
 ]</p>
 <p>By default in scikit-learn, it has a single hidden layer
 with 100 units. Hidden layer size is a tuple. The number of
@@ -828,7 +827,7 @@ segments.</p>
 </div>
 <p>]
 .center[
-<img alt=":scale 48%" src="02-supervised-learning/images/hidden_layer_size_2.png" />
+<img alt=":scale 48%" src="../_images/hidden_layer_size_2.png" />
 ]</p>
 <p>Instead of the layer wide, we can add more hidden layers. So
 here, I created 3 hidden layers each of size 10. This is one
@@ -857,7 +856,7 @@ represent.</p>
 </div>
 <p>]</p>
 <p>.center[
-<img alt=":scale 45%" src="02-supervised-learning/images/activation_functions_plot.png" />
+<img alt=":scale 45%" src="../_images/activation_functions_plot.png" />
 ]</p>
 <ul class="simple">
 <li><p>Using tanh we get smoother boundaries</p></li>
@@ -870,7 +869,7 @@ with using these very small hidden layer sizes.</p></li>
 <div class="section" id="regression">
 <h2>Regression<a class="headerlink" href="#regression" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 55%" src="02-supervised-learning/images/regression_plot.png" />
+<img alt=":scale 55%" src="../_images/regression_plot.png" />
 ]</p>
 <p>.smaller[</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>from sklearn.neural_network import MLPRegressor

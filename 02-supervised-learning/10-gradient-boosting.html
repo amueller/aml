@@ -45,9 +45,9 @@
     <div class="container-xl">
       <div class="row">
           
-
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    <div class="navbar-brand-box">
+    
+        <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="../index.html">
   
   <img src="../_static/logo.png" class="logo" alt="logo">
@@ -79,28 +79,28 @@
     <a href="index.html">4. Supervised Learning Algorithms</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="05-linear-models-regression.html">1. Linear Models for Regression</a>
+      <a href="05-linear-models-regression.html">4.1 Linear Models for Regression</a>
     </li>
     <li class="">
-      <a href="06-linear-models-classification.html">2. Linear Models for Classification</a>
+      <a href="06-linear-models-classification.html">4.2 Linear Models for Classification</a>
     </li>
     <li class="">
-      <a href="07-support-vector-machines.html">3. Support Vector Machines</a>
+      <a href="07-support-vector-machines.html">4.3 Support Vector Machines</a>
     </li>
     <li class="">
-      <a href="08-decision-trees.html">4. Decision Trees</a>
+      <a href="08-decision-trees.html">4.4 Decision Trees</a>
     </li>
     <li class="">
-      <a href="09-random-forests.html">5. Random Forests</a>
+      <a href="09-random-forests.html">4.5 Random Forests</a>
     </li>
     <li class="active">
-      <a href="">6. (Stochastic) Gradient Descent, Gradient Boosting</a>
+      <a href="">4.6 (Stochastic) Gradient Descent, Gradient Boosting</a>
     </li>
     <li class="">
-      <a href="11-neural-networks.html">7. Neural Networks</a>
+      <a href="11-neural-networks.html">4.7 Neural Networks</a>
     </li>
     <li class="">
-      <a href="12-advanced-nets.html">8. Neural Networks beyond scikit-learn</a>
+      <a href="12-advanced-nets.html">4.8 Neural Networks beyond scikit-learn</a>
     </li>
   </ul>
   </li>
@@ -135,6 +135,7 @@
             <i class="fas fa-arrow-left"></i>
             <i class="fas fa-arrow-up"></i>
         </button>
+        
         <div class="dropdown-buttons-trigger">
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
 
@@ -168,8 +169,6 @@
                 
             </div>
         </div>
-        
-
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
@@ -401,7 +400,7 @@ probabilities on x axis? calibration curve: blue histogram
 is number of total points, y axis not labeled</p>
 <div class="section" id="reminder-gradient-descent">
 <h2>Reminder: Gradient Descent<a class="headerlink" href="#reminder-gradient-descent" title="Permalink to this headline">¶</a></h2>
-<p>.right-column[<img alt=":scale 100%" src="02-supervised-learning/images/gradient_3d.png" />]</p>
+<p>.right-column[<img alt=":scale 100%" src="../_images/gradient_3d.png" />]</p>
 <p>Want: <span class="math notranslate nohighlight">\($\arg \min_w F(w)\)</span>$</p>
 <p>Initialize <span class="math notranslate nohighlight">\(w_0\)</span></p>
 <div class="math notranslate nohighlight">
@@ -422,7 +421,7 @@ only converge at different speeds.</p>
 <div class="section" id="id1">
 <h2>Reminder: Gradient Descent<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 40%" src="02-supervised-learning/images/gradient_2d.png" />
+<img alt=":scale 40%" src="../_images/gradient_2d.png" />
 ]</p>
 <div class="math notranslate nohighlight">
 \[w^{(i+1)} \leftarrow w^{(i)} - \eta_i\frac{d}{dw}F(w^{(i)})\]</div>
@@ -430,7 +429,7 @@ only converge at different speeds.</p>
 <div class="section" id="pick-a-learning-rate">
 <h2>Pick a learning rate<a class="headerlink" href="#pick-a-learning-rate" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 90%" src="02-supervised-learning/images/gradient_learning_rates.png" />
+<img alt=":scale 90%" src="../_images/gradient_learning_rates.png" />
 ]</p>
 <div class="math notranslate nohighlight">
 \[w^{(i+1)} \leftarrow w^{(i)} - \eta_i\frac{d}{dw}F(w^{(i)})\]</div>
@@ -580,7 +579,7 @@ single split.</p>
 <p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{2}(x)</span> <span class="pre">\approx</span> <span class="pre">y</span> <span class="pre">-</span> <span class="pre">f_{1}(x)</span> <span class="pre">$$</span></code></p>
 <p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{3}(x)</span> <span class="pre">\approx</span> <span class="pre">y</span> <span class="pre">-</span> <span class="pre">f_{1}(x)</span> <span class="pre">-</span> <span class="pre">f_{2}(x)$$</span></code></p>
 <p>–</p>
-<p><span class="math notranslate nohighlight">\(y \approx\)</span> <img alt=":scale 22.5%" src="02-supervised-learning/images/grad_boost_term_1.png" /> + <img alt=":scale 22.5%" src="02-supervised-learning/images/grad_boost_term_2.png" /> + <img alt=":scale 20%" src="02-supervised-learning/images/grad_boost_term_3.png" /> + …</p>
+<p><span class="math notranslate nohighlight">\(y \approx\)</span> <img alt=":scale 22.5%" src="../_images/grad_boost_term_1.png" /> + <img alt=":scale 22.5%" src="../_images/grad_boost_term_2.png" /> + <img alt=":scale 20%" src="../_images/grad_boost_term_3.png" /> + …</p>
 <p>Let’s look at the regression case first. We start by
 building a single tree f1 to try to predict the output y.
 But we strongly restrict f1, so it will be rather bad at
@@ -607,7 +606,7 @@ powerful composite model.</p>
 <p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{1}(x)</span> <span class="pre">\approx</span> <span class="pre">y</span>&#160; <span class="pre">$$</span></code></p>
 <p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{2}(x)</span> <span class="pre">\approx</span> <span class="pre">y</span> <span class="pre">-</span> <span class="pre">\gamma</span> <span class="pre">f_{1}(x)</span> <span class="pre">$$</span></code></p>
 <p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{3}(x)</span> <span class="pre">\approx</span> <span class="pre">y</span> <span class="pre">-</span> <span class="pre">\gamma</span> <span class="pre">f_{1}(x)</span> <span class="pre">-</span> <span class="pre">\gamma</span> <span class="pre">f_{2}(x)$$</span></code></p>
-<p><span class="math notranslate nohighlight">\(y \approx \gamma\)</span> <img alt=":scale 22.5%" src="02-supervised-learning/images/grad_boost_term_1.png" /> + <span class="math notranslate nohighlight">\(\gamma\)</span> <img alt=":scale 22.5%" src="02-supervised-learning/images/grad_boost_term_2.png" /> + <span class="math notranslate nohighlight">\(\gamma\)</span> <img alt=":scale 20%" src="02-supervised-learning/images/grad_boost_term_3.png" /> + …</p>
+<p><span class="math notranslate nohighlight">\(y \approx \gamma\)</span> <img alt=":scale 22.5%" src="../_images/grad_boost_term_1.png" /> + <span class="math notranslate nohighlight">\(\gamma\)</span> <img alt=":scale 22.5%" src="../_images/grad_boost_term_2.png" /> + <span class="math notranslate nohighlight">\(\gamma\)</span> <img alt=":scale 20%" src="../_images/grad_boost_term_3.png" /> + …</p>
 <p>Learning rate <span class="math notranslate nohighlight">\(\gamma, i.e. 0.1\)</span></p>
 <ul class="simple">
 <li><p>Iteratively add regression trees to model</p></li>
@@ -647,7 +646,7 @@ Come back to this</p>
 ]</p>
 <p>#GradientBoostingRegressor</p>
 <p>.center[
-<img alt=":scale 50%" src="02-supervised-learning/images/grad_boost_regression_steps.png" />
+<img alt=":scale 50%" src="../_images/grad_boost_regression_steps.png" />
 ]</p>
 <p>Here’s an illustration for doing this for regression. This
 is a 1D regression dataset for illustration purposes here to
@@ -732,7 +731,7 @@ Multi-class gradient boosting:
 One regression tree per class (per gradient step).</p>
 <p>#GradientBoostingClassifier / HistGradientBoostingClassifier</p>
 <p>.center[
-<img alt=":scale 70%" src="02-supervised-learning/images/grad_boost_depth2.png" />
+<img alt=":scale 70%" src="../_images/grad_boost_depth2.png" />
 ]</p>
 <p>Here’s an illustration of what this might look like for
 classification. This is basically the same thing going on.
@@ -847,7 +846,7 @@ we did for random forest and trees.</p>
 </div>
 <div class="section" id="binning-features">
 <h2>Binning features<a class="headerlink" href="#binning-features" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 100%" src="02-supervised-learning/images/binning_quantiles.png" /></p>
+<p><img alt=":scale 100%" src="../_images/binning_quantiles.png" /></p>
 </div>
 <div class="section" id="id4">
 <h2>Binning features<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
@@ -891,10 +890,10 @@ we did for random forest and trees.</p>
 </div>
 <div class="section" id="left-column-scale-100">
 <h2>.left-column[
-<img alt=":scale 100%" src="02-supervised-learning/images/xgboost-exact.png" />
+<img alt=":scale 100%" src="../_images/xgboost-exact.png" />
 ]<a class="headerlink" href="#left-column-scale-100" title="Permalink to this headline">¶</a></h2>
 <p>.right-column[
-<img alt=":scale 100%" src="02-supervised-learning/images/xgboost-binning.png" />
+<img alt=":scale 100%" src="../_images/xgboost-binning.png" />
 ]</p>
 <p>class: spacious</p>
 </div>
@@ -902,7 +901,7 @@ we did for random forest and trees.</p>
 <h2>A better split criterion<a class="headerlink" href="#a-better-split-criterion" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Include second order (hessian) and regularizer
-<img alt=":scale 100%" src="02-supervised-learning/images/xgboost-criterion.png" /></p></li>
+<img alt=":scale 100%" src="../_images/xgboost-criterion.png" /></p></li>
 </ul>
 </div>
 <div class="section" id="aggressive-sub-sampling">
@@ -913,7 +912,7 @@ According to user feedback, using column sub-sampling prevents over-fitting even
 </div>
 <div class="section" id="histgradientboostingclassifier">
 <h2>HistGradientBoostingClassifier<a class="headerlink" href="#histgradientboostingclassifier" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 100%" src="02-supervised-learning/images/hist_gradient_boosting.png" /></p>
+<p><img alt=":scale 100%" src="../_images/hist_gradient_boosting.png" /></p>
 <p>.left-column[</p>
 <div class="section" id="gradientboostingclassifier">
 <h3>GradientBoostingClassifier<a class="headerlink" href="#gradientboostingclassifier" title="Permalink to this headline">¶</a></h3>

@@ -45,9 +45,9 @@
     <div class="container-xl">
       <div class="row">
           
-
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    <div class="navbar-brand-box">
+    
+        <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="../index.html">
   
   <img src="../_static/logo.png" class="logo" alt="logo">
@@ -85,19 +85,19 @@
     <a href="index.html">6. Model Evaluation</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="10-evaluation-metrics.html">1. Evaluation Metrics and scoring</a>
+      <a href="10-evaluation-metrics.html">6.1 Evaluation Metrics and scoring</a>
     </li>
     <li class="active">
-      <a href="">2. Calibration</a>
+      <a href="">6.2 Calibration</a>
     </li>
     <li class="">
-      <a href="aml-12-interpretation.html">3. Feature importances and Model interpretation</a>
+      <a href="aml-12-interpretation.html">6.3 Feature importances and Model interpretation</a>
     </li>
     <li class="">
-      <a href="aml-17-cluster-evaluation.html">4. Cluster Stability</a>
+      <a href="aml-17-cluster-evaluation.html">6.4 Cluster Stability</a>
     </li>
     <li class="">
-      <a href="parameter_tuning_automl.html">5. Parameter Tuning and AutoML</a>
+      <a href="parameter_tuning_automl.html">6.5 Parameter Tuning and AutoML</a>
     </li>
   </ul>
   </li>
@@ -126,6 +126,7 @@
             <i class="fas fa-arrow-left"></i>
             <i class="fas fa-arrow-up"></i>
         </button>
+        
         <div class="dropdown-buttons-trigger">
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
 
@@ -159,8 +160,6 @@
                 
             </div>
         </div>
-        
-
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
@@ -312,10 +311,10 @@ bit.</p>
 <p>class: spacious
 #Calibration curve (Reliability diagram)
 .left-column[
-<img alt=":scale 100%" src="04-model-evaluation/images/prob_table.png" />
+<img alt=":scale 100%" src="../_images/prob_table.png" />
 ]
 .right-column[
-<img alt=":scale 100%" src="04-model-evaluation/images/calib_curve.png" /></p>
+<img alt=":scale 100%" src="../_images/calib_curve.png" /></p>
 <p>]</p>
 <p>Before we talk about how to do calibration, I want to talk
 about how to measure calibration and binary classification.
@@ -415,7 +414,7 @@ array([ 2.783])
 </pre></div>
 </div>
 <p>]
-.center[<img alt=":scale 70%" src="04-model-evaluation/images/predprob_positive.png" />
+.center[<img alt=":scale 70%" src="../_images/predprob_positive.png" />
 ]
 ]</p>
 <p>I’m using a subsample of cover type dataset because it’s
@@ -446,7 +445,7 @@ that 30% of these data points are predicted as class one and
 actually- it’s 30%.</p>
 <p>class:spacious
 #Influence of number of bins</p>
-<p>.center[<img alt=":scale 100%" src="04-model-evaluation/images/influence_bins.png" />]</p>
+<p>.center[<img alt=":scale 100%" src="../_images/influence_bins.png" />]</p>
 <p>How do I pick the number of bins?</p>
 <p>More bins give me more resolution. But also at some point,
 you get noise. So I guess it’s the same way you would do for
@@ -461,7 +460,7 @@ usually enough bins.</p>
 </div>
 <div class="section" id="comparing-models">
 <h2>Comparing Models<a class="headerlink" href="#comparing-models" title="Permalink to this headline">¶</a></h2>
-<p>.center[<img alt=":scale 90%" src="04-model-evaluation/images/calib_curve_models.png" />]</p>
+<p>.center[<img alt=":scale 90%" src="../_images/calib_curve_models.png" />]</p>
 <p>Logistic regression is pretty well calibrated. The decision
 tree, since I didn’t use any pruning, it’ll be way too
 certain. So all probabilities estimates, even on a test set
@@ -476,7 +475,7 @@ trust them let’s measure them first.</p>
 <li><p>“mean squared error of probability estimate”
 <code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">BS</span> <span class="pre">=</span> <span class="pre">\frac{\sum_{i=1}^{n}</span> <span class="pre">(\widehat{p}</span> <span class="pre">(y_i)-y_i)^{2}}{n}$$</span></code></p></li>
 </ul>
-<p>.center[<img alt=":scale 70%" src="04-model-evaluation/images/models_bscore.png" />]</p>
+<p>.center[<img alt=":scale 70%" src="../_images/models_bscore.png" />]</p>
 <p>This graph is a nice way to look at how calibrated something
 is. But it’s very hard to compare. A standard way to compare
 calibration is a Brier score, you could also use something
@@ -555,7 +554,7 @@ lot that you can tune.</p>
 <li><p>Learns arbitrary monotonically increasing step-functions in 1d.</p></li>
 <li><p>Groups data into constant parts, steps in between.</p></li>
 <li><p>Optimum monotone function on training data (wrt mse).
-.center[<img alt=":scale 40%" src="04-model-evaluation/images/isotonic_regression.png" />]</p></li>
+.center[<img alt=":scale 40%" src="../_images/isotonic_regression.png" />]</p></li>
 </ul>
 <p>The other one is Isotonic regression, which is basically a
 non-parametric mapping. What it does is it fits the monotone
@@ -584,12 +583,12 @@ monotonous.</p>
 </div>
 <div class="section" id="fitting-the-calibration-model">
 <h2>Fitting the calibration model<a class="headerlink" href="#fitting-the-calibration-model" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 70%" src="04-model-evaluation/images/calibration_val_scores.png" /></p>
+<p><img alt=":scale 70%" src="../_images/calibration_val_scores.png" /></p>
 <p>class: center</p>
 </div>
 <div class="section" id="id1">
 <h2>Fitting the calibration model<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 70%" src="04-model-evaluation/images/calibration_val_scores_fitted.png" /></p>
+<p><img alt=":scale 70%" src="../_images/calibration_val_scores_fitted.png" /></p>
 </div>
 <div class="section" id="calibratedclassifiercv">
 <h2>CalibratedClassifierCV<a class="headerlink" href="#calibratedclassifiercv" title="Permalink to this headline">¶</a></h2>
@@ -602,7 +601,7 @@ monotonous.</p>
 <span class="n">plot_calibration_curve</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>.center[<img alt=":scale 30%" src="04-model-evaluation/images/random_forest.png" />]
+<p>.center[<img alt=":scale 30%" src="../_images/random_forest.png" />]
 ]</p>
 </div>
 <div class="section" id="calibration-on-random-forest">
@@ -656,7 +655,7 @@ cal_rf_iso_cv.fit(X_train, y_train)
 scores_iso_cv = cal_rf_iso_cv.predict_proba(X_test)[:, 1]
 </pre></div>
 </div>
-<p>.center[<img alt=":scale 90%" src="04-model-evaluation/images/types_calib_cv.png" />]</p>
+<p>.center[<img alt=":scale 90%" src="../_images/types_calib_cv.png" />]</p>
 <p>So we can also not specify CV, then it uses
 cross-validation, I think 3 fold by default.</p>
 <p>And so then it does the whole cross-validation thing
@@ -680,7 +679,7 @@ prediction.</p>
 </div>
 <div class="section" id="multi-class-calibration">
 <h2>Multi-Class Calibration<a class="headerlink" href="#multi-class-calibration" title="Permalink to this headline">¶</a></h2>
-<p>.center[<img alt=":scale 100%" src="04-model-evaluation/images/multi_class_calibration.png" />]</p>
+<p>.center[<img alt=":scale 100%" src="../_images/multi_class_calibration.png" />]</p>
 <p>You can also do this for multi-class calibration, which does
 basically the same thing, but you just do it for each class
 individually and then you normalize again and you can make

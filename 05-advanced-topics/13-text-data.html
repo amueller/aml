@@ -45,9 +45,9 @@
     <div class="container-xl">
       <div class="row">
           
-
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    <div class="navbar-brand-box">
+    
+        <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="../index.html">
   
   <img src="../_static/logo.png" class="logo" alt="logo">
@@ -88,16 +88,16 @@
     <a href="index.html">7. Advanced Topics</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="11-imbalanced-datasets.html">1. Working with highly imbalanced data</a>
+      <a href="11-imbalanced-datasets.html">7.1 Working with highly imbalanced data</a>
     </li>
     <li class="">
-      <a href="12-feature-selection.html">2. Automatic Feature Selection</a>
+      <a href="12-feature-selection.html">7.2 Automatic Feature Selection</a>
     </li>
     <li class="active">
-      <a href="">3. Working with Text data</a>
+      <a href="">7.3 Working with Text data</a>
     </li>
     <li class="">
-      <a href="14-custom-estimators.html">4. Custom Estimators</a>
+      <a href="14-custom-estimators.html">7.4 Custom Estimators</a>
     </li>
   </ul>
   </li>
@@ -123,6 +123,7 @@
             <i class="fas fa-arrow-left"></i>
             <i class="fas fa-arrow-up"></i>
         </button>
+        
         <div class="dropdown-buttons-trigger">
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
 
@@ -156,8 +157,6 @@
                 
             </div>
         </div>
-        
-
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
@@ -572,10 +571,10 @@ are the common types of data.</p>
 <div class="section" id="typical-text-data">
 <h2>Typical Text Data<a class="headerlink" href="#typical-text-data" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 100%" src="05-advanced-topics/images/typical_text_data_1.png" />
+<img alt=":scale 100%" src="../_images/typical_text_data_1.png" />
 ]</p>
 <p>.center[
-<img alt=":scale 100%" src="05-advanced-topics/images/typical_text_data_2.png" />
+<img alt=":scale 100%" src="../_images/typical_text_data_2.png" />
 ]</p>
 <p>Here’s an example of some text dataset that I’m going to use
 later. This is like relatively typical text, its user input
@@ -600,7 +599,7 @@ kinds of data that is text data.</p>
 <div class="section" id="other-types-of-text-data">
 <h2>Other Types of text data<a class="headerlink" href="#other-types-of-text-data" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 100%" src="05-advanced-topics/images/other_types_of_text_data.png" />
+<img alt=":scale 100%" src="../_images/other_types_of_text_data.png" />
 ]</p>
 <p>Here is a table of the text data consisting of people
 sitting in the European Parliament. Each person has a
@@ -646,7 +645,7 @@ that I want you to be aware of.</p>
 <div class="section" id="bag-of-words">
 <h2>Bag of Words<a class="headerlink" href="#bag-of-words" title="Permalink to this headline">¶</a></h2>
 <p>.center[</p>
-<p><img alt=":scale 85%" src="05-advanced-topics/images/bag_of_words.png" />
+<p><img alt=":scale 85%" src="../_images/bag_of_words.png" />
 ]</p>
 <p>The most common approach that people use for this is bag of
 words, which is a very simple approach.</p>
@@ -986,7 +985,7 @@ dataset. The next thing I always like to do is look at the
 coefficients.</p>
 <p>class: middle</p>
 <p>.center[
-<img alt=":scale 100%" src="05-advanced-topics/images/coefficients.png" />
+<img alt=":scale 100%" src="../_images/coefficients.png" />
 ]</p>
 <p>So here I’m looking at the 20 most negative and 20 most
 positive coefficients of this logistic regression. It’s
@@ -1441,7 +1440,7 @@ divides by Euclidean norm.</p>
 </ul>
 <p>–</p>
 <p>.center[
-<img alt=":scale 80%" src="05-advanced-topics/images/single_words.png" />
+<img alt=":scale 80%" src="../_images/single_words.png" />
 ]</p>
 <p>Because there’s a big difference between ‘didn’t love’ and
 ‘love’ and the default settings in the count vectorizer
@@ -1683,7 +1682,7 @@ my_stopwords.add(&quot;ve&quot;)
 </div>
 <p>]</p>
 <p>.center[
-<img alt=":scale 90%" src="05-advanced-topics/images/stopwords_3.png" />
+<img alt=":scale 90%" src="../_images/stopwords_3.png" />
 ]</p>
 <p>Basically, removing stop words is fine but you should keep
 in the ‘not’ and the ‘well’ so that the important things can
@@ -1701,23 +1700,23 @@ applications.</p>
 words, we look at windows of characters.</p>
 <p>#Principle</p>
 <p>.center[
-<img alt=":scale 100%" src="05-advanced-topics/images/char_ngram_1.png" />
+<img alt=":scale 100%" src="../_images/char_ngram_1.png" />
 ]</p>
 <p>#Principle</p>
 <p>.center[
-<img alt=":scale 100%" src="05-advanced-topics/images/char_ngram_2.png" />
+<img alt=":scale 100%" src="../_images/char_ngram_2.png" />
 ]</p>
 <p>#Principle</p>
 <p>.center[
-<img alt=":scale 100%" src="05-advanced-topics/images/char_ngram_3.png" />
+<img alt=":scale 100%" src="../_images/char_ngram_3.png" />
 ]</p>
 <p>#Principle</p>
 <p>.center[
-<img alt=":scale 100%" src="05-advanced-topics/images/char_ngram_4.png" />
+<img alt=":scale 100%" src="../_images/char_ngram_4.png" />
 ]</p>
 <p>#Principle</p>
 <p>.center[
-<img alt=":scale 100%" src="05-advanced-topics/images/char_ngram_5.png" />
+<img alt=":scale 100%" src="../_images/char_ngram_5.png" />
 ]</p>
 <p>Here, I want to look at character trigrams, look at windows
 of length 3.</p>
@@ -1835,7 +1834,7 @@ words. But actually, I get a result that is about as good as
 the bag of words.</p>
 <p>class: middle
 .center[
-<img alt=":scale 100%" src="05-advanced-topics/images/imdb_char_ngrams.png" />
+<img alt=":scale 100%" src="../_images/imdb_char_ngrams.png" />
 ]</p>
 <p>I can also look at the features that are important. The way
 this looks like is that it seems pretty redundant. So it
@@ -1855,10 +1854,10 @@ something that’s in the dataset.</p>
 Parliament. What I’m going to do now is predict nationality
 from the name.</p>
 <p>.center[
-<img alt=":scale 70%" src="05-advanced-topics/images/nationality_name_1.png" />
+<img alt=":scale 70%" src="../_images/nationality_name_1.png" />
 ]</p>
 <p>.center[
-<img alt=":scale 70%" src="05-advanced-topics/images/nationality_name_2.png" />
+<img alt=":scale 70%" src="../_images/nationality_name_2.png" />
 ]</p>
 <p>Here’s the distribution of the country. This is a very
 imbalanced classification.</p>
@@ -1958,7 +1957,7 @@ results.</p>
 <li><p>Small dataset, makes grid-search faster! (less reliable)</p></li>
 </ul>
 <p>.center[
-<img alt=":scale 100%" src="05-advanced-topics/images/grid_search_table.png" />
+<img alt=":scale 100%" src="../_images/grid_search_table.png" />
 ]</p>
 <p>Here, I used pivot tables and Pandas to look into the effect
 of the different parameters.</p>
@@ -2004,14 +2003,14 @@ vocabulary of what everybody says on Twitter is very large.</p></li>
 <p>There’s a trick which allows you to get away without
 building a vocabulary.</p>
 <p>.center[
-<img alt=":scale 90%" src="05-advanced-topics/images/bag_of_words.png" />
+<img alt=":scale 90%" src="../_images/bag_of_words.png" />
 ]</p>
 <p>This is what we did before. We tokenize the string, split
 onto words, build a vocabulary and then built a sparse
 matrix representation. Now we can replace this vocabulary
 with just a hash function.</p>
 <p>.center[
-<img alt=":scale 80%" src="05-advanced-topics/images/large_scale_text_vec_2.png" />
+<img alt=":scale 80%" src="../_images/large_scale_text_vec_2.png" />
 ]</p>
 <p>And we can use any string hash function, that computes half
 of the token, then we represent this token just by its hash
@@ -2202,7 +2201,7 @@ and so results are open to interpretation, and also depend
 on how exactly you formulate the task.</p>
 <p>#Matrix Factorization</p>
 <p>.center[
-<img alt=":scale 80%" src="05-advanced-topics/images/matrix_factorization.png" />
+<img alt=":scale 80%" src="../_images/matrix_factorization1.png" />
 ]</p>
 <p>So matrix factorization algorithm works like this. We have
 our data matrix, X, which is number of samples times number
@@ -2220,12 +2219,12 @@ A, somehow represent the rows of X and the features are
 encoded in B.</p>
 <p>#Matrix Factorization</p>
 <p>.center[
-<img alt=":scale 80%" src="05-advanced-topics/images/matrix_factorization_2.png" />
+<img alt=":scale 80%" src="../_images/matrix_factorization_21.png" />
 ]
 sklearn speak: <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">=</span> <span class="pre">mf.transform(X)</span></code></p>
 <p>#PCA</p>
 <p>.center[
-<img alt=":scale 80%" src="05-advanced-topics/images/pca.png" />
+<img alt=":scale 80%" src="../_images/pca1.png" />
 ]</p>
 <p>The one example of this that we already saw is principal
 component analysis. In PCA, B was basically the rotation and
@@ -2316,7 +2315,7 @@ the words in the vocabulary.</p>
 </div>
 <p>]</p>
 <p>.center[
-<img alt=":scale 70%" src="05-advanced-topics/images/lsa_truncated_svd_plot.png" />
+<img alt=":scale 70%" src="../_images/lsa_truncated_svd_plot.png" />
 ]</p>
 <p>As we saw with PCA, we can look at the explained variance
 ratio.</p>
@@ -2331,7 +2330,7 @@ singular values.</p>
 <div class="section" id="first-six-eigenvectors">
 <h2>First Six eigenvectors<a class="headerlink" href="#first-six-eigenvectors" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 100%" src="05-advanced-topics/images/lsa_six_eigvec.png" />
+<img alt=":scale 100%" src="../_images/lsa_six_eigvec.png" />
 ]</p>
 <p>Here are the 6 first eigenvectors. I’m showing only the
 entries that have the largest magnitude, either positive or
@@ -2383,7 +2382,7 @@ here. And then I can compute the same thing.</p>
 <div class="section" id="eigenvectors-after-scaling">
 <h2>Eigenvectors after scaling<a class="headerlink" href="#eigenvectors-after-scaling" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 100%" src="05-advanced-topics/images/lsa_six_eigvec_scaled.png" />
+<img alt=":scale 100%" src="../_images/lsa_six_eigvec_scaled.png" />
 ]</p>
 <p>This is the first six eigenvectors of LSA after scaling. The
 first one still points towards the direction of the mean. So
@@ -2409,7 +2408,7 @@ actually related to the good and bad review.</p>
 </div>
 <p>]</p>
 <p>.center[
-<img alt=":scale 35%" src="05-advanced-topics/images/capture_sentiment.png" />
+<img alt=":scale 35%" src="../_images/capture_sentiment.png" />
 ]</p>
 <p>.smallest[</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>lr_lsa = LogisticRegression(C=100).fit(X_lsa_scaled[:, :10], y_train)
@@ -2450,7 +2449,7 @@ dimensional representation.</p>
 <div class="section" id="nmf-for-topic-models">
 <h2>NMF for topic models<a class="headerlink" href="#nmf-for-topic-models" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 80%" src="05-advanced-topics/images/nmf.png" />
+<img alt=":scale 80%" src="../_images/nmf1.png" />
 ]</p>
 <p>The first model I want to use for this is NMF.</p>
 <p>In NMF, remember, we have a data matrix, X, which is now our
@@ -2502,7 +2501,7 @@ iterate between the two.</p>
 <div class="section" id="id3">
 <h2>NMF for topic models<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 95%" src="05-advanced-topics/images/nmf_1.png" />
+<img alt=":scale 95%" src="../_images/nmf_1.png" />
 ]</p>
 <p>When applying this to text, the rows of X, corresponds to
 movie reviews, the columns of X correspond to words. So that
@@ -2530,7 +2529,7 @@ little bit more interpretable.</p>
 </div>
 <p>]</p>
 <p>.center[
-<img alt=":scale 65%" src="05-advanced-topics/images/nmf_scaled_plot.png" />
+<img alt=":scale 65%" src="../_images/nmf_scaled_plot.png" />
 ]</p>
 <p>Sorted by “most active” components</p>
 <p>NMF, as I said, is an iterative optimization so this runs
@@ -2560,13 +2559,13 @@ corresponds to it.</p>
 </div>
 <div class="section" id="nmf-components-without-scaling">
 <h2>NMF components without scaling<a class="headerlink" href="#nmf-components-without-scaling" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 70%" src="05-advanced-topics/images/nmf_topics_no_scaling.png" /></p>
+<p><img alt=":scale 70%" src="../_images/nmf_topics_no_scaling.png" /></p>
 <p>I did the same thing without scaling.</p>
 <p>class: center</p>
 </div>
 <div class="section" id="nmf-with-tfidf">
 <h2>NMF with tfidf<a class="headerlink" href="#nmf-with-tfidf" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 70%" src="05-advanced-topics/images/nmf_topics_tfidf.png" /></p>
+<p><img alt=":scale 70%" src="../_images/nmf_topics_tfidf.png" /></p>
 <p>You can also run this on TF-IDF. Again, results are somewhat
 similar to before. The top-ranked components are now
 different. It really only makes sense if you look at all 100
@@ -2578,7 +2577,7 @@ components, you get something that is much more general.</p>
 <div class="section" id="nmf-with-tfidf-and-10-components">
 <h2>NMF with tfidf and 10 components<a class="headerlink" href="#nmf-with-tfidf-and-10-components" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 70%" src="05-advanced-topics/images/tfidf_10comp_plot.png" />
+<img alt=":scale 70%" src="../_images/tfidf_10comp_plot.png" />
 ]</p>
 <p>This is using 9 components. The first one, probably kind of
 models the mean and points in the center.</p>
@@ -2624,7 +2623,7 @@ like an incredibly popular model right now.</p>
 <div class="section" id="the-lda-model">
 <h2>The LDA Model<a class="headerlink" href="#the-lda-model" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 90%" src="05-advanced-topics/images/lda_model.png" />
+<img alt=":scale 90%" src="../_images/lda_model.png" />
 ]
 .smallest[
 (stolen from Dave and John)
@@ -2668,7 +2667,7 @@ figure out what were the topics.</p>
 <li><p>Non-convex optimization (even harder than mixture models)</p></li>
 </ul>
 <p>.center[
-<img alt=":scale 70%" src="05-advanced-topics/images/lda_params.png" />
+<img alt=":scale 70%" src="../_images/lda_params.png" />
 ]</p>
 <p>.smallest[</p>
 <ul class="simple">
@@ -2806,7 +2805,7 @@ Mean:
 <span class="math notranslate nohighlight">\(\qquad E[X_i] = \frac{\alpha_i}{\sum_k{\alpha_k}}\)</span>
 ]</p>
 <p>.center[
-<img alt=":scale 60%" src="05-advanced-topics/images/dirichlet_dist.png" />
+<img alt=":scale 60%" src="../_images/dirichlet_dist.png" />
 ]</p>
 <p>Here are some examples in 3D. Dirichlet distribution is like
 a distribution over distributions. So a point drawn from
@@ -2837,7 +2836,7 @@ very broad.</p>
 most words.  While the first one means you can assign
 probability mass only to a couple of the words.</p>
 <p>.center[
-<img alt=":scale 70%" src="05-advanced-topics/images/lda_params.png" />
+<img alt=":scale 70%" src="../_images/lda_params.png" />
 ]</p>
 <p>.smallest[</p>
 <ul class="simple">
@@ -2962,7 +2961,7 @@ result.</p>
 </div>
 <p>]</p>
 <p>.center[
-<img alt=":scale 70%" src="05-advanced-topics/images/lda_plot_1.png" />
+<img alt=":scale 70%" src="../_images/lda_plot_1.png" />
 ]</p>
 <p>Implementing in scikit-learn is pretty straightforward. The
 components are not ordered, and changing number of
@@ -2986,11 +2985,11 @@ TV Series, “family drama”, and “history / war” topics</p></li>
 </div>
 <p>]</p>
 <p>.center[
-<img alt=":scale 60%" src="05-advanced-topics/images/lda_plot_2.png" />
+<img alt=":scale 60%" src="../_images/lda_plot_2.png" />
 ]</p>
 <p>This showing 9 out of 100 documents.</p>
 <p>.center[
-<img alt=":scale 80%" src="05-advanced-topics/images/lda_topics.png" />
+<img alt=":scale 80%" src="../_images/lda_topics.png" />
 ]</p>
 <p>Here, I picked out a couple of topics that I thought were
 interesting.</p>
@@ -3015,7 +3014,7 @@ versus bad reviews.</p>
 <li><p>Small value <span class="math notranslate nohighlight">\(\xrightarrow[]{}\)</span> more concentrated</p></li>
 </ul>
 <p>.center[
-<img alt=":scale 50%" src="05-advanced-topics/images/lda_params.png" />
+<img alt=":scale 50%" src="../_images/lda_params.png" />
 ]</p>
 <p>I want to talk a little bit more about the specifics for
 LDA. There are 2 parameters that you need to tune. Both are
@@ -3056,7 +3055,7 @@ values mean they’re more concentrated.</p>
 <div class="section" id="block-gibbs-sampling-for-lda">
 <h2>(Block) Gibbs Sampling for LDA<a class="headerlink" href="#block-gibbs-sampling-for-lda" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 50%" src="05-advanced-topics/images/lda_params.png" />
+<img alt=":scale 50%" src="../_images/lda_params.png" />
 ]</p>
 <p>This is sort of the generative process of the data. And so
 what Gibbs sampling does is, we observe the words W and we
@@ -3110,7 +3109,7 @@ z is word-topic assignments.</p>
 <div class="section" id="collapsed-gibbs-sampling-for-lda">
 <h2>Collapsed Gibbs Sampling for LDA<a class="headerlink" href="#collapsed-gibbs-sampling-for-lda" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 50%" src="05-advanced-topics/images/lda_params.png" />
+<img alt=":scale 50%" src="../_images/lda_params.png" />
 ]</p>
 <p>Sample only <code class="docutils literal notranslate"><span class="pre">$p(z_i=k|\mathbf{z}_{-i})$</span></code></p>
 <p>Compute <span class="math notranslate nohighlight">\(\theta\)</span>, <span class="math notranslate nohighlight">\(\phi\)</span> from <span class="math notranslate nohighlight">\(\mathbf{z}\)</span></p>

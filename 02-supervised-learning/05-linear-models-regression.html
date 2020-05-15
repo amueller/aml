@@ -45,9 +45,9 @@
     <div class="container-xl">
       <div class="row">
           
-
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    <div class="navbar-brand-box">
+    
+        <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="../index.html">
   
   <img src="../_static/logo.png" class="logo" alt="logo">
@@ -79,28 +79,28 @@
     <a href="index.html">4. Supervised Learning Algorithms</a>
   <ul class="nav sidenav_l2">
     <li class="active">
-      <a href="">1. Linear Models for Regression</a>
+      <a href="">4.1 Linear Models for Regression</a>
     </li>
     <li class="">
-      <a href="06-linear-models-classification.html">2. Linear Models for Classification</a>
+      <a href="06-linear-models-classification.html">4.2 Linear Models for Classification</a>
     </li>
     <li class="">
-      <a href="07-support-vector-machines.html">3. Support Vector Machines</a>
+      <a href="07-support-vector-machines.html">4.3 Support Vector Machines</a>
     </li>
     <li class="">
-      <a href="08-decision-trees.html">4. Decision Trees</a>
+      <a href="08-decision-trees.html">4.4 Decision Trees</a>
     </li>
     <li class="">
-      <a href="09-random-forests.html">5. Random Forests</a>
+      <a href="09-random-forests.html">4.5 Random Forests</a>
     </li>
     <li class="">
-      <a href="10-gradient-boosting.html">6. (Stochastic) Gradient Descent, Gradient Boosting</a>
+      <a href="10-gradient-boosting.html">4.6 (Stochastic) Gradient Descent, Gradient Boosting</a>
     </li>
     <li class="">
-      <a href="11-neural-networks.html">7. Neural Networks</a>
+      <a href="11-neural-networks.html">4.7 Neural Networks</a>
     </li>
     <li class="">
-      <a href="12-advanced-nets.html">8. Neural Networks beyond scikit-learn</a>
+      <a href="12-advanced-nets.html">4.8 Neural Networks beyond scikit-learn</a>
     </li>
   </ul>
   </li>
@@ -135,6 +135,7 @@
             <i class="fas fa-arrow-left"></i>
             <i class="fas fa-arrow-up"></i>
         </button>
+        
         <div class="dropdown-buttons-trigger">
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
 
@@ -168,8 +169,6 @@
                 
             </div>
         </div>
-        
-
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
@@ -416,7 +415,7 @@ today we’ll be adding randomness to the iris data set.</p>
 <p>FIXME: Better digram for feature selection. What are the
 hypothesises for the tests</p>
 <p>.center[
-<img alt=":scale 80%" src="02-supervised-learning/images/row_nan_col_nan.png" />
+<img alt=":scale 80%" src="../_images/row_nan_col_nan.png" />
 ]</p>
 <p>So if my dataset looks like something on the left-hand side
 here, then you can see that there are only missing values in
@@ -449,7 +448,7 @@ you think you’re doing very well because you discarded all
 the hard data points. Discarding data points is a little bit
 trickier and it depends on your situation.</p>
 <p>.center[
-<img alt=":scale 100%" src="02-supervised-learning/images/imputation-schema.png" />
+<img alt=":scale 100%" src="../_images/imputation-schema.png" />
 ]</p>
 <p>The other solution is to impute them. So the idea is that
 you have your training data set, you build some model of the
@@ -516,7 +515,7 @@ regression model and 10 fold baseline, I get 77.2% accuracy.</p>
 <div class="section" id="mean-and-median">
 <h2>Mean and Median<a class="headerlink" href="#mean-and-median" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 100%" src="02-supervised-learning/images/imputation-median-schema.png" />
+<img alt=":scale 100%" src="../_images/imputation-median-schema.png" />
 ]</p>
 <p>The simplest imputation is mean or medium. Unfortunately,
 only one is implemented in scikit-learn right now. If this
@@ -528,7 +527,7 @@ specify the strategy, mean or median or constant and then
 you can call the method transform and that imputes missing
 values.</p>
 <p>.center[
-<img alt=":scale 90%" src="02-supervised-learning/images/median_imputation.png" />
+<img alt=":scale 90%" src="../_images/median_imputation.png" />
 ]</p>
 <p>Here is a graphical illustration of what does this. So the
 iris dataset is four-dimensional, and I’m plotting it in two
@@ -598,7 +597,7 @@ distances.</p>
 </div>
 <p>]</p>
 <p>.center[
-<img alt=":scale 60%" src="02-supervised-learning/images/knn_imputation.png" />
+<img alt=":scale 60%" src="../_images/knn_imputation.png" />
 ]</p>
 </div>
 <div class="section" id="model-driven-imputation">
@@ -636,7 +635,7 @@ model.</p>
 <div class="section" id="comparision-of-imputation-methods">
 <h2>Comparision of Imputation Methods<a class="headerlink" href="#comparision-of-imputation-methods" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 100%" src="02-supervised-learning/images/med_knn_rf_comparison.png" />
+<img alt=":scale 100%" src="../_images/med_knn_rf_comparison.png" />
 ]</p>
 <p>FIXME better illustration/ graph
 Here’s a comparison on the iris dataset again.
@@ -650,7 +649,7 @@ In practice, using the mean or median is actually quite decent.</p>
 </div>
 <div class="section" id="id2">
 <h2>Linear Models for Regression<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 50%" src="02-supervised-learning/images/linear_regression_1d.png" /></p>
+<p><img alt=":scale 50%" src="../_images/linear_regression_1d.png" /></p>
 <div class="math notranslate nohighlight">
 \[\hat{y} = w^T \mathbf{x} + b = \sum_{i=1}^p w_i x_i +b\]</div>
 <p>Predictions in all linear models for regression are of the
@@ -755,7 +754,7 @@ the model generalizing.</p>
 </div>
 <div class="section" id="reminder-on-model-complexity">
 <h2>Reminder on model complexity<a class="headerlink" href="#reminder-on-model-complexity" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 80%" src="02-supervised-learning/images/overfitting_underfitting_cartoon_full.png" /></p>
+<p><img alt=":scale 80%" src="../_images/overfitting_underfitting_cartoon_full1.png" /></p>
 <p>I hope this sounds familiar from what we talked about last
 time. This is a particular way of dealing with overfitting
 and underfitting. For this framework in general, or for
@@ -768,7 +767,7 @@ the graph.</p>
 </div>
 <div class="section" id="ames-housing-dataset">
 <h2>Ames Housing Dataset<a class="headerlink" href="#ames-housing-dataset" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 80%" src="02-supervised-learning/images/ames_housing_scatter.png" />
+<p><img alt=":scale 80%" src="../_images/ames_housing_scatter.png" />
 .tiny[</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -806,7 +805,7 @@ is also good to keep in mind.</p>
 <p>Another thing that you can see in this graph is that the
 features have very different scales. Here’s a box plot that
 shows that even more clearly.</p>
-<p><img alt=":scale 100%" src="02-supervised-learning/images/ames_scaling.png" /></p>
+<p><img alt=":scale 100%" src="../_images/ames_scaling.png" /></p>
 <p>That’s something that will trip up the distance based models
 models we talked about last time, as well as the linear
 models we’re talking about today.  For the penalized models
@@ -880,13 +879,13 @@ is tricky.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_train</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><img alt=":scale 100%" src="02-supervised-learning/images/ames_housing_price_hist.png" /></p>
+<p><img alt=":scale 100%" src="../_images/ames_housing_price_hist.png" /></p>
 <p>]
 .right-column[</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><img alt=":scale 100%" src="02-supervised-learning/images/ames_housing_price_hist_log.png" /></p>
+<p><img alt=":scale 100%" src="../_images/ames_housing_price_hist_log.png" /></p>
 <p>]</p>
 <p>class: middle, spacious</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">make_pipeline</span><span class="p">(</span><span class="n">preprocess</span><span class="p">,</span> <span class="n">LinearRegression</span><span class="p">()),</span>
@@ -958,7 +957,7 @@ are quite similar.</p>
 </div>
 <p>]
 .center[
-<img alt=":scale 50%" src="02-supervised-learning/images/ridge_alpha_search.png" />
+<img alt=":scale 50%" src="../_images/ridge_alpha_search.png" />
 ]</p>
 <p>Coming back to the ridge regression we used the standard
 alpha of one which is a reasonable default, but by no means,
@@ -987,10 +986,10 @@ expansion, again we’re going to talk about a little bit more
 on Wednesday.</p>
 <p>.padding-top[
 .left-column[
-<img alt=":scale 100%" src="02-supervised-learning/images/ridge_alpha_search.png" />
+<img alt=":scale 100%" src="../_images/ridge_alpha_search.png" />
 ]
 .right-column[
-<img alt=":scale 100%" src="02-supervised-learning/images/ridge_alpha_search_cv_runs.png" />
+<img alt=":scale 100%" src="../_images/ridge_alpha_search_cv_runs.png" />
 ]
 ]</p>
 </div>
@@ -1007,7 +1006,7 @@ on Wednesday.</p>
 </pre></div>
 </div>
 <p>.center[
-<img alt=":scale 40%" src="02-supervised-learning/images/triazine_bar.png" />
+<img alt=":scale 40%" src="../_images/triazine_bar.png" />
 ]</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">triazines</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">triazines</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
@@ -1031,7 +1030,7 @@ on Wednesday.</p>
 </pre></div>
 </div>
 <p>.center[
-<img alt=":scale 40%" src="02-supervised-learning/images/ridge_alpha_triazine.png" />
+<img alt=":scale 40%" src="../_images/ridge_alpha_triazine.png" />
 ]</p>
 </div>
 <div class="section" id="plotting-coefficient-values-lr">
@@ -1043,7 +1042,7 @@ on Wednesday.</p>
 </pre></div>
 </div>
 <p>.center[
-<img alt=":scale 55%" src="02-supervised-learning/images/lr_coefficients_large.png" />
+<img alt=":scale 55%" src="../_images/lr_coefficients_large.png" />
 ]</p>
 <p>In the previous slide, linear regression did nearly as well
 as the Ridge Regression with the default parameters but
@@ -1072,7 +1071,7 @@ reasonable and all the houses only cost like $70,000.</p>
 </pre></div>
 </div>
 <p>.center[
-<img alt=":scale 55%" src="02-supervised-learning/images/ridge_coefficients.png" />
+<img alt=":scale 55%" src="../_images/ridge_coefficients.png" />
 ]</p>
 <p>Let’s look at the Ridge model. This is the best estimator,
 which is the model that was found in a grid search with the
@@ -1108,7 +1107,7 @@ negative effect, it can’t have both.</p>
 </pre></div>
 </div>
 <p>.center[
-<img alt=":scale 60%" src="02-supervised-learning/images/ridge_coefficients_alpha.png" />
+<img alt=":scale 60%" src="../_images/ridge_coefficients_alpha.png" />
 ]</p>
 <p>One other way to visualize the coefficient is to look at the
 coefficient path or regularization path. On the x-axis is
@@ -1121,7 +1120,7 @@ long time.</p>
 </div>
 <div class="section" id="learning-curves">
 <h2>Learning Curves<a class="headerlink" href="#learning-curves" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 90%" src="02-supervised-learning/images/ridge_learning_curve.png" /></p>
+<p><img alt=":scale 90%" src="../_images/ridge_learning_curve.png" /></p>
 <p>The thing I want to illustrate is if you have less data,
 regularization helps more. You can see the effects here
 between the orange and the red are very drastic. The green
@@ -1160,7 +1159,7 @@ number of features that it uses, that would be L0 norm.</p>
 <div class="section" id="understanding-l1-and-l2-penalties">
 <h2>Understanding L1 and L2 Penalties<a class="headerlink" href="#understanding-l1-and-l2-penalties" title="Permalink to this headline">¶</a></h2>
 <p>.wide-left-column[
-<img alt=":scale 100%" src="02-supervised-learning/images/l2_l1_l0.png" />
+<img alt=":scale 100%" src="../_images/l2_l1_l0.png" />
 ]</p>
 <p>.narrow-right-column[
 .smaller[
@@ -1182,7 +1181,7 @@ penalizes large values much more than small values.</p>
 <div class="section" id="id3">
 <h2>Understanding L1 and L2 Penalties<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>.wide-left-column[
-<img alt=":scale 100%" src="02-supervised-learning/images/l1_kink.png" />
+<img alt=":scale 100%" src="../_images/l1_kink.png" />
 ]
 .narrow-right-column[
 .padding-top[
@@ -1212,7 +1211,7 @@ not exactly zero.</p>
 </div>
 <div class="section" id="id4">
 <h2>Understanding L1 and L2 Penalties<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 70%" src="02-supervised-learning/images/l1l2ball.png" /></p>
+<p><img alt=":scale 70%" src="../_images/l1l2ball.png" /></p>
 <p>A different way to visualize this is in two dimensions.
 Let’s say we have 2 coefficients. So one way to look at
 these norms, let’s say we want to minimize the norm but say
@@ -1225,7 +1224,7 @@ to a solution that lies on this ball.</p>
 </div>
 <div class="section" id="id5">
 <h2>Understanding L1 and L2 Penalties<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 70%" src="02-supervised-learning/images/l1l2ball_intersect.png" /></p>
+<p><img alt=":scale 70%" src="../_images/l1l2ball_intersect.png" /></p>
 <p>And then we have a quadratic function like this, this is
 sort of the data fitting term again and so now if we want a
 solution with L2 norm equal to zero, we get the solution
@@ -1255,7 +1254,7 @@ understand why does this lead to exact zeros hop.</p>
 <p>Now we can do Grid Search again, the default parameters
 usually don’t work very well for Lasso. I use alpha on the
 logarithmic grid. I fitted and then I get the best score.</p>
-<p><img alt=":scale 90%" src="02-supervised-learning/images/lasso_alpha_triazine.png" /></p>
+<p><img alt=":scale 90%" src="../_images/lasso_alpha_triazine.png" /></p>
 <p>Looking at the training test set performance, you can see
 that if you increase the regularization, this model gets
 really bad. The ridge regression didn’t go this badly. If
@@ -1263,7 +1262,7 @@ you set the realization to one, all coefficients become
 zero. Other than that there’s reasonable performance, which
 is about as good as the ridge performance.</p>
 <p>.center[
-<img alt=":scale 60%" src="02-supervised-learning/images/lasso_coefficients.png" />
+<img alt=":scale 60%" src="../_images/lasso_coefficients.png" />
 ]</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">lasso</span><span class="o">.</span><span class="n">coef_</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
@@ -1310,7 +1309,7 @@ useful, the L1 penalty helps makes the same exactly zero.</p>
 </div>
 <div class="section" id="comparing-unit-balls">
 <h2>Comparing unit balls<a class="headerlink" href="#comparing-unit-balls" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 70%" src="02-supervised-learning/images/l1l2_elasticnet.png" /></p>
+<p><img alt=":scale 70%" src="../_images/l1l2_elasticnet.png" /></p>
 <p>Looking at the unit balls, if you zoom in here you would see
 the Elastic Net ball is kind of round, but also has a
 corner. Important things are the corners because that allows
@@ -1374,7 +1373,7 @@ anymore.</p>
 </pre></div>
 </div>
 <p>.center[
-<img alt=":scale 60%" src="02-supervised-learning/images/elasticnet_search.png" />
+<img alt=":scale 60%" src="../_images/elasticnet_search.png" />
 ]</p>
 <p>The way that I like to do it is, here’s the grip.cv results.
 And I put it in a data frame and then I’ll make a pivot

@@ -45,9 +45,9 @@
     <div class="container-xl">
       <div class="row">
           
-
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    <div class="navbar-brand-box">
+    
+        <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="../index.html">
   
   <img src="../_static/logo.png" class="logo" alt="logo">
@@ -79,28 +79,28 @@
     <a href="index.html">4. Supervised Learning Algorithms</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="05-linear-models-regression.html">1. Linear Models for Regression</a>
+      <a href="05-linear-models-regression.html">4.1 Linear Models for Regression</a>
     </li>
     <li class="">
-      <a href="06-linear-models-classification.html">2. Linear Models for Classification</a>
+      <a href="06-linear-models-classification.html">4.2 Linear Models for Classification</a>
     </li>
     <li class="">
-      <a href="07-support-vector-machines.html">3. Support Vector Machines</a>
+      <a href="07-support-vector-machines.html">4.3 Support Vector Machines</a>
     </li>
     <li class="active">
-      <a href="">4. Decision Trees</a>
+      <a href="">4.4 Decision Trees</a>
     </li>
     <li class="">
-      <a href="09-random-forests.html">5. Random Forests</a>
+      <a href="09-random-forests.html">4.5 Random Forests</a>
     </li>
     <li class="">
-      <a href="10-gradient-boosting.html">6. (Stochastic) Gradient Descent, Gradient Boosting</a>
+      <a href="10-gradient-boosting.html">4.6 (Stochastic) Gradient Descent, Gradient Boosting</a>
     </li>
     <li class="">
-      <a href="11-neural-networks.html">7. Neural Networks</a>
+      <a href="11-neural-networks.html">4.7 Neural Networks</a>
     </li>
     <li class="">
-      <a href="12-advanced-nets.html">8. Neural Networks beyond scikit-learn</a>
+      <a href="12-advanced-nets.html">4.8 Neural Networks beyond scikit-learn</a>
     </li>
   </ul>
   </li>
@@ -135,6 +135,7 @@
             <i class="fas fa-arrow-left"></i>
             <i class="fas fa-arrow-up"></i>
         </button>
+        
         <div class="dropdown-buttons-trigger">
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
 
@@ -168,8 +169,6 @@
                 
             </div>
         </div>
-        
-
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
@@ -357,7 +356,7 @@ stronger models.</p>
 <div class="section" id="idea-series-of-binary-questions">
 <h2>Idea: series of binary questions<a class="headerlink" href="#idea-series-of-binary-questions" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 70%" src="02-supervised-learning/images/tree_illustration.png" />
+<img alt=":scale 70%" src="../_images/tree_illustration.png" />
 ]</p>
 <p>Binary classification trees are binary trees, where each
 node corresponds to a question asked about the data. This
@@ -373,16 +372,16 @@ questions are thresholds on single features.</p>
 <div class="section" id="building-trees">
 <h2>Building Trees<a class="headerlink" href="#building-trees" title="Permalink to this headline">¶</a></h2>
 <p>.left-column[
-<img alt=":scale 100%" src="02-supervised-learning/images/tree_building_iteration_1.png" /></p>
+<img alt=":scale 100%" src="../_images/tree_building_iteration_1.png" /></p>
 <p>Continuous features:</p>
 <ul class="simple">
 <li><p>“questions” are thresholds on single features.</p></li>
 <li><p>Minimize impurity
 ]
 .right-column[
-<img alt=":scale 100%" src="02-supervised-learning/images/tree_building_iteration_2.png" /></p></li>
+<img alt=":scale 100%" src="../_images/tree_building_iteration_2.png" /></p></li>
 </ul>
-<p><img alt=":scale 100%" src="02-supervised-learning/images/tree_building_iteration_9.png" />
+<p><img alt=":scale 100%" src="../_images/tree_building_iteration_9.png" />
 ]</p>
 <p>Here is an example of a tree with depth one, that’s
 basically just thresholding a single feature. In this
@@ -450,7 +449,7 @@ very certain about what the class is for each leaf.</p>
 <div class="section" id="prediction">
 <h2>Prediction<a class="headerlink" href="#prediction" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 80%" src="02-supervised-learning/images/tree_prediction.png" />
+<img alt=":scale 80%" src="../_images/tree_prediction.png" />
 ]</p>
 <p>To make a prediction, I traverse the tree I ask all the
 questions in the node that I encounter and then I can
@@ -535,7 +534,7 @@ a tree of depth 2 and I gave it the feature names.</p>
 </pre></div>
 </div>
 <p>.center[
-<img alt=":scale 80%" src="02-supervised-learning/images/mpl_tree_plot.png" />
+<img alt=":scale 80%" src="../_images/mpl_tree_plot.png" />
 ]</p>
 <p>The other thing that I like to use which is easier is this
 pull request or there’s a gist that you download, it’s a
@@ -581,7 +580,7 @@ in a node split and minimum decrease impurity.</p>
 <div class="section" id="no-pruning">
 <h2>No pruning<a class="headerlink" href="#no-pruning" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 100%" src="02-supervised-learning/images/no_pruning.png" />
+<img alt=":scale 100%" src="../_images/no_pruning.png" />
 ]</p>
 <p>Here’s the full tree for the same dataset.</p>
 <p>class:spacious</p>
@@ -589,7 +588,7 @@ in a node split and minimum decrease impurity.</p>
 <div class="section" id="max-depth-4">
 <h2>max_depth = 4<a class="headerlink" href="#max-depth-4" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 100%" src="02-supervised-learning/images/max_depth_4.png" />
+<img alt=":scale 100%" src="../_images/max_depth_4.png" />
 ]</p>
 <p>Maximum depth of the tree restricted to 4. This is like a
 very simple way. If you are actually building just a single
@@ -612,7 +611,7 @@ prediction time you’re willing to give.</p>
 <div class="section" id="max-leaf-nodes-8">
 <h2>max_leaf_nodes = 8<a class="headerlink" href="#max-leaf-nodes-8" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 50%" src="02-supervised-learning/images/max_leaf_nodes_8.png" />
+<img alt=":scale 50%" src="../_images/max_leaf_nodes_8.png" />
 ]</p>
 <p>If you use max_leaf_nodes, it will always put the one that
 has the greatest impurity decrease first. You can see that
@@ -624,7 +623,7 @@ most.</p>
 <div class="section" id="min-samples-split-50">
 <h2>min_samples_split = 50<a class="headerlink" href="#min-samples-split-50" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 70%" src="02-supervised-learning/images/min_samples_split_50.png" />
+<img alt=":scale 70%" src="../_images/min_samples_split_50.png" />
 ]</p>
 <p>Min_samples_split is quite simple, it just says only split
 nodes that have this many samples on them. What I don’t like
@@ -648,7 +647,7 @@ just tune this one parameter.</p>
 </div>
 <p>]
 .center[
-<img alt=":scale 70%" src="02-supervised-learning/images/grid_max_depth.png" />
+<img alt=":scale 70%" src="../_images/grid_max_depth.png" />
 ]</p>
 <p>So for example, if you want to tune max depth and restricted
 the depth of the tree. So run a grid search over max depth
@@ -669,7 +668,7 @@ but it’s not very visible.</p>
 </div>
 <p>]
 .center[
-<img alt=":scale 70%" src="02-supervised-learning/images/grid_max_leaf_nodes.png" />
+<img alt=":scale 70%" src="../_images/grid_max_leaf_nodes.png" />
 ]</p>
 <p>Here is if you tune a maximum number of leaf nodes, you can
 see it’s slightly more overfitting happening but generally,
@@ -708,7 +707,7 @@ easily communicate and easily explained.</p>
 </div>
 <p>]
 .center[
-<img alt=":scale 70%" src="02-supervised-learning/images/grid_ccp_alpha.png" />
+<img alt=":scale 70%" src="../_images/grid_ccp_alpha.png" />
 ]</p>
 </div>
 <div class="section" id="efficient-pruning">
@@ -719,7 +718,7 @@ easily communicate and easily explained.</p>
 </pre></div>
 </div>
 <p>.center[
-<img alt=":scale 55%" src="02-supervised-learning/images/pruning_alpha.png" />
+<img alt=":scale 55%" src="../_images/pruning_alpha.png" />
 ]</p>
 </div>
 <div class="section" id="best-post-pruned-vs-pre-pruned">
@@ -727,17 +726,17 @@ easily communicate and easily explained.</p>
 <p>.left-column[</p>
 <div class="section" id="id2">
 <h3>Cost-complexity pruning<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<p><img alt=":scale 70%" src="02-supervised-learning/images/tree_pruned.png" /></p>
+<p><img alt=":scale 70%" src="../_images/tree_pruned.png" /></p>
 <p>]
 .right-column[</p>
 </div>
 <div class="section" id="max-leaf-nodes-search">
 <h3>Max leaf nodes search<a class="headerlink" href="#max-leaf-nodes-search" title="Permalink to this headline">¶</a></h3>
-<p><img alt=":scale 80%" src="02-supervised-learning/images/max_leaf_nodes_8.png" />
+<p><img alt=":scale 80%" src="../_images/max_leaf_nodes_8.png" />
 ]</p>
 <p>#Extrapolation
 .center[
-<img alt=":scale 80%" src="02-supervised-learning/images/ram_prices.png" />
+<img alt=":scale 80%" src="../_images/ram_prices.png" />
 ]</p>
 <p>Trees are actually quite similar to nearest neighbors in
 some sense because both nearest neighbors and trees pick the
@@ -757,11 +756,11 @@ just need to traverse the binary tree. One thing that you
 should keep in mind is that both can’t extrapolate.</p>
 <p>#Extrapolation
 .center[
-<img alt=":scale 80%" src="02-supervised-learning/images/ram_prices_train.png" />
+<img alt=":scale 80%" src="../_images/ram_prices_train.png" />
 ]</p>
 <p>#Extrapolation
 .center[
-<img alt=":scale 80%" src="02-supervised-learning/images/ram_prices_test.png" />
+<img alt=":scale 80%" src="../_images/ram_prices_test.png" />
 ]</p>
 <p>This is the RAM prices in dollar per megabyte historically.
 This is an instance of Moore’s law. On log scale, it’s
@@ -829,7 +828,7 @@ models, you should keep in mind that they can’t do that.</p>
 </pre></div>
 </div>
 <p>]
-<img alt=":scale 70%" src="02-supervised-learning/images/instability_1.png" />
+<img alt=":scale 70%" src="../_images/instability_1.png" />
 ]
 .right-column[
 .tiny-code[```python
@@ -886,7 +885,7 @@ array([0.0, 0.0, 0.414, 0.586])
 </pre></div>
 </div>
 <p>]</p>
-<p><img alt=":scale 80%" src="02-supervised-learning/images/tree_importances.png" /></p>
+<p><img alt=":scale 80%" src="../_images/tree_importances.png" /></p>
 <p>]</p>
 <p>Another interesting feature of trees that I want to mention
 is feature importance. While looking at the trees, a nice
@@ -1028,7 +1027,7 @@ very good.</p>
 </div>
 <div class="section" id="different-splitting-methods">
 <h2>Different splitting methods<a class="headerlink" href="#different-splitting-methods" title="Permalink to this headline">¶</a></h2>
-<p>.center[<img alt=":scale 80%" src="02-supervised-learning/images/splits_kinect.png" />]</p>
+<p>.center[<img alt=":scale 80%" src="../_images/splits_kinect.png" />]</p>
 <p>.smaller[(taken from Shotton et. al. Real-Time Human Pose Recognition ..)]</p>
 <p>Another reason why trees are very popular is since they’re
 very flexible. This is actually from a paper about the

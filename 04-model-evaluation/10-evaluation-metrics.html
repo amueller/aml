@@ -45,9 +45,9 @@
     <div class="container-xl">
       <div class="row">
           
-
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    <div class="navbar-brand-box">
+    
+        <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="../index.html">
   
   <img src="../_static/logo.png" class="logo" alt="logo">
@@ -85,19 +85,19 @@
     <a href="index.html">6. Model Evaluation</a>
   <ul class="nav sidenav_l2">
     <li class="active">
-      <a href="">1. Evaluation Metrics and scoring</a>
+      <a href="">6.1 Evaluation Metrics and scoring</a>
     </li>
     <li class="">
-      <a href="aml-11-calibration.html">2. Calibration</a>
+      <a href="aml-11-calibration.html">6.2 Calibration</a>
     </li>
     <li class="">
-      <a href="aml-12-interpretation.html">3. Feature importances and Model interpretation</a>
+      <a href="aml-12-interpretation.html">6.3 Feature importances and Model interpretation</a>
     </li>
     <li class="">
-      <a href="aml-17-cluster-evaluation.html">4. Cluster Stability</a>
+      <a href="aml-17-cluster-evaluation.html">6.4 Cluster Stability</a>
     </li>
     <li class="">
-      <a href="parameter_tuning_automl.html">5. Parameter Tuning and AutoML</a>
+      <a href="parameter_tuning_automl.html">6.5 Parameter Tuning and AutoML</a>
     </li>
   </ul>
   </li>
@@ -126,6 +126,7 @@
             <i class="fas fa-arrow-left"></i>
             <i class="fas fa-arrow-up"></i>
         </button>
+        
         <div class="dropdown-buttons-trigger">
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
 
@@ -159,8 +160,6 @@
                 
             </div>
         </div>
-        
-
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
@@ -427,7 +426,7 @@ FIXME show example of number nonzero for scorer API</p>
 <div class="section" id="review-confusion-matrix">
 <h2>Review : confusion matrix<a class="headerlink" href="#review-confusion-matrix" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 55%" src="04-model-evaluation/images/confusion_matrix.png" />
+<img alt=":scale 55%" src="../_images/confusion_matrix.png" />
 ]
 .larger[
 <span class="math notranslate nohighlight">\($\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}}\)</span>$
@@ -464,7 +463,7 @@ FIXME show example of number nonzero for scorer API</p>
 </pre></div>
 </div>
 <p>]</p>
-<p><img alt=":scale 20%" src="04-model-evaluation/images/plot_confusion_matrix.png" /></p>
+<p><img alt=":scale 20%" src="../_images/plot_confusion_matrix.png" /></p>
 <p>confusion_matrix and accuracy_score take y_true, y_pred
 Note that plot_confusion_matrix takes the estimator.
 We might change that. We’ll talk a bit more about that interface later.</p>
@@ -486,7 +485,7 @@ We might change that. We’ll talk a bit more about that interface later.</p>
 <p>]</p>
 <p>–</p>
 <p>.center[
-<img alt=":scale 70%" src="04-model-evaluation/images/problems_with_accuracy.png" />
+<img alt=":scale 70%" src="../_images/problems_with_accuracy.png" />
 ]</p>
 <ul class="simple">
 <li><p>Imbalanced classes lead to hard-to-interpret accuracy.</p></li>
@@ -509,7 +508,7 @@ We might change that. We’ll talk a bit more about that interface later.</p>
 </div>
 <div class="section" id="the-zoo">
 <h2>The Zoo<a class="headerlink" href="#the-zoo" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 100%" src="04-model-evaluation/images/zoo.png" /></p>
+<p><img alt=":scale 100%" src="../_images/zoo.png" /></p>
 <p>https://en.wikipedia.org/wiki/Precision_and_recall</p>
 <p>class: compact</p>
 </div>
@@ -519,7 +518,7 @@ We might change that. We’ll talk a bit more about that interface later.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><img alt=":scale 30%" src="04-model-evaluation/images/confusion_matrix.png" />
+<p><img alt=":scale 30%" src="../_images/confusion_matrix.png" />
 ]
 .left-column[
 .smallest[</p>
@@ -527,7 +526,7 @@ We might change that. We’ll talk a bit more about that interface later.</p>
                  <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><img alt=":scale 80%" src="04-model-evaluation/images/confusion_matrix_norm_true.png" />
+<p><img alt=":scale 80%" src="../_images/confusion_matrix_norm_true.png" />
 ]
 ]
 .right-column[
@@ -536,7 +535,7 @@ We might change that. We’ll talk a bit more about that interface later.</p>
                  <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;pred&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><img alt=":scale 80%" src="04-model-evaluation/images/confusion_matrix_norm_pred.png" />
+<p><img alt=":scale 80%" src="../_images/confusion_matrix_norm_pred.png" />
 ]
 ]</p>
 <p>class:compact
@@ -546,7 +545,7 @@ We might change that. We’ll talk a bit more about that interface later.</p>
 </div>
 <p>]
 .left-column[
-<img alt=":scale 38%" src="04-model-evaluation/images/confusion_matrix_col.png" />]
+<img alt=":scale 38%" src="../_images/confusion_matrix_col.png" />]
 .smallest[
 .right-column[</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>              <span class="n">precision</span>    <span class="n">recall</span>  <span class="n">f1</span><span class="o">-</span><span class="n">score</span>   <span class="n">support</span>
@@ -682,7 +681,7 @@ which is basically balanced and so there’s no difference.</p>
 <p>]
 .right-column[
 .center[
-<img alt=":scale 100%" src="04-model-evaluation/images/mammography_data.png" />
+<img alt=":scale 100%" src="../_images/mammography_data.png" />
 ]
 ]
 .reset-column[</p>
@@ -815,7 +814,7 @@ really a lot more of one class than the other.</p>
 </div>
 <p>]
 .center[
-<img alt=":scale 65%" src="04-model-evaluation/images/precision_recall_curve.png" />
+<img alt=":scale 65%" src="../_images/precision_recall_curve.png" />
 ]</p>
 </div>
 <div class="section" id="side-note-scikit-learn-plotting-api">
@@ -864,20 +863,20 @@ really a lot more of one class than the other.</p>
 </div>
 <p>]
 .center[
-<img alt=":scale 65%" src="04-model-evaluation/images/roc_curve_svc.png" />
+<img alt=":scale 65%" src="../_images/roc_curve_svc.png" />
 ]</p>
 <p>.left-column[</p>
 </div>
 </div>
 <div class="section" id="pr-curve">
 <h2>PR-Curve<a class="headerlink" href="#pr-curve" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 100%" src="04-model-evaluation/images/precision_recall_curve.png" />
+<p><img alt=":scale 100%" src="../_images/precision_recall_curve.png" />
 ]
 .right-column[</p>
 </div>
 <div class="section" id="id2">
 <h2>ROC-Curve<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 100%" src="04-model-evaluation/images/roc_curve_svc.png" />
+<p><img alt=":scale 100%" src="../_images/roc_curve_svc.png" />
 ]
 .reset-column[</p>
 <ul class="simple">
@@ -898,7 +897,7 @@ really a lot more of one class than the other.</p>
 </div>
 <p>]
 .center[
-<img alt=":scale 60%" src="04-model-evaluation/images/rf_vs_svc.png" />
+<img alt=":scale 60%" src="../_images/rf_vs_svc.png" />
 ]</p>
 <p>We’re going to compare random forest and support vector
 machine.</p>
@@ -923,7 +922,7 @@ but that’s sort of what average precision does.</p>
 <div class="section" id="average-precision">
 <h2>Average Precision<a class="headerlink" href="#average-precision" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 100%" src="04-model-evaluation/images/avg_precision.png" />
+<img alt=":scale 100%" src="../_images/avg_precision.png" />
 ]</p>
 <p>Average precision basically does a step function integral of
 this thing. So for each possible threshold, you look at the
@@ -945,7 +944,7 @@ compare models if there are imbalanced classes.</p>
 <div class="section" id="area-under-roc-curve-aka-auc">
 <h2>Area Under ROC Curve (aka AUC)<a class="headerlink" href="#area-under-roc-curve-aka-auc" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 65%" src="04-model-evaluation/images/roc_curve_svc_auc.png" />
+<img alt=":scale 65%" src="../_images/roc_curve_svc_auc.png" />
 ]</p>
 <ul class="simple">
 <li><p>Always .5 for random/constant prediction</p></li>
@@ -1157,7 +1156,7 @@ classification.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Accuracy</span><span class="p">:</span> <span class="mf">0.964</span>
 </pre></div>
 </div>
-<p><img alt=":scale 70%" src="04-model-evaluation/images/confusion_matrix_digits.png" /></p>
+<p><img alt=":scale 70%" src="../_images/confusion_matrix_digits.png" /></p>
 <p>]
 ]
 .right-column[
@@ -1305,7 +1304,7 @@ scikit-learn.</p>
 <h2>Absolute vs Relative: MAPE<a class="headerlink" href="#absolute-vs-relative-mape" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\text{MAPE}</span> <span class="pre">=</span> <span class="pre">\frac{100}{n}</span> <span class="pre">\sum_{i=1}^{n}\left|\frac{y-\hat{y}}{y}\right|$$</span></code></p>
 <p>.center[
-<img alt=":scale 50%" src="04-model-evaluation/images/mape.png" />
+<img alt=":scale 50%" src="../_images/mape.png" />
 ]</p>
 <p>There’s another metric I want to talk about called MAPE.
 Which comes up in particular in forecasting. MAPE stands for
@@ -1353,7 +1352,7 @@ than one.</p>
 </div>
 <p>]]
 .narrow-right-column[
-<img alt=":scale 100%" src="04-model-evaluation/images/regression_boston.png" />
+<img alt=":scale 100%" src="../_images/regression_boston.png" />
 ]</p>
 <p>I think one of the best debugging tools is prediction plots,
 where you plot the predicted versus the true outcome. This
@@ -1374,10 +1373,10 @@ there are any trends or not.</p>
 </div>
 <div class="section" id="residual-plots">
 <h2>Residual Plots<a class="headerlink" href="#residual-plots" title="Permalink to this headline">¶</a></h2>
-<p>.left-column[<img alt=":scale 50%" src="04-model-evaluation/images/regression_boston.png" /></p>
-<p><img alt=":scale 60%" src="04-model-evaluation/images/regression_boston_2.png" />]
+<p>.left-column[<img alt=":scale 50%" src="../_images/regression_boston.png" /></p>
+<p><img alt=":scale 60%" src="../_images/regression_boston_2.png" />]
 .right-column[
-<img alt=":scale 100%" src="04-model-evaluation/images/regression_boston_3.png" />]</p>
+<img alt=":scale 100%" src="../_images/regression_boston_3.png" />]</p>
 <p>A different way to look at this is to basically rotate that
 45 degrees.</p>
 <p>So here we are looking at the true versus true minus
@@ -1394,13 +1393,13 @@ what dimension your data set is.</p>
 </div>
 <div class="section" id="target-vs-feature">
 <h2>Target vs Feature<a class="headerlink" href="#target-vs-feature" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 100%" src="04-model-evaluation/images/target_vs_feature.png" /></p>
+<p><img alt=":scale 100%" src="../_images/target_vs_feature.png" /></p>
 <p>If you want to look at in more detail, you can look at per
 feature plots.</p>
 </div>
 <div class="section" id="residual-vs-feature">
 <h2>Residual vs Feature<a class="headerlink" href="#residual-vs-feature" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 100%" src="04-model-evaluation/images/residual_vs_feature.png" /></p>
+<p><img alt=":scale 100%" src="../_images/residual_vs_feature.png" /></p>
 <p>Here, I’m plotting y test minus the prediction against each
 of the features and see if there are particular aspects of
 the feature that are not captured. For example, you can see
@@ -1669,7 +1668,7 @@ it.</p>
 </div>
 <p>]
 .center[
-<img alt=":scale 50%" src="04-model-evaluation/images/lasso_alpha_triazine.png" />
+<img alt=":scale 50%" src="../_images/lasso_alpha_triazine1.png" />
 ]</p>
 <p>The main thing that I want to illustrate here is that you
 can have access to the model. So you can write a function

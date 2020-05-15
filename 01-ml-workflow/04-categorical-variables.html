@@ -45,9 +45,9 @@
     <div class="container-xl">
       <div class="row">
           
-
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    <div class="navbar-brand-box">
+    
+        <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="../index.html">
   
   <img src="../_static/logo.png" class="logo" alt="logo">
@@ -76,28 +76,28 @@
     <a href="00-ml-workflow.html">3. The Machine Learning Workflow</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="01-data-loading.html">1. Data Loading</a>
+      <a href="01-data-loading.html">3.1 Data Loading</a>
     </li>
     <li class="">
-      <a href="02-supervised-learning.html">2. Supervised learning with scikit-learn</a>
+      <a href="02-supervised-learning.html">3.2 Supervised learning with scikit-learn</a>
     </li>
     <li class="">
-      <a href="03-preprocessing.html">3. Preprocessing and Scaling</a>
+      <a href="03-preprocessing.html">3.3 Preprocessing and Scaling</a>
     </li>
     <li class="active">
-      <a href="">4. Categorical Variables</a>
+      <a href="">3.4 Categorical Variables</a>
     </li>
     <li class="">
-      <a href="05-feature-engineering.html">5. Feature Engineering</a>
+      <a href="05-feature-engineering.html">3.5 Feature Engineering</a>
     </li>
     <li class="">
-      <a href="08-imputation.html">6. Imputation</a>
+      <a href="08-imputation.html">3.6 Imputation</a>
     </li>
     <li class="">
-      <a href="09-pipeline.html">7. Algorithm Chains and Pipelines</a>
+      <a href="09-pipeline.html">3.7 Algorithm Chains and Pipelines</a>
     </li>
     <li class="">
-      <a href="10-cross-validation-grid-search.html">8. Cross-validation and Grid Search</a>
+      <a href="10-cross-validation-grid-search.html">3.8 Cross-validation and Grid Search</a>
     </li>
   </ul>
   </li>
@@ -135,6 +135,7 @@
             <i class="fas fa-arrow-left"></i>
             <i class="fas fa-arrow-up"></i>
         </button>
+        
         <div class="dropdown-buttons-trigger">
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
 
@@ -168,8 +169,6 @@
                 
             </div>
         </div>
-        
-
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
@@ -280,7 +279,7 @@ No</p>
 <p>]</p>
 <p>–</p>
 <p>.right-column[
-<img alt=":scale 100%" src="01-ml-workflow/images/boro_ordinal.png" />
+<img alt=":scale 100%" src="../_images/boro_ordinal.png" />
 ]</p>
 <p>If you encode all three values using the same feature, then
 you are imposing a linear relation between them, and in
@@ -327,7 +326,7 @@ Yes</p>
 No</p>
 <p>]</p>
 <p>.right-column[
-<img alt=":scale 100%" src="01-ml-workflow/images/boro_ordinal_classification.png" />
+<img alt=":scale 100%" src="../_images/boro_ordinal_classification.png" />
 ]</p>
 </div>
 <div class="section" id="one-hot-dummy-encoding">
@@ -893,7 +892,7 @@ this uses the column information in pandas and allows you to slice
 out different columns based on column names, integer indices or boolean masks.
 In this example I’m constructing a boolean mask</p>
 <p>class:center, middle
-<img alt=":scale 100%" src="01-ml-workflow/images/column_transformer_schematic.png" /></p>
+<img alt=":scale 100%" src="../_images/column_transformer_schematic.png" /></p>
 <p>Here’s a schematic of the column transformer.
 Most commonly you might want to separate continuous and categorical columns,
 but you can select any subsets of columns you like. They can also overlap.
@@ -943,7 +942,7 @@ make more sense.</p>
 </div>
 <div class="section" id="target-encoding-impact-encoding">
 <h1>Target Encoding (Impact Encoding)<a class="headerlink" href="#target-encoding-impact-encoding" title="Permalink to this headline">¶</a></h1>
-<p><img alt=":scale 100%" src="01-ml-workflow/images/zip_code_prices.png" /></p>
+<p><img alt=":scale 100%" src="../_images/zip_code_prices.png" /></p>
 <p>class: some-space</p>
 </div>
 <div class="section" id="id4">

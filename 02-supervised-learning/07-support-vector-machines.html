@@ -45,9 +45,9 @@
     <div class="container-xl">
       <div class="row">
           
-
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    <div class="navbar-brand-box">
+    
+        <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="../index.html">
   
   <img src="../_static/logo.png" class="logo" alt="logo">
@@ -79,28 +79,28 @@
     <a href="index.html">4. Supervised Learning Algorithms</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="05-linear-models-regression.html">1. Linear Models for Regression</a>
+      <a href="05-linear-models-regression.html">4.1 Linear Models for Regression</a>
     </li>
     <li class="">
-      <a href="06-linear-models-classification.html">2. Linear Models for Classification</a>
+      <a href="06-linear-models-classification.html">4.2 Linear Models for Classification</a>
     </li>
     <li class="active">
-      <a href="">3. Support Vector Machines</a>
+      <a href="">4.3 Support Vector Machines</a>
     </li>
     <li class="">
-      <a href="08-decision-trees.html">4. Decision Trees</a>
+      <a href="08-decision-trees.html">4.4 Decision Trees</a>
     </li>
     <li class="">
-      <a href="09-random-forests.html">5. Random Forests</a>
+      <a href="09-random-forests.html">4.5 Random Forests</a>
     </li>
     <li class="">
-      <a href="10-gradient-boosting.html">6. (Stochastic) Gradient Descent, Gradient Boosting</a>
+      <a href="10-gradient-boosting.html">4.6 (Stochastic) Gradient Descent, Gradient Boosting</a>
     </li>
     <li class="">
-      <a href="11-neural-networks.html">7. Neural Networks</a>
+      <a href="11-neural-networks.html">4.7 Neural Networks</a>
     </li>
     <li class="">
-      <a href="12-advanced-nets.html">8. Neural Networks beyond scikit-learn</a>
+      <a href="12-advanced-nets.html">4.8 Neural Networks beyond scikit-learn</a>
     </li>
   </ul>
   </li>
@@ -135,6 +135,7 @@
             <i class="fas fa-arrow-left"></i>
             <i class="fas fa-arrow-up"></i>
         </button>
+        
         <div class="dropdown-buttons-trigger">
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
 
@@ -168,8 +169,6 @@
                 
             </div>
         </div>
-        
-
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
@@ -461,7 +460,7 @@ thing on the right-hand side always stays the same.</p>
 </div>
 <p>]</p>
 <p>.center[
-<img alt=":scale 70%" src="02-supervised-learning/images/poly_kernel_features.png" />
+<img alt=":scale 70%" src="../_images/poly_kernel_features.png" />
 ]</p>
 <p>You can see that they’re very similar, by just applying them
 scikit-learn, either the Kernel SVM or the explicit
@@ -561,7 +560,7 @@ np.inner(poly(X[63]), poly(x)) \]</div>
 <div class="section" id="runtime-considerations">
 <h2>Runtime Considerations<a class="headerlink" href="#runtime-considerations" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 85%" src="02-supervised-learning/images/svm_runtime.png" />
+<img alt=":scale 85%" src="../_images/svm_runtime.png" />
 ]</p>
 <p>So how does it look like in terms of runtime, here I have
 the same plot in linear space and log-log space. This is for
@@ -626,7 +625,7 @@ give you terrible results.</p>
 <li><p>Gamma is bandwidth: <span class="math notranslate nohighlight">\(k_\text{rbf}(\mathbf{x}, \mathbf{x}') = \exp(-\gamma||\mathbf{x} -\mathbf{x}'||^2)\)</span></p></li>
 </ul>
 <p>.center[
-<img alt=":scale 85%" src="02-supervised-learning/images/svm_gamma.png" />
+<img alt=":scale 85%" src="../_images/svm_gamma.png" />
 ]</p>
 <p>Support vector machine with RBF kernel has these two
 parameters you need to tune. These both control complexity
@@ -641,7 +640,7 @@ like the nearest neighbor algorithm and has more complexity.
 Usually, you should tune both of these parameters to get a
 good tradeoff between fitting and generalization.</p>
 <p>.center[
-<img alt=":scale 85%" src="02-supervised-learning/images/svm_c_gamma.png" />
+<img alt=":scale 85%" src="../_images/svm_c_gamma.png" />
 ]</p>
 <p>This plot tries to illustrate these two parameters in the
 RBF SVM kernel. On the vertical is C and on the horizontal
@@ -668,7 +667,7 @@ gamma that will give you similarly good results.</p>
 </pre></div>
 </div>
 <p>.center[
-<img alt=":scale 65%" src="02-supervised-learning/images/digits_images.png" />
+<img alt=":scale 65%" src="../_images/digits_images.png" />
 ]</p>
 <p>Looking at the digit dataset. Let’s say we want to learn
 kernel support vector machine on this dataset. So set the
@@ -754,7 +753,7 @@ grid.</p>
 <div class="section" id="id1">
 <h2>Grid-Searching Parameters<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 95%" src="02-supervised-learning/images/svm_c_gamma_heatmap.png" />
+<img alt=":scale 95%" src="../_images/svm_c_gamma_heatmap.png" />
 ]</p>
 <p>Usually, there’s a strong interaction between these two
 parameters. And the SVM is pretty sensitive to the setting

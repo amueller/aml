@@ -45,9 +45,9 @@
     <div class="container-xl">
       <div class="row">
           
-
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    <div class="navbar-brand-box">
+    
+        <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="../index.html">
   
   <img src="../_static/logo.png" class="logo" alt="logo">
@@ -85,19 +85,19 @@
     <a href="index.html">6. Model Evaluation</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="10-evaluation-metrics.html">1. Evaluation Metrics and scoring</a>
+      <a href="10-evaluation-metrics.html">6.1 Evaluation Metrics and scoring</a>
     </li>
     <li class="">
-      <a href="aml-11-calibration.html">2. Calibration</a>
+      <a href="aml-11-calibration.html">6.2 Calibration</a>
     </li>
     <li class="">
-      <a href="aml-12-interpretation.html">3. Feature importances and Model interpretation</a>
+      <a href="aml-12-interpretation.html">6.3 Feature importances and Model interpretation</a>
     </li>
     <li class="">
-      <a href="aml-17-cluster-evaluation.html">4. Cluster Stability</a>
+      <a href="aml-17-cluster-evaluation.html">6.4 Cluster Stability</a>
     </li>
     <li class="active">
-      <a href="">5. Parameter Tuning and AutoML</a>
+      <a href="">6.5 Parameter Tuning and AutoML</a>
     </li>
   </ul>
   </li>
@@ -126,6 +126,7 @@
             <i class="fas fa-arrow-left"></i>
             <i class="fas fa-arrow-up"></i>
         </button>
+        
         <div class="dropdown-buttons-trigger">
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
 
@@ -159,8 +160,6 @@
                 
             </div>
         </div>
-        
-
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
@@ -467,7 +466,7 @@ Function f is very slow to evaluate - think training a neural net for a week.</p
 </div>
 <div class="section" id="random-search">
 <h2>Random Search<a class="headerlink" href="#random-search" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 100%" src="04-model-evaluation/images/bergstra_random.jpeg" /></p>
+<p><img alt=":scale 100%" src="../_images/bergstra_random.jpeg" /></p>
 </div>
 <div class="section" id="random-search-with-scikit-learn">
 <h2>Random Search with scikit-learn<a class="headerlink" href="#random-search-with-scikit-learn" title="Permalink to this headline">¶</a></h2>
@@ -498,20 +497,20 @@ Function f is very slow to evaluate - think training a neural net for a week.</p
 ]
 .narrow-right-column[
 .center[
-<img alt=":scale 110%" src="04-model-evaluation/images/smbo.png" />
+<img alt=":scale 110%" src="../_images/smbo.png" />
 ]]</p></li>
 </ul>
 </div>
 <div class="section" id="surrogate-functions">
 <h2>Surrogate functions<a class="headerlink" href="#surrogate-functions" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 100%" src="04-model-evaluation/images/smbo_table.png" /></p>
+<p><img alt=":scale 100%" src="../_images/smbo_table.png" /></p>
 <p>FIXME
 NEED NEURAL NETS</p>
 </div>
 <div class="section" id="evolutionary-methods-tpot">
 <h2>Evolutionary Methods: TPOT<a class="headerlink" href="#evolutionary-methods-tpot" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 80%" src="04-model-evaluation/images/tpot.png" />
+<img alt=":scale 80%" src="../_images/tpot.png" />
 ]</p>
 <p>class: spacious</p>
 </div>
@@ -528,12 +527,12 @@ NEED NEURAL NETS</p>
 </div>
 <div class="section" id="criticism">
 <h2>Criticism<a class="headerlink" href="#criticism" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 25%" src="04-model-evaluation/images/random_rank_chart.png" />
-<img alt=":scale 25%" src="04-model-evaluation/images/random_bar_plot_sample.png" /></p>
+<p><img alt=":scale 25%" src="../_images/random_rank_chart.png" />
+<img alt=":scale 25%" src="../_images/random_bar_plot_sample.png" /></p>
 <p>–
-<img alt=":scale 23%" src="04-model-evaluation/images/random2x_cifar10-compare.png" />
-<img alt=":scale 23%" src="04-model-evaluation/images/random2x_mrbi-compare.png" />
-<img alt=":scale 23%" src="04-model-evaluation/images/random2x_svhn-compare.png" /></p>
+<img alt=":scale 23%" src="../_images/random2x_cifar10-compare.png" />
+<img alt=":scale 23%" src="../_images/random2x_mrbi-compare.png" />
+<img alt=":scale 23%" src="../_images/random2x_svhn-compare.png" /></p>
 <p>.smallest[http://www.argmin.net/2016/06/20/hypertuning/]</p>
 <p>FIXME use newer hyperband figures!</p>
 </div>
@@ -550,8 +549,8 @@ NEED NEURAL NETS</p>
 <h2>Multi-Fidelity Search<a class="headerlink" href="#multi-fidelity-search" title="Permalink to this headline">¶</a></h2>
 <p>.smaller[Approximate function by similar cheaper function]
 .center[
-<img alt=":scale 70%" src="04-model-evaluation/images/multi-fidelity-digits.png" />
-<img alt=":scale 70%" src="04-model-evaluation/images/multi-fidelity-digits-rf.png" /></p>
+<img alt=":scale 70%" src="../_images/multi-fidelity-digits.png" />
+<img alt=":scale 70%" src="../_images/multi-fidelity-digits-rf.png" /></p>
 <p>]</p>
 <p>Top: subsample the datasets
 bottom: use less trees in forest</p>
@@ -580,7 +579,7 @@ bottom: use less trees in forest</p>
 <li><p>after <span class="math notranslate nohighlight">\(k=\log_\eta(n) + 1\)</span> left with single configuration.</p></li>
 <li><p>initially allocate <span class="math notranslate nohighlight">\(\frac{B}{kn}\)</span> to each configuration, double each iteration (exact budget is slightly more complicated, see algorithm).
 –
-<img alt=":scale 70%" src="04-model-evaluation/images/halving_algorithm.png" /></p></li>
+<img alt=":scale 70%" src="../_images/halving_algorithm.png" /></p></li>
 </ul>
 </div>
 <div class="section" id="successive-halving-example">
@@ -602,22 +601,22 @@ bottom: use less trees in forest</p>
 </div>
 <div class="section" id="successive-halving-different-example">
 <h2>Successive Halving (different) Example<a class="headerlink" href="#successive-halving-different-example" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 90%" src="04-model-evaluation/images/halving_curves.png" /></p>
+<p><img alt=":scale 90%" src="../_images/halving_curves.png" /></p>
 </div>
 <div class="section" id="hyperband">
 <h2>Hyperband<a class="headerlink" href="#hyperband" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 78%" src="04-model-evaluation/images/hyperband_curves.png" />
+<img alt=":scale 78%" src="../_images/hyperband_curves.png" />
 ]</p>
 </div>
 <div class="section" id="id2">
 <h2>Hyperband<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 90%" src="04-model-evaluation/images/hyperband_algorithm.png" /></p>
+<p><img alt=":scale 90%" src="../_images/hyperband_algorithm.png" /></p>
 </div>
 <div class="section" id="bohb-hpbandster">
 <h2>BOHB / HpBandSter<a class="headerlink" href="#bohb-hpbandster" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 85%" src="04-model-evaluation/images/bohb_curves.png" />
+<img alt=":scale 85%" src="../_images/bohb_curves.png" />
 ]</p>
 </div>
 <div class="section" id="in-practice">
@@ -668,7 +667,7 @@ Hyperband in all of our experiments.”
 <div class="section" id="meta-features-and-meta-models">
 <h2>Meta-Features and Meta-Models<a class="headerlink" href="#meta-features-and-meta-models" title="Permalink to this headline">¶</a></h2>
 <p>.center[
-<img alt=":scale 90%" src="04-model-evaluation/images/metalearning-diagram.png" />
+<img alt=":scale 90%" src="../_images/metalearning-diagram.png" />
 ]</p>
 </div>
 <div class="section" id="active-testing-and-recommendations">
@@ -677,7 +676,7 @@ Hyperband in all of our experiments.”
 <ul class="simple">
 <li><p><a class="reference external" href="https://papers.nips.cc/paper/7595-probabilistic-matrix-factorization-for-automated-machine-learning.pdf">Probabilistic Matrix Factorization for AutoML (Fusi et al)</a></p></li>
 <li><p>https://github.com/rsheth80/pmf-automl/]
-<img alt=":scale 90%" src="04-model-evaluation/images/fusi_latent.png" /></p></li>
+<img alt=":scale 90%" src="../_images/fusi_latent.png" /></p></li>
 </ul>
 </div>
 <div class="section" id="multi-task-bayesian-optimization">
@@ -690,7 +689,7 @@ Hyperband in all of our experiments.”
 </div>
 <div class="section" id="ensemble-models">
 <h2>Ensemble Models<a class="headerlink" href="#ensemble-models" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 100%" src="04-model-evaluation/images/meta-learning-ensemble.png" /></p>
+<p><img alt=":scale 100%" src="../_images/meta-learning-ensemble.png" /></p>
 </div>
 <div class="section" id="auto-sklearn">
 <h2>Auto-sklearn<a class="headerlink" href="#auto-sklearn" title="Permalink to this headline">¶</a></h2>
@@ -755,7 +754,7 @@ the challenge.</p>
 <div class="section" id="https-dabl-github-io">
 <h3>https://dabl.github.io/<a class="headerlink" href="#https-dabl-github-io" title="Permalink to this headline">¶</a></h3>
 <p>Implements a portfolio classfier with successive halving:</p>
-<p><img alt=":scale 100%" src="04-model-evaluation/images/anyclassifier.png" /></p>
+<p><img alt=":scale 100%" src="../_images/anyclassifier.png" /></p>
 <p>class: center, middle</p>
 </div>
 </div>
