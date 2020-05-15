@@ -27,10 +27,11 @@
     <script src="../_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Decision Trees" href="08-decision-trees.html" />
-    <link rel="prev" title="Linear Models for Regression" href="06-linear-models-regression.html" />
+    <link rel="prev" title="Linear Models for Classification" href="06-linear-models-classification.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -78,10 +79,10 @@
     <a href="index.html">4. Supervised Learning Algorithms</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="05-linear-models-classification.html">1. Linear Models for Classification</a>
+      <a href="05-linear-models-regression.html">1. Linear Models for Regression</a>
     </li>
     <li class="">
-      <a href="06-linear-models-regression.html">2. Linear Models for Regression</a>
+      <a href="06-linear-models-classification.html">2. Linear Models for Classification</a>
     </li>
     <li class="active">
       <a href="">3. Support Vector Machines</a>
@@ -93,7 +94,7 @@
       <a href="09-random-forests.html">5. Random Forests</a>
     </li>
     <li class="">
-      <a href="10-gradient-boosting.html">6. Gradient Boosting</a>
+      <a href="10-gradient-boosting.html">6. (Stochastic) Gradient Descent, Gradient Boosting</a>
     </li>
     <li class="">
       <a href="11-neural-networks.html">7. Neural Networks</a>
@@ -172,9 +173,80 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#kernel-svms" class="nav-link">Kernel SVMs</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#motivation" class="nav-link">Motivation</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#reminder-on-linear-svm" class="nav-link">Reminder on Linear SVM</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#reformulate-linear-models" class="nav-link">Reformulate Linear Models</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#introducing-kernels" class="nav-link">Introducing Kernels</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#examples-of-kernels" class="nav-link">Examples of Kernels</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#polynomial-kernel-vs-features" class="nav-link">Polynomial Kernel vs Features</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#poly-kernels-vs-explicit-features" class="nav-link">Poly kernels vs explicit features</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#understanding-dual-coefficients" class="nav-link">Understanding Dual Coefficients</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#with-kernel" class="nav-link">With Kernel</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#runtime-considerations" class="nav-link">Runtime Considerations</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#kernels-in-practice" class="nav-link">Kernels in Practice</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#parameters-for-rbf-kernels" class="nav-link">Parameters for RBF Kernels</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#scaling-and-default-params" class="nav-link">Scaling and Default Params</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#grid-searching-parameters" class="nav-link">Grid-Searching Parameters</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id1" class="nav-link">Grid-Searching Parameters</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#questions" class="nav-link">Questions ?</a>
+        </li>
     
     </ul>
 </nav>
@@ -189,6 +261,525 @@
                 
   <div class="section" id="support-vector-machines">
 <h1>Support Vector Machines<a class="headerlink" href="#support-vector-machines" title="Permalink to this headline">¶</a></h1>
+<p>class: center, middle</p>
+<div class="section" id="kernel-svms">
+<h2>Kernel SVMs<a class="headerlink" href="#kernel-svms" title="Permalink to this headline">¶</a></h2>
+<p>class: spacious</p>
+</div>
+<div class="section" id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Go from linear models to more powerful nonlinear ones.</p></li>
+<li><p>Keep convexity (ease of optimization).</p></li>
+<li><p>Generalize the concept of feature engineering.</p></li>
+</ul>
+<p>The main motivation for kernel support vector machines is
+that we want to go from linear models to nonlinear models
+but we also want to have the same simple kernel optimization
+to solve. So basically, the optimization problem we have to
+solve from a kernel SVM is about as hard as a linear SVM. So
+it’s sort of very simple problem to solve. It’s much easier
+than learning in neural networks for example. But we get
+nonlinear decision boundaries. The idea behind this is to
+generalize the concept of feature engineering. We’ll see in
+a little bit how, for example, kernels SVM with polynomial
+kernels relate to using polynomials explicitly in your
+feature engineering. Before we talk about kernels, I want to
+talk a little bit more about linear support vector machines,
+which we already discussed last week.</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="reminder-on-linear-svm">
+<h2>Reminder on Linear SVM<a class="headerlink" href="#reminder-on-linear-svm" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\min_{w</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}^p,</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbf{R}}</span> <span class="pre">C</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">\max(0,</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">y_i</span> <span class="pre">(w^T\mathbf{x}</span> <span class="pre">+b))</span> <span class="pre">+</span> <span class="pre">||w||^2_2</span> <span class="pre">$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[ \hat{y} = \text{sign}(w^T \mathbf{x} + b)  \]</div>
+<p>The idea behind the linear support vector machine is it’s a
+linear classifier, the minimization problem is up a hinge
+loss, which is basically linear in the decision function
+w^x. Basically, as long as you have a distance on the right
+side of the hyper plane, that’s bigger than one, your data
+point does not contribute to the loss. So you want all of
+the points outside of this margin of one around the
+separating hyper plane.</p>
+</div>
+<div class="section" id="reformulate-linear-models">
+<h2>Reformulate Linear Models<a class="headerlink" href="#reformulate-linear-models" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<ul class="simple">
+<li><p>Optimization Theory</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-alpha-are-dual-coefficients-non-zero-for-support-vectors-only">
+<span class="eqno">(1)<a class="headerlink" href="#equation-alpha-are-dual-coefficients-non-zero-for-support-vectors-only" title="Permalink to this equation">¶</a></span>\[ w = \sum_{i=1}^n \alpha_i \mathbf{x}_i \]</div>
+<div class="math notranslate nohighlight">
+\[ \hat{y} = \text{sign}(w^T \mathbf{x})  \Longrightarrow   \hat{y} = \text{sign}\left(\sum_i^{n}\alpha_i (\mathbf{x}_i^T  \mathbf{x})\right) \]</div>
+<div class="math notranslate nohighlight">
+\[ \alpha_i 
+&lt;
+= C\]</div>
+<p>]</p>
+<p>Now I want to go from this linear model and extended to a
+nonlinear model. The idea here is that with some
+improvisation theory, you can find out that the W at the
+optimum can be expressed as a linear combination of the data
+points which is relatively straightforward to C. Expressing
+W as a linear combination, these alphas are called dual
+coefficients. Basically, you’re expressing the linear
+weights as a linear combination of the data points with this
+two coefficients alpha and you can show that these alpha are
+only non-zero for the points that contribute to this
+solution. So you can always write W as a linear combination
+of the support vectors with some alphas. If you want you can
+do this optimization problem either in trying to find W or
+you can rewrite the optimization problem and you can try to
+find these alphas. If you do this in terms of alphas, the
+decision function can be rewritten like this. Instead of
+looking at you w^T x, we just replace W transposed by the
+sum over all the training data points x_i and then basically
+we move the sum out of the inner products and we can see
+that it’s the sum over all the alpha i in the inner product
+of the training data points  x_i was a test data point x.
+Optimization theory also tells us that if I find the alpha w
+to minimize this problem, then all the alpha i (s) will be
+smaller than c. This is another way to say what I said last
+time that basically c limits the influence of each data
+point. So, if you have a smaller c the alpha i belong to
+each training data point can only be as big as this c, and
+so each of the data points has only limited influence.</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="introducing-kernels">
+<h2>Introducing Kernels<a class="headerlink" href="#introducing-kernels" title="Permalink to this headline">¶</a></h2>
+<div class="math notranslate nohighlight">
+\[\hat{y} = \text{sign}\left(\sum_i^{n}\alpha_i (\mathbf{x}_i^T  \mathbf{x})\right) \longrightarrow \hat{y} = \text{sign}\left(\sum_i^{n}\alpha_i (\phi(\mathbf{x}_i)^T  \phi(\mathbf{x}))\right) \]</div>
+<div class="math notranslate nohighlight">
+\[ \phi(\mathbf{x}_i)^T \phi( \mathbf{x}_j) \longrightarrow k(\mathbf{x}_i,  \mathbf{x}_j) \]</div>
+<p>k positive definite, symmetric <span class="math notranslate nohighlight">\(\Rightarrow\)</span> there exists a <span class="math notranslate nohighlight">\(\phi\)</span>! (possilby <span class="math notranslate nohighlight">\(\infty\)</span>-dim)</p>
+<p>The idea of this rewrite is that now I observed that the
+optimization problem and the prediction problem can be
+written only in terms of these inner products. Let’s say I
+want to use the feature function  ∅, like doing a polynomial
+expansion with the polynomial feature transformation and
+while if I use ∅x_i as these inputs then they just replace
+the x and then I just need the inner products between these
+feature vectors, but the only thing I really ever need is
+these inner products. Instead of trying to come up with some
+feature functions that are good to separate the data points,
+I can try it to come up with inner products. I can try to
+engineer this thing here instead of trying to engineer the
+features. If you write down any positive definite quadratic
+form that is symmetric, there’s always a ∅. So whenever I
+write down any function that is positive definite and
+symmetric into vectors, there’s always a feature function ∅
+so that this is the inner product in this feature space,
+which is kind of interesting. The feature space might be
+infinite dimensional though. So the idea that it might be
+much easier to come up with these kinds of inner products
+than trying to find ∅. So we’re now trying to design the k,
+which makes this whole thing a good nonlinear classifier. So
+in this case, obviously, the kernel.</p>
+</div>
+<div class="section" id="examples-of-kernels">
+<h2>Examples of Kernels<a class="headerlink" href="#examples-of-kernels" title="Permalink to this headline">¶</a></h2>
+<div class="math notranslate nohighlight">
+\[k_\text{linear}(\mathbf{x}, \mathbf{x}') = \mathbf{x}^T\mathbf{x}'\]</div>
+<div class="math notranslate nohighlight">
+\[k_\text{poly}(\mathbf{x}, \mathbf{x}') = (\mathbf{x}^T\mathbf{x}' + c) ^ d\]</div>
+<div class="math notranslate nohighlight">
+\[k_\text{rbf}(\mathbf{x}, \mathbf{x}') = \exp(-\gamma||\mathbf{x} -\mathbf{x}'||^2)\]</div>
+<div class="math notranslate nohighlight">
+\[k_\text{sigmoid}(\mathbf{x}, \mathbf{x}') = \tanh\left(\gamma \mathbf{x}^T\mathbf{x}'  + r\right)\]</div>
+<p><code class="docutils literal notranslate"><span class="pre">$$k_\cap(\mathbf{x},</span> <span class="pre">\mathbf{x}')=</span> <span class="pre">\sum_{i=1}^p</span> <span class="pre">\min(x_i,</span> <span class="pre">x'_i)$$</span></code></p>
+<ul class="simple">
+<li><p>If <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(k'\)</span> are kernels, so are <code class="docutils literal notranslate"><span class="pre">$k</span> <span class="pre">+</span> <span class="pre">k',</span> <span class="pre">kk',</span> <span class="pre">ck',</span> <span class="pre">...$</span></code></p></li>
+</ul>
+<p>There’s a couple of kernels that are commonly used. So the
+linear kernel just means I just use the inner product in the
+original space. That is just the original linear SVM. Other
+kernels that are commonly used are like the polynomial
+kernel, in which I take the inner products, I add some
+constant c and I raise it to power d. There’s the RVF
+kernel, which is probably the most commonly used kernel,
+which is just a Gaussian function above the curve around the
+distance of the two data points. There’s a sigmoid kernel.
+There’s the intersection kernel, which computes the minimum.
+And if you have any kernel, you can create a new kernel by
+adding two kernels together or multiplying them or
+multiplying them by constant. The only requirement we have
+is that they’re positive, indefinite and symmetric.</p>
+<p>What does this look like in practice? So, for example, let’s
+look at this polynomial kernel. It’s not very commonly used,
+but I think it’s one of the ones that are relatively easy to
+understand. So the idea of the polynomial kernel is it does
+the same thing as computing polynomials. But if you compute
+polynomials of a very high degree, your feature vector
+becomes very long. Whereas here, I always just need to
+compute this inner product and raise them to this power.</p>
+</div>
+<div class="section" id="polynomial-kernel-vs-features">
+<h2>Polynomial Kernel vs Features<a class="headerlink" href="#polynomial-kernel-vs-features" title="Permalink to this headline">¶</a></h2>
+<div class="math notranslate nohighlight">
+\[ k_\text{poly}(\mathbf{x}, \mathbf{x}') = (\mathbf{x}^T\mathbf{x}' + c) ^ d \]</div>
+<p>Primal vs Dual Optimization</p>
+<p>Explicit polynomials <span class="math notranslate nohighlight">\(\rightarrow\)</span> compute on <code class="docutils literal notranslate"><span class="pre">n_samples</span> <span class="pre">*</span> <span class="pre">n_features</span> <span class="pre">**</span> <span class="pre">d</span></code></p>
+<p>Kernel trick <span class="math notranslate nohighlight">\(\rightarrow\)</span> compute on kernel matrix of shape <code class="docutils literal notranslate"><span class="pre">n_samples</span> <span class="pre">*</span> <span class="pre">n_samples</span></code></p>
+<p>For a single feature:</p>
+<div class="math notranslate nohighlight">
+\[ (x^2, \sqrt{2}x, 1)^T (x'^2, \sqrt{2}x', 1) = x^2x'^2 + 2xx' + 1 = (xx' + 1)^2 \]</div>
+<p>So if I compute explicit polynomials, if I end features and
+then I do all the interactions, my data set becomes number
+of samples times number of features to the power D. So if I
+have 1000 features, and I take D to be 5, this will be
+enormous. If I’m using the kernel trick, which is replacing
+this inner product in the feature space by the kernel, then
+I only need to compute the inner product on the training
+data. So I only need to compute on this inner product matrix
+which is number of samples times number of samples. So this
+is much smaller if number of features to the D is smaller
+than number of samples then I can compute, essentially the
+same result on something that’s a different representation
+of the data. You can see that they’re not entirely
+equivalent. So doing the polynomial expansion is not
+entirely equivalent to the polynomial features but it’s
+about the same. You can see this quite easily for a single
+feature. If I do this for many features, adding extra
+features would make a very long feature vector, but the
+thing on the right-hand side always stays the same.</p>
+</div>
+<div class="section" id="poly-kernels-vs-explicit-features">
+<h2>Poly kernels vs explicit features<a class="headerlink" href="#poly-kernels-vs-explicit-features" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">poly</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="n">include_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">X_poly</span> <span class="o">=</span> <span class="n">poly</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">X_poly</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">poly</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="p">[</span><span class="s1">&#39;x0&#39;</span><span class="p">,</span> <span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x0^2&#39;</span><span class="p">,</span> <span class="s1">&#39;x0 x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x1^2&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>]</p>
+<p>.center[
+<img alt=":scale 70%" src="02-supervised-learning/images/poly_kernel_features.png" />
+]</p>
+<p>You can see that they’re very similar, by just applying them
+scikit-learn, either the Kernel SVM or the explicit
+polynomial features. Here I have this dataset consisting of
+classes orange and blue. These are not linearly separable.
+So if I use a linear SVM, it wouldn’t work. But I can do a
+polynomial transformation to go from two features to five
+features. In here I just added degree two features. And then
+I can learn linear SVM on top of these expanded features
+space. I get a very similar result if I instead of expanding
+the features, I use the original dataset. But now instead of
+learning linear SVM, I use a SVM with the polynomial kernel
+of degree 2, they’re not exactly the same because there was
+this factor of squared of two that I mentioned, but they’re
+pretty much the same. Question is if we increase the
+capacity of the model and we overfit and we’ll talk about
+this in a little bit, but so, for now, we want to increase
+the capacity of a model making more flexible I mean, we
+definitely don’t want to increase it infinitely. But we
+really making out model more flexible. So here for the
+polynomial kernel, you could get the same result just by
+expanding. If you have a very high degree polynomial it
+would be a large expansion. If you use one of the other
+kernels, for example, the RVF kernel doing this expansion
+would actually be resolved in infinite dimensional vector,
+so you couldn’t actually do this with a feature vector. Now
+I’m looking at this model here on the right-hand side where
+I’m using the polynomial features.</p>
+<p>class: smaller</p>
+</div>
+<div class="section" id="understanding-dual-coefficients">
+<h2>Understanding Dual Coefficients<a class="headerlink" href="#understanding-dual-coefficients" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">linear_svm</span><span class="o">.</span><span class="n">coef_</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span><span class="mf">0.139</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.201</span><span class="p">,</span> <span class="mf">0.048</span><span class="p">,</span> <span class="mf">0.019</span><span class="p">]])</span>
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[ y = \text{sign}(0.139 x_0 + 0.06 x_1 - 0.201 x_0^2 + 0.048 x_0 x_1 + 0.019 x_1^2) \]</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">linear_svm</span><span class="o">.</span><span class="n">dual_coef_</span>
+<span class="c1">#array([[-0.03, -0.003, 0.003, 0.03]])</span>
+<span class="n">linear_svm</span><span class="o">.</span><span class="n">support_</span>
+<span class="c1">#array([1,26,42,62], dtype=int32)</span>
+</pre></div>
+</div>
+<p>.smallest[
+<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">y</span> <span class="pre">=</span> <span class="pre">\text{sign}(-0.03</span> <span class="pre">\phi(\mathbf{x}_1)^T</span> <span class="pre">\phi(x)</span> <span class="pre">-</span> <span class="pre">0.003</span> <span class="pre">\phi(\mathbf{x}_{26})^T</span> <span class="pre">\phi(\mathbf{x})</span>&#160; <span class="pre">+0.003</span> <span class="pre">\phi(\mathbf{x}_{42})^T</span> <span class="pre">\phi(\mathbf{x})</span> <span class="pre">+</span> <span class="pre">0.03</span> <span class="pre">\phi(\mathbf{x}_{62})^T</span> <span class="pre">\phi(\mathbf{x}))</span> <span class="pre">$$</span></code>
+]</p>
+<p>FIXME formula goes over
+And so if I look at the linear SVM and I have five
+coefficients corresponding to the five features. And so if I
+make a prediction, its first coefficient times the first
+feature, second coefficient times the second feature and so
+on, and I look at the sine of it. This is just a linear
+prediction if I want to look what this looks like in terms
+of dual coefficients, I can look at the dual coefficients of
+linear SVM and the support. Out of these many data points,
+there’s four, they were selected as support vectors by the
+optimization. These are the ones that have these black
+circles around them. And so the solution can be expressed as
+a linear combination of these four support vectors where the
+coefficients are dual coefficients.</p>
+<p>If I want to express this in terms of dual coefficients, I
+can say its dual coefficient -0.03 times the inner product
+of the first data point and my test data point in feature
+space. I do the same thing for the train each point 26 and
+42 and 63 with their respective weights. Now I can look at
+how does this look like for kernel.</p>
+</div>
+<div class="section" id="with-kernel">
+<h2>With Kernel<a class="headerlink" href="#with-kernel" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">$$y</span> <span class="pre">=</span> <span class="pre">\text{sign}\left(\sum_i^{n}\alpha_i</span> <span class="pre">k(\mathbf{x}_i,</span>&#160; <span class="pre">\mathbf{x})\right)</span> <span class="pre">$$</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">poly_svm</span><span class="o">.</span><span class="n">dual_coef_</span>
+<span class="c1">## array([[-0.057, -0. , -0.012, 0.008, 0.062]])</span>
+<span class="n">poly_svm</span><span class="o">.</span><span class="n">support_</span>
+<span class="c1">## array([1,26,41,42,62], dtype=int32)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">y</span> <span class="pre">=</span> <span class="pre">\text{sign}(-0.057</span> <span class="pre">(\mathbf{x}_1^T\mathbf{x}</span> <span class="pre">+</span> <span class="pre">1)^2</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-0.012</span> <span class="pre">(\mathbf{x}_{41}^T</span> <span class="pre">\mathbf{x}</span> <span class="pre">+</span> <span class="pre">1)^2</span> <span class="pre">\\</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">+0.008</span> <span class="pre">(\mathbf{x}_{42}^T</span> <span class="pre">\mathbf{x}</span> <span class="pre">+</span> <span class="pre">1)^2</span> <span class="pre">+</span> <span class="pre">0.062</span> <span class="pre">(\mathbf{x}_{62},</span> <span class="pre">\mathbf{x}</span> <span class="pre">+</span> <span class="pre">1)^2)</span> <span class="pre">$$</span></code></p>
+<p>So for kernel, the prediction is this. For kernel SVM there
+are no coefficients in the original space, there’s only dual
+coefficients. For each of support vectors, I compute the
+kernel of support vector with the test point for which I
+want to make a prediction. This is basically the prediction
+function of the kernel support vector machine. And you can
+see it’s very similar to this only that I’ve replaced these
+inner products by the kernels. The original idea behind this
+kernel trick was to make computation faster. In some cases,
+it might be faster.</p>
+<div class="math notranslate nohighlight">
+\[ y = sign(-0.03 * np.inner(poly(X[1]), poly(x)) – 0.003 *
+np.inner(poly(X[26]), poly(x)) +0.003 *
+np.inner(poly(X[42]), poly(x)) + 0.03 *
+np.inner(poly(X[63]), poly(x)) \]</div>
+</div>
+<div class="section" id="runtime-considerations">
+<h2>Runtime Considerations<a class="headerlink" href="#runtime-considerations" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 85%" src="02-supervised-learning/images/svm_runtime.png" />
+]</p>
+<p>So how does it look like in terms of runtime, here I have
+the same plot in linear space and log-log space. This is for
+a fixed number of features, more features make the kernel
+better. But if I fix the number of features, you can see
+which of the two is faster. Log-log space is better for
+this. So you can see that if I have a very small number of
+samples, then linear kernel and doing explicit polynomials
+is slower than doing the kernel because of the matrix that’s
+number of samples times the number of samples is very small.
+But if I have a lot of features, then doing the explicit
+expansion is faster since the number of samples is large. In
+the case where we can do explicit feature expansion if we
+have a lot of samples, maybe that’s faster.</p>
+<p>class:spacious</p>
+</div>
+<div class="section" id="kernels-in-practice">
+<h2>Kernels in Practice<a class="headerlink" href="#kernels-in-practice" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Dual coefficients less interpretable</p></li>
+<li><p>Long runtime for “large” datasets (100k samples)</p></li>
+<li><p>Real power in infinite-dimensional spaces: rbf!</p></li>
+<li><p>Rbf is “universal kernel” - can learn (aka overfit)
+anything.</p></li>
+</ul>
+<p>So what does this mean for us in practice? One issue is that
+the dual coefficients are usually less interpretable because
+they give you like weightings of inner products with the
+training data points which is maybe less intuitive than
+looking at like five times x squared and if you have large
+data sets they can become very slow. The real power of
+kernels is when the feature space would actually be
+infinite-dimensional. The RBF kernel is called the universal
+kernel, which means you can learn any possible concept or
+you can overfit any possible concept. Same is true for like
+neural networks and trees and nearest neighbors, for
+example, they can learn anything but linear models and even
+polynomial models of a fixed degree cannot learn everything.</p>
+<p>class:spacious</p>
+<p>#Preprocessing</p>
+<ul class="simple">
+<li><p>Kernel use inner products or distances.</p></li>
+<li><p>StandardScaler or MinMaxScaler ftw</p></li>
+<li><p>Gamma parameter in RBF directly relates to scaling
+of data and n_features – the default is <code class="docutils literal notranslate"><span class="pre">1/(X.var()</span> <span class="pre">*</span> <span class="pre">n_features)</span></code></p></li>
+</ul>
+<p>Nearly all of these kernels use the distance in the original
+space. These inner products are distances and so scaling is
+really important. People use a center scale or min-max
+scalar.</p>
+<p>For the RBF kernel or for any of the kernels really the
+default parameters work well for scale data. If you don’t
+scale your data default parameters will not work at all. If
+you multiply that by five then the default parameters will
+give you terrible results.</p>
+</div>
+<div class="section" id="parameters-for-rbf-kernels">
+<h2>Parameters for RBF Kernels<a class="headerlink" href="#parameters-for-rbf-kernels" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Regularization parameter C is limit on alphas
+(for any kernel)</p></li>
+<li><p>Gamma is bandwidth: <span class="math notranslate nohighlight">\(k_\text{rbf}(\mathbf{x}, \mathbf{x}') = \exp(-\gamma||\mathbf{x} -\mathbf{x}'||^2)\)</span></p></li>
+</ul>
+<p>.center[
+<img alt=":scale 85%" src="02-supervised-learning/images/svm_gamma.png" />
+]</p>
+<p>Support vector machine with RBF kernel has these two
+parameters you need to tune. These both control complexity
+in some way. We already said that the C parameter limits the
+influence of each individual data point and the other one is
+to kernel bandwidth gamma. A smaller gamma means a wider
+kernel. So wider kernel means a simpler model because the
+decision boundary will be smoother. Whereas a larger gamma
+means a much narrower kernel and that means each data point
+will have much more local influence, which means it’s more
+like the nearest neighbor algorithm and has more complexity.
+Usually, you should tune both of these parameters to get a
+good tradeoff between fitting and generalization.</p>
+<p>.center[
+<img alt=":scale 85%" src="02-supervised-learning/images/svm_c_gamma.png" />
+]</p>
+<p>This plot tries to illustrate these two parameters in the
+RBF SVM kernel. On the vertical is C and on the horizontal
+is gamma and support vectors are marked with circles. So the
+simplest model is basically the one with the smallest gamma
+and smallest C. Basically, all data points are support
+vectors, everything gets averaged and have a very broad
+kernel. Now, if I increase C, I overfit the data more, each
+data point can have more influence. And so only the data
+points that are really close to the boundary have influence
+now. If you increase gamma, the area of influence of each
+data point sort of shrinks. So here from it being basically
+linear or having this very little curvature if you increase
+gamma, it gets more and more curvature. And in the end, if
+you make gamma very large, each data point basically has a
+small sort of isolated island of its class around it giving
+a very complicated decision boundary. So here, for example,
+these clearly overfit the training data and so this is
+probably too large gamma. There’s sort of a tradeoff between
+the two. Usually, they’re multiple combinations of C and
+gamma that will give you similarly good results.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_digits</span>
+<span class="n">digits</span> <span class="o">=</span> <span class="n">load_digits</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>.center[
+<img alt=":scale 65%" src="02-supervised-learning/images/digits_images.png" />
+]</p>
+<p>Looking at the digit dataset. Let’s say we want to learn
+kernel support vector machine on this dataset. So set the
+two important parameters to tune is C and gamma.</p>
+</div>
+<div class="section" id="scaling-and-default-params">
+<h2>Scaling and Default Params<a class="headerlink" href="#scaling-and-default-params" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>gamma : {‘scale’, ‘auto’} or float, optional (default=’scale’)
+  Kernel coefficient for &#39;rbf&#39;, &#39;poly&#39; and &#39;sigmoid&#39;.
+  if gamma=&#39;scale&#39; (default) is passed then it uses 1 / (n_features * X.var())
+  as value of gamma
+  if ‘auto’, uses 1 / n_features.
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">SVC</span><span class="p">(</span><span class="n">gamma</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">),</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;scale&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">SVC</span><span class="p">(</span><span class="n">gamma</span><span class="o">=</span><span class="s1">&#39;scale&#39;</span><span class="p">),</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)))</span>
+<span class="n">scaled_svc</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">SVC</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pipe&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">scaled_svc</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">auto</span> <span class="mf">0.563</span>
+<span class="n">scale</span> <span class="mf">0.987</span>
+<span class="n">pipe</span> <span class="mf">0.977</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gamma</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">X_train</span><span class="o">.</span><span class="n">var</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">SVC</span><span class="p">(</span><span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">),</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.987</span>
+</pre></div>
+</div>
+<p>]</p>
+<p>Gamma by default in scikit-learn is one over the number of
+features. This really makes sense only if you scale the data
+to have a standard deviation of one, then this is a pretty
+good default. Here if I compare cross-validation, kernel SVM
+with default parameters on this dataset versus kernel SVM
+with the scaled data, the performance is either 57% or 97%.
+There’s a giant jump between the scaled data and the upscale
+data. Actually here in this data set, all the pixels are on
+the same scale more or less, so they all are between 0 and
+16. So if we change the gamma to be to take into account the
+standard deviation of the data set, I actually get pretty
+good results. This is actually just a very peculiar dataset
+because I basically I know the scale should be from zero to
+one when it’s from 0 to 16. So scaling by the overall
+standard deviation gives me good results here. But in
+principle day, I want to convey is that gamma scales with
+the standard deviation of the features. Usually, each of the
+features has a different standard deviation or a different
+scale and so you want to use a centered scale to estimate
+the scale for each feature and bring it to one. And then the
+default gamma, which is one over number of features will be
+sort of reasonable.</p>
+</div>
+<div class="section" id="grid-searching-parameters">
+<h2>Grid-Searching Parameters<a class="headerlink" href="#grid-searching-parameters" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;svc__C&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+              <span class="s1">&#39;svc__gamma&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="o">/</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span>
+<span class="n">param_grid</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>{&#39;svc_C&#39;: array([0.001, 0.01, 0.1, 1., 10.,  100.]),
+ &#39;svc_gamma&#39;: array([ 0.000001, 0.000007, 0.000074,
+                      0.000742, 0.007424, 0.074239])}
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">scaled_svc</span><span class="p">,</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To tune them, I use the scaled SVM and both C and gamma
+usually learn auto log space, so here I have a log space for
+C and gamma. I actually divide this by the number of
+features, I could also just change the range, but as I said,
+this is sort of something that scales with the number of
+features and standard deviation. Then I can just do my
+standard grid searchCV with the two-dimensional parameter
+grid.</p>
+</div>
+<div class="section" id="id1">
+<h2>Grid-Searching Parameters<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 95%" src="02-supervised-learning/images/svm_c_gamma_heatmap.png" />
+]</p>
+<p>Usually, there’s a strong interaction between these two
+parameters. And the SVM is pretty sensitive to the setting
+of these two parameters. So you can see here if you look at
+the scales, balance 10 classification dataset. So chance
+performance is 10% accuracy. And so if I set the parameters
+wrong, I get chance accuracy. If I set them right, I get the
+high 90s. So that’s the difference between setting gamma to
+0.007 and  0.000007 or between setting c to 1 and c to
+0.0001.</p>
+<p>So usually they’re some correlation between the C and gamma
+values which are good. So you can decrease or increase C if
+you decrease gamma and the other way around.</p>
+<p>So usually I like to look at grid search results as a 2d
+heat map for this and if your optimum is somewhere on the
+boundary, you want to extend your search space. For example,
+you can see that I wouldn’t need to search this very small
+Cs, they don’t work at all, but maybe something better might
+be over here. A C of 100 is already like a very big C so if
+I want to use even less regularization, learning the model
+will be even slower.</p>
+<p>class: center, middle</p>
+</div>
+<div class="section" id="questions">
+<h2>Questions ?<a class="headerlink" href="#questions" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -418,6 +1009,7 @@
 </div>
 </div>
 </div>
+</div>
 <div class="section" id="exercise">
 <h1>Exercise<a class="headerlink" href="#exercise" title="Permalink to this headline">¶</a></h1>
 <p>Load the diabetes dataset using <code class="docutils literal notranslate"><span class="pre">sklearn.datasets.load_diabetes</span></code>. Apply <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code>, <code class="docutils literal notranslate"><span class="pre">Ridge</span></code> and <code class="docutils literal notranslate"><span class="pre">Lasso</span></code> and visualize the coefficients. Try polynomial features.</p>
@@ -439,7 +1031,7 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="06-linear-models-regression.html" title="previous page">Linear Models for Regression</a>
+    <a class='left-prev' id="prev-link" href="06-linear-models-classification.html" title="previous page">Linear Models for Classification</a>
     <a class='right-next' id="next-link" href="08-decision-trees.html" title="next page">Decision Trees</a>
 
     </div>

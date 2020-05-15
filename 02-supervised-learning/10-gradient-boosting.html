@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Gradient Boosting &#8212; Applied Machine Learning in Python</title>
+    <title>(Stochastic) Gradient Descent, Gradient Boosting &#8212; Applied Machine Learning in Python</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -27,6 +27,7 @@
     <script src="../_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Neural Networks" href="11-neural-networks.html" />
@@ -78,10 +79,10 @@
     <a href="index.html">4. Supervised Learning Algorithms</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="05-linear-models-classification.html">1. Linear Models for Classification</a>
+      <a href="05-linear-models-regression.html">1. Linear Models for Regression</a>
     </li>
     <li class="">
-      <a href="06-linear-models-regression.html">2. Linear Models for Regression</a>
+      <a href="06-linear-models-classification.html">2. Linear Models for Classification</a>
     </li>
     <li class="">
       <a href="07-support-vector-machines.html">3. Support Vector Machines</a>
@@ -93,7 +94,7 @@
       <a href="09-random-forests.html">5. Random Forests</a>
     </li>
     <li class="active">
-      <a href="">6. Gradient Boosting</a>
+      <a href="">6. (Stochastic) Gradient Descent, Gradient Boosting</a>
     </li>
     <li class="">
       <a href="11-neural-networks.html">7. Neural Networks</a>
@@ -172,9 +173,184 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#reminder-gradient-descent" class="nav-link">Reminder: Gradient Descent</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id1" class="nav-link">Reminder: Gradient Descent</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#pick-a-learning-rate" class="nav-link">Pick a learning rate</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#stochastic-gradient-descent" class="nav-link">(Stochastic) Gradient Descent</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#sgdclassifier-sgdregressor-and-partial-fit" class="nav-link">SGDClassifier, SGDRegressor and partial_fit</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#sgd-and-partial-fit" class="nav-link">SGD and partial_fit</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#boosting" class="nav-link">Boosting</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#gradient-boosting" class="nav-link">Gradient Boosting</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#gradient-boosting-algorithm" class="nav-link">Gradient Boosting Algorithm</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id2" class="nav-link">Gradient Boosting Algorithm</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#gradient-boosting-is-gradient-descent" class="nav-link">Gradient Boosting is Gradient Descent</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#linear-regression" class="nav-link">Linear regression</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#gradient-descent-w-j-1-w-j-gamma-frac-partial-l-mathbf-x-i-y-i-mathbf-w-b-partial-mathbf-w" class="nav-link">gradient descent:
+$w_{j+1} = w_j - \gamma \frac{\partial L(\mathbf{x}_i, y_i, \mathbf{w}, b)}{\partial\mathbf{w}}$
+]</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#id3" class="nav-link">Gradient Boosting</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#gradient-boosting-for-classification" class="nav-link">Gradient boosting for classification</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#multiclass-gradient-boosting" class="nav-link">Multiclass Gradient Boosting</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#early-stopping" class="nav-link">Early stopping</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#tuning-of-gradient-boosting" class="nav-link">Tuning of Gradient Boosting</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#improvements" class="nav-link">Improvements:</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#extreme-gradient-boosting" class="nav-link">“extreme” gradient boosting</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#speeding-up-tree-building-via-binning" class="nav-link">Speeding up tree-building via binning</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#split-finding-is-slow" class="nav-link">Split finding is slow</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#binning-features" class="nav-link">Binning features</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id4" class="nav-link">Binning features</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#original" class="nav-link">Original</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#binned" class="nav-link">Binned</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#binned-split-finding-is-fast" class="nav-link">Binned split finding is fast</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#left-column-scale-100" class="nav-link">.left-column[
+
+]</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#a-better-split-criterion" class="nav-link">A better split criterion</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#aggressive-sub-sampling" class="nav-link">Aggressive sub-sampling</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#histgradientboostingclassifier" class="nav-link">HistGradientBoostingClassifier</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#gradientboostingclassifier" class="nav-link">GradientBoostingClassifier</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#id5" class="nav-link">HistGradientBoostingClassifier</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#xgboost" class="nav-link">XGBoost</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#lightgbm" class="nav-link">LightGBM</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#catboost" class="nav-link">CatBoost</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#gradient-boosting-advantages" class="nav-link">Gradient Boosting Advantages</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#concluding-tree-based-models" class="nav-link">Concluding tree-based models</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#when-to-use-tree-based-models" class="nav-link">When to use tree-based models</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#exercise" class="nav-link">Exercise</a>
+        </li>
     
     </ul>
 </nav>
@@ -198,8 +374,741 @@
 </div>
 </div>
 </div>
+<p>class: center, middle</p>
+<div class="section" id="stochastic-gradient-descent-gradient-boosting">
+<h1>(Stochastic) Gradient Descent, Gradient Boosting<a class="headerlink" href="#stochastic-gradient-descent-gradient-boosting" title="Permalink to this headline">¶</a></h1>
+<p>02/19/20</p>
+<p>Andreas C. Müller</p>
+<p>We’ll continue tree-based models, talking about boosting.
+Finally, a technique called calibration that looks somewhat similar to
+ensembles but has the goal of obtaining good probability
+estimates from any classifier.</p>
+<p>FIXME regularization parameter mentioned before introduced
+FIXME explain regularization better
+FIXME parameter tuning example
+FIXME symmetric trees
+FIXME actually write out gradients maybe</p>
+<p>FIXME: add example of calibrated and
+inaccurate vs accurate but not calibrated! (always saying 50% is calibrated)
+FIXME: brier score decomposition
+FIXME calibration scores
+FIXME maybe saying “sort” before binning is confusing?
+FIXME move calibration after metrics?</p>
+<p>Partial dependence plot. how is that different from feature
+importances. calibration curve plotting: bins are different
+for hist and calibration curve? slide 27: maybe put
+probabilities on x axis? calibration curve: blue histogram
+is number of total points, y axis not labeled</p>
+<div class="section" id="reminder-gradient-descent">
+<h2>Reminder: Gradient Descent<a class="headerlink" href="#reminder-gradient-descent" title="Permalink to this headline">¶</a></h2>
+<p>.right-column[<img alt=":scale 100%" src="02-supervised-learning/images/gradient_3d.png" />]</p>
+<p>Want: <span class="math notranslate nohighlight">\($\arg \min_w F(w)\)</span>$</p>
+<p>Initialize <span class="math notranslate nohighlight">\(w_0\)</span></p>
+<div class="math notranslate nohighlight">
+\[w^{(i+1)} \leftarrow w^{(i)} - \eta_i\frac{d}{dw}F(w^{(i)})\]</div>
+<p>Converges to local minimum</p>
+<p>First, let’s talk about Gradient Descent. So we have some
+function we want to minimize here the function is Lasso
+training data set plus the regularizer. F is the objective
+of the model and I want to find the best parameter setting
+w. The way gradient descent works are that we initialize it
+with some W and then we compute a gradient then we walk down
+the gradient by a small step. This converges to a local
+minimum in the function. For linear models, there’s only one
+global minimum. Basically, any optimization algorithm you
+can think of will always converge to the same solution, they
+only converge at different speeds.</p>
+</div>
+<div class="section" id="id1">
+<h2>Reminder: Gradient Descent<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 40%" src="02-supervised-learning/images/gradient_2d.png" />
+]</p>
+<div class="math notranslate nohighlight">
+\[w^{(i+1)} \leftarrow w^{(i)} - \eta_i\frac{d}{dw}F(w^{(i)})\]</div>
+</div>
+<div class="section" id="pick-a-learning-rate">
+<h2>Pick a learning rate<a class="headerlink" href="#pick-a-learning-rate" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 90%" src="02-supervised-learning/images/gradient_learning_rates.png" />
+]</p>
+<div class="math notranslate nohighlight">
+\[w^{(i+1)} \leftarrow w^{(i)} - \eta_i\frac{d}{dw}F(w^{(i)})\]</div>
+<p>A little bit of an issue here is picking a learning rate
+which is how big a step are you making. If you make too
+small a step, then you’re going to get stuck wherever you’re
+started. If you pick the right step size, you can make very
+quick progress. If you pick too a big step size, you’re
+going to be missing the target and just jumping around the
+target. This is a very simple optimizer. But it’s not great
+and it’s not very fast because you need to compute gradients
+over the whole dataset. What you can do instead is you can
+approximate a gradient by looking only a single data point
+at a time.</p>
+</div>
+<div class="section" id="stochastic-gradient-descent">
+<h2>(Stochastic) Gradient Descent<a class="headerlink" href="#stochastic-gradient-descent" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[
+Logistic Regression Objective:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$$F(w,</span> <span class="pre">b)</span> <span class="pre">=</span> <span class="pre">-C</span> <span class="pre">\sum_{i=1}^n\log(\exp(-y_iw^T</span> <span class="pre">\textbf{x}_ii</span> <span class="pre">-b)</span> <span class="pre">+1</span> <span class="pre">)</span> <span class="pre">+</span> <span class="pre">||w||_2^2$$</span></code></p>
+<p>Gradient:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$$\frac{d}{dw}F(w)</span> <span class="pre">=</span> <span class="pre">\frac{d}{dw}</span> <span class="pre">-C</span> <span class="pre">\sum_{i=1}^n\log(\exp(-y_iw^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">-</span> <span class="pre">b)</span> <span class="pre">+1</span> <span class="pre">)</span> <span class="pre">+</span> <span class="pre">||w||_2^2$$</span></code></p>
+<p>Stochastic Gradient: Pick <span class="math notranslate nohighlight">\(x_i\)</span> randomly, then</p>
+<p><code class="docutils literal notranslate"><span class="pre">$$\frac{d}{dw}F(w)</span> <span class="pre">\approx</span> <span class="pre">\frac{d}{dw}</span> <span class="pre">-C</span> <span class="pre">\log(\exp(-y_iw^T</span> <span class="pre">\textbf{x}_ii</span> <span class="pre">-b)</span> <span class="pre">+1</span> <span class="pre">)</span> <span class="pre">+</span> <span class="pre">\frac{1}{n}||w||_2^2$$</span></code></p>
+<p>In practice: just iterate over i.
+]</p>
+<p>Looking at the Logistic Regression, the functional Logistic
+Regression we want to minimize is the log loss plus the
+regularizer. Instead of looking at the gradient for the
+whole sum here, we can get a stochastic approximation of the
+gradient by looking at only one of the sums at a time. In
+practice, we iterate over the dataset and go one by one
+through all the data points. We make sure we shuffle them
+before. Then we do small gradient steps. This is a very bad
+optimizer compared to the SAG but it can go very quickly
+over a lot of data.</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="sgdclassifier-sgdregressor-and-partial-fit">
+<h2>SGDClassifier, SGDRegressor and partial_fit<a class="headerlink" href="#sgdclassifier-sgdregressor-and-partial-fit" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">## Run until convergence</span>
+<span class="n">sgd</span> <span class="o">=</span> <span class="n">SGDClassifier</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1">## Run one iteration over a batched dataset</span>
+<span class="n">sgd</span> <span class="o">=</span> <span class="n">SGDClassifier</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">X_batch</span><span class="p">,</span> <span class="n">y_batch</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">:</span>
+    <span class="n">sgd</span><span class="o">.</span><span class="n">partial_fit</span><span class="p">(</span><span class="n">X_batch</span><span class="p">,</span> <span class="n">y_batch</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+
+<span class="c1">## Run several iterations over a batched datasets</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">X_batch</span><span class="p">,</span> <span class="n">y_batch</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">:</span>
+        <span class="n">sgd</span><span class="o">.</span><span class="n">partial_fit</span><span class="p">(</span><span class="n">X_batch</span><span class="p">,</span> <span class="n">y_batch</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Fit works just like everywhere else. Partial fit you can
+call it with different batches of data and this will keep
+fitting the model. One thing that you should keep in mind
+for the classifier is that you need to give it the classes
+at the beginning because it doesn’t know how many classes
+there are and at the first time, not all the classes might
+be present in the data you give it to. So you need to
+specify how many classes there are. Partial fit doesn’t do
+loops over a dataset. So if you want to use a partial fit,
+and you want to loop over dataset multiple times, you have
+to set the loop yourself. If you loop over a dataset, if you
+do more of gradient descent, then you get better results.
+This code is the same code for all combinations of losses
+and regularizers because it’s very simple to write this
+down.</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="sgd-and-partial-fit">
+<h2>SGD and partial_fit<a class="headerlink" href="#sgd-and-partial-fit" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>SGDClassifier(), SGDRegressor() fast on very large datasets</p></li>
+<li><p>Tuning learning rate and schedule can be tricky.</p></li>
+<li><p>partial_fit allows working with out-of-memory data!</p></li>
+</ul>
+<p>This is implemented in SGD classifier, and SGD regressor and
+you can use it in very large data sets. It’s a little bit
+tricky to tune the learning rate and so you can either pick
+as constant learning rate, or you can pick an exponentially
+decreasing learning rate. There’s one that’s called optimal.
+If you scale your data to standard division 1, then the
+optimal one will often work well but it’s not actually
+optimal on any sense. This will allow you to give you
+something quickly on a big data set. There’s also another
+thing you can do, there’s a method called partial_fit that
+these models have which allows you to iteratively fit feed
+it data. If you have like streaming data coming in and you
+having infinite data, you can just keep giving it more and
+more data called partial_fit. This method will update the
+model. In scikit-learn, if you call fit multiple times it
+will always forget whatever it saw before. Each fit resets
+the model while partial fit will remember what it saw before
+and keeps fitting the model. SGDClassifier() and
+SGDRegressor both have a whole bunch of different loss
+function penalties so they both can do elastic net penalty
+and the classifier can do logistic loss and hinge loss and
+squared hinge loss and the regressor can do Huber loss and
+squared error and absolute error. So there are many, many
+different choices for different loss functions.</p>
+</div>
+<div class="section" id="boosting">
+<h2>Boosting<a class="headerlink" href="#boosting" title="Permalink to this headline">¶</a></h2>
+<p>.larger[
+<span class="math notranslate nohighlight">\($f(x) = \sum_k g_k(x)\)</span>$</p>
+<ul class="simple">
+<li><p>Family of algorithms to create “strong” learner <span class="math notranslate nohighlight">\(f\)</span> from “weak” learners <span class="math notranslate nohighlight">\(g_k\)</span>.</p></li>
+<li><p>AdaBoost, GentleBoost, LogitBoost, …
+]</p></li>
+<li><p>Trees or stumps work best</p></li>
+<li><p>Gradient Boosting often the best of the bunch</p></li>
+<li><p>Many specialized algorithms (ranking etc)</p></li>
+</ul>
+<p>This is an instance of a more general family of models,
+called boosting models, which all iteratively try to improve
+a model built up from weak learners. Gradient boosting is
+this particular technique where we are trying to fit the
+residuals, and it’s been found to work very well in
+practice, in particular if you’re using shallow trees as the
+weak learners. In principle, you could use any model as a
+weak learner, but trees just work really well.</p>
+<p>class: centre,middle</p>
+</div>
 <div class="section" id="gradient-boosting">
-<h1>Gradient Boosting<a class="headerlink" href="#gradient-boosting" title="Permalink to this headline">¶</a></h1>
+<h2>Gradient Boosting<a class="headerlink" href="#gradient-boosting" title="Permalink to this headline">¶</a></h2>
+<p>Gradient boosting is one of the most successfull supervised
+machine learning methods in practice. It’s often used in
+kaggle to win competition, it’s used for credit scoring,
+it’s one of the standard tools of the trade. It’s one of the
+best of-the-shelf models A standard implementation that
+people use is XGBoost, but there’s also an implementation in
+scikit-learn, and we’ll talk about both of them.</p>
+<p>Last time we talked about Random forests, which builds many
+trees independently, each randomized in a different way, and
+then averages their predictions. Gradient boosting on the
+other hand builds trees one by one in a sequential manner,
+with each tree requiring the results of previous trees.
+Often, Gradient boosting is done with very small trees, or
+even decision stumps, which is trees of depth one, so a
+single split.</p>
+</div>
+<div class="section" id="gradient-boosting-algorithm">
+<h2>Gradient Boosting Algorithm<a class="headerlink" href="#gradient-boosting-algorithm" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{1}(x)</span> <span class="pre">\approx</span> <span class="pre">y</span>&#160; <span class="pre">$$</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{2}(x)</span> <span class="pre">\approx</span> <span class="pre">y</span> <span class="pre">-</span> <span class="pre">f_{1}(x)</span> <span class="pre">$$</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{3}(x)</span> <span class="pre">\approx</span> <span class="pre">y</span> <span class="pre">-</span> <span class="pre">f_{1}(x)</span> <span class="pre">-</span> <span class="pre">f_{2}(x)$$</span></code></p>
+<p>–</p>
+<p><span class="math notranslate nohighlight">\(y \approx\)</span> <img alt=":scale 22.5%" src="02-supervised-learning/images/grad_boost_term_1.png" /> + <img alt=":scale 22.5%" src="02-supervised-learning/images/grad_boost_term_2.png" /> + <img alt=":scale 20%" src="02-supervised-learning/images/grad_boost_term_3.png" /> + …</p>
+<p>Let’s look at the regression case first. We start by
+building a single tree f1 to try to predict the output y.
+But we strongly restrict f1, so it will be rather bad at
+predicting y. Next, we’ll look at the residual of this first
+model, so y - f1(x). We now train a new model f2 to try and
+predict this residual, in other words to correct the
+mistakes made by f1. Again, this will be a very simple
+model, so it will still not be able to fix all errors. Then,
+we look at the residual of both of the models together, so y</p>
+<ul class="simple">
+<li><p>f1(x) - f2(x), so the mistakes that could not be fixed by
+f2, and we build f3 to fix that, and so on. This is natural
+for regression. For classification this is not as clear. For
+binary classification you use log-loss, or rather you apply
+the logistic function to get a binary prediction, for
+multi-class you can use 1 vs rest.</p></li>
+</ul>
+<p>So we’re sequentially building up a model using what’s
+called “weak learners”, small trees, and create a more
+powerful composite model.</p>
+</div>
+<div class="section" id="id2">
+<h2>Gradient Boosting Algorithm<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{1}(x)</span> <span class="pre">\approx</span> <span class="pre">y</span>&#160; <span class="pre">$$</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{2}(x)</span> <span class="pre">\approx</span> <span class="pre">y</span> <span class="pre">-</span> <span class="pre">\gamma</span> <span class="pre">f_{1}(x)</span> <span class="pre">$$</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{3}(x)</span> <span class="pre">\approx</span> <span class="pre">y</span> <span class="pre">-</span> <span class="pre">\gamma</span> <span class="pre">f_{1}(x)</span> <span class="pre">-</span> <span class="pre">\gamma</span> <span class="pre">f_{2}(x)$$</span></code></p>
+<p><span class="math notranslate nohighlight">\(y \approx \gamma\)</span> <img alt=":scale 22.5%" src="02-supervised-learning/images/grad_boost_term_1.png" /> + <span class="math notranslate nohighlight">\(\gamma\)</span> <img alt=":scale 22.5%" src="02-supervised-learning/images/grad_boost_term_2.png" /> + <span class="math notranslate nohighlight">\(\gamma\)</span> <img alt=":scale 20%" src="02-supervised-learning/images/grad_boost_term_3.png" /> + …</p>
+<p>Learning rate <span class="math notranslate nohighlight">\(\gamma, i.e. 0.1\)</span></p>
+<ul class="simple">
+<li><p>Iteratively add regression trees to model</p></li>
+<li><p>Use log loss for classification</p></li>
+<li><p>Discount update by learning rate</p></li>
+</ul>
+<p>FIXME plot for regression models
+Come back to this</p>
+<p>class: compact</p>
+</div>
+<div class="section" id="gradient-boosting-is-gradient-descent">
+<h2>Gradient Boosting is Gradient Descent<a class="headerlink" href="#gradient-boosting-is-gradient-descent" title="Permalink to this headline">¶</a></h2>
+<p>.left-column[</p>
+<div class="section" id="linear-regression">
+<h3>Linear regression<a class="headerlink" href="#linear-regression" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[ L(\mathbf{x}_i, y_i, \mathbf{w}, b) = \sum_i(y_i - \hat{y}_i)^2 \]</div>
+<div class="math notranslate nohighlight">
+\[ = \sum_i(y_i - w^T \mathbf{x}_i - b)^2 \]</div>
+<p>optimize:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}^p,</span> <span class="pre">b\in\mathbb{R}}</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">(y_i</span> <span class="pre">-</span> <span class="pre">w^T\mathbf{x}_i</span> <span class="pre">-</span> <span class="pre">b)^2$$</span></code></p>
+</div>
+</div>
+<div class="section" id="gradient-descent-w-j-1-w-j-gamma-frac-partial-l-mathbf-x-i-y-i-mathbf-w-b-partial-mathbf-w">
+<h2>gradient descent:
+<span class="math notranslate nohighlight">\($w_{j+1} = w_j - \gamma \frac{\partial L(\mathbf{x}_i, y_i, \mathbf{w}, b)}{\partial\mathbf{w}}\)</span>$
+]<a class="headerlink" href="#gradient-descent-w-j-1-w-j-gamma-frac-partial-l-mathbf-x-i-y-i-mathbf-w-b-partial-mathbf-w" title="Permalink to this headline">¶</a></h2>
+<p>.right-column[</p>
+<div class="section" id="id3">
+<h3>Gradient Boosting<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[ L(y_i, \hat{y}_i) = \sum_i(y_i - \hat{y}_i)^2 \]</div>
+<p>optimize:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$$\min_{\hat{y}\in</span> <span class="pre">\mathbb{R}^n}</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">(y_i</span> <span class="pre">-</span> <span class="pre">\hat{y_i})^2$$</span></code></p>
+<p>gradient descent:
+<span class="math notranslate nohighlight">\($\hat{y}_{j+1} = \hat{y}_j - \gamma \frac{\partial L(y_i, \hat{y}_i)}{\partial\hat{y}}\)</span>$
+]</p>
+<p>#GradientBoostingRegressor</p>
+<p>.center[
+<img alt=":scale 50%" src="02-supervised-learning/images/grad_boost_regression_steps.png" />
+]</p>
+<p>Here’s an illustration for doing this for regression. This
+is a 1D regression dataset for illustration purposes here to
+form features on the x-axis, the prediction is on the
+y-axis.</p>
+<p>In the first step, I’m just fitting my tree to the data. I
+use a simple tree of depth 3. The depth 3 tree is not able
+to completely model the data and so the orange is the tree
+that was fit. After this first step, I look at the total
+predictions. So this is just gamma times the predictions
+made by the first tree. So you see everything is sort of
+squashed together. This is the effect of gamma. The blue
+points here in this next panel is this data minus the minus
+the predictions from step one, and so this is the residual.
+It still looks pretty much the same, because we took only a
+small step. Then I fit another tree to this residuals again
+of depth three. Then here’s the total prediction, which is
+gamma times the first tree plus gamma times the second tree,
+followed against the original data. The orange has more
+steps now because it’s a combination of two trees.</p>
+<p>As I continue the same procedure until step five, you can
+see that residual gets much smaller and it has learned most
+of the variations in the data. A total linear combination of
+all the trees and learning looks like this. And if I keep
+doing this, then at some point, residuals will become very
+small. And the total prediction will fit the data better and
+better.</p>
+<p>The question is can I extrapolate?</p>
+<p>The answer is no.</p>
+<p>The question is how is this different?</p>
+<p>And it’s quite different. It’s kind of hard for me to answer
+his question.</p>
+<p>A) The combination of stumps is different than building a
+deeper tree because you always apply all the splits to the
+whole dataset. Whereas if you make a tree deeper, you will
+have different splits on the deeper nodes. If you have
+already like 10 nodes, and you want to grow one more level,
+each of these parts of the data will have a different split.
+Whereas if I add another stump it will be on a global level.
+In decision trees, decisions are very hard. And here you
+don’t trust any hard decisions. So you only go a little bit
+in each direction.</p>
+<p>B) This works way better.</p>
+<p>So this was for regression and because it’s easier to
+visualize, you can do the same thing for classification.</p>
+<p>Basically, what gradient boosting for classification does is
+you’re letting regression trees to learn decision function.
+So basically, you’re doing regression again, but you’re
+doing logistic regression. Instead of using a linear model
+for logistic regression, we’re now using this linear
+combination of trees. So in other words, what we’re doing is
+we’re applying a log loss, and we’re trying to find the
+regression function that has a small log loss. This f is the
+decision function that we’re doing. And so inside a gradient
+boosting classifier, you’re not actually learning
+classification trees, you’re learning regression trees,
+which are trying to predict the probability, which is quite
+different.</p>
+<p>The question is, how they’re different?</p>
+<p>The same is true for f1. If I fit f1, exactly to y this
+becomes 0. One reason is the gamma, which means I only go a
+small step. But even if I set gamma equal to one, the point
+is that I restricted my f1 to not completely fit the data.
+I’m not trying to completely overfit the data, I’m trying to
+use a simple model. So if I use a tree of depth one, there
+will be a very large residual.</p>
+</div>
+</div>
+<div class="section" id="gradient-boosting-for-classification">
+<h2>Gradient boosting for classification<a class="headerlink" href="#gradient-boosting-for-classification" title="Permalink to this headline">¶</a></h2>
+<p>Logistic regression:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}\sum_{i=1}^n\log(\exp(-y_i(w^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">+</span> <span class="pre">b</span> <span class="pre">))</span> <span class="pre">+</span> <span class="pre">1)$$</span></code></p>
+<p>Gradient boosting:
+<code class="docutils literal notranslate"><span class="pre">$$\min_{y_i\in</span> <span class="pre">\mathbb{R}^n}\sum_{i=1}^n\log(\exp(-y_i</span> <span class="pre">\hat{y}_i)</span> <span class="pre">+</span> <span class="pre">1)$$</span></code></p>
+</div>
+<div class="section" id="multiclass-gradient-boosting">
+<h2>Multiclass Gradient Boosting<a class="headerlink" href="#multiclass-gradient-boosting" title="Permalink to this headline">¶</a></h2>
+<p>Multinomial logistic regression:
+<code class="docutils literal notranslate"><span class="pre">$$p(y=c|x)</span> <span class="pre">=</span> <span class="pre">\frac{e^{\textbf{w}_c^T\textbf{x}</span> <span class="pre">+</span> <span class="pre">b_i}}{\sum_{j=1}^k</span> <span class="pre">e^{\textbf{w}_j^T\textbf{x}</span> <span class="pre">+</span> <span class="pre">b_j}}$$</span></code>
+Multi-class gradient boosting:
+<code class="docutils literal notranslate"><span class="pre">$$p(y=c|x)</span> <span class="pre">=</span> <span class="pre">\frac{e^{\hat{y}^{(c)}}}{\sum_{j=1}^k</span> <span class="pre">e^{\hat{y}^{(j)}}}$$</span></code>
+One regression tree per class (per gradient step).</p>
+<p>#GradientBoostingClassifier / HistGradientBoostingClassifier</p>
+<p>.center[
+<img alt=":scale 70%" src="02-supervised-learning/images/grad_boost_depth2.png" />
+]</p>
+<p>Here’s an illustration of what this might look like for
+classification. This is basically the same thing going on.
+I’m plotting the probabilities assigned by the model.</p>
+<p>Here’s a first estimator, which makes some mistakes here and
+makes a bunch of mistake in the middle. This is the decision
+tree of depth two. Then I fit the model to the residuals
+here. To minimize the log loss of this dataset changes
+something in the middle, and so on. And you can see that as
+I add more and more estimator it fits the data better and
+better and gets more and more complex decision boundaries.</p>
+<p>Since it works like a gradient descent on log loss, it’s a
+little bit harder to visualize this for classification.</p>
+<p>White mean probability of 0.5 (which is a tie). Red means
+high probability for the red class. Blue means a high
+probability for the blue class. Here, clearly, it hasn’t fit
+the data perfectly. So I could add more and more models and
+then, in the end, it would fit the data perfectly.</p>
+<p>For multi-class, the default thing to do is One Versus Rest.</p>
+</div>
+<div class="section" id="early-stopping">
+<h2>Early stopping<a class="headerlink" href="#early-stopping" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Adding trees can lead to overfitting</p></li>
+<li><p>Stop adding trees when validation accuracy stops increasing</p></li>
+</ul>
+<p>two choices:</p>
+<ul class="simple">
+<li><p>pick number of trees and tune learning rate</p></li>
+<li><p>pick learning rate, use early stopping</p></li>
+</ul>
+<p>As I said earlier, if you add more and more trees, the
+algorithms can overfit. So instead of searching for the
+learning rate, or searching for number of trees, you can
+also do early stopping. Because this is a sequential
+algorithm that gets better and better the more trees you
+add, you can just use a validation set and stop adding trees
+once you overfit. You can do that both with scikit-learn and
+XGBoost.</p>
+<p>Basically, the idea is that you pick a large number of
+estimators and you have a separate validation set and if the
+validation set accuracy doesn’t improve or if it decreases
+for number of iterations, say five, then you just stop the
+learning. This way, you get results faster, because you
+don’t keep learning but also you possibly get a better model
+because you know the overfitting.</p>
+<p>The only downside stopping learning is that you have fewer
+data to train your model because you need to the validation
+set for early stopping. You’ll still need a separate test
+set to see how well the model actually does. You can’t use
+the same set for early stopping and for evaluation.</p>
+<p>class:spacious</p>
+</div>
+<div class="section" id="tuning-of-gradient-boosting">
+<h2>Tuning of Gradient Boosting<a class="headerlink" href="#tuning-of-gradient-boosting" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Typically strong pruning via max_depth</p></li>
+<li><p>Tune max_features</p></li>
+<li><p>Tune column subsampling, row subsampling</p></li>
+<li><p>Regularization</p></li>
+<li><p>Pick learning rate and do early stopping</p></li>
+<li><p>Or Pick n_estimators, tune learning rate (if not early stopping)</p></li>
+</ul>
+<p>There are several things you can tune about the gradient
+boosting. A common approach is to pick the number of
+estimators that you have time for. So runtime is obviously
+linear than number of estimators because you need to build
+each tree one by one. Each tree is built with the same
+parameters. And then you can tune the learning rate to see
+how strongly you want to fit the data.</p>
+<p>You can also tune something like max features if you want to
+add more randomness, but that’s actually not very commonly
+used. You can also subsample the data if you want faster
+training. And typically there’s a maximum depth.
+Traditionally, it was like maximum depth of one, two or
+three, though in kaggle people are doing like 8 to 10 or
+something. But typically, the depth is much, much smaller
+than for random forests. This means the model will be small
+in memory, and also will be faster to predict since you have
+less deep trees to traverse.</p>
+<p>Before we go into implementation I want to talk a little bit
+about analyzing the models. So again, because it’s a
+tree-based model, the prediction is a linear combination of
+trees, you can look at feature importance like the same way
+we did for random forest and trees.</p>
+<p>class: middle</p>
+</div>
+<div class="section" id="improvements">
+<h2>Improvements:<a class="headerlink" href="#improvements" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="extreme-gradient-boosting">
+<h2>“extreme” gradient boosting<a class="headerlink" href="#extreme-gradient-boosting" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://dmlc.cs.washington.edu/data/pdf/XGBoostArxiv.pdf">XGBoost: A Scalable Tree Boosting System, 2016</a></p>
+<p>class: center, middle</p>
+</div>
+<div class="section" id="speeding-up-tree-building-via-binning">
+<h2>Speeding up tree-building via binning<a class="headerlink" href="#speeding-up-tree-building-via-binning" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="split-finding-is-slow">
+<h2>Split finding is slow<a class="headerlink" href="#split-finding-is-slow" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">threshold</span> <span class="ow">in</span> <span class="n">thresholds</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="n">gain</span> <span class="o">=</span> <span class="n">compute_gain</span><span class="p">(</span><span class="n">feature</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">gain</span> <span class="o">&gt;</span> <span class="n">best_gain</span><span class="p">:</span>
+            <span class="n">best_split</span> <span class="o">=</span> <span class="p">(</span><span class="n">feature</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Thresholds: all unique values of feature.</p></li>
+<li><p>Scanning thresholds = sorting: O(n log n)</p></li>
+</ul>
+</div>
+<div class="section" id="binning-features">
+<h2>Binning features<a class="headerlink" href="#binning-features" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 100%" src="02-supervised-learning/images/binning_quantiles.png" /></p>
+</div>
+<div class="section" id="id4">
+<h2>Binning features<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>.left-column[</p>
+<div class="section" id="original">
+<h3>Original<a class="headerlink" href="#original" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="mf">5.</span> <span class="p">,</span> <span class="mf">2.</span> <span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">1.</span> <span class="p">],</span>
+ <span class="p">[</span><span class="mf">4.9</span><span class="p">,</span> <span class="mf">3.</span> <span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span>
+ <span class="p">[</span><span class="mf">4.4</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span>
+ <span class="p">[</span><span class="mf">5.</span> <span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mf">3.3</span><span class="p">,</span> <span class="mf">1.</span> <span class="p">],</span>
+ <span class="p">[</span><span class="mf">4.9</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">],</span>
+ <span class="p">[</span><span class="mf">6.3</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">5.</span> <span class="p">,</span> <span class="mf">1.9</span><span class="p">],</span>
+ <span class="p">[</span><span class="mf">6.3</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mf">4.4</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">],</span>
+ <span class="p">[</span><span class="mf">5.</span> <span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span>
+ <span class="p">[</span><span class="mf">6.1</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">,</span> <span class="mf">4.7</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+ <span class="p">[</span><span class="mf">5.</span> <span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>]
+.right-column[</p>
+</div>
+<div class="section" id="binned">
+<h3>Binned<a class="headerlink" href="#binned" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>]</p>
+</div>
+</div>
+<div class="section" id="binned-split-finding-is-fast">
+<h2>Binned split finding is fast<a class="headerlink" href="#binned-split-finding-is-fast" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="left-column-scale-100">
+<h2>.left-column[
+<img alt=":scale 100%" src="02-supervised-learning/images/xgboost-exact.png" />
+]<a class="headerlink" href="#left-column-scale-100" title="Permalink to this headline">¶</a></h2>
+<p>.right-column[
+<img alt=":scale 100%" src="02-supervised-learning/images/xgboost-binning.png" />
+]</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="a-better-split-criterion">
+<h2>A better split criterion<a class="headerlink" href="#a-better-split-criterion" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Include second order (hessian) and regularizer
+<img alt=":scale 100%" src="02-supervised-learning/images/xgboost-criterion.png" /></p></li>
+</ul>
+</div>
+<div class="section" id="aggressive-sub-sampling">
+<h2>Aggressive sub-sampling<a class="headerlink" href="#aggressive-sub-sampling" title="Permalink to this headline">¶</a></h2>
+<p>.padding-top[
+According to user feedback, using column sub-sampling prevents over-fitting even more so than the traditional row sub-sampling. (XGBoost: A Scalable Tree Boosting System, 2016)
+]</p>
+</div>
+<div class="section" id="histgradientboostingclassifier">
+<h2>HistGradientBoostingClassifier<a class="headerlink" href="#histgradientboostingclassifier" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 100%" src="02-supervised-learning/images/hist_gradient_boosting.png" /></p>
+<p>.left-column[</p>
+<div class="section" id="gradientboostingclassifier">
+<h3>GradientBoostingClassifier<a class="headerlink" href="#gradientboostingclassifier" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>no binning</p></li>
+<li><p>single core</p></li>
+<li><p>sparse data support
+]</p></li>
+</ul>
+<p>.right-column[</p>
+</div>
+<div class="section" id="id5">
+<h3>HistGradientBoostingClassifier<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>binning</p></li>
+<li><p>multicore</p></li>
+<li><p>no sparse data support</p></li>
+<li><p>missing value support</p></li>
+<li><p>soon: monotonicity support</p></li>
+<li><p>soonish: native categorical variables
+]</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="xgboost">
+<h2>XGBoost<a class="headerlink" href="#xgboost" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">-c</span> <span class="pre">conda-forge</span> <span class="pre">xgboost</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">xgboost</span> <span class="kn">import</span> <span class="n">XGBClassifier</span>
+<span class="n">xgb</span> <span class="o">=</span> <span class="n">XGBClassifier</span><span class="p">()</span>
+<span class="n">xgb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">xgb</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>supports missing values</p></li>
+<li><p>GPU training</p></li>
+<li><p>networked parallel training</p></li>
+<li><p>monotonicity constraints</p></li>
+<li><p>supports sparse data</p></li>
+</ul>
+<p>In terms of implementation, there’s a couple of
+implementation methods. Scikit-learn has gradient boosting
+classifier and gradient boosting regressor. Unfortunately,
+they are rather slow.</p>
+<p>So one of the most commonly used packages is XGBoost, which
+you can install from conda forge for example. It’s
+completely scikit-learn compatible. So you can import
+XGBClassifier if you want you can use it with grid search or
+with pipelines.</p>
+<p>The cool thing is its fast. It supports missing values so
+you don’t need to do an imputation strategy, you can put
+them directly into XGBoost. And it also supports multi-core.</p>
+<p>The gradient boosting in scikit-learn is just sequential on
+a single core which on most of the machines are not great.
+If you have a big machine you want to use all the cores in
+parallel. You can’t do that with scikit-learn but you can do
+it with XGBoost.</p>
+<p>For random forest, on the other hand, scikit-learn can also
+run random forest in parallel, because it’s much easier.
+XGBoost also has a random forest. XGBoost also has some
+enhancements to the algorithm. It has L1 and L2 penalties
+for the leaves, so you can do something like an elastic net
+or lasso penalty to the leaves. I think by default, it’s
+disabled. But they are not really training like the vanilla
+decision trees.</p>
+<p>One of the reasons they’re faster is because they have a
+faster implementation. But you can make even faster if you
+use approximate splits in the trees.</p>
+<p>If you want to find a split, you need to search over all
+features and you need to search over all possible thresholds
+on the feature. Searching over all possible thresholds on
+the feature means soaring feature, which is an analog
+operation. Instead, what you can do is you can bin the
+features, and then its linear time operation but the
+threshold will be approximate.</p>
+<p>And that will make your computation much faster.</p>
+<ul class="simple">
+<li><p>Efficient implementation of gradient boosting (5x sklearn)</p></li>
+<li><p>Improvements on original algorithm</p></li>
+<li><p>https://arxiv.org/abs/1603.02754</p></li>
+<li><p>Adds l1 and l2 penalty on leaf-weights</p></li>
+<li><p>Fast approximate split finding</p></li>
+<li><p>Scikit-learn compatible interface</p></li>
+</ul>
+</div>
+<div class="section" id="lightgbm">
+<h2>LightGBM<a class="headerlink" href="#lightgbm" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">-c</span> <span class="pre">conda-forge</span> <span class="pre">lightgbm</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lightgbm.sklearn</span> <span class="kn">import</span> <span class="n">LGBMClassifier</span>
+<span class="n">lgbm</span> <span class="o">=</span> <span class="n">LGBMClassifier</span><span class="p">()</span>
+<span class="n">lgbm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">lgbm</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>supports missing values</p></li>
+<li><p>natively supports categorical variables</p></li>
+<li><p>GPU training</p></li>
+<li><p>networked parallel training</p></li>
+<li><p>monotonicity constraints</p></li>
+<li><p>supports sparse data</p></li>
+</ul>
+</div>
+<div class="section" id="catboost">
+<h2>CatBoost<a class="headerlink" href="#catboost" title="Permalink to this headline">¶</a></h2>
+<p>.smallest[
+<code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">-c</span> <span class="pre">conda-forge</span> <span class="pre">catboost</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">catboost.sklearn</span> <span class="kn">import</span> <span class="n">CatBoostClassifier</span>
+<span class="n">catb</span> <span class="o">=</span> <span class="n">CatBoostClassifier</span><span class="p">()</span>
+<span class="n">catb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">catb</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>]
+.smaller[</p>
+<ul class="simple">
+<li><p>optimized for categorical variables</p></li>
+<li><p>uses one feature / threshold for all splits on a given level aka symmetric trees</p></li>
+<li><p>Symmetric trees are “different” but can be much faster</p></li>
+<li><p>supports missing value</p></li>
+<li><p>GPU training</p></li>
+<li><p>monotonicity constraints</p></li>
+<li><p>uses bagged and smoothed version of target encoding for categorical variables</p></li>
+<li><p>lots of tooling
+]</p></li>
+</ul>
+<p>class:spacious</p>
+</div>
+<div class="section" id="gradient-boosting-advantages">
+<h2>Gradient Boosting Advantages<a class="headerlink" href="#gradient-boosting-advantages" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Very fast using HistGradientBoosting (or XGBoost, LightGBM)</p></li>
+<li><p>Small model size</p></li>
+<li><p>Typically more accurate than Random Forests</p></li>
+<li><p>“old” GradientBoosting in sklearn is comparatively slow</p></li>
+</ul>
+<p>It’s sort of slower to train if you’re training serial, but
+if you paralyze it, it’s often faster to train since it has
+a much smaller model size. So the trees are usually not as
+deep and you don’t need as many because you’re doing much
+more focused learning where you try to correct the mistakes
+of the other models. So usually it’s very fast to predict
+because prediction can happen in parallel over all the
+trees, while learning cannot happen in parallel over all the
+trees necessarily. Usually, this is more accurate than
+random forests.</p>
+<p>The question is for the same number of estimators, how does
+low versus high learning rate changes?</p>
+<p>High learning rate allows you to fit the data more strongly
+and also overfit the data more strongly.</p>
+<p>class: middle</p>
+</div>
+<div class="section" id="concluding-tree-based-models">
+<h2>Concluding tree-based models<a class="headerlink" href="#concluding-tree-based-models" title="Permalink to this headline">¶</a></h2>
+<p>class:spacious</p>
+</div>
+<div class="section" id="when-to-use-tree-based-models">
+<h2>When to use tree-based models<a class="headerlink" href="#when-to-use-tree-based-models" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Model non-linear relationships</p></li>
+<li><p>Doesn’t care about scaling, no need for feature engineering</p></li>
+<li><p>Single tree: very interpretable (if small)</p></li>
+<li><p>Random forests very robust, good benchmark</p></li>
+<li><p>Gradient boosting often best performance with careful tuning</p></li>
+</ul>
+<p>To summarize, tree-based models are really very, very
+popular family of models. They’re very commonly used. You
+probably want to use them if you want nonlinear
+relationships, or if you have a lot of different kinds of
+weird features because they really don’t care about scaling
+of the features, so it allows you to get rid of mostly
+preprocessing.</p>
+<p>If you want very interpretable model, single trees or small
+single trees are good ideas, because it’s one of the few
+models that you can sort of write down on a blackboard and
+show to someone, and they’ll have some idea of what’s going
+on. That’s impossible for any other models.</p>
+<p>Random forests are great because they’re very robust. And
+you don’t have to tune anything, you just run a random
+forest with 100 trees and with the default settings and it
+will work great.</p>
+<p>And so this one of my first benchmarks. Usually, I first ran
+a logistic regression then I run random forests.</p>
+<p>Gradient Boosting is often the best performing model, sort
+of the centered toolbox. Sometimes you need to tune a little
+bit more, so you need to tune the depth of the trees or the
+learning rate, and so on. But if you tune them, then they
+will usually beat random forest on those data sets.</p>
+<p>One case where you might not want to use trees is if you
+have very high dimensional sparse data then linear models
+might work better but also your mileage may vary. On the
+contrary, if you have like a low dimensional space,
+tree-based models are probably a good bet.</p>
+<p>Next thing we’ll talk about is a different way to build
+ensembles, different way to put together multiple models.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingClassifier</span>
@@ -278,11 +1187,12 @@
 </div>
 </div>
 <div class="section" id="exercise">
-<h1>Exercise<a class="headerlink" href="#exercise" title="Permalink to this headline">¶</a></h1>
+<h2>Exercise<a class="headerlink" href="#exercise" title="Permalink to this headline">¶</a></h2>
 <p>Use GradientBoostingRegressor on the Bike dataset.
 Search over the <code class="docutils literal notranslate"><span class="pre">learning_rate</span></code> and <code class="docutils literal notranslate"><span class="pre">max_depth</span></code> using <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code>.
 What happens if you change <code class="docutils literal notranslate"><span class="pre">n_estimators</span></code>?</p>
 <p>Compare the speed of XGBClassifier with GradientBoostingRegressor. How well does XGBClassifier do with defaults on the <code class="docutils literal notranslate"><span class="pre">Bike</span></code> dataset? Can you make it do better?</p>
+</div>
 </div>
 
 

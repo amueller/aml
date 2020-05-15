@@ -27,6 +27,7 @@
     <script src="../_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Feature importances and Model interpretation" href="aml-12-interpretation.html" />
@@ -93,7 +94,10 @@
       <a href="aml-12-interpretation.html">3. Feature importances and Model interpretation</a>
     </li>
     <li class="">
-      <a href="parameter_tuning_automl.html">4. Multifidelity Search</a>
+      <a href="aml-17-cluster-evaluation.html">4. Cluster Stability</a>
+    </li>
+    <li class="">
+      <a href="parameter_tuning_automl.html">5. Parameter Tuning and AutoML</a>
     </li>
   </ul>
   </li>
@@ -160,9 +164,64 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#calibration-imbalanced-data" class="nav-link">Calibration, Imbalanced Data</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#calibration-curve-with-sklearn" class="nav-link">calibration_curve with sklearn</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#comparing-models" class="nav-link">Comparing Models</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#brier-score-for-binary-classification" class="nav-link">Brier Score (for binary classification)</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#fixing-it-calibrating-a-classifier" class="nav-link">Fixing it: Calibrating a classifier</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#platt-scaling" class="nav-link">Platt Scaling</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#isotonic-regression" class="nav-link">Isotonic Regression</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#building-the-model" class="nav-link">Building the model</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#fitting-the-calibration-model" class="nav-link">Fitting the calibration model</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id1" class="nav-link">Fitting the calibration model</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#calibratedclassifiercv" class="nav-link">CalibratedClassifierCV</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#calibration-on-random-forest" class="nav-link">Calibration on Random Forest</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#multi-class-calibration" class="nav-link">Multi-Class Calibration</a>
+        </li>
     
     </ul>
 </nav>
@@ -177,6 +236,459 @@
                 
   <div class="section" id="calibration">
 <h1>Calibration<a class="headerlink" href="#calibration" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="calibration-imbalanced-data">
+<h2>Calibration, Imbalanced Data<a class="headerlink" href="#calibration-imbalanced-data" title="Permalink to this headline">¶</a></h2>
+<p>03/02/20</p>
+<p>Andreas C. Müller</p>
+<p>Today we’ll expand on the model evaluation topic we started last week,
+and we’ll talk more on how we can build better models for imbalanced data</p>
+<p>Today we’ll talk about working with imbalanced data. We
+already talked about how accuracy is a bad measure and what
+are the other measures we can use.</p>
+<p>FIXME in calibration: make sure we have p(y=1) not p(y)?
+FIXME what are the bins for calibration in first slide
+FIXME write down definition for calibration
+FIXME alpha value for curves
+FIXME definition of balanced class weight
+FIXME bullet points!!
+FIXME balanced bagging is terrible now?
+FIXME add more datasets for some benchmark?
+FIXME: add example of calibrated and
+inaccurate vs accurate but not calibrated! (always saying 50% is calibrated)
+FIXME: brier score decomposition
+FIXME calibration scores
+FIXME maybe saying “sort” before binning is confusing?
+FIXME maybe add why I don’t like log loss here?
+FIXME show that AUC is not changed by calibration?
+FIXME show example of overconfident vs underconfident predictions more clearly</p>
+<p>FIXME update metrics slides from metrics lecture
+FIXME better illustration for sampling
+FIXME better motivation for sampling / why we want to change things
+FIXME Add estimators minimizing loss directly?
+FIXME add more on imbalanced forest
+FIXME better benchmarking for SMOTE
+FIXME show grid-search results
+FIXME grid-search SMOTE show uncertainty
+FIXME research comparison papers more
+FIXME smote: clarify to only sample from same class
+FIXME smote: paper vs implementation: do along coordinates in rectangle?</p>
+<p>class:spacious
+#Calibration
+.center[</p>
+<p>Source</p>
+<p>]</p>
+<ul class="simple">
+<li><p>Probabilities can be much more informative than labels:</p></li>
+<li><p>“The model predicted you don’t have cancer” vs “The model predicted you’re 40% likely to have cancer”</p></li>
+</ul>
+<p>So the next thing I want to talk about is calibrations.
+Calibration also builds a model on top of a model. But the
+goal of calibration is to actually get accurate probability
+estimates. Oftentimes, we’re interested not only in the
+output of the classifier, but also interested in the
+uncertainty estimate of a classifier.</p>
+<p>So for example, think about a model that does cancer
+prediction. If the model predicted you don’t have cancer,
+you’re going to be pretty happy. If it says there’s a 40%
+chance that you have cancer, which is the same thing if you
+have a binary classification, you might be less happy since
+40% seems pretty high for having cancer anyway.</p>
+<p>So often, we want actual probability estimates that allow us
+to make decisions that are finer grained than just a yes or
+no.</p>
+<p>Calibration is a way to get probability estimates out of any
+models. For example, SVMs are not good at breaking
+probabilities, so you can use calibration if you really want
+to use an SVM and get the probabilities out. Or if you have
+a model that already was able to predict probabilities like
+tree or random forests or nearest neighbors, you can use
+calibration to make sure that the probabilities that you get
+are actually good probabilities. So if you use random forest
+and use it to estimate probabilities, if it says “this is
+70% class one”, it’s not really clear what it means because
+the model is not really trained to optimize probability
+estimates so the probability estimates could be off quite a
+bit.</p>
+<p>class: spacious
+#Calibration curve (Reliability diagram)
+.left-column[
+<img alt=":scale 100%" src="04-model-evaluation/images/prob_table.png" />
+]
+.right-column[
+<img alt=":scale 100%" src="04-model-evaluation/images/calib_curve.png" /></p>
+<p>]</p>
+<p>Before we talk about how to do calibration, I want to talk
+about how to measure calibration and binary classification.
+You can also do it for multiclass classification, but binary
+is much simpler. The cool thing about it is you can actually
+measure calibration and you can calibrate the classifier
+without having round first the probability estimates. So
+even if you only have like 0 or 1 labels you can still make
+sure that you have a model that provides reasonable
+probabilities.</p>
+<p>The way you do this if you take the probability estimates of
+the model, you bin the probability… So here, for example,
+let’s say these are probabilities estimate by a model, these
+are my true targets. So now I sort and bin them by the
+probability estimates.</p>
+<p>And then I create three bins. And then I look at what is the
+actual prevalence of the classes in each of these bins.</p>
+<p>If these probabilities estimates were actually accurate,
+then let’s say if I have a bin for all the 90% ones, the
+prevalence in the 90% bin should actually be 90%, that’s
+sort of what it says. 90% of the points that are given a
+score of 90% should be the true class. And so you can plot
+this in the calibration curve or the reliability diagram.</p>
+<p>So here I have three bins. And basically what I wanted is
+the diagonal line where the bin that contains the very small
+probabilities has the same prevalence. And so here, for
+example, things that are around like 0.5 actually have zero
+prevalence. So there’s no true class in there, which is
+really weird. You won’t use a diagonal line, this would be a
+very bad classifier.</p>
+<p>One thing that I want to emphasize here is that calibration
+doesn’t imply that the model is accurate. These are actually
+two different things. If I have a binary model on a balanced
+data set, and it always says 50% probability for all data
+points. It’s perfectly calibrated because it says 50% for
+all data points. 50% of those data points are actually the
+true class if the dataset is balanced. So it’s a completely
+trivial classifier that doesn’t tell you anything but
+perfectly calibrated, but also kind of tells you nothing
+because it always gives you 0.5. So you know that you can
+trust it basically.</p>
+<p>Calibration basically tells you how much you can trust the
+model.</p>
+<ul class="simple">
+<li><p>For binary classification only</p></li>
+<li><p>you can be calibrated and inaccurate!</p></li>
+<li><p>Given a predicted ranking or probability from a supervised classifier, bin predictions.</p></li>
+<li><p>Plot fraction of data that’s positive in each bin.</p></li>
+<li><p>Doesn’t require ground truth probabilities!</p></li>
+</ul>
+<p>class: split-40</p>
+</div>
+<div class="section" id="calibration-curve-with-sklearn">
+<h2>calibration_curve with sklearn<a class="headerlink" href="#calibration-curve-with-sklearn" title="Permalink to this headline">¶</a></h2>
+<p>Using subsample of covertype dataset
+.left-column[
+.tiny-code[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>from sklearn.linear_model import LogisticRegressionCV
+print(X_train.shape)
+print(np.bincount(y_train))
+lr = LogisticRegressionCV().fit(X_train, y_train)
+(52292, 54)
+[19036 33256]```
+
+
+```python
+lr.C_
+array([ 2.783])
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">lr</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:</span><span class="mi">10</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_test</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
+<span class="p">[[</span> <span class="mf">0.681</span>  <span class="mf">0.319</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.049</span>  <span class="mf">0.951</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.706</span>  <span class="mf">0.294</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.537</span>  <span class="mf">0.463</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.819</span>  <span class="mf">0.181</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.</span>     <span class="mf">1.</span>   <span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.794</span>  <span class="mf">0.206</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.676</span>  <span class="mf">0.324</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.727</span>  <span class="mf">0.273</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.597</span>  <span class="mf">0.403</span><span class="p">]]</span>
+<span class="p">[</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>]
+]</p>
+<p>.right-column[
+.tiny-code[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.calibration</span> <span class="kn">import</span> <span class="n">calibration_curve</span>
+<span class="n">probs</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">prob_true</span><span class="p">,</span> <span class="n">prob_pred</span> <span class="o">=</span> <span class="n">calibration_curve</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">probs</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">prob_true</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">prob_pred</span><span class="p">)</span>
+<span class="p">[</span> <span class="mf">0.2</span>    <span class="mf">0.303</span>  <span class="mf">0.458</span>  <span class="mf">0.709</span>  <span class="mf">0.934</span><span class="p">]</span>
+<span class="p">[</span> <span class="mf">0.138</span>  <span class="mf">0.306</span>  <span class="mf">0.498</span>  <span class="mf">0.701</span>  <span class="mf">0.926</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>]
+.center[<img alt=":scale 70%" src="04-model-evaluation/images/predprob_positive.png" />
+]
+]</p>
+<p>I’m using a subsample of cover type dataset because it’s
+kind of big and we get some nice histograms here. So I train
+a logistic regression model. Logistic regression typically
+gives pretty good probability estimates. So I expect this
+model to be relatively well calibrated.</p>
+<p>For the first 10 data points, the probabilities and the
+actual predictions. So what I’m going to take is the
+predicted probabilities for all data points, for the first
+class and the actual predictions.</p>
+<p>Obviously, I need to do this on the test set. If I do this
+on the training set, then it’ll tell me nothing, because on
+the training set the model is good. So either I need to do
+this on a test set or on some of the holdout set. On the
+training set, if I perfectly overfit, I would be doing
+perfect, but that’s not the point. So here, I need to use a
+separate set and so I can compute the calibration curve.</p>
+<p>You can see the histogram here shows how many points are in
+this area. And here, the orange thing is the actual
+calibration curve, the dotted line is sort of perfect
+calibration. And in here, I’m using five bins. The first bin
+is zero until 0.2, so I would expect that 10% of the data in
+this bin 10 is the true class, but actually, it’s more like
+20%. So here, it’s like not perfectly calibrated.</p>
+<p>In the second bin from 0.2 to 0.4. So what I would expect is
+that 30% of these data points are predicted as class one and
+actually- it’s 30%.</p>
+<p>class:spacious
+#Influence of number of bins</p>
+<p>.center[<img alt=":scale 100%" src="04-model-evaluation/images/influence_bins.png" />]</p>
+<p>How do I pick the number of bins?</p>
+<p>More bins give me more resolution. But also at some point,
+you get noise. So I guess it’s the same way you would do for
+histogram. You can use the standard heuristic for histogram
+but usually, if you do something like 10 or 20, that’s
+usually enough bins.</p>
+<ul class="simple">
+<li><p>Works here because dataset is big</p></li>
+<li><p>Might become very noisy for larger datasets</p></li>
+</ul>
+<p>class:spacious</p>
+</div>
+<div class="section" id="comparing-models">
+<h2>Comparing Models<a class="headerlink" href="#comparing-models" title="Permalink to this headline">¶</a></h2>
+<p>.center[<img alt=":scale 90%" src="04-model-evaluation/images/calib_curve_models.png" />]</p>
+<p>Logistic regression is pretty well calibrated. The decision
+tree, since I didn’t use any pruning, it’ll be way too
+certain. So all probabilities estimates, even on a test set
+that will be either 0 or 1. So that’s not very great. Random
+forest classifier used here is not certain enough.</p>
+<p>Now we want to fix that. Before I want to say how we can
+trust them let’s measure them first.</p>
+</div>
+<div class="section" id="brier-score-for-binary-classification">
+<h2>Brier Score (for binary classification)<a class="headerlink" href="#brier-score-for-binary-classification" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>“mean squared error of probability estimate”
+<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">BS</span> <span class="pre">=</span> <span class="pre">\frac{\sum_{i=1}^{n}</span> <span class="pre">(\widehat{p}</span> <span class="pre">(y_i)-y_i)^{2}}{n}$$</span></code></p></li>
+</ul>
+<p>.center[<img alt=":scale 70%" src="04-model-evaluation/images/models_bscore.png" />]</p>
+<p>This graph is a nice way to look at how calibrated something
+is. But it’s very hard to compare. A standard way to compare
+calibration is a Brier score, you could also use something
+like a log loss. Log loss would also tell you how good that
+a probability estimate is.</p>
+<p>Brier score is the mean squared error of probability
+estimates.  Yi is either one or zero, basically, and p ̂ is
+the probability estimate.</p>
+<p>So if you predict 0.5 then it’s always going to give you a
+loss, but it’s going to give you a loss of only 0.5. If you
+predict 0 when you should’ve predicted 1 then it’s going to
+give you a very large loss.</p>
+<p>Here are the brier loss for the different models. Also, the
+smaller is better. But this conflates accuracy and
+calibration a little bit because here, you can see that the
+random forest actually does best-.</p>
+<p>I guess it does better because just it’s a more accurate
+model. So it’s not well calibrated. But it is actually a
+much better predictor and so it still has a smaller score.</p>
+<p>We defined it, we can measure it and we actually want to
+calibrate it.</p>
+</div>
+<div class="section" id="fixing-it-calibrating-a-classifier">
+<h2>Fixing it: Calibrating a classifier<a class="headerlink" href="#fixing-it-calibrating-a-classifier" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Build another model, mapping classifier probabilities to better probabilities!</p></li>
+<li><p>1d model! (or more for multi-class)</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{calib}(s(x))</span> <span class="pre">\approx</span> <span class="pre">p(y)$$</span></code></p>
+<ul class="simple">
+<li><p>s(x) is score given by model, usually</p></li>
+<li><p>Can also work with models that don’t even provide probabilities!
+Need model for <span class="math notranslate nohighlight">\(f_{calib}\)</span>, need to decide what data to train it on.</p></li>
+<li><p>Can train on training set → Overfit</p></li>
+<li><p>Can train using cross-validation → use data, slower</p></li>
+</ul>
+<p>The way to do fix this is similar to stacking and that we
+built another model on top of the probability estimates. So
+usually, that’s just a 1D model because we only have 1
+underlying model.</p>
+<p>If you have binary classification it gives us a single
+probability output and so we need to learn 1D function that
+basically maps this probability to something that is more
+accurate.</p>
+<p>It also works if the model gives us a score rather than a
+probability. SVM only gives us a score, we can still learn
+one leave function that tries to get probabilities.</p>
+<p>Similar to what we did was stacking. So you don’t want to
+learn this the calibration model on the training data set
+because on train dataset you’re doing very well. So you need
+to use either a whole dataset or you need to use
+cross-validation again.</p>
+</div>
+<div class="section" id="platt-scaling">
+<h2>Platt Scaling<a class="headerlink" href="#platt-scaling" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Use a logistic sigmoid for <span class="math notranslate nohighlight">\(f_{calib}\)</span></p></li>
+<li><p>Basically learning a 1d logistic regression</p></li>
+<li><p>(+ some tricks)</p></li>
+<li><p>Works well for SVMs</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">$$f_{platt}</span> <span class="pre">=</span> <span class="pre">\frac{1}{1</span> <span class="pre">+</span> <span class="pre">exp(-ws(x)</span> <span class="pre">-</span> <span class="pre">b)}$$</span></code></p>
+<p>There are two main methods that people use and both are in
+scikit-learn. One is Platt scaling, Platt scaling is
+basically the same as 1D logistic regression. So you learn
+to 1d just sigmoid plus, there’s like some new tricks.</p>
+<p>This basically allows you to fix a particular sigmoid shape
+that you usually get from SVM scores and this works well for
+SVMs. But you only have one parameter here, so there’s not a
+lot that you can tune.</p>
+</div>
+<div class="section" id="isotonic-regression">
+<h2>Isotonic Regression<a class="headerlink" href="#isotonic-regression" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Very flexible way to specify <span class="math notranslate nohighlight">\(f_{calib}\)</span></p></li>
+<li><p>Learns arbitrary monotonically increasing step-functions in 1d.</p></li>
+<li><p>Groups data into constant parts, steps in between.</p></li>
+<li><p>Optimum monotone function on training data (wrt mse).
+.center[<img alt=":scale 40%" src="04-model-evaluation/images/isotonic_regression.png" />]</p></li>
+</ul>
+<p>The other one is Isotonic regression, which is basically a
+non-parametric mapping. What it does is it fits the monotone
+function that minimizes the squared error.</p>
+<p>The problem it’s solving is the peace wise constant function
+that’s monotonous with minimums error. So this what it looks
+like and so if you have to data in red, then standard
+regression will find this green thing.</p>
+<p>In Platt scaling, s(x) is what the model scores, the score
+that comes from the SVM or random forest. The w is the one
+parameter you learn from the data. This is a very inflexible
+model that allows you to say how steep should the sigmoid
+correction be while Isotonic regression is a very flexible
+model that allows you to correct anything in any way, it’s
+monotonous.</p>
+<p>class:spacious</p>
+</div>
+<div class="section" id="building-the-model">
+<h2>Building the model<a class="headerlink" href="#building-the-model" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Using the training set is bad</p></li>
+<li><p>Either use hold-out set or cross-validation</p></li>
+<li><p>Cross-validation can be used to make unbiased probability predictions, use that as training set.</p></li>
+</ul>
+<p>class: center</p>
+</div>
+<div class="section" id="fitting-the-calibration-model">
+<h2>Fitting the calibration model<a class="headerlink" href="#fitting-the-calibration-model" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 70%" src="04-model-evaluation/images/calibration_val_scores.png" /></p>
+<p>class: center</p>
+</div>
+<div class="section" id="id1">
+<h2>Fitting the calibration model<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 70%" src="04-model-evaluation/images/calibration_val_scores_fitted.png" /></p>
+</div>
+<div class="section" id="calibratedclassifiercv">
+<h2>CalibratedClassifierCV<a class="headerlink" href="#calibratedclassifiercv" title="Permalink to this headline">¶</a></h2>
+<p>.tiny-code[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.calibration</span> <span class="kn">import</span> <span class="n">CalibratedClassifierCV</span>
+<span class="n">X_train_sub</span><span class="p">,</span> <span class="n">X_val</span><span class="p">,</span> <span class="n">y_train_sub</span><span class="p">,</span> <span class="n">y_val</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span>
+                                                          <span class="n">stratify</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_sub</span><span class="p">,</span> <span class="n">y_train_sub</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">plot_calibration_curve</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>.center[<img alt=":scale 30%" src="04-model-evaluation/images/random_forest.png" />]
+]</p>
+</div>
+<div class="section" id="calibration-on-random-forest">
+<h2>Calibration on Random Forest<a class="headerlink" href="#calibration-on-random-forest" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>cal_rf = CalibratedClassifierCV(rf, cv=&quot;prefit&quot;, method=&#39;sigmoid&#39;)
+cal_rf.fit(X_val, y_val)
+scores_sigm = cal_rf.predict_proba(X_test)[:, 1]
+
+cal_rf_iso = CalibratedClassifierCV(rf, cv=&quot;prefit&quot;, method=&#39;isotonic&#39;)
+cal_rf_iso.fit(X_val, y_val)
+scores_iso = cal_rf_iso.predict_proba(X_test)[:, 1]
+```]
+
+.center[![:scale 90%](images/types_calib.png)]
+
+
+
+This is for a random forest again. It can use calibrated
+classifier CV. This does calibration. You can either you do
+it with single hold-out dataset or with cross-validation.
+
+Here, I&#39;m using a single holdout set. I split my dataset,
+the training set into X_train_sub and X_val.
+
+X_train_sub is what I used to train a random forest and then
+x_val is what I&#39;m going to use to calibrate it. I created
+calibrated classifier CV with the random forest that I’ve
+already fit on the training dataset. I set cross-validation
+to prefit and set the method to sigmoid. And then I can fit
+this calibration model on the validation set.
+
+So here is what this looks like, the random forest model
+with no calibration, with sigma calibration and with
+isotonic calibration.
+
+In this case, sigmoid and isotonic don&#39;t look very
+different. They both look like reasonably calibrated.
+
+That said if you&#39;re doing sort of holdout set, destroying
+away a bunch of data for training your first model.
+
+
++++
+
+## Cross-validated Calibration
+
+```python
+cal_rf_iso_cv = CalibratedClassifierCV(rf, method=&#39;isotonic&#39;)
+cal_rf_iso_cv.fit(X_train, y_train)
+scores_iso_cv = cal_rf_iso_cv.predict_proba(X_test)[:, 1]
+</pre></div>
+</div>
+<p>.center[<img alt=":scale 90%" src="04-model-evaluation/images/types_calib_cv.png" />]</p>
+<p>So we can also not specify CV, then it uses
+cross-validation, I think 3 fold by default.</p>
+<p>And so then it does the whole cross-validation thing
+internally. And then I get an even better calibration. So
+what it does here for each cross-validation it trains a
+separate model. And then if I want to predict on the test
+set, it uses all of these models and then averages them. So
+in a sense, it’s not very surprising that I get a better
+result here because I built 3 random forest models on
+subsets of the data and then average them. I calibrated them
+and I averaged calibrated models. So I basically just build
+a bigger random forest, so it’s not very surprising that it
+does better. Also, we were able to use more data.</p>
+<p>So if you do this, you retain as many models as there are
+cross-validation folds and you use all of them in
+prediction.</p>
+<ul class="simple">
+<li><p>kinda cheating, we have more trees now lol</p></li>
+<li><p>we use all the data, get good probabilities. just time-consuming</p></li>
+</ul>
+</div>
+<div class="section" id="multi-class-calibration">
+<h2>Multi-Class Calibration<a class="headerlink" href="#multi-class-calibration" title="Permalink to this headline">¶</a></h2>
+<p>.center[<img alt=":scale 100%" src="04-model-evaluation/images/multi_class_calibration.png" />]</p>
+<p>You can also do this for multi-class calibration, which does
+basically the same thing, but you just do it for each class
+individually and then you normalize again and you can make
+pretty pictures.</p>
+<ul class="simple">
+<li><p>per-class calibratoin</p></li>
+<li><p>renormalization</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -213,7 +725,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-11-calibration_2_0.png" src="../_images/aml-11-calibration_2_0.png" />
+<img alt="../_images/aml-11-calibration_18_0.png" src="../_images/aml-11-calibration_18_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -228,7 +740,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-11-calibration_3_0.png" src="../_images/aml-11-calibration_3_0.png" />
+<img alt="../_images/aml-11-calibration_19_0.png" src="../_images/aml-11-calibration_19_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -624,7 +1136,7 @@ Please also refer to the documentation for alternative solver options:
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;n_bins=5&#39;)
 </pre></div>
 </div>
-<img alt="../_images/aml-11-calibration_9_1.png" src="../_images/aml-11-calibration_9_1.png" />
+<img alt="../_images/aml-11-calibration_25_1.png" src="../_images/aml-11-calibration_25_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -638,7 +1150,7 @@ Please also refer to the documentation for alternative solver options:
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-11-calibration_10_0.png" src="../_images/aml-11-calibration_10_0.png" />
+<img alt="../_images/aml-11-calibration_26_0.png" src="../_images/aml-11-calibration_26_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -911,7 +1423,7 @@ Please also refer to the documentation for alternative solver options:
   extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
 </pre>
 </div>
-<img alt="../_images/aml-11-calibration_11_1.png" src="../_images/aml-11-calibration_11_1.png" />
+<img alt="../_images/aml-11-calibration_27_1.png" src="../_images/aml-11-calibration_27_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1182,7 +1694,7 @@ Please also refer to the documentation for alternative solver options:
   extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
 </pre>
 </div>
-<img alt="../_images/aml-11-calibration_12_1.png" src="../_images/aml-11-calibration_12_1.png" />
+<img alt="../_images/aml-11-calibration_28_1.png" src="../_images/aml-11-calibration_28_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1213,7 +1725,7 @@ Please also refer to the documentation for alternative solver options:
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;RandomForestClassifier: 0.077&#39;)
 </pre></div>
 </div>
-<img alt="../_images/aml-11-calibration_15_1.png" src="../_images/aml-11-calibration_15_1.png" />
+<img alt="../_images/aml-11-calibration_31_1.png" src="../_images/aml-11-calibration_31_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1246,7 +1758,7 @@ Please also refer to the documentation for alternative solver options:
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-11-calibration_18_0.png" src="../_images/aml-11-calibration_18_0.png" />
+<img alt="../_images/aml-11-calibration_34_0.png" src="../_images/aml-11-calibration_34_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1280,7 +1792,7 @@ Please also refer to the documentation for alternative solver options:
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-11-calibration_21_0.png" src="../_images/aml-11-calibration_21_0.png" />
+<img alt="../_images/aml-11-calibration_37_0.png" src="../_images/aml-11-calibration_37_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1297,7 +1809,7 @@ Please also refer to the documentation for alternative solver options:
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-11-calibration_22_0.png" src="../_images/aml-11-calibration_22_0.png" />
+<img alt="../_images/aml-11-calibration_38_0.png" src="../_images/aml-11-calibration_38_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1323,7 +1835,7 @@ Please also refer to the documentation for alternative solver options:
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-11-calibration_25_0.png" src="../_images/aml-11-calibration_25_0.png" />
+<img alt="../_images/aml-11-calibration_41_0.png" src="../_images/aml-11-calibration_41_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1485,7 +1997,8 @@ Please also refer to the documentation for alternative solver options:
  * classifier trained on 600 datapoints and calibrated on 200 datapoint: 0.534
 </pre></div>
 </div>
-<img alt="../_images/aml-11-calibration_26_1.png" src="../_images/aml-11-calibration_26_1.png" />
+<img alt="../_images/aml-11-calibration_42_1.png" src="../_images/aml-11-calibration_42_1.png" />
+</div>
 </div>
 </div>
 </div>

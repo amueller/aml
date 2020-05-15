@@ -45,8 +45,503 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Multifidelity Search\n",
+    "# Parameter Tuning and AutoML\n",
     "## training size in SVC"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "\n",
+    "\n",
+    "## Parameter Tuning and AutoML\n",
+    "\n",
+    "03/30/20\n",
+    "\n",
+    "Andreas C. Müller\n",
+    "\n",
+    "\n",
+    "\n",
+    "FIXME successive halving and hyperband explaination with budget is too confusing, don't need it\n",
+    "FIXME add neural networks to meta-model\n",
+    "FIXME bullet points\n",
+    "FIXME show figure 2x random is as good as hyperband?\n",
+    "FIXME needs lots more polish!\n",
+    "FIXME too long?! what?! how?!\n",
+    "FIXME difference between hyperband and SuccessiveHalving unclear"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Motivation\n",
+    "- Need to select among Models\n",
+    "- Need to select Hyper-Parameters\n",
+    "- Need to select among preprocessing methods"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Conditional Hyper-Parameters\n",
+    "- Kernels\n",
+    "- Neural Nets\n",
+    "- Pipelines"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Formulating model-selection as Hyperparameter Optimization\n",
+    "- One big search, many conditional Hyper-Parameters\n",
+    "- Categorical, integer, continuous, conditional\n",
+    "- Different distributions"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## CASH problem\n",
+    "- Find the best configuration\n",
+    "- Global optimization on complex (high-dim?) space"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Issues with Grid-Search\n",
+    "- Need to define Grid\n",
+    "- Exponential in number of dims"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "class: middle\n",
+    "## Black-Box Search Procedures\n",
+    "`$$\\Lambda^* = \\arg\\max_\\Lambda f(\\Lambda)$$`\n",
+    "Parameters $\\Lambda$, model-evaluation $f$.\n",
+    "\n",
+    "\n",
+    "General optimization of unknown, non-differentiable f, possibly no-smooth.\n",
+    "NP Hard in general.\n",
+    "Function f is very slow to evaluate - think training a neural net for a week."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Random Search\n",
+    "![:scale 100%](images/bergstra_random.jpeg)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Random Search with scikit-learn\n",
+    "```python\n",
+    "## specify parameters and distributions to sample from\n",
+    "from scipy.stats import randint\n",
+    "param_dist = {\"max_depth\": [3, None],\n",
+    "              \"max_features\": randint(1, 11),\n",
+    "              \"min_samples_split\": randint(2, 11),\n",
+    "              \"bootstrap\": [True, False],\n",
+    "              \"criterion\": [\"gini\", \"entropy\"]}\n",
+    "random_search = RandomizedSearchCV(clf,\n",
+    "                                   param_distributions=param_dist,\n",
+    "                                   n_iter=200)\n",
+    "```\n",
+    "- lists or objects with `rvs` method\n",
+    "- Use continuous distributions for biggest advantage"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Bayesian Optimization, SMBO\n",
+    ".wide-left-column[\n",
+    "\n",
+    "- fit 'cheap' probabilistic function to black-box\n",
+    "\n",
+    "- pick next point using exploration / exploitation\n",
+    "\n",
+    "- Implemented as acquisition function\n",
+    "]\n",
+    ".narrow-right-column[\n",
+    ".center[\n",
+    "![:scale 110%](images/smbo.png)\n",
+    "]]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Surrogate functions\n",
+    "![:scale 100%](images/smbo_table.png)\n",
+    "\n",
+    "\n",
+    "FIXME\n",
+    "NEED NEURAL NETS"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Evolutionary Methods: TPOT\n",
+    ".center[\n",
+    "![:scale 80%](images/tpot.png)\n",
+    "]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "class: spacious\n",
+    "\n",
+    "## Implementations\n",
+    "- SMAC: Random Forest model (Hutter group)\n",
+    "- spearmint: GP (Snoek et al)\n",
+    "- hyperopt: TPE (Bergstra, not maintained)\n",
+    "- scikit-optimize: GP, tree, etc\n",
+    "- GPyOpt: GP based on GPy (Lawrence group)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "class: compact, center\n",
+    "## Criticism\n",
+    "![:scale 25%](images/random_rank_chart.png)\n",
+    "![:scale 25%](images/random_bar_plot_sample.png)\n",
+    "\n",
+    "--\n",
+    "![:scale 23%](images/random2x_cifar10-compare.png)\n",
+    "![:scale 23%](images/random2x_mrbi-compare.png)\n",
+    "![:scale 23%](images/random2x_svhn-compare.png)\n",
+    "\n",
+    ".smallest[http://www.argmin.net/2016/06/20/hypertuning/]\n",
+    "\n",
+    "\n",
+    "FIXME use newer hyperband figures!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Beyond Black-Box\n",
+    "- Hyperparameter gradient descent\n",
+    "- Multi-Fidelity optimization\n",
+    "- Meta-learning\n",
+    "- (others...)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Multi-Fidelity Search\n",
+    ".smaller[Approximate function by similar cheaper function]\n",
+    ".center[\n",
+    "![:scale 70%](images/multi-fidelity-digits.png)\n",
+    "![:scale 70%](images/multi-fidelity-digits-rf.png)\n",
+    "\n",
+    "]\n",
+    "\n",
+    "\n",
+    "Top: subsample the datasets\n",
+    "bottom: use less trees in forest"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Multi-Fidelity Bayesian Optimization\n",
+    "- Fit model to performance given parameters and budget\n",
+    "- Choose parameters and budget for best exploration / exploitation\n",
+    "- Related to multi-armed bandits and A/B testing\n",
+    "- Differences to bandits:\n",
+    "    - non-stationary distributions\n",
+    "    - receiving loss (computing validation error) is expensive\n",
+    "    - possibly infinitely many arms (continuous parameters)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Successive Halving\n",
+    "- Given $n$ configuration and budget $B$\n",
+    "- pick $\\eta=2$ or $\\eta=3$ (wording follows 2)\n",
+    "- Each iteration, keep best halve of configurations\n",
+    "- after $k=\\log_\\eta(n) + 1$ left with single configuration.\n",
+    "- initially allocate $\\frac{B}{kn}$ to each configuration, double each iteration (exact budget is slightly more complicated, see algorithm).\n",
+    "--\n",
+    "![:scale 70%](images/halving_algorithm.png)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Successive Halving Example\n",
+    "- configurations n=81\n",
+    "- total budget B=20000\n",
+    "```\n",
+    "train 81 configurations with resources   41\n",
+    "train 27 configurations with resources  123\n",
+    "train  9 configurations with resources  370\n",
+    "train  3 configurations with resources 1111\n",
+    "train  1 configurations with resources 3333\n",
+    "resources total: 16638\n",
+    "```\n",
+    "\n",
+    "\n",
+    "Think about resources as in \"maximum number of trees build in total\" or \"maximum number of data points used in total\"."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "class: center\n",
+    "## Successive Halving (different) Example\n",
+    "![:scale 90%](images/halving_curves.png)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Hyperband\n",
+    ".center[\n",
+    "![:scale 78%](images/hyperband_curves.png)\n",
+    "]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Hyperband\n",
+    "![:scale 90%](images/hyperband_algorithm.png)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## BOHB / HpBandSter\n",
+    ".center[\n",
+    "![:scale 85%](images/bohb_curves.png)\n",
+    "]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## In Practice\n",
+    "\"With the exception of the LeNet experiment (Section 3.3) and the 117 Datasets experi-\n",
+    "ment (Section 4.2.1), the most aggressive bracket of SuccessiveHalving outperformed\n",
+    "Hyperband in all of our experiments.\"\n",
+    ".quote_author[Li et. al.]\n",
+    "\n",
+    "- Soon (?) in sklearn ([discussion](https://github.com/scikit-learn/scikit-learn/issues/12538))\n",
+    "- [HpBandSter](https://automl.github.io/HpBandSter/build/html/index.html) distributed implementation, some custom code required\n",
+    "- [scikit-hyperband](https://github.com/thuijskens/scikit-hyperband) looks good, but doesn't do out-of-the-box subsampling\n",
+    "- Successive halving really easy to implement yourself."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "class: middle, center\n",
+    "## Meta-learning\n",
+    "### Learning from experience (other datasets)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Ranking\n",
+    "\n",
+    "- Run many algorithms on large array of datasets\n",
+    "- Rank by \"best on average\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Portfolios\n",
+    "\n",
+    "- [PoSH auto-sklearn](https://ml.informatik.uni-freiburg.de/papers/18-AUTOML-AutoChallenge.pdf)\n",
+    "\n",
+    "- Create diverse set so that a good one among top k\n",
+    "- Submodular optimization problem\n",
+    "- greedy approximation"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Discretization\n",
+    "\n",
+    "### Are continuous parameters actually important ?\n",
+    "\n",
+    "- Anectotal evidence that it's not."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Meta-Features and Meta-Models\n",
+    ".center[\n",
+    "![:scale 90%](images/metalearning-diagram.png)\n",
+    "]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Active Testing and Recommendations\n",
+    ".smaller[\n",
+    "- [Probabilistic Matrix Factorization for AutoML (Fusi et al)](https://papers.nips.cc/paper/7595-probabilistic-matrix-factorization-for-automated-machine-learning.pdf)\n",
+    "- https://github.com/rsheth80/pmf-automl/]\n",
+    "![:scale 90%](images/fusi_latent.png)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Multi-Task Bayesian Optimization\n",
+    "- Create estimate over all datasets at the same time!\n",
+    "- Not scalable with Gaussian Processes\n",
+    "- Maybe scalable with Neural Networks?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Ensemble Models\n",
+    "![:scale 100%](images/meta-learning-ensemble.png)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Auto-sklearn\n",
+    "- end-to-end auto-ml\n",
+    "- seaches a fixed sklearn pipeline (4 steps)\n",
+    "- Warm-starting with meta-features & KNN\n",
+    "- Bayesian Optimization with SMAC\n",
+    "\n",
+    "https://automl.github.io/auto-sklearn/stable/index.html"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Playing around with auto-sklearn\n",
+    "```python\n",
+    "import autosklearn.classification\n",
+    "import sklearn.model_selection\n",
+    "import sklearn.datasets\n",
+    "from sklearn.metrics import accuracy_score\n",
+    "X, y = sklearn.datasets.load_digits(return_X_y=True)\n",
+    "X_train, X_test, y_train, y_test = \\\n",
+    "    sklearn.model_selection.train_test_split(X, y, random_state=1)\n",
+    "automl = autosklearn.classification.AutoSklearnClassifier()\n",
+    "automl.fit(X_train, y_train)\n",
+    "y_hat = automl.predict(X_test)\n",
+    "print(\"Accuracy score\", accuracy_score(y_test, y_hat))\n",
+    "```\n",
+    "\"This will run for one hour and should result in an accuracy above 0.98.\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Practical Recommendations\n",
+    "- Multi-Fidelity! Simple, effective!\n",
+    "- Portfolios\n",
+    "- BOHB / HpBandSter\n",
+    "- auto-sklearn\n",
+    "- TPot?\n",
+    "### Seems promising:\n",
+    "- Transfering surrogates / ensembles\n",
+    "- Collaborative filtering / active testing"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Criticisms\n",
+    "- Do we need 100 classifiers?\n",
+    "- Do we need Complex Pipelines?\n",
+    "- Creates complex models and ensembles\n",
+    "- \"Making it too easy\"?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "class: middle\n",
+    "\n",
+    "Although we already reduced the space of considered ML algorithms substantially compared to our previous Auto-sklearn (4 vs. 15 classifiers), we could have reduced this set\n",
+    "even further since, in the end, only XGBoost models ended up in the final ensembles for\n",
+    "the challenge.\n",
+    "\n",
+    ".quote_author[Feurer et al, PoSH auto-sklearn]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## dabl\n",
+    "### https://dabl.github.io/\n",
+    "\n",
+    "Implements a portfolio classfier with successive halving:\n",
+    "\n",
+    "![:scale 100%](images/anyclassifier.png)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "class: center, middle\n",
+    "\n",
+    "## Questions ?"
    ]
   },
   {
@@ -5589,9 +6084,9 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.7.1"
+   "version": "3.7.6"
   }
  },
  "nbformat": 4,
- "nbformat_minor": 2
+ "nbformat_minor": 4
 }

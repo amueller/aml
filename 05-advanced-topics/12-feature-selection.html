@@ -27,6 +27,7 @@
     <script src="../_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Working with Text data" href="13-text-data.html" />
@@ -172,11 +173,88 @@
         </li>
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#model-based-feature-selection" class="nav-link">Model-based Feature Selection</a>
+            <a href="#feature-selection" class="nav-link">Feature Selection</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#why-select-features" class="nav-link">Why Select Features?</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#types-of-feature-selection" class="nav-link">Types of Feature Selection</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#unsupervised-feature-selection" class="nav-link">Unsupervised Feature Selection</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#covariance" class="nav-link">Covariance</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#supervised-feature-selection" class="nav-link">Supervised Feature Selection</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id1" class="nav-link">Univariate Statistics</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id2" class="nav-link">]</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id3" class="nav-link">0.718
+]</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#mututal-information" class="nav-link">Mututal Information</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#model-based-single-fit" class="nav-link">Model based (single fit)</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#changing-lasso-alpha" class="nav-link">Changing Lasso alpha</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#selectfrommodel" class="nav-link">SelectFromModel</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#iterative-model-based-selection" class="nav-link">Iterative Model-Based Selection</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
             <a href="#recursive-feature-elimination" class="nav-link">Recursive Feature Elimination</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#rfecv" class="nav-link">RFECV</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#wrapper-methods" class="nav-link">Wrapper Methods</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#sequentialfeatureselector" class="nav-link">SequentialFeatureSelector</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#questions" class="nav-link">Questions ?</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#model-based-feature-selection" class="nav-link">Model-based Feature Selection</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id4" class="nav-link">Recursive Feature Elimination</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
@@ -214,6 +292,662 @@
 <h1>Automatic Feature Selection<a class="headerlink" href="#automatic-feature-selection" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="univariate-statistics">
 <h2>Univariate statistics<a class="headerlink" href="#univariate-statistics" title="Permalink to this headline">¶</a></h2>
+<p>class: center, middle</p>
+</div>
+<div class="section" id="feature-selection">
+<h2>Feature Selection<a class="headerlink" href="#feature-selection" title="Permalink to this headline">¶</a></h2>
+<p>Alright, so let’s talk about automatic feature selection. I
+want to talk about what methods are there to determine what
+features are important for your dataset, what features are
+important for a particular model.</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="why-select-features">
+<h2>Why Select Features?<a class="headerlink" href="#why-select-features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Avoid overfitting (?)</p></li>
+<li><p>Faster prediction and training</p></li>
+<li><p>Less storage for model and dataset</p></li>
+<li><p>More interpretable model</p></li>
+</ul>
+<p>There’s a couple of reasons why you might want to feature
+selection. One is to avoid overfitting and get a better
+model. In practice, I have rarely seen that happen. It’s not
+usually what I would try to do to increase performance. If
+I’m only interested in performance I probably would not try
+to do automatic feature selection unless I think only a very
+small subset of my feature is actually important. There’s a
+lot of increasing performance just by selecting only
+important features.</p>
+<p>What I think is more commonly, the reason to do automatic
+feature selection is you want to shrink your model to make
+faster predictions, to train your model faster, to store
+fewer data and possibly to collect fewer data. If you’re
+collecting the data or to feature from some online process,
+maybe it means you need fewer features, you need to store
+less information. I think actually the top reason to do
+feature selection is to have a more interpretable model. If
+your model is smaller, if your model has 5 features instead
+of 500, it’s probably much easier for you to grasp what the
+model does. If you can have a model that is as good with way
+fewer features, it will be much easier to explain and most
+people will be happy with it.</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="types-of-feature-selection">
+<h2>Types of Feature Selection<a class="headerlink" href="#types-of-feature-selection" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Unsupervised vs Supervised</p></li>
+<li><p>Univariate vs Multivariate</p></li>
+<li><p>Model based or not</p></li>
+</ul>
+<p>There’s a couple of different types of feature selection
+that I want to talk about. You can have supervised and
+unsupervised feature selection. Depending on whether you
+consider the target or not. You can have Univariate versus
+Multivariate feature selection. Whereas Univariate looks at
+each feature at a time and determines if it’s important.
+Multivariate looks at interactions as well. And you can have
+a feature selection based on a particular machine learning
+model or not.</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="unsupervised-feature-selection">
+<h2>Unsupervised Feature Selection<a class="headerlink" href="#unsupervised-feature-selection" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>May discard important information</p></li>
+<li><p>Variance-based: 0 variance or mostly constant</p></li>
+<li><p>Covariance-based: remove correlated features</p></li>
+<li><p>PCA: remove linear subspaces</p></li>
+</ul>
+<p>So the simpler thing that you might try is to do
+unsupervised feature selection which means just discard some
+features based on the statistics. For example, you could
+remove features that are mostly constant or that have zero
+variance. Like if they’re always constant, then definitely
+they’re not going to help you and you can remove them. If
+they have very small variance, on the other hand, that might
+only mean the scale of the features is small and you should
+just re-scale the feature. So just because it has a small
+variance, it doesn’t really mean anything. People often
+discard covariance features. But maybe just the difference
+between these two correlated features was the thing that’s
+important for prediction. If you use any unsupervised
+method, then you don’t know what are the things that are
+actually important are. Similarly, with PCA, it’s not really
+feature selection, because it doesn’t select subsets of the
+original feature. PCA will always use all original features.
+But it will remove linear subspaces of the feature space.
+And again, a lot of people like this to reduce the
+dimensionality and you will get the same things like a
+smaller model, maybe not more interpretable. It might be
+that the information you discarded is just the information
+that’s important. In a covariance sense, just because the
+data doesn’t extend a lot in a particular direction doesn’t
+mean that this direction isn’t the most important one for
+your prediction problem.</p>
+</div>
+<div class="section" id="covariance">
+<h2>Covariance<a class="headerlink" href="#covariance" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">scale</span>
+
+<span class="n">boston</span> <span class="o">=</span> <span class="n">load_boston</span><span class="p">()</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">boston</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">boston</span><span class="o">.</span><span class="n">target</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">X_train_scaled</span> <span class="o">=</span> <span class="n">scale</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+<span class="n">cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">rowvar</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>]
+.center[
+<img alt=":scale 32%" src="05-advanced-topics/images/img_17.png" />
+]</p>
+<p>Here’s what the covariance matrix looks like for the Boston
+housing data set. The way you could do covariance based
+feature selection is you look at the features that have the
+highest covariance and just drop one of them or you could
+sum over all the features and look at which features most
+correlated with the other ones and drop that.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.cluster</span> <span class="kn">import</span> <span class="n">hierarchy</span>
+<span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">(</span>
+    <span class="n">hierarchy</span><span class="o">.</span><span class="n">ward</span><span class="p">(</span><span class="n">cov</span><span class="p">),</span><span class="n">no_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="s1">&#39;ivl&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>.center[
+<img alt=":scale 90%" src="05-advanced-topics/images/img_19.png" />
+]</p>
+<p>So if you look at covariance, it should probably try to sort
+your features using some clustering. Here I’m using
+hierarchical clustering from scipy. On the right, it’s the
+covariance matrix and on the left, it’s also the covariance
+matrix where I reordered the columns and rows. You can see
+that there are three correlated blocks. You could do this
+automatically, or you could look at it and see what you
+think how many features are there, and how many of them are
+correlated. I really urge you, whenever you look at
+correlation, never look at correlation without resorting the
+columns. On the right-hand side here, maybe I can see that
+these two are correlated, but I can’t see anything else.
+Whereas on the left hand I can see much more clearly what
+the structure of the data is. What it did just was, it did
+clustering on the rows and columns to resort them.</p>
+<p>class: center, middle</p>
+</div>
+<div class="section" id="supervised-feature-selection">
+<h2>Supervised Feature Selection<a class="headerlink" href="#supervised-feature-selection" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id1">
+<h2>Univariate Statistics<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<ul class="simple">
+<li><p>Pick statistic, check p-values !</p></li>
+<li><p>f_regression, f_classsif, chi2 in scikit-learn</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">f_regression</span>
+<span class="n">f_values</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">f_regression</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>]
+.center[
+<img alt=":scale 60%" src="05-advanced-topics/images/img_20.png" />
+]</p>
+<p>So the simplest way is univariate features selection without
+models. The most classical one is to use statistical test
+and see the ones that are significantly related to the
+target. Depending on whether you look through classification
+or regression, you can add a t-test, f-test or chi-squared
+test and you can say which are the features that are
+significantly related with a target and I’m just going to
+select these.</p>
+<p>So this is again here for the Boston housing dataset, using
+F regression and F test. You can see here F values and the P
+values and you could use either of them to select a subset
+of the features. So for example, the number of rooms and
+LSTAT had very high F values, very small P values. These are
+certainly the most important features. While this one here
+doesn’t seem very important. One reason why this is not very
+important is because this is the binary variable and so this
+assumes linear regression model and the linear regression
+model is not very good at exploiting the binary variable.</p>
+<p>This is a super quick test to do. It’s very fast, it’s
+probably something you want to look at. But it assumes a
+linear model, which you might not want to assume.</p>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">SelectKBest</span><span class="p">,</span> <span class="n">SelectPercentile</span><span class="p">,</span> <span class="n">SelectFpr</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">RidgeCV</span>
+
+<span class="n">select</span> <span class="o">=</span> <span class="n">SelectKBest</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">score_func</span><span class="o">=</span><span class="n">f_regression</span><span class="p">)</span>
+<span class="n">select</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">select</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">379</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">379</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>]<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">all_features</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">RidgeCV</span><span class="p">())</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">all_features</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>0.718
+]<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">select_2</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span>
+                         <span class="n">SelectKBest</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">score_func</span><span class="o">=</span><span class="n">f_regression</span><span class="p">),</span> <span class="n">RidgeCV</span><span class="p">())</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">select_2</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>0.624
+]</p>
+<p>If you want to use these univariate statistics in
+scikit-learn there’s a couple of tools to select features
+based on this. In feature selection, there’s a whole bunch
+of them. There select k best which selects the K best
+feature, you can specify the number of features you want.
+Select percentile, which selects a percentile that you want
+and then there’s select FPR, it controls for the false
+positive rate, it basically does the multiple hypothesis
+testing adjustments to make sure that you false discovery
+rate of thinking the features are significantly important is
+low. These are scikit-learn transformers, you can
+instantiate them. By default, the parameter they all use a
+score function for classification. So if you want to do
+regression, you need to set the score function to F
+regression because you need different tests for regression
+classification. I said linear regression is not for binary
+features, maybe I shouldn’t have formulated in that way.
+Linear regression doesn’t allow you to do interactions,
+which is if you have multiple binary features would be the
+only issue. It’s more sort of that this linear test will not
+put a lot of emphasis on a binary feature because the way
+the test works. I can obviously also put this in a pipeline.
+Here, I’ve used a centered scale for ridge in a pipeline for
+a Boston housing data set and here, I’ve used two best
+features. You can see it actually got much worse because two
+features are not enough to select or to express all the
+information.</p>
+</div>
+<div class="section" id="mututal-information">
+<h2>Mututal Information<a class="headerlink" href="#mututal-information" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">mutual_info_regression</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">mutual_info_regression</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span>
+                                <span class="n">discrete_features</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>.center[
+<img alt=":scale 90%" src="05-advanced-topics/images/img_22.png" />
+]</p>
+<p>Another univariate statistics that you can use which is a
+little bit more complicated, which is called Mutual
+Information. There’s a version for regression classification
+in scikit-learn. This doesn’t use a linear model. It uses a
+non-parametric model using nearest neighbors. So basically,
+this also works if the interaction is nonlinear and it works
+on discrete and continuous features, but you have to tell us
+which features are discrete. So here, in this case, I tell
+it the feature number three is discrete and then this gives
+me some scores telling me what’s the mutual information
+between this feature in the target. Here I’m comparing the F
+values off the standard regression tests with the mutual
+information and they are sort of similar, but not entirely.
+If you think there are nonlinear interactions, and you have
+a model that can capture nonlinear interactions, then doing
+feature selection like taking these nonlinear features into
+account is good. This is much more computationally intensive
+than doing the F statistics. But this is still Univariate,
+looking at one feature at a time.</p>
+<p>class: spacious</p>
+<p>#Model-Based Feature Selection</p>
+<ul class="simple">
+<li><p>Get best fit for a particular model</p></li>
+<li><p>Ideally: exhaustive search over all possible
+combinations</p></li>
+<li><p>Exhaustive is infeasible (and has multiple testing
+issues)</p></li>
+<li><p>Use heuristics in practice.</p></li>
+</ul>
+<p>So now let’s look at multiple features at a time. Most of
+the things that look at multiple features at a time are
+model-based. Usually, model-based feature selection finds
+the subset of features on which this model performs best. So
+giving them a particular model like a linear model, or
+random forest, I want to find a subset of features for which
+this model performs best in terms of cross-validation
+performance. Ideally, to do that, I would do an exhaustive
+search over all possible subsets of the features. But that’s
+like exponentially many. Also, if I do so many models fits I
+might overfit. So instead, there are several heuristics you
+can use to basically shrink or grow the sets of features
+that you’re using.</p>
+<p>So first you fix the model. For models that give you some
+measure of feature importance, there’s a very simple
+technique which just looks at how important the models
+feature is.</p>
+</div>
+<div class="section" id="model-based-single-fit">
+<h2>Model based (single fit)<a class="headerlink" href="#model-based-single-fit" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<ul class="simple">
+<li><p>Build a model, select “features important to model”</p></li>
+<li><p>Lasso, other linear models, tree-based Models</p></li>
+<li><p>Multivariate - linear models assume linear relation
+]
+.smaller[</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LassoCV</span>
+<span class="n">X_train_scaled</span> <span class="o">=</span> <span class="n">scale</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">lasso</span> <span class="o">=</span> <span class="n">LassoCV</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lasso</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>[-0.881  0.951 -0.082  0.59  -1.69   2.639 -0.146 -2.796  1.695 -1.614
+-2.133  0.729 -3.615]
+]</p>
+<p>.center[
+<img alt=":scale 55%" src="05-advanced-topics/images/img_23.png" />
+]</p>
+<p>Using, say, a linear model, you fit the single model, and
+you discard all the features that the model doesn’t think
+are important. So this works for linear models really well
+and for tree-based models. This allows you to take linear
+interactions into account and with trees it allows you to
+take arbitrary interactions into account. So for example, I
+can use lasso, I can fit the lasso on my model, and I can
+look at the coefficients and the things that have small
+coefficients are less important in some sense, and so I
+could discard some of them. Here again, I plot the F values
+versus the coefficients of lasso. For example, here you can
+see for this variable, Lasso thinks its way less important
+than Univariate selection. Maybe because it was explained
+already by a combination of the other features. So if you
+have very co-related features Univariate selection will give
+all of them the same importance whereas lasso will usually
+pick only one of them. If you have many co-related features
+lasso picks only one of them at random. So it doesn’t mean
+that other features are not important. Question is what does
+this purple don’t represent? It represents that both the
+points are overlapping entirely.</p>
+<p>Here I use lassoCV which means it adjusted the
+regularization parameter in Lasso to make the optimum
+predictions.</p>
+</div>
+<div class="section" id="changing-lasso-alpha">
+<h2>Changing Lasso alpha<a class="headerlink" href="#changing-lasso-alpha" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Lasso</span>
+<span class="n">X_train_scaled</span> <span class="o">=</span> <span class="n">scale</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">lasso</span> <span class="o">=</span> <span class="n">Lasso</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lasso</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>[-0.     0.    -0.     0.    -0.     2.529 -0.    -0.    -0.    -0.228
+-1.701  0.132 -3.606]
+]</p>
+<p>.center[
+<img alt=":scale 80%" src="05-advanced-topics/images/img_24.png" />
+]</p>
+<p>If I look at the different alpha, it might be quite
+different. For example here with a default alpha of one, a
+lot of the coefficients are exactly zero and you can see it
+would only select five. How to select the alpha in lasso is
+important for the feature selection and so you might want to
+grid search. Now, let’s say we want to use this and so we
+want a scikit-learn estimator that does this. So we can put
+it in a pipeline.</p>
+<p>class: smaller</p>
+</div>
+<div class="section" id="selectfrommodel">
+<h2>SelectFromModel<a class="headerlink" href="#selectfrommodel" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">SelectFromModel</span>
+<span class="n">select_lassocv</span> <span class="o">=</span> <span class="n">SelectFromModel</span><span class="p">(</span><span class="n">LassoCV</span><span class="p">(),</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)</span>
+<span class="n">select_lassocv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">select_lassocv</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">379</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>–</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_lassocv</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">select_lassocv</span><span class="p">,</span> <span class="n">RidgeCV</span><span class="p">())</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">pipe_lassocv</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">all_features</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.717</span>
+<span class="mf">0.718</span>
+</pre></div>
+</div>
+<p>–</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">## could grid-search alpha in lasso</span>
+<span class="n">select_lasso</span> <span class="o">=</span> <span class="n">SelectFromModel</span><span class="p">(</span><span class="n">Lasso</span><span class="p">())</span>
+<span class="n">pipe_lasso</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">select_lasso</span><span class="p">,</span> <span class="n">RidgeCV</span><span class="p">())</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">pipe_lasso</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.671</span>
+</pre></div>
+</div>
+<p>SelectFrom model will work with any model with coef_ or feature_importances_.
+So that’s any linear model or tree based model. It uses this to
+select the features. So this will fit lasso and then if you
+call transform, it will discard all the features that lasso
+thought are not important. And you can change the threshold
+here, for example, so in this case, here I want to discard
+everything that lasso put to zero so I put a very small
+threshold in there. I could also set the threshold to be the
+median which selects 50% of the features. Here we are
+possibly discarding multiple features at once.
+SelectFromModel fits a single model, gets the feature
+importance was from this model and then drops according to
+the feature importance. And so here is how it looks in the
+pipeline, for example, you can see here that lasso with
+these parameters, drop two of the features and 11 after 13
+remains. If I put it in a pipeline the performance is about
+the same.</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="iterative-model-based-selection">
+<h2>Iterative Model-Based Selection<a class="headerlink" href="#iterative-model-based-selection" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Fit model, find least important feature, remove, iterate.</p></li>
+<li><p>Or: Start with single feature, find most important feature, add, iterate.</p></li>
+</ul>
+<p>But maybe dropping multiple features at once is not a good
+idea because the importance of the features might change
+once we dropped some of them. What we can do is, we can
+iteratively build models. And we could either start with a
+single feature then add more important ones or we could
+start with all features and discard some.</p>
+<p>We’ll talk about these two strategies which are slightly
+different.</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="recursive-feature-elimination">
+<h2>Recursive Feature Elimination<a class="headerlink" href="#recursive-feature-elimination" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Uses feature importances / coefficients, similar to “SelectFromModel”</p></li>
+<li><p>Iteratively removes features (one by one or in groups)</p></li>
+<li><p>Runtime: (n_features - n_feature_to_keep) / stepsize</p></li>
+</ul>
+<p>So the next step from what we just saw would be recursive
+feature elimination. So if we use SelectFromModel it will
+drop all the unimportant features at once, in a recursive
+feature elimination usually drops one feature at a time or
+as a parameter step size it drops step size features at a
+time. So you fit the model, you discard the least important
+feature, you fit the model, you discard the important
+feature and so on until you have as many features left as
+you want again. Again, this needs the model to meet some
+measure of feature importance so you can use this with the
+linear model or tree-based model. An example where you
+cannot use this is, at least not in scikit-learn is Kernel
+SVM or neural networks, because they don’t really give you a
+measure of feature importance easily. For each step feature
+that we remove, we need to train a new model. So this is
+much more expensive because we need to retrain the model
+many times, but we’re sort of being more careful in how we
+remove the features.</p>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">RFE</span>
+
+<span class="c1">## create ranking among all features by selecting only one</span>
+<span class="n">rfe</span> <span class="o">=</span> <span class="n">RFE</span><span class="p">(</span><span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">n_features_to_select</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">rfe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">rfe</span><span class="o">.</span><span class="n">ranking_</span>
+</pre></div>
+</div>
+<p>array([ 9,  8, 13, 11,  5,  2, 12,  4,  7,  6,  3, 10,  1])
+]</p>
+<p>.center[
+<img alt=":scale 95%" src="05-advanced-topics/images/img_27.png" />
+]</p>
+<p>This is implemented in RFE, for recursive feature
+elimination, it works similar to SelectFromModel. To do RFE,
+then the model that you want to use and then you can specify
+how many features you want to select. Here I’m comparing the
+ranking according to RFE. So when it dropped out the
+features to the linear regression coefficients, which is
+basically what I would use if I drop them off all at once,
+and you can see that they’re sort of similar. So there’s
+probably not a whole lot of difference, at least in this
+case. You need to specify how many features you want to
+select. But if you want to select only one feature, you have
+to build many models and drop all the other features and so
+on the way you tried out the model for keeping five features
+and so on. So if you want a grid search this, doing this
+independently would be a whole waste of time because they
+would do the same thing over and over again.</p>
+</div>
+<div class="section" id="rfecv">
+<h2>RFECV<a class="headerlink" href="#rfecv" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">RFECV</span>
+<span class="n">rfe</span> <span class="o">=</span> <span class="n">RFECV</span><span class="p">(</span><span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">rfe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rfe</span><span class="o">.</span><span class="n">support_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">boston</span><span class="o">.</span><span class="n">feature_names</span><span class="p">[</span><span class="n">rfe</span><span class="o">.</span><span class="n">support_</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span> <span class="kc">True</span>  <span class="kc">True</span> <span class="kc">False</span>  <span class="kc">True</span>  <span class="kc">True</span>  <span class="kc">True</span> <span class="kc">False</span>  <span class="kc">True</span>  <span class="kc">True</span>  <span class="kc">True</span>  <span class="kc">True</span>  <span class="kc">True</span>
+  <span class="kc">True</span><span class="p">]</span>
+<span class="p">[</span><span class="s1">&#39;CRIM&#39;</span> <span class="s1">&#39;ZN&#39;</span> <span class="s1">&#39;CHAS&#39;</span> <span class="s1">&#39;NOX&#39;</span> <span class="s1">&#39;RM&#39;</span> <span class="s1">&#39;DIS&#39;</span> <span class="s1">&#39;RAD&#39;</span> <span class="s1">&#39;TAX&#39;</span> <span class="s1">&#39;PTRATIO&#39;</span> <span class="s1">&#39;B&#39;</span> <span class="s1">&#39;LSTAT&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_rfe_ridgecv</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span>
+                                 <span class="n">RFECV</span><span class="p">(</span><span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">RidgeCV</span><span class="p">())</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">pipe_rfe_ridgecv</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.710</span>
+</pre></div>
+</div>
+<p>]</p>
+<p>So there’s a thing called RFECV that allows you to do
+efficient grid search for the number of features to keep.
+This basically has built-in cross-validation, provides the
+number of features to keep.</p>
+<p>I’ve done RFECVC with linear regression and set it to do 10
+fold cross-validation and then it will do the recursive
+feature elimination inside cross-validation and so it goes
+down from all features to just having one feature and with
+cross-validation, it will select the best number.</p>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_rfe_ridgecv</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span>
+                                 <span class="n">RFECV</span><span class="p">(</span><span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">RidgeCV</span><span class="p">())</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">pipe_rfe_ridgecv</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.710</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">PolynomialFeatures</span>
+<span class="n">pipe_rfe_ridgecv</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">PolynomialFeatures</span><span class="p">(),</span>
+                                 <span class="n">RFECV</span><span class="p">(</span><span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">RidgeCV</span><span class="p">())</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">pipe_rfe_ridgecv</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.820</span>
+</pre></div>
+</div>
+<p>]</p>
+<p>If we want to predict with the same model as used for
+selection, RFECV can be used as the prediction step. Could
+also use RFECV as transformer and use any other model!</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="wrapper-methods">
+<h2>Wrapper Methods<a class="headerlink" href="#wrapper-methods" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Can be applied for ANY model!</p></li>
+<li><p>Shrink / grow feature set by greedy search</p></li>
+<li><p>Called Forward or Backward selection</p></li>
+<li><p>Run CV / train-val split per feature</p></li>
+<li><p>Complexity: n_features * (n_features + 1) / 2</p></li>
+<li><p>Implemented in mlxtend</p></li>
+</ul>
+<p>So as I set recourse to each elimination. So this is more
+careful and it requires the model that gives you feature
+importance. There’s sort of more general reprimand sets that
+are, in a sense, even more careful, but also more expensive,
+but it can be applied to any model. These are sequential
+feature selection. The idea is to either start with zero
+features, and add the most important feature, or start with
+all features and remove the least important feature at a
+time. And you do this by not using a feature importance by
+the model. But actually each step you basically do like one
+step looking at search. So let’s say I started with all the
+features, I leave out the first feature, build the model and
+but I don’t only build a model, I do cross-validation of the
+model on the subset so I get some accuracy or R squared
+value. And I do this for every single feature. So I leave
+each feature out and look at the cross-validate accuracy.
+And I dropped the one that gives me the highest
+cost-validated accuracy.</p>
+<p>So now basically, this is even more expensive than doing the
+recursive feature elimination because I do a one step, look
+ahead. So now the runtime is quadratic in the number of
+features. Also for each iteration, I not only need to train
+a single model, I need to do cross-validation.</p>
+<p>This is like a pretty standard method, because it’s like
+very general, and you can apply it to any model. It’s like a
+brute force search. Right now it’s not in scikit-learn, but
+it’s in a package called mlxtend which has a couple other
+tools.</p>
+<p>Mlxtend is luckily fully scikit-learn compatible, so you can
+put it in a pipeline and everything’s fine.</p>
+</div>
+<div class="section" id="sequentialfeatureselector">
+<h2>SequentialFeatureSelector<a class="headerlink" href="#sequentialfeatureselector" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mlxtend.feature_selection</span> <span class="kn">import</span> <span class="n">SequentialFeatureSelector</span>
+<span class="n">sfs</span> <span class="o">=</span> <span class="n">SequentialFeatureSelector</span><span class="p">(</span><span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">forward</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">k_features</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">sfs</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Features</span><span class="p">:</span> <span class="mi">7</span><span class="o">/</span><span class="mi">7</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">sfs</span><span class="o">.</span><span class="n">k_feature_idx_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">boston</span><span class="o">.</span><span class="n">feature_names</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sfs</span><span class="o">.</span><span class="n">k_feature_idx_</span><span class="p">)])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="p">[</span><span class="s1">&#39;ZN&#39;</span> <span class="s1">&#39;NOX&#39;</span> <span class="s1">&#39;RM&#39;</span> <span class="s1">&#39;DIS&#39;</span> <span class="s1">&#39;TAX&#39;</span> <span class="s1">&#39;PTRATIO&#39;</span> <span class="s1">&#39;LSTAT&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sfs</span><span class="o">.</span><span class="n">k_score_</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.725</span>
+</pre></div>
+</div>
+<p>]</p>
+<p>So from mlxtend, you get feature selection, sequential
+feature selector, you put into the model, you tell it
+whether you want to do forward or backward. Forward equal to
+false means I started with all and I prune features one by
+one. Forward equal to true means I start with zero features
+and I use the one that gives me highest accuracy and then I
+add one by one. As I said with sequential feature selector,
+you need to specify the number of features and it does
+internally cross-validation and it optimizes accuracy for
+classification models and r square for regression models and
+does this stepwise selection. One thing I should have
+mentioned if you do feature selection this way,
+theoretically, you can have a model for feature selection
+that’s different from the model for prediction. In here, if
+you look at the top for the recursive feature elimination, I
+use linear regression. But actually, the model I fit in the
+end was a ridge model. So I could also use, let’s say, a
+tree-based model for feature selection and then the linear
+model for prediction if I wanted to. It’s not entirely clear
+if that helps or makes sense, but it’s sort of an additional
+degree of freedom. And for example, if I want a very
+interpretable model, I want my model that does the
+predictions to be linear so I can explain to my boss what it
+means. But I can also still do the feature selection using a
+more complicated model and just tell my boss “Oh, only these
+features are important and here’s how I make the prediction”</p>
+<p>class: center, middle</p>
+</div>
+<div class="section" id="questions">
+<h2>Questions ?<a class="headerlink" href="#questions" title="Permalink to this headline">¶</a></h2>
+<p>The question is if I do forward method or backward method
+with the same number of features will the same happen? They
+both are sort of one step look ahead approximations to
+trying out all subsets and there’s no guarantee we would get
+the same thing.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_breast_cancer</span>
@@ -338,8 +1072,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="recursive-feature-elimination">
-<h2>Recursive Feature Elimination<a class="headerlink" href="#recursive-feature-elimination" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2>Recursive Feature Elimination<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">RFE</span>

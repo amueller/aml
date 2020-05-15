@@ -27,9 +27,10 @@
     <script src="../_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Multifidelity Search" href="parameter_tuning_automl.html" />
+    <link rel="next" title="Cluster Stability" href="aml-17-cluster-evaluation.html" />
     <link rel="prev" title="Calibration" href="aml-11-calibration.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -93,7 +94,10 @@
       <a href="">3. Feature importances and Model interpretation</a>
     </li>
     <li class="">
-      <a href="parameter_tuning_automl.html">4. Multifidelity Search</a>
+      <a href="aml-17-cluster-evaluation.html">4. Cluster Stability</a>
+    </li>
+    <li class="">
+      <a href="parameter_tuning_automl.html">5. Parameter Tuning and AutoML</a>
     </li>
   </ul>
   </li>
@@ -160,9 +164,126 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#model-interpretation-and-feature-selection" class="nav-link">Model Interpretation and Feature Selection</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#model-interpretation-post-hoc" class="nav-link">Model Interpretation (post-hoc)?</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#not-inference" class="nav-link">Not inference!</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#not-causality" class="nav-link">Not causality!</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#still-useful" class="nav-link">still useful(?)</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#types-of-explanations" class="nav-link">Types of explanations</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#explain-model-locally" class="nav-link">Explain model locally</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#explaning-the-model-neq-explaining-the-data" class="nav-link">Explaning the model \neq explaining the data</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#features-important-to-the-model" class="nav-link">“Features important to the model”?</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#linear-model-coefficients" class="nav-link">Linear Model coefficients</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#drop-feature-importance" class="nav-link">Drop Feature Importance</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#lime" class="nav-link">LIME</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#shap" class="nav-link">SHAP</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#case-study" class="nav-link">Case Study</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#toy-data" class="nav-link">Toy data</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#models-on-lots-of-data" class="nav-link">Models on lots of data</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#coefficients-and-default-feature-importance" class="nav-link">Coefficients and default feature importance</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#permutation-importances" class="nav-link">Permutation Importances</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#shap-values" class="nav-link">SHAP values</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#more-model-inspection" class="nav-link">More model inspection</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#partial-dependence-plots" class="nav-link">Partial Dependence Plots</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#partial-dependence" class="nav-link">Partial Dependence</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#bivariate-partial-dependence-plots" class="nav-link">Bivariate Partial Dependence Plots</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#partial-dependence-for-classification" class="nav-link">Partial Dependence for Classification</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#pdp-caveats" class="nav-link">PDP Caveats</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#left-column-scale-100" class="nav-link">.left-column[
+
+]</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#ice-box" class="nav-link">Ice Box</a>
+        </li>
     
     </ul>
 </nav>
@@ -192,6 +313,402 @@
 </div>
 <div class="section" id="feature-importances-and-model-interpretation">
 <h1>Feature importances and Model interpretation<a class="headerlink" href="#feature-importances-and-model-interpretation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="model-interpretation-and-feature-selection">
+<h2>Model Interpretation and Feature Selection<a class="headerlink" href="#model-interpretation-and-feature-selection" title="Permalink to this headline">¶</a></h2>
+<p>03/04/20</p>
+<p>Andreas C. Müller</p>
+<p>Alright, everybody. Today we will talk about
+Feature selection and model interpretation, look at how to do this in general,
+and how to doit with scikit-learn. We’re also going to look into a couple
+of other Python libraries that help doing these two things.</p>
+<p>FIXME motivation for model interpretation!
+FIXME random forest code is confusing because I tried to simplify it. Also: we haven’t seen those yet?!</p>
+<p>FIXME use / explain permutation importance</p>
+<p>FIXME use seaborn clustermap for correlation matrix plot</p>
+<p>FIXME add diagram for permutation importance
+FIXME explain when and how to interpret coeffients
+FIXME mutual information needs better explanation
+FIXME lasso show random between correlated, same for tree, compare to RF
+FIXME IceBOX example with cross?
+FIXME should be two lectures really!
+FIXME maybe drop shap and shaply
+FIXME better explanation for ice-box and partial dependence
+FIXME partial dependence definitely needs a process diagram
+FIXME remove boston
+FIXME icebox do real simpsons paradox example
+FIXME unsupervised feature selection terrible?
+FIXME why is shap in the wrong direction? Why spurious importances?</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="model-interpretation-post-hoc">
+<h2>Model Interpretation (post-hoc)?<a class="headerlink" href="#model-interpretation-post-hoc" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li></li>
+<li></li>
+<li></li>
+</ul>
+<div class="section" id="not-inference">
+<h3>Not inference!<a class="headerlink" href="#not-inference" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="not-causality">
+<h3>Not causality!<a class="headerlink" href="#not-causality" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="still-useful">
+<h3>still useful(?)<a class="headerlink" href="#still-useful" title="Permalink to this headline">¶</a></h3>
+</div>
+<p>Possibly useful for feature selection, feature engineering, model debugging, explaining predictions.
+Alternatively: use model that are easy to interpret!
+OR: derive a simpler explainable model from a non-explainable one (model compression)</p>
+<p>Caveat: if your model is bad, interpreting it makes no sense!</p>
+</div>
+<div class="section" id="types-of-explanations">
+<h2>Types of explanations<a class="headerlink" href="#types-of-explanations" title="Permalink to this headline">¶</a></h2>
+<p>##Explain model globally</p>
+<ul class="simple">
+<li><p>How does the output depend on the input?</p></li>
+<li><p>Often: some form of marginals</p></li>
+</ul>
+<div class="section" id="explain-model-locally">
+<h3>Explain model locally<a class="headerlink" href="#explain-model-locally" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Why did it classify this point this way?</p></li>
+<li><p>Explanation could look like a “global” one but be different for each point.</p></li>
+<li><p>“What is the minimum change to classify it differently?”</p></li>
+</ul>
+<p>Marginals: how does the prediction change as function of a particular Features?</p>
+<p>class: spacious</p>
+</div>
+</div>
+<div class="section" id="explaning-the-model-neq-explaining-the-data">
+<h2>Explaning the model <span class="math notranslate nohighlight">\(\neq\)</span> explaining the data<a class="headerlink" href="#explaning-the-model-neq-explaining-the-data" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>model inspection only tells you about the model</p></li>
+<li><p>the model might not accurately reflect the data</p></li>
+</ul>
+</div>
+<div class="section" id="features-important-to-the-model">
+<h2>“Features important to the model”?<a class="headerlink" href="#features-important-to-the-model" title="Permalink to this headline">¶</a></h2>
+<p>Naive:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">coef_</span></code> for linear models (abs value or norm for multi-class)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">feature_importances_</span></code> for tree-based models</p></li>
+</ul>
+<p>Use with care!</p>
+</div>
+<div class="section" id="linear-model-coefficients">
+<h2>Linear Model coefficients<a class="headerlink" href="#linear-model-coefficients" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Relative importance only meaningful after scaling</p></li>
+<li><p>Correlation among features might make coefficients completely uninterpretable</p></li>
+<li><p>L1 regularization will pick one at random from a correlated group</p></li>
+<li><p>Any penalty will invalidate usual interpretation of linear coefficients</p></li>
+</ul>
+</div>
+<div class="section" id="drop-feature-importance">
+<h2>Drop Feature Importance<a class="headerlink" href="#drop-feature-importance" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">$$I_i^\text{drop}</span> <span class="pre">=</span> <span class="pre">\text{Acc}(f,</span> <span class="pre">X,</span> <span class="pre">y)</span> <span class="pre">-</span> <span class="pre">\text{Acc}(f',</span> <span class="pre">X_{-i},</span> <span class="pre">y)$$</span></code></p>
+<p>.smallest[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>def drop_feature_importance(est, X, y):
+    base_score = np.mean(cross_val_score(est, X, y))
+    scores = []
+    for feature in range(X.shape[1]):
+        mask = np.ones(X.shape[1], &#39;bool&#39;)
+        mask[feature] = False
+        X_new = X[:, mask]
+        this_score = np.mean(cross_val_score(est, X_new, y))
+        scores.append(base_score - this_score)
+    return np.array(scores)
+```]
+.smallest[
+- Doesn&#39;t really explain model (refits for each feature)
+- Can&#39;t deal with correlated features well
+- Very slow
+- Can be used for feature selection
+]
+
+
+on it&#39;s own not very useful, we&#39;ll see it later
+rebuilds many models, not explaining this particular model!
++++
+## Permutation importance
+Idea: measure marginal influence of one feature
+
+`$$I_i^\text{perm} = \text{Acc}(f, X, y) - \mathbb{E}_{x_i}\left[\text{Acc}(f(x_i, X_{-i}), y)\right]$$`
+
+```python
+def permutation_importance(est, X, y, n_repeat=100):
+  baseline_score = estimator.score(X, y)
+  for f_idx in range(X.shape[1]):
+      for repeat in range(n_repeat):
+          X_new = X.copy()
+          X_new[:, f_idx] = np.random.shuffle(X[:, f_idx])
+          feature_score = estimator.score(X_new, y)
+          scores[f_idx, repeat] = baseline_score - feature_score
+</pre></div>
+</div>
+<p>–</p>
+<ul class="simple">
+<li><p>Applied on validation set given trained estimator.</p></li>
+<li><p>Also kinda slow.</p></li>
+</ul>
+</div>
+<div class="section" id="lime">
+<h2>LIME<a class="headerlink" href="#lime" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<ul class="simple">
+<li><p>Build sparse linear local model around each data point.</p></li>
+<li><p>Explain prediction for each point locally.</p></li>
+<li><p>Paper: “Why Should I Trust You?” Explaining the Predictions of Any Classifier</p></li>
+<li><p>Implementation: ELI5, https://github.com/marcotcr/lime
+]</p></li>
+</ul>
+<p>.center[
+<img alt=":scale 60%" src="04-model-evaluation/images/lime_paper.png" />
+]</p>
+</div>
+<div class="section" id="shap">
+<h2>SHAP<a class="headerlink" href="#shap" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Build around idea of Shaply values</p></li>
+<li><p>very roughly: does drop-out importance for every subset of features</p></li>
+<li><p>intractable, sampling approximations exists</p></li>
+<li><p>fast variants for linear and tree-based models</p></li>
+<li><p>awesome vis and tools: https://github.com/slundberg/shap</p></li>
+<li><p>allows local / per sample explanations</p></li>
+</ul>
+<p>class: middle</p>
+</div>
+<div class="section" id="case-study">
+<h2>Case Study<a class="headerlink" href="#case-study" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="toy-data">
+<h2>Toy data<a class="headerlink" href="#toy-data" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">100000</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>.wide-left-column[
+<img alt=":scale 100%" src="04-model-evaluation/images/toy_data_scatter.png" /></p>
+<p>]
+.narrow-right-column[
+<img alt=":scale 100%" src="04-model-evaluation/images/covariance.png" /></p>
+<p>]</p>
+<p>class: compact</p>
+</div>
+<div class="section" id="models-on-lots-of-data">
+<h2>Models on lots of data<a class="headerlink" href="#models-on-lots-of-data" title="Permalink to this headline">¶</a></h2>
+<p>.smallest[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lasso</span> <span class="o">=</span> <span class="n">LassoCV</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">lasso</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>0.545</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ridge</span> <span class="o">=</span> <span class="n">RidgeCV</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">ridge</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>0.545</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">lr</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>0.545</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_leaf_nodes&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">5</span><span class="p">)}</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">DecisionTreeRegressor</span><span class="p">(),</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>0.545</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">rf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>0.542
+]</p>
+</div>
+<div class="section" id="coefficients-and-default-feature-importance">
+<h2>Coefficients and default feature importance<a class="headerlink" href="#coefficients-and-default-feature-importance" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 100%" src="04-model-evaluation/images/standard_importances.png" /></p>
+<ul class="simple">
+<li><p>tree and RF have no directionality in importances</p></li>
+<li><p>lasso (and to some degree tree) selected randomly among correlated</p></li>
+<li><p>RF assigns high importance to random features</p></li>
+</ul>
+</div>
+<div class="section" id="permutation-importances">
+<h2>Permutation Importances<a class="headerlink" href="#permutation-importances" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 50%" src="04-model-evaluation/images/standard_importances.png" />
+<img alt=":scale 50%" src="04-model-evaluation/images/permutation_importance_big.png" />
+]</p>
+</div>
+<div class="section" id="shap-values">
+<h2>SHAP values<a class="headerlink" href="#shap-values" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 50%" src="04-model-evaluation/images/standard_importances.png" />
+<img alt=":scale 50%" src="04-model-evaluation/images/shap_big.png" />
+]</p>
+<p>class: middle</p>
+</div>
+<div class="section" id="more-model-inspection">
+<h2>More model inspection<a class="headerlink" href="#more-model-inspection" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="partial-dependence-plots">
+<h2>Partial Dependence Plots<a class="headerlink" href="#partial-dependence-plots" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Marginal dependence of prediction on one (or two features)</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">$$f_i^{\text{pdp}}(x_i)</span> <span class="pre">=</span> <span class="pre">\mathbb{E}_{X_{-i}}\left[f(x_i,</span> <span class="pre">x_{-i})\right]$$</span></code></p>
+<ul class="simple">
+<li><p>Idea: Get marginal predictions given feature.</p></li>
+<li><p>How? “integrate out” other features using validation data</p></li>
+<li><p>Fast methods available for tree-based models (doesn’t require validation data)</p></li>
+<li><p>Nonsensical for linear models.</p></li>
+</ul>
+<p>class: compact</p>
+</div>
+<div class="section" id="partial-dependence">
+<h2>Partial Dependence<a class="headerlink" href="#partial-dependence" title="Permalink to this headline">¶</a></h2>
+<p>.tiny[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.inspection</span> <span class="kn">import</span> <span class="n">plot_partial_dependence</span>
+<span class="n">boston</span> <span class="o">=</span> <span class="n">load_boston</span><span class="p">()</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">boston</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">boston</span><span class="o">.</span><span class="n">target</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">gbrt</span> <span class="o">=</span> <span class="n">GradientBoostingRegressor</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plot_partial_dependence</span><span class="p">(</span><span class="n">gbrt</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">gbrt</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">)[</span><span class="o">-</span><span class="mi">6</span><span class="p">:],</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">boston</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>]</p>
+<p>–</p>
+<p>.center[
+<img alt=":scale 60%" src="04-model-evaluation/images/feat_impo_part_dep.png" />
+]</p>
+<p>But there’s also something else that’s quite interesting,
+which is called Partial Dependence Plots that’s actually
+possible for all trees. Unfortunately, in scikit-learn, it’s
+available only for the gradient boosting. So the idea here
+is to not only see what parameters are important but how
+will they influence the target. And so after you fit your
+model, I’m using the Boston data set to the gradient
+boosting regressor, there’s a thing called plot partial
+dependence, which gets the model and the training data set
+and then the features for which I want to make the partial
+dependence plots.</p>
+<p>So here, I’m looking at the six most important features. The
+feature importance is important according to the trees. So I
+sort this and take the six most important ones.</p>
+<p>And so this is what the partner dependence plots look like.
+So this is the most important feature, the second most
+important feature and so on. This is sort of the marginal
+contribution of each feature. Basically, in each tree,
+you’re summing out the contribution of all the other
+features, and you look only at what is the contribution of
+this particular feature. In general, this would be hard to
+compute. For tree-based models you can compute is a very
+efficient way because you can basically just sum up over the
+whole space by traversing the tree.</p>
+<p>Here with increased room size, the price increases and you
+can see how it increases and you can see that there’s like a
+big step function here. And you can see that for increased
+LSTAT, the price decreases. For the others, there aren’t any
+drastic effect. There seems to be some threshold for NOX.
+And something funky going on DIS.</p>
+<p>The question is, so I said for random forest, you can’t find
+out the direction of which way the feature influences. But
+that was for the feature importance. So the feature
+importance tells the impurity decrease. So here I also look
+at the feature importance and they’re just numbers so they
+don’t give you the direction. For both gradient boosting and
+random forest, you can look at partial dependency plot, and
+they will give you a non-parametric model of how a single
+feature influences it. Unfortunately, it’s not available in
+scikit-learn. You could do the same thing for random
+forests. Because in the end, the way they predict is quite
+similar.</p>
+</div>
+<div class="section" id="bivariate-partial-dependence-plots">
+<h2>Bivariate Partial Dependence Plots<a class="headerlink" href="#bivariate-partial-dependence-plots" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plot_partial_dependence</span><span class="p">(</span>
+    <span class="n">gbrt</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">gbrt</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]],</span>
+    <span class="n">feature_names</span><span class="o">=</span><span class="n">boston</span><span class="o">.</span><span class="n">feature_names</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">grid_resolution</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>]
+.center[
+<img alt=":scale 80%" src="04-model-evaluation/images/feature_importance.png" />
+]</p>
+<p>You can also do this in bivariate. So here, looking at the
+two most important features in a bivariate plot, I’m
+actually not giving it a list of features, but I’m giving it
+a list of list of features. And so the two most important
+features, LSTAT, and ROOM.</p>
+<p>You can see there’s no very complex interaction. As you can
+see, the effect of these two features taking into account
+all the other features.</p>
+<p>This is something you can usually do for linear model
+easily. If you do this for the linear model, you would have
+lines everywhere but for more complicated models this is
+very hard to do. Way more tricky to do in neural networks.</p>
+</div>
+<div class="section" id="partial-dependence-for-classification">
+<h2>Partial Dependence for Classification<a class="headerlink" href="#partial-dependence-for-classification" title="Permalink to this headline">¶</a></h2>
+<p>.tiny-code[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.inspection</span> <span class="kn">import</span> <span class="n">plot_partial_dependence</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plot_partial_dependence</span><span class="p">(</span><span class="n">gbrt</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">n_cols</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                       <span class="n">feature_names</span><span class="o">=</span><span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">,</span> <span class="n">grid_resolution</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>]
+.center[
+<img alt=":scale 50%" src="04-model-evaluation/images/feat_impo_part_dep_class.png" />
+]</p>
+<p>We can do the same for classification. Here is a partial
+dependency plot for the iris dataset.</p>
+<p>As I said, for classification we’re usually using One Versus
+Rest. So here, we have three classifiers.</p>
+<p>One classifier for sertosa, one for Versicolor and one for
+virginica.</p>
+<p>You can see that for the first two features they’re like
+flat. But for sertosa the decision function is high for
+small part petal length, medium peddling for versicolor and
+large for virginca. These are all put through logistic
+function and then normalized.</p>
+</div>
+<div class="section" id="pdp-caveats">
+<h2>PDP Caveats<a class="headerlink" href="#pdp-caveats" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="left-column-scale-100">
+<h2>.left-column[
+<img alt=":scale 100%" src="04-model-evaluation/images/pdp_failure.png" />
+]<a class="headerlink" href="#left-column-scale-100" title="Permalink to this headline">¶</a></h2>
+<p>.right-column[
+<img alt=":scale 100%" src="04-model-evaluation/images/pdp_failure_data.png" />
+]</p>
+<p>class:compact</p>
+</div>
+<div class="section" id="ice-box">
+<h2>Ice Box<a class="headerlink" href="#ice-box" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<ul class="simple">
+<li><p>like partial dependence plots, without the <code class="docutils literal notranslate"><span class="pre">.mean(axis=0)</span></code>
+]</p></li>
+</ul>
+<p>.center[
+<img alt=":scale 60%" src="04-model-evaluation/images/ice_cross.png" />
+]
+.tiny[</p>
+<ul class="simple">
+<li><p>https://pdpbox.readthedocs.io/en/latest/</p></li>
+<li><p>https://github.com/AustinRochford/PyCEbox</p></li>
+<li><p>https://github.com/scikit-learn/scikit-learn/pull/16164
+]</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># generate data from original 2d linear model</span>
@@ -250,7 +767,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_4_0.png" src="../_images/aml-12-interpretation_4_0.png" />
+<img alt="../_images/aml-12-interpretation_26_0.png" src="../_images/aml-12-interpretation_26_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -265,7 +782,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_5_0.png" src="../_images/aml-12-interpretation_5_0.png" />
+<img alt="../_images/aml-12-interpretation_27_0.png" src="../_images/aml-12-interpretation_27_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -439,7 +956,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_17_0.png" src="../_images/aml-12-interpretation_17_0.png" />
+<img alt="../_images/aml-12-interpretation_39_0.png" src="../_images/aml-12-interpretation_39_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -500,7 +1017,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_23_0.png" src="../_images/aml-12-interpretation_23_0.png" />
+<img alt="../_images/aml-12-interpretation_45_0.png" src="../_images/aml-12-interpretation_45_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -562,7 +1079,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_28_0.png" src="../_images/aml-12-interpretation_28_0.png" />
+<img alt="../_images/aml-12-interpretation_50_0.png" src="../_images/aml-12-interpretation_50_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -673,7 +1190,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_36_0.png" src="../_images/aml-12-interpretation_36_0.png" />
+<img alt="../_images/aml-12-interpretation_58_0.png" src="../_images/aml-12-interpretation_58_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -701,7 +1218,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_39_0.png" src="../_images/aml-12-interpretation_39_0.png" />
+<img alt="../_images/aml-12-interpretation_61_0.png" src="../_images/aml-12-interpretation_61_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -735,7 +1252,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_42_0.png" src="../_images/aml-12-interpretation_42_0.png" />
+<img alt="../_images/aml-12-interpretation_64_0.png" src="../_images/aml-12-interpretation_64_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -771,7 +1288,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_46_0.png" src="../_images/aml-12-interpretation_46_0.png" />
+<img alt="../_images/aml-12-interpretation_68_0.png" src="../_images/aml-12-interpretation_68_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -790,6 +1307,7 @@
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">shap_tree_small</span> <span class="o">=</span> <span class="n">shap_trees</span><span class="p">(</span><span class="n">best_tree</span><span class="p">,</span> <span class="n">X_train_small</span><span class="p">,</span> <span class="n">X_test_small</span><span class="p">)</span>
 </pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -827,7 +1345,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_52_0.png" src="../_images/aml-12-interpretation_52_0.png" />
+<img alt="../_images/aml-12-interpretation_74_0.png" src="../_images/aml-12-interpretation_74_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -854,7 +1372,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_54_0.png" src="../_images/aml-12-interpretation_54_0.png" />
+<img alt="../_images/aml-12-interpretation_76_0.png" src="../_images/aml-12-interpretation_76_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -884,8 +1402,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="partial-dependence">
-<h1>Partial Dependence<a class="headerlink" href="#partial-dependence" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h1>Partial Dependence<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_boston</span>
@@ -918,7 +1436,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_60_0.png" src="../_images/aml-12-interpretation_60_0.png" />
+<img alt="../_images/aml-12-interpretation_82_0.png" src="../_images/aml-12-interpretation_82_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -931,7 +1449,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_61_0.png" src="../_images/aml-12-interpretation_61_0.png" />
+<img alt="../_images/aml-12-interpretation_83_0.png" src="../_images/aml-12-interpretation_83_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -964,9 +1482,9 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.9736842105263158
 </pre></div>
 </div>
-<img alt="../_images/aml-12-interpretation_62_1.png" src="../_images/aml-12-interpretation_62_1.png" />
-<img alt="../_images/aml-12-interpretation_62_2.png" src="../_images/aml-12-interpretation_62_2.png" />
-<img alt="../_images/aml-12-interpretation_62_3.png" src="../_images/aml-12-interpretation_62_3.png" />
+<img alt="../_images/aml-12-interpretation_84_1.png" src="../_images/aml-12-interpretation_84_1.png" />
+<img alt="../_images/aml-12-interpretation_84_2.png" src="../_images/aml-12-interpretation_84_2.png" />
+<img alt="../_images/aml-12-interpretation_84_3.png" src="../_images/aml-12-interpretation_84_3.png" />
 </div>
 </div>
 </div>
@@ -999,7 +1517,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html">[<matplotlib.lines.Line2D object at 0x7fbe32e01320>]</div><img alt="../_images/aml-12-interpretation_66_1.png" src="../_images/aml-12-interpretation_66_1.png" />
+<div class="output text_html">[<matplotlib.lines.Line2D object at 0x7fbe32e01320>]</div><img alt="../_images/aml-12-interpretation_88_1.png" src="../_images/aml-12-interpretation_88_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1010,7 +1528,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_67_0.png" src="../_images/aml-12-interpretation_67_0.png" />
+<img alt="../_images/aml-12-interpretation_89_0.png" src="../_images/aml-12-interpretation_89_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1028,7 +1546,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_69_0.png" src="../_images/aml-12-interpretation_69_0.png" />
+<img alt="../_images/aml-12-interpretation_91_0.png" src="../_images/aml-12-interpretation_91_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1044,7 +1562,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_70_0.png" src="../_images/aml-12-interpretation_70_0.png" />
+<img alt="../_images/aml-12-interpretation_92_0.png" src="../_images/aml-12-interpretation_92_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1057,7 +1575,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_71_0.png" src="../_images/aml-12-interpretation_71_0.png" />
+<img alt="../_images/aml-12-interpretation_93_0.png" src="../_images/aml-12-interpretation_93_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1105,12 +1623,12 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_74_0.png" src="../_images/aml-12-interpretation_74_0.png" />
-<img alt="../_images/aml-12-interpretation_74_1.png" src="../_images/aml-12-interpretation_74_1.png" />
-<img alt="../_images/aml-12-interpretation_74_2.png" src="../_images/aml-12-interpretation_74_2.png" />
-<img alt="../_images/aml-12-interpretation_74_3.png" src="../_images/aml-12-interpretation_74_3.png" />
-<img alt="../_images/aml-12-interpretation_74_4.png" src="../_images/aml-12-interpretation_74_4.png" />
-<img alt="../_images/aml-12-interpretation_74_5.png" src="../_images/aml-12-interpretation_74_5.png" />
+<img alt="../_images/aml-12-interpretation_96_0.png" src="../_images/aml-12-interpretation_96_0.png" />
+<img alt="../_images/aml-12-interpretation_96_1.png" src="../_images/aml-12-interpretation_96_1.png" />
+<img alt="../_images/aml-12-interpretation_96_2.png" src="../_images/aml-12-interpretation_96_2.png" />
+<img alt="../_images/aml-12-interpretation_96_3.png" src="../_images/aml-12-interpretation_96_3.png" />
+<img alt="../_images/aml-12-interpretation_96_4.png" src="../_images/aml-12-interpretation_96_4.png" />
+<img alt="../_images/aml-12-interpretation_96_5.png" src="../_images/aml-12-interpretation_96_5.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1123,7 +1641,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_76_0.png" src="../_images/aml-12-interpretation_76_0.png" />
+<img alt="../_images/aml-12-interpretation_98_0.png" src="../_images/aml-12-interpretation_98_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1141,7 +1659,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_77_0.png" src="../_images/aml-12-interpretation_77_0.png" />
+<img alt="../_images/aml-12-interpretation_99_0.png" src="../_images/aml-12-interpretation_99_0.png" />
 </div>
 </div>
 </div>
@@ -1183,7 +1701,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_82_0.png" src="../_images/aml-12-interpretation_82_0.png" />
+<img alt="../_images/aml-12-interpretation_104_0.png" src="../_images/aml-12-interpretation_104_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1204,7 +1722,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_84_0.png" src="../_images/aml-12-interpretation_84_0.png" />
+<img alt="../_images/aml-12-interpretation_106_0.png" src="../_images/aml-12-interpretation_106_0.png" />
 </div>
 </div>
 </div>
@@ -1234,7 +1752,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-12-interpretation_87_0.png" src="../_images/aml-12-interpretation_87_0.png" />
+<img alt="../_images/aml-12-interpretation_109_0.png" src="../_images/aml-12-interpretation_109_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1311,7 +1829,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7ffa18176da0&gt;
 </pre></div>
 </div>
-<img alt="../_images/aml-12-interpretation_92_1.png" src="../_images/aml-12-interpretation_92_1.png" />
+<img alt="../_images/aml-12-interpretation_114_1.png" src="../_images/aml-12-interpretation_114_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1348,7 +1866,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7ffa1a139e80&gt;
 </pre></div>
 </div>
-<img alt="../_images/aml-12-interpretation_94_1.png" src="../_images/aml-12-interpretation_94_1.png" />
+<img alt="../_images/aml-12-interpretation_116_1.png" src="../_images/aml-12-interpretation_116_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1385,7 +1903,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7ffa1a07e978&gt;
 </pre></div>
 </div>
-<img alt="../_images/aml-12-interpretation_96_1.png" src="../_images/aml-12-interpretation_96_1.png" />
+<img alt="../_images/aml-12-interpretation_118_1.png" src="../_images/aml-12-interpretation_118_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1491,7 +2009,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f064678fb38&gt;
 </pre></div>
 </div>
-<img alt="../_images/aml-12-interpretation_103_1.png" src="../_images/aml-12-interpretation_103_1.png" />
+<img alt="../_images/aml-12-interpretation_125_1.png" src="../_images/aml-12-interpretation_125_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1610,7 +2128,7 @@
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="aml-11-calibration.html" title="previous page">Calibration</a>
-    <a class='right-next' id="next-link" href="parameter_tuning_automl.html" title="next page">Multifidelity Search</a>
+    <a class='right-next' id="next-link" href="aml-17-cluster-evaluation.html" title="next page">Cluster Stability</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Multifidelity Search &#8212; Applied Machine Learning in Python</title>
+    <title>Parameter Tuning and AutoML &#8212; Applied Machine Learning in Python</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -27,10 +27,11 @@
     <script src="../_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Advanced Topics" href="../05-advanced-topics/index.html" />
-    <link rel="prev" title="Feature importances and Model interpretation" href="aml-12-interpretation.html" />
+    <link rel="prev" title="Cluster Stability" href="aml-17-cluster-evaluation.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -92,8 +93,11 @@
     <li class="">
       <a href="aml-12-interpretation.html">3. Feature importances and Model interpretation</a>
     </li>
+    <li class="">
+      <a href="aml-17-cluster-evaluation.html">4. Cluster Stability</a>
+    </li>
     <li class="active">
-      <a href="">4. Multifidelity Search</a>
+      <a href="">5. Parameter Tuning and AutoML</a>
     </li>
   </ul>
   </li>
@@ -171,6 +175,182 @@
             <a href="#training-size-in-svc" class="nav-link">training size in SVC</a>
         </li>
     
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id1" class="nav-link">Parameter Tuning and AutoML</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#motivation" class="nav-link">Motivation</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#conditional-hyper-parameters" class="nav-link">Conditional Hyper-Parameters</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#formulating-model-selection-as-hyperparameter-optimization" class="nav-link">Formulating model-selection as Hyperparameter Optimization</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#cash-problem" class="nav-link">CASH problem</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#issues-with-grid-search" class="nav-link">Issues with Grid-Search</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#black-box-search-procedures" class="nav-link">Black-Box Search Procedures</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#random-search" class="nav-link">Random Search</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#random-search-with-scikit-learn" class="nav-link">Random Search with scikit-learn</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#bayesian-optimization-smbo" class="nav-link">Bayesian Optimization, SMBO</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#surrogate-functions" class="nav-link">Surrogate functions</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#evolutionary-methods-tpot" class="nav-link">Evolutionary Methods: TPOT</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#implementations" class="nav-link">Implementations</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#criticism" class="nav-link">Criticism</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#beyond-black-box" class="nav-link">Beyond Black-Box</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#multi-fidelity-search" class="nav-link">Multi-Fidelity Search</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#multi-fidelity-bayesian-optimization" class="nav-link">Multi-Fidelity Bayesian Optimization</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#successive-halving" class="nav-link">Successive Halving</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#successive-halving-example" class="nav-link">Successive Halving Example</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#successive-halving-different-example" class="nav-link">Successive Halving (different) Example</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#hyperband" class="nav-link">Hyperband</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id2" class="nav-link">Hyperband</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#bohb-hpbandster" class="nav-link">BOHB / HpBandSter</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#in-practice" class="nav-link">In Practice</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#meta-learning" class="nav-link">Meta-learning</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#learning-from-experience-other-datasets" class="nav-link">Learning from experience (other datasets)</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#ranking" class="nav-link">Ranking</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#portfolios" class="nav-link">Portfolios</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#discretization" class="nav-link">Discretization</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#are-continuous-parameters-actually-important" class="nav-link">Are continuous parameters actually important ?</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#meta-features-and-meta-models" class="nav-link">Meta-Features and Meta-Models</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#active-testing-and-recommendations" class="nav-link">Active Testing and Recommendations</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#multi-task-bayesian-optimization" class="nav-link">Multi-Task Bayesian Optimization</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#ensemble-models" class="nav-link">Ensemble Models</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#auto-sklearn" class="nav-link">Auto-sklearn</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#playing-around-with-auto-sklearn" class="nav-link">Playing around with auto-sklearn</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#practical-recommendations" class="nav-link">Practical Recommendations</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#seems-promising" class="nav-link">Seems promising:</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#criticisms" class="nav-link">Criticisms</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#dabl" class="nav-link">dabl</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#https-dabl-github-io" class="nav-link">https://dabl.github.io/</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#questions" class="nav-link">Questions ?</a>
+        </li>
+    
     </ul>
 </nav>
 
@@ -221,10 +401,366 @@
 </div>
 </div>
 </div>
-<div class="section" id="multifidelity-search">
-<h1>Multifidelity Search<a class="headerlink" href="#multifidelity-search" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="parameter-tuning-and-automl">
+<h1>Parameter Tuning and AutoML<a class="headerlink" href="#parameter-tuning-and-automl" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="training-size-in-svc">
 <h2>training size in SVC<a class="headerlink" href="#training-size-in-svc" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id1">
+<h2>Parameter Tuning and AutoML<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>03/30/20</p>
+<p>Andreas C. Müller</p>
+<p>FIXME successive halving and hyperband explaination with budget is too confusing, don’t need it
+FIXME add neural networks to meta-model
+FIXME bullet points
+FIXME show figure 2x random is as good as hyperband?
+FIXME needs lots more polish!
+FIXME too long?! what?! how?!
+FIXME difference between hyperband and SuccessiveHalving unclear</p>
+</div>
+<div class="section" id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Need to select among Models</p></li>
+<li><p>Need to select Hyper-Parameters</p></li>
+<li><p>Need to select among preprocessing methods</p></li>
+</ul>
+</div>
+<div class="section" id="conditional-hyper-parameters">
+<h2>Conditional Hyper-Parameters<a class="headerlink" href="#conditional-hyper-parameters" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Kernels</p></li>
+<li><p>Neural Nets</p></li>
+<li><p>Pipelines</p></li>
+</ul>
+</div>
+<div class="section" id="formulating-model-selection-as-hyperparameter-optimization">
+<h2>Formulating model-selection as Hyperparameter Optimization<a class="headerlink" href="#formulating-model-selection-as-hyperparameter-optimization" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>One big search, many conditional Hyper-Parameters</p></li>
+<li><p>Categorical, integer, continuous, conditional</p></li>
+<li><p>Different distributions</p></li>
+</ul>
+</div>
+<div class="section" id="cash-problem">
+<h2>CASH problem<a class="headerlink" href="#cash-problem" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Find the best configuration</p></li>
+<li><p>Global optimization on complex (high-dim?) space</p></li>
+</ul>
+</div>
+<div class="section" id="issues-with-grid-search">
+<h2>Issues with Grid-Search<a class="headerlink" href="#issues-with-grid-search" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Need to define Grid</p></li>
+<li><p>Exponential in number of dims</p></li>
+</ul>
+<p>class: middle</p>
+</div>
+<div class="section" id="black-box-search-procedures">
+<h2>Black-Box Search Procedures<a class="headerlink" href="#black-box-search-procedures" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">$$\Lambda^*</span> <span class="pre">=</span> <span class="pre">\arg\max_\Lambda</span> <span class="pre">f(\Lambda)$$</span></code>
+Parameters <span class="math notranslate nohighlight">\(\Lambda\)</span>, model-evaluation <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<p>General optimization of unknown, non-differentiable f, possibly no-smooth.
+NP Hard in general.
+Function f is very slow to evaluate - think training a neural net for a week.</p>
+</div>
+<div class="section" id="random-search">
+<h2>Random Search<a class="headerlink" href="#random-search" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 100%" src="04-model-evaluation/images/bergstra_random.jpeg" /></p>
+</div>
+<div class="section" id="random-search-with-scikit-learn">
+<h2>Random Search with scikit-learn<a class="headerlink" href="#random-search-with-scikit-learn" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">## specify parameters and distributions to sample from</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">randint</span>
+<span class="n">param_dist</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;max_depth&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+              <span class="s2">&quot;max_features&quot;</span><span class="p">:</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
+              <span class="s2">&quot;min_samples_split&quot;</span><span class="p">:</span> <span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
+              <span class="s2">&quot;bootstrap&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+              <span class="s2">&quot;criterion&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;gini&quot;</span><span class="p">,</span> <span class="s2">&quot;entropy&quot;</span><span class="p">]}</span>
+<span class="n">random_search</span> <span class="o">=</span> <span class="n">RandomizedSearchCV</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span>
+                                   <span class="n">param_distributions</span><span class="o">=</span><span class="n">param_dist</span><span class="p">,</span>
+                                   <span class="n">n_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>lists or objects with <code class="docutils literal notranslate"><span class="pre">rvs</span></code> method</p></li>
+<li><p>Use continuous distributions for biggest advantage</p></li>
+</ul>
+</div>
+<div class="section" id="bayesian-optimization-smbo">
+<h2>Bayesian Optimization, SMBO<a class="headerlink" href="#bayesian-optimization-smbo" title="Permalink to this headline">¶</a></h2>
+<p>.wide-left-column[</p>
+<ul class="simple">
+<li><p>fit ‘cheap’ probabilistic function to black-box</p></li>
+<li><p>pick next point using exploration / exploitation</p></li>
+<li><p>Implemented as acquisition function
+]
+.narrow-right-column[
+.center[
+<img alt=":scale 110%" src="04-model-evaluation/images/smbo.png" />
+]]</p></li>
+</ul>
+</div>
+<div class="section" id="surrogate-functions">
+<h2>Surrogate functions<a class="headerlink" href="#surrogate-functions" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 100%" src="04-model-evaluation/images/smbo_table.png" /></p>
+<p>FIXME
+NEED NEURAL NETS</p>
+</div>
+<div class="section" id="evolutionary-methods-tpot">
+<h2>Evolutionary Methods: TPOT<a class="headerlink" href="#evolutionary-methods-tpot" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 80%" src="04-model-evaluation/images/tpot.png" />
+]</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="implementations">
+<h2>Implementations<a class="headerlink" href="#implementations" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>SMAC: Random Forest model (Hutter group)</p></li>
+<li><p>spearmint: GP (Snoek et al)</p></li>
+<li><p>hyperopt: TPE (Bergstra, not maintained)</p></li>
+<li><p>scikit-optimize: GP, tree, etc</p></li>
+<li><p>GPyOpt: GP based on GPy (Lawrence group)</p></li>
+</ul>
+<p>class: compact, center</p>
+</div>
+<div class="section" id="criticism">
+<h2>Criticism<a class="headerlink" href="#criticism" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 25%" src="04-model-evaluation/images/random_rank_chart.png" />
+<img alt=":scale 25%" src="04-model-evaluation/images/random_bar_plot_sample.png" /></p>
+<p>–
+<img alt=":scale 23%" src="04-model-evaluation/images/random2x_cifar10-compare.png" />
+<img alt=":scale 23%" src="04-model-evaluation/images/random2x_mrbi-compare.png" />
+<img alt=":scale 23%" src="04-model-evaluation/images/random2x_svhn-compare.png" /></p>
+<p>.smallest[http://www.argmin.net/2016/06/20/hypertuning/]</p>
+<p>FIXME use newer hyperband figures!</p>
+</div>
+<div class="section" id="beyond-black-box">
+<h2>Beyond Black-Box<a class="headerlink" href="#beyond-black-box" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Hyperparameter gradient descent</p></li>
+<li><p>Multi-Fidelity optimization</p></li>
+<li><p>Meta-learning</p></li>
+<li><p>(others…)</p></li>
+</ul>
+</div>
+<div class="section" id="multi-fidelity-search">
+<h2>Multi-Fidelity Search<a class="headerlink" href="#multi-fidelity-search" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[Approximate function by similar cheaper function]
+.center[
+<img alt=":scale 70%" src="04-model-evaluation/images/multi-fidelity-digits.png" />
+<img alt=":scale 70%" src="04-model-evaluation/images/multi-fidelity-digits-rf.png" /></p>
+<p>]</p>
+<p>Top: subsample the datasets
+bottom: use less trees in forest</p>
+</div>
+<div class="section" id="multi-fidelity-bayesian-optimization">
+<h2>Multi-Fidelity Bayesian Optimization<a class="headerlink" href="#multi-fidelity-bayesian-optimization" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Fit model to performance given parameters and budget</p></li>
+<li><p>Choose parameters and budget for best exploration / exploitation</p></li>
+<li><p>Related to multi-armed bandits and A/B testing</p></li>
+<li><p>Differences to bandits:</p>
+<ul>
+<li><p>non-stationary distributions</p></li>
+<li><p>receiving loss (computing validation error) is expensive</p></li>
+<li><p>possibly infinitely many arms (continuous parameters)</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="successive-halving">
+<h2>Successive Halving<a class="headerlink" href="#successive-halving" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Given <span class="math notranslate nohighlight">\(n\)</span> configuration and budget <span class="math notranslate nohighlight">\(B\)</span></p></li>
+<li><p>pick <span class="math notranslate nohighlight">\(\eta=2\)</span> or <span class="math notranslate nohighlight">\(\eta=3\)</span> (wording follows 2)</p></li>
+<li><p>Each iteration, keep best halve of configurations</p></li>
+<li><p>after <span class="math notranslate nohighlight">\(k=\log_\eta(n) + 1\)</span> left with single configuration.</p></li>
+<li><p>initially allocate <span class="math notranslate nohighlight">\(\frac{B}{kn}\)</span> to each configuration, double each iteration (exact budget is slightly more complicated, see algorithm).
+–
+<img alt=":scale 70%" src="04-model-evaluation/images/halving_algorithm.png" /></p></li>
+</ul>
+</div>
+<div class="section" id="successive-halving-example">
+<h2>Successive Halving Example<a class="headerlink" href="#successive-halving-example" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>configurations n=81</p></li>
+<li><p>total budget B=20000</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">train</span> <span class="mi">81</span> <span class="n">configurations</span> <span class="k">with</span> <span class="n">resources</span>   <span class="mi">41</span>
+<span class="n">train</span> <span class="mi">27</span> <span class="n">configurations</span> <span class="k">with</span> <span class="n">resources</span>  <span class="mi">123</span>
+<span class="n">train</span>  <span class="mi">9</span> <span class="n">configurations</span> <span class="k">with</span> <span class="n">resources</span>  <span class="mi">370</span>
+<span class="n">train</span>  <span class="mi">3</span> <span class="n">configurations</span> <span class="k">with</span> <span class="n">resources</span> <span class="mi">1111</span>
+<span class="n">train</span>  <span class="mi">1</span> <span class="n">configurations</span> <span class="k">with</span> <span class="n">resources</span> <span class="mi">3333</span>
+<span class="n">resources</span> <span class="n">total</span><span class="p">:</span> <span class="mi">16638</span>
+</pre></div>
+</div>
+<p>Think about resources as in “maximum number of trees build in total” or “maximum number of data points used in total”.</p>
+<p>class: center</p>
+</div>
+<div class="section" id="successive-halving-different-example">
+<h2>Successive Halving (different) Example<a class="headerlink" href="#successive-halving-different-example" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 90%" src="04-model-evaluation/images/halving_curves.png" /></p>
+</div>
+<div class="section" id="hyperband">
+<h2>Hyperband<a class="headerlink" href="#hyperband" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 78%" src="04-model-evaluation/images/hyperband_curves.png" />
+]</p>
+</div>
+<div class="section" id="id2">
+<h2>Hyperband<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 90%" src="04-model-evaluation/images/hyperband_algorithm.png" /></p>
+</div>
+<div class="section" id="bohb-hpbandster">
+<h2>BOHB / HpBandSter<a class="headerlink" href="#bohb-hpbandster" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 85%" src="04-model-evaluation/images/bohb_curves.png" />
+]</p>
+</div>
+<div class="section" id="in-practice">
+<h2>In Practice<a class="headerlink" href="#in-practice" title="Permalink to this headline">¶</a></h2>
+<p>“With the exception of the LeNet experiment (Section 3.3) and the 117 Datasets experi-
+ment (Section 4.2.1), the most aggressive bracket of SuccessiveHalving outperformed
+Hyperband in all of our experiments.”
+.quote_author[Li et. al.]</p>
+<ul class="simple">
+<li><p>Soon (?) in sklearn (<a class="reference external" href="https://github.com/scikit-learn/scikit-learn/issues/12538">discussion</a>)</p></li>
+<li><p><a class="reference external" href="https://automl.github.io/HpBandSter/build/html/index.html">HpBandSter</a> distributed implementation, some custom code required</p></li>
+<li><p><a class="reference external" href="https://github.com/thuijskens/scikit-hyperband">scikit-hyperband</a> looks good, but doesn’t do out-of-the-box subsampling</p></li>
+<li><p>Successive halving really easy to implement yourself.</p></li>
+</ul>
+<p>class: middle, center</p>
+</div>
+<div class="section" id="meta-learning">
+<h2>Meta-learning<a class="headerlink" href="#meta-learning" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="learning-from-experience-other-datasets">
+<h3>Learning from experience (other datasets)<a class="headerlink" href="#learning-from-experience-other-datasets" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="ranking">
+<h2>Ranking<a class="headerlink" href="#ranking" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Run many algorithms on large array of datasets</p></li>
+<li><p>Rank by “best on average”</p></li>
+</ul>
+</div>
+<div class="section" id="portfolios">
+<h2>Portfolios<a class="headerlink" href="#portfolios" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://ml.informatik.uni-freiburg.de/papers/18-AUTOML-AutoChallenge.pdf">PoSH auto-sklearn</a></p></li>
+<li><p>Create diverse set so that a good one among top k</p></li>
+<li><p>Submodular optimization problem</p></li>
+<li><p>greedy approximation</p></li>
+</ul>
+</div>
+<div class="section" id="discretization">
+<h2>Discretization<a class="headerlink" href="#discretization" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="are-continuous-parameters-actually-important">
+<h3>Are continuous parameters actually important ?<a class="headerlink" href="#are-continuous-parameters-actually-important" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Anectotal evidence that it’s not.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="meta-features-and-meta-models">
+<h2>Meta-Features and Meta-Models<a class="headerlink" href="#meta-features-and-meta-models" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 90%" src="04-model-evaluation/images/metalearning-diagram.png" />
+]</p>
+</div>
+<div class="section" id="active-testing-and-recommendations">
+<h2>Active Testing and Recommendations<a class="headerlink" href="#active-testing-and-recommendations" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://papers.nips.cc/paper/7595-probabilistic-matrix-factorization-for-automated-machine-learning.pdf">Probabilistic Matrix Factorization for AutoML (Fusi et al)</a></p></li>
+<li><p>https://github.com/rsheth80/pmf-automl/]
+<img alt=":scale 90%" src="04-model-evaluation/images/fusi_latent.png" /></p></li>
+</ul>
+</div>
+<div class="section" id="multi-task-bayesian-optimization">
+<h2>Multi-Task Bayesian Optimization<a class="headerlink" href="#multi-task-bayesian-optimization" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Create estimate over all datasets at the same time!</p></li>
+<li><p>Not scalable with Gaussian Processes</p></li>
+<li><p>Maybe scalable with Neural Networks?</p></li>
+</ul>
+</div>
+<div class="section" id="ensemble-models">
+<h2>Ensemble Models<a class="headerlink" href="#ensemble-models" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 100%" src="04-model-evaluation/images/meta-learning-ensemble.png" /></p>
+</div>
+<div class="section" id="auto-sklearn">
+<h2>Auto-sklearn<a class="headerlink" href="#auto-sklearn" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>end-to-end auto-ml</p></li>
+<li><p>seaches a fixed sklearn pipeline (4 steps)</p></li>
+<li><p>Warm-starting with meta-features &amp; KNN</p></li>
+<li><p>Bayesian Optimization with SMAC</p></li>
+</ul>
+<p>https://automl.github.io/auto-sklearn/stable/index.html</p>
+</div>
+<div class="section" id="playing-around-with-auto-sklearn">
+<h2>Playing around with auto-sklearn<a class="headerlink" href="#playing-around-with-auto-sklearn" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">autosklearn.classification</span>
+<span class="kn">import</span> <span class="nn">sklearn.model_selection</span>
+<span class="kn">import</span> <span class="nn">sklearn.datasets</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">load_digits</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> \
+    <span class="n">sklearn</span><span class="o">.</span><span class="n">model_selection</span><span class="o">.</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">automl</span> <span class="o">=</span> <span class="n">autosklearn</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">AutoSklearnClassifier</span><span class="p">()</span>
+<span class="n">automl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_hat</span> <span class="o">=</span> <span class="n">automl</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accuracy score&quot;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>“This will run for one hour and should result in an accuracy above 0.98.”</p>
+</div>
+<div class="section" id="practical-recommendations">
+<h2>Practical Recommendations<a class="headerlink" href="#practical-recommendations" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Multi-Fidelity! Simple, effective!</p></li>
+<li><p>Portfolios</p></li>
+<li><p>BOHB / HpBandSter</p></li>
+<li><p>auto-sklearn</p></li>
+<li><p>TPot?</p></li>
+</ul>
+<div class="section" id="seems-promising">
+<h3>Seems promising:<a class="headerlink" href="#seems-promising" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Transfering surrogates / ensembles</p></li>
+<li><p>Collaborative filtering / active testing</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="criticisms">
+<h2>Criticisms<a class="headerlink" href="#criticisms" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Do we need 100 classifiers?</p></li>
+<li><p>Do we need Complex Pipelines?</p></li>
+<li><p>Creates complex models and ensembles</p></li>
+<li><p>“Making it too easy”?</p></li>
+</ul>
+<p>class: middle</p>
+<p>Although we already reduced the space of considered ML algorithms substantially compared to our previous Auto-sklearn (4 vs. 15 classifiers), we could have reduced this set
+even further since, in the end, only XGBoost models ended up in the final ensembles for
+the challenge.</p>
+<p>.quote_author[Feurer et al, PoSH auto-sklearn]</p>
+</div>
+<div class="section" id="dabl">
+<h2>dabl<a class="headerlink" href="#dabl" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="https-dabl-github-io">
+<h3>https://dabl.github.io/<a class="headerlink" href="#https-dabl-github-io" title="Permalink to this headline">¶</a></h3>
+<p>Implements a portfolio classfier with successive halving:</p>
+<p><img alt=":scale 100%" src="04-model-evaluation/images/anyclassifier.png" /></p>
+<p>class: center, middle</p>
+</div>
+</div>
+<div class="section" id="questions">
+<h2>Questions ?<a class="headerlink" href="#questions" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
@@ -288,7 +824,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/parameter_tuning_automl_4_0.png" src="../_images/parameter_tuning_automl_4_0.png" />
+<img alt="../_images/parameter_tuning_automl_43_0.png" src="../_images/parameter_tuning_automl_43_0.png" />
 </div>
 </div>
 </div>
@@ -348,7 +884,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/parameter_tuning_automl_8_0.png" src="../_images/parameter_tuning_automl_8_0.png" />
+<img alt="../_images/parameter_tuning_automl_47_0.png" src="../_images/parameter_tuning_automl_47_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -3060,7 +3596,7 @@ Parameters: {&#39;bootstrap&#39;: False, &#39;criterion&#39;: &#39;entropy&#39;,
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f2b0164a7b8&gt;
 </pre></div>
 </div>
-<img alt="../_images/parameter_tuning_automl_19_1.png" src="../_images/parameter_tuning_automl_19_1.png" />
+<img alt="../_images/parameter_tuning_automl_58_1.png" src="../_images/parameter_tuning_automl_58_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -3072,7 +3608,7 @@ Parameters: {&#39;bootstrap&#39;: False, &#39;criterion&#39;: &#39;entropy&#39;,
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/parameter_tuning_automl_20_0.png" src="../_images/parameter_tuning_automl_20_0.png" />
+<img alt="../_images/parameter_tuning_automl_59_0.png" src="../_images/parameter_tuning_automl_59_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -3086,7 +3622,7 @@ Parameters: {&#39;bootstrap&#39;: False, &#39;criterion&#39;: &#39;entropy&#39;,
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f0196c080f0&gt;
 </pre></div>
 </div>
-<img alt="../_images/parameter_tuning_automl_21_1.png" src="../_images/parameter_tuning_automl_21_1.png" />
+<img alt="../_images/parameter_tuning_automl_60_1.png" src="../_images/parameter_tuning_automl_60_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -4216,7 +4752,7 @@ Fitting 5 folds for each of 18 candidates, totalling 90 fits
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f48ffb91898&gt;
 </pre></div>
 </div>
-<img alt="../_images/parameter_tuning_automl_28_1.png" src="../_images/parameter_tuning_automl_28_1.png" />
+<img alt="../_images/parameter_tuning_automl_67_1.png" src="../_images/parameter_tuning_automl_67_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -4576,7 +5112,7 @@ Fitting 5 folds for each of 18 candidates, totalling 90 fits
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7f48feefe908&gt;
 </pre></div>
 </div>
-<img alt="../_images/parameter_tuning_automl_33_1.png" src="../_images/parameter_tuning_automl_33_1.png" />
+<img alt="../_images/parameter_tuning_automl_72_1.png" src="../_images/parameter_tuning_automl_72_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -4919,7 +5455,7 @@ resources total: 16638.0
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="aml-12-interpretation.html" title="previous page">Feature importances and Model interpretation</a>
+    <a class='left-prev' id="prev-link" href="aml-17-cluster-evaluation.html" title="previous page">Cluster Stability</a>
     <a class='right-next' id="next-link" href="../05-advanced-topics/index.html" title="next page">Advanced Topics</a>
 
     </div>

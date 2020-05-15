@@ -1,0 +1,1041 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Linear Models for Classification &#8212; Applied Machine Learning in Python</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/mystnb.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Support Vector Machines" href="07-support-vector-machines.html" />
+    <link rel="prev" title="Linear Models for Regression" href="05-linear-models-regression.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Applied Machine Learning in Python</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  
+  <ul class="nav sidenav_l1">
+  <li class="">
+    <a href="../index.html">1. Welcome</a>
+  </li>
+  <li class="">
+    <a href="../00-introduction/00-introduction.html">2. Introduction</a>
+  </li>
+  <li class="">
+    <a href="../01-ml-workflow/00-ml-workflow.html">3. The Machine Learning Workflow</a>
+  </li>
+  <li class="active">
+    <a href="index.html">4. Supervised Learning Algorithms</a>
+  <ul class="nav sidenav_l2">
+    <li class="">
+      <a href="05-linear-models-regression.html">1. Linear Models for Regression</a>
+    </li>
+    <li class="active">
+      <a href="">2. Linear Models for Classification</a>
+    </li>
+    <li class="">
+      <a href="07-support-vector-machines.html">3. Support Vector Machines</a>
+    </li>
+    <li class="">
+      <a href="08-decision-trees.html">4. Decision Trees</a>
+    </li>
+    <li class="">
+      <a href="09-random-forests.html">5. Random Forests</a>
+    </li>
+    <li class="">
+      <a href="10-gradient-boosting.html">6. (Stochastic) Gradient Descent, Gradient Boosting</a>
+    </li>
+    <li class="">
+      <a href="11-neural-networks.html">7. Neural Networks</a>
+    </li>
+    <li class="">
+      <a href="12-advanced-nets.html">8. Neural Networks beyond scikit-learn</a>
+    </li>
+  </ul>
+  </li>
+  <li class="">
+    <a href="../03-unsupervised-learning/index.html">5. Unsupervised Learning Algorithms</a>
+  </li>
+  <li class="">
+    <a href="../04-model-evaluation/index.html">6. Model Evaluation</a>
+  </li>
+  <li class="">
+    <a href="../05-advanced-topics/index.html">7. Advanced Topics</a>
+  </li>
+</ul>
+</nav>
+<p class="navbar_footer">Powered by <a href="https://jupyterbook.org">Jupyter Book</a></p>
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse" data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu" aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation" title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="dropdown-buttons-trigger">
+            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+            
+            <div class="dropdown-buttons">
+                <!-- ipynb file if we had a myst markdown file -->
+                
+                <!-- Download raw file -->
+                <a class="dropdown-buttons" href="../_sources/02-supervised-learning/06-linear-models-classification.ipynb.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+                <!-- Download PDF via print -->
+                <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+            </div>
+            
+        </div>
+
+        <!-- Edit this page -->
+        
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+        
+        <div class="dropdown-buttons-trigger">
+            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+            <div class="dropdown-buttons">
+                
+                <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/02-supervised-learning/06-linear-models-classification.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+                
+                
+                
+            </div>
+        </div>
+        
+
+        
+    </div>
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#linear-models-for-classification-svms" class="nav-link">Linear Models for Classification, SVMs</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#linear-models-for" class="nav-link">Linear models for</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#picking-a-loss" class="nav-link">Picking a loss?</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#logistic-regression" class="nav-link">Logistic Regression</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#penalized-logistic-regression" class="nav-link">Penalized Logistic Regression</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#effect-of-regularization" class="nav-link">Effect of regularization</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#soft-margin-linear-svm" class="nav-link">(soft margin) linear SVM</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#logistic-regression-vs-svm" class="nav-link">Logistic Regression vs SVM</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#svm-or-logreg" class="nav-link">SVM or LogReg?</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#multiclass-classification" class="nav-link">Multiclass classification</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#reduction-to-binary-classification" class="nav-link">Reduction to Binary Classification</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#one-vs-rest" class="nav-link">One vs Rest</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#one-vs-one" class="nav-link">One vs One</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id1" class="nav-link">One Vs Rest</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#prediction-with-one-vs-rest" class="nav-link">Prediction with One Vs Rest</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#one-vs-rest-prediction" class="nav-link">One vs Rest Prediction</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#fixme-draw-ws" class="nav-link">Fixme draw ws?</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id2" class="nav-link">One vs Rest Prediction</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id3" class="nav-link">One Vs One</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#one-vs-one-prediction" class="nav-link">One vs One Prediction</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id4" class="nav-link">One vs One Prediction</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#id5" class="nav-link">One vs Rest</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#id6" class="nav-link">One vs One</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#multinomial-logistic-regression" class="nav-link">Multinomial Logistic Regression</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#in-sckit-learn" class="nav-link">In sckit-learn</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#multi-class-in-practice" class="nav-link">Multi-Class in Practice</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#computational-considerations" class="nav-link">Computational Considerations</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#solver-choices" class="nav-link">Solver choices</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#exercise" class="nav-link">Exercise</a>
+        </li>
+    
+    </ul>
+</nav>
+
+
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="linear-models-for-classification">
+<h1>Linear Models for Classification<a class="headerlink" href="#linear-models-for-classification" title="Permalink to this headline">¶</a></h1>
+<p>class: center, middle</p>
+<div class="section" id="linear-models-for-classification-svms">
+<h2>Linear Models for Classification, SVMs<a class="headerlink" href="#linear-models-for-classification-svms" title="Permalink to this headline">¶</a></h2>
+<p>02/12/20</p>
+<p>Andreas C. Müller</p>
+<p>Today we’re going to talk about linear models for
+classification, and in addition to that some general
+principles and advanced topics surrounding general models,
+both for classification and regression.</p>
+<p>FIXME: in regularizing SVM, long vs short normal vectors.
+FIXME do we need ovo? we kinda do, right?</p>
+<p>class: center, middle</p>
+</div>
+<div class="section" id="linear-models-for">
+<h2>Linear models for<a class="headerlink" href="#linear-models-for" title="Permalink to this headline">¶</a></h2>
+<p>binary
+classfication</p>
+<p>We’ll first start with linear models for binary
+classification, so if there are only two classes. That makes
+the models much easier to understand.</p>
+<p>.center[
+<img alt=":scale 55%" src="02-supervised-learning/images/linear_boundary_vector.png" />
+]</p>
+<div class="math notranslate nohighlight">
+\[\hat{y} = \text{sign}(w^T \textbf{x} + b) = \text{sign}\left(\sum\limits_{i}w_ix_i + b\right)\]</div>
+<p>Similar to the regression case, basically all linear models
+for classification have the same way to make predictions. As
+with regression, they compute an inner product of a weight
+vector w with the feature vector x, and add some bias b. The
+result of that is a real number, as in regression. For
+classification, however, we only look at the sign of the
+result, so whether it is negative or positive. If it’s
+positive, we predict one class, usually called +1, if it’s
+negative, we predict the other class, usually called -1. If
+the result is 0, by convention the positive class is
+predicted, but because it’s a floating point number that
+doesn’t really happen in practice. You’ll see that sometimes
+in my notation I will not have a <span class="math notranslate nohighlight">\(b\)</span>. That’s because you can
+always add a constant feature to x to achieve the same
+effect (thought you would then need to leave that feature
+out of the regularization). So when I write <span class="math notranslate nohighlight">\(w^Tx\)</span> without a
+<span class="math notranslate nohighlight">\(b\)</span> assume that there is a constant feature added that is
+not part of any regularization.</p>
+<p>Geometrially, what the formula means is that the decision
+boundary of a linear classifier will be a hyperplane in the
+feature space, where w is the normal vector of that plane.
+In the 2d example here, it’s just a line separating red and
+blue. Everything on the right hand side would be classified
+as blue by this classifier, and everything on the left-hand
+side as red.</p>
+<p>Questions? So again, the learning here consists of finding
+parameters w and b based on the training set, and that is
+where the different algorithms differ. There are quite a lot
+of algorithms out there, and there are also quite a lot in
+scikit-learn, but we’ll only discuss the most common ones.</p>
+<p>The most straight-forward way to approach finding w and b is
+to use the framework of empirical risk minimization that we
+talked about last time, so finding parameters that minimize
+some loss o the training set. Where classification differs
+quite a bit from regression is on how we want to measure
+misclassifications.</p>
+</div>
+<div class="section" id="picking-a-loss">
+<h2>Picking a loss?<a class="headerlink" href="#picking-a-loss" title="Permalink to this headline">¶</a></h2>
+<div class="math notranslate nohighlight">
+\[\hat{y} = \text{sign}(w^T \textbf{x} + b)\]</div>
+<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">1_{y_i</span> <span class="pre">\neq</span> <span class="pre">\text{sign}(w^T</span> <span class="pre">\textbf{x}</span> <span class="pre">+</span> <span class="pre">b)}$$</span></code></p>
+<p>.center[
+<img alt=":scale 40%" src="02-supervised-learning/images/binary_loss.png" />
+]</p>
+<p>So we need to define a loss function for given w and b that
+tell us how well they fit the training set. Obvious Idea:
+Minimize number of misclassifications aka 0-1 loss but this
+loss is non-convex, not continuous and minimizing it is
+NP-hard. So we need to relax it, which basically means we
+want to find a convex upper bound for this loss. This is not
+done on the actual prediction, but on the inner product <span class="math notranslate nohighlight">\(w^T
+x\)</span>, which is also called the decision function. So this
+graph here has the inner product on the x axis, and shows
+what the loss would be for class 1. The 0-1 loss is zero if
+the decision function is positive, and one if it’s negative.
+Because a positive decision function means a positive
+predition, means correct classification in the case of y=1.
+A negative prediction means a wrong classification, which is
+penalized by the 0-1 loss with a loss of 1, i.e. one
+mistake.</p>
+<p>The other losses we’ll talk about are mostly the hinge loss
+and the log loss. You can see they are both upper bounds on
+the 0-1 loss but they are convex and continuous. Both of
+these losses care not only that you make a correct
+prediction, but also “how correct” your prediction is, i.e.
+how positive or negative your decision function is. We’ll
+talk a bit more about the motivation of these two losses,
+starting with the logistic loss.</p>
+</div>
+<div class="section" id="logistic-regression">
+<h2>Logistic Regression<a class="headerlink" href="#logistic-regression" title="Permalink to this headline">¶</a></h2>
+<p>.left-column[
+<span class="math notranslate nohighlight">\($\log\left(\frac{p(y=1|x)}{p(y=-1|x)}\right) = w^T\textbf{x} + b\)</span>$</p>
+<div class="math notranslate nohighlight">
+\[p(y=1|\textbf{x}) = \frac{1}{1+e^{-w^T\textbf{x} -b }}\]</div>
+<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">\log(\exp(-y_i(w^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">+</span> <span class="pre">b))</span> <span class="pre">+</span> <span class="pre">1)$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[\hat{y} = \text{sign}(w^T\textbf{x} + b)\]</div>
+<p>]
+.right-column[
+<img alt=":scale 90%" src="02-supervised-learning/images/logit.png" />]</p>
+<p>Logistic regression is probably the most commonly used
+linear classifier, maybe the most commonly used classifier
+overall. The idea is to model the log-odds, which is log
+p(y=1|x) - log p(y=0|x) as a linear function, as shown here.
+Rearranging the formula, you get a model of p(y=1|x) as 1
+over 1 + … This function is called the logistic sigmoid,
+and is drawn to the right here. Basically it squashed the
+linear function <span class="math notranslate nohighlight">\(w^Tx\)</span> between 0 and 1, so that it can model
+a probability.</p>
+<p>Given this equation for p(y|x), what we want to do is
+maximize the probability of the training set under this
+model. This approach is known as maximum likelihood.
+Basically you want to find w and b such that they assign
+maximum probability to the labels observed in the training
+data. You can rearrange that a bit and end up with this
+equation here, which contains the log-loss as seen on the
+last slide.</p>
+<p>The prediction is the class with the higher probability. In
+the binary case, that’s the same as asking whether the
+probability of class 1 is bigger or smaller than .5. And as
+you can see from the plot of the logistic sigmoid, the
+probability of the class +1 is greater than .5 exactly if
+the decision function <span class="math notranslate nohighlight">\(w^T x\)</span> is greater than 0. So
+predicting the class with maximum probability is the same as
+predicting which side of the hyperplane given by w we are
+on.</p>
+<p>Ok so this is logistic regression. We minimize this loss and
+get a w which defines a hyper plane. But if you think back
+to last time, this is only part of what we want. This
+formulation tries to fit the training data, but it doesn’t
+care about finding a simple solution.</p>
+</div>
+<div class="section" id="penalized-logistic-regression">
+<h2>Penalized Logistic Regression<a class="headerlink" href="#penalized-logistic-regression" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}C</span> <span class="pre">\sum_{i=1}^n\log(\exp(-y_i(w^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">+</span> <span class="pre">b</span> <span class="pre">))</span> <span class="pre">+</span> <span class="pre">1)</span> <span class="pre">+</span> <span class="pre">||w||_2^2$$</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}C</span> <span class="pre">\sum_{i=1}^n\log(\exp(-y_i</span> <span class="pre">(w^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">+</span> <span class="pre">b))</span> <span class="pre">+</span> <span class="pre">1)</span> <span class="pre">+</span> <span class="pre">||w||_1$$</span></code></p>
+<ul class="simple">
+<li><p>C is inverse to alpha (or alpha / n_samples)</p></li>
+<li><p>Both versions strongly convex, l2 version smooth (differentiable).</p></li>
+<li><p>All points contribute to <span class="math notranslate nohighlight">\(w\)</span> (dense solution to dual).</p></li>
+</ul>
+<p>So we can do the same we did for regression: we can add
+regularization terms using the L1 and L2 norm. The effects
+are the same as for regression: both push the coefficients
+towards zero, but the l1 norm encourages coefficients to be
+exactly zero, for the same reasons we discussed last time.</p>
+<p>You could also use a mixed penalty to get something like the
+elasticnet. That’s not implemented in the logisticregression
+class in scikit-learn right now, but it’s certainly a
+sensible thing to do.</p>
+<p>Here I used a slightly different notation as last time,
+though. I’m not using alpha to multiply the regularizer,
+instead I’m using C to multiply the loss. That’s mostly
+because that’s how it’s done in scikit-learn and it has only
+historic reasons. The idea is exactly the same, only now C
+is 1 over alpha. So large C means heavy weight to the loss,
+means little regularization, while small C means less weight
+on the loss, means strong regularization.</p>
+<p>Depending on the model, there might be a factor of n_samples
+in there somewhere. Usually we try to make the objective as
+independent of the number of samples as possible in
+scikit-learn, but that might lead to surprises if you’re not
+aware of it.</p>
+<p>Some side-notes on the optimization problem: here, as in
+regression, having more regularization makes the
+optimization problem easier. You might have seen this in
+your homework already, if you decrease C, meaning you add
+more regularization, your model fits more quickly.</p>
+<p>One particular property of the logistic loss, compared to
+the hinge loss we’ll discuss next is that each data point
+contributes to the loss, so each data point has an effect on
+the solution. That’s also true for all the regression models
+we saw last time.</p>
+</div>
+<div class="section" id="effect-of-regularization">
+<h2>Effect of regularization<a class="headerlink" href="#effect-of-regularization" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 90%" src="02-supervised-learning/images/logreg_regularization.png" />
+]</p>
+<ul class="simple">
+<li><p>Small C (a lot of regularization) limits the influence of individual points!</p></li>
+</ul>
+<p>So I spared you with coefficient plots, because they looks
+the same as for regression. All the things I said about
+model complexity and dependency on the number of features
+and samples is as true for classification as it is for
+regression.</p>
+<p>There is another interesting way to thing about
+regularization that I found helpful, though. I’m not going
+to walk through the math for this, but you can reformulate
+the optimization problem and find that what the C parameter
+does is actually limit the influence of individual data
+points. With very large C, we said we have no
+regularization. It also means individual data points can
+have basically unlimited influence, as you can see here.
+There are two outliers here, which basically completely tilt
+the decision boundary. But if we decrease C, and therefore
+increase the regularization, what happens is that the
+influence of these outlier points becomes limited, and the
+other points get more influence.</p>
+<p>#Max-Margin and Support Vectors</p>
+<p>.center[
+<img alt=":scale 75%" src="02-supervised-learning/images/max_margin.png" />
+]</p>
+<p>A point is within the margin if 〖y_i w〗^T x is smaller
+than one. That means if you have a smaller w, you basically
+have a smaller margin given that you’re on the correct side.
+If you’re on the wrong side, you’ll have always have a loss.
+If you’re in the correct side, if you’re w^x is small, then
+you also have a loss.</p>
+<p>class: center</p>
+<p>#Max-Margin and Support Vectors
+<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\min_{w</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}^p,</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}</span> <span class="pre">C</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">\max(0,</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">y_i</span> <span class="pre">(w^T\mathbf{x}</span> <span class="pre">+</span> <span class="pre">b))</span> <span class="pre">+</span> <span class="pre">||w||^2_2</span> <span class="pre">$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[\text{Within margin} \Leftrightarrow y_i(w^T x  + b)
+&lt;
+ 1\]</div>
+<p>Smaller <span class="math notranslate nohighlight">\(w \Rightarrow\)</span> larger margin</p>
+<p>class: center</p>
+<p>#Max-Margin and Support Vectors</p>
+<p>.left-column[
+<img alt=":scale 80%" src="02-supervised-learning/images/max_margin_C_0.1.png" />
+]
+.right-column[
+<img alt=":scale 80%" src="02-supervised-learning/images/max_margin_C_1.png" />
+]</p>
+<p>Here are two examples on the same dataset. Where I learned
+linear support vector machine with c-0.1, and c=1. With
+c=0.1, you have a wider margin. There are points inside the
+margin and all the points inside the margin are support
+vectors which contribute to the solution. Points that are
+outside of the margin and on the correct side doesn’t
+contribute to the solution. These points are sort of
+classified correctly, not when they’re ignored. The normal
+vector is w and basically, the size of the margin is the
+inverse of the length of w. C=0.1 means I have less emphasis
+on the data fitting and more emphasis on the shrinking w.
+This will lead to a smaller w. If I have larger C that means
+less regularization, which will lead to a larger W, larger W
+means a smaller margin. So there are fewer points here, they
+are inside the margin and therefore, fewer support vectors.
+More regularization usually means a larger margin but more
+points inside the margin. Also, more support vectors mean
+there are more data points that actually influence the
+solution.</p>
+</div>
+<div class="section" id="soft-margin-linear-svm">
+<h2>(soft margin) linear SVM<a class="headerlink" href="#soft-margin-linear-svm" title="Permalink to this headline">¶</a></h2>
+<p>.larger[
+<code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}C</span> <span class="pre">\sum_{i=1}^n\max(0,1-y_i(w^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">+</span> <span class="pre">b))</span> <span class="pre">+</span> <span class="pre">||w||_2^2$$</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}C</span> <span class="pre">\sum_{i=1}^n\max(0,1-y_i(w^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">+</span> <span class="pre">b))+</span> <span class="pre">||w||_1$$</span></code>
+]</p>
+<ul class="simple">
+<li><p>Both versions strongly convex, neither smooth.</p></li>
+<li><p>Only some points contribute (the support vectors) to <span class="math notranslate nohighlight">\(w\)</span> (sparse solution to dual).</p></li>
+</ul>
+<p>Moving from logistic regression to linear SVMs is just a
+matter of changing the loss from the log loss to the hinge
+loss. The hinge-loss is defined as … And we can penalize
+using either l1 or l2 norm, or again, in principle also
+elastic net. This formulation with the hinge loss doesn’t
+really make sense without the penalty, because of the
+formulation of the hinge loss. What this loss says is
+basically “if you predict the right class with a margin of
+1, there is no loss”. Otherwise the loss is linear in the
+decision function. So you need to be on the right side of
+the hyperplane by a given amount, and then there is no more
+loss. That’s the reason you need the penalty, for the 1 to
+make sense. Otherwise you could just scale up <span class="math notranslate nohighlight">\(w\)</span> to make it
+far enough on the right side. But the regularization
+penalizes growing <span class="math notranslate nohighlight">\(w\)</span>.</p>
+<p>The hinge loss has a kink, same as the l1 norm, and so it’s
+not a smooth optimization problem any more, but that’s not
+really a big deal. What’s interesting is that all the points
+that are classified correctly with a margin of at least 1
+have a loss of zero, and so they don’t influence the
+solution any more. All the point that are not classified
+correctly by this margin are the ones that do influence the
+solution and they are called the support vectors.</p>
+<p>FIXME graph of not influencing the solution?</p>
+<p>class: center</p>
+</div>
+<div class="section" id="logistic-regression-vs-svm">
+<h2>Logistic Regression vs SVM<a class="headerlink" href="#logistic-regression-vs-svm" title="Permalink to this headline">¶</a></h2>
+<p>.compact[
+<code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}C</span> <span class="pre">\sum_{i=1}^n\log(\exp(-y_i(w^T</span> <span class="pre">\textbf{x}_i+b))</span> <span class="pre">+</span> <span class="pre">1)</span> <span class="pre">+</span> <span class="pre">||w||_2^2$$</span></code>
+<code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}C</span> <span class="pre">\sum_{i=1}^n\max(0,1-y_i(w^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">+</span> <span class="pre">b))</span> <span class="pre">+</span> <span class="pre">||w||_2^2$$</span></code></p>
+<p><img alt=":scale 35%" src="02-supervised-learning/images/binary_loss.png" />
+]</p>
+<p>So this is the main difference between logistic regression
+and linear SVMs: Does it penalize misclassifications
+according to the green line, or according to the blue line?
+In practice it doesn’t make a big difference.</p>
+</div>
+<div class="section" id="svm-or-logreg">
+<h2>SVM or LogReg?<a class="headerlink" href="#svm-or-logreg" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 80%" src="02-supervised-learning/images/svm_or_lr.png" />
+]</p>
+<ul class="simple">
+<li><p>Need compact model or believe solution is sparse? Use L1</p></li>
+</ul>
+<p>So which one of them should you use? If you need probability
+estimates, you should use logistic regression. If you don’t,
+you can pick either, and it doesn’t really matter. Logistic
+regression can be a bit faster to optimize in theory. If
+you’re in a setting where there’s many more feature than
+samples, it might make sense to use linear SVMs and solve
+the dual, but you can actually solve either of the problems
+in the dual, and we’ll talk about what that means in
+practice in a little bit.</p>
+<p>class: center, middle</p>
+</div>
+<div class="section" id="multiclass-classification">
+<h2>Multiclass classification<a class="headerlink" href="#multiclass-classification" title="Permalink to this headline">¶</a></h2>
+<p>Ok, so I think that’s enough on the two loss functions and
+regularization, and hopefully you have a bit of a feel for
+how these two classifiers work, and also an understanding
+that they are in fact quite similar in practice.</p>
+<p>Next I want to look at how to go from binary classification
+to multi-class classification. Basically there is a simple
+but hacky way, and there’s a slightly more complicated but
+theoretically sound way.</p>
+<p>class: center</p>
+</div>
+<div class="section" id="reduction-to-binary-classification">
+<h2>Reduction to Binary Classification<a class="headerlink" href="#reduction-to-binary-classification" title="Permalink to this headline">¶</a></h2>
+<p>.padding-top[
+.left-column[</p>
+<div class="section" id="one-vs-rest">
+<h3>One vs Rest<a class="headerlink" href="#one-vs-rest" title="Permalink to this headline">¶</a></h3>
+<p>]</p>
+<p>.right-column[</p>
+</div>
+<div class="section" id="one-vs-one">
+<h3>One vs One<a class="headerlink" href="#one-vs-one" title="Permalink to this headline">¶</a></h3>
+<p>]
+]</p>
+<p>The slightly hacky way is using what’s known as a reduction.
+We’re doing a reduction like in math: reducing one problem
+to another. In this case we’re reducing the problem of
+multi-class classification into several instances of the
+binary classification problem. And we already know how to
+deal with binary classification.</p>
+<p>There are two straight-forward ways to reduce multi-class to
+binary classification. the first is called one vs rest, the
+second one is called one-vs-one.</p>
+<p>class: spacious</p>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>One Vs Rest<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>For 4 classes:</p>
+<p>1v{2,3,4}, 2v{1,3,4}, 3v{1,2,4}, 4v{1,2,3}</p>
+<p>In general:</p>
+<p>n binary classifiers - each on all data</p>
+<p>FIXME terrible slide</p>
+<p>Let’s start with One vs Rest. here, we learn one binary
+classifier for each class against the remaining classes. So
+let’s say we have 4 classes, called 1 to 4.  First we learn
+a binary classifier of the points in class 1 vs the points
+in the classes 2, 3 and 4.  Then, we do the same for class
+2, and so on. The way we end up building as many classifiers
+as we have classes.</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="prediction-with-one-vs-rest">
+<h2>Prediction with One Vs Rest<a class="headerlink" href="#prediction-with-one-vs-rest" title="Permalink to this headline">¶</a></h2>
+<p>“Class with highest score”</p>
+<div class="math notranslate nohighlight">
+\[\hat{y} = \text{arg}\max_{i \in Y} \textbf{w}^T_i\textbf{x} + b_i\]</div>
+<p>To make a prediction, we compute the decision function of
+all classifiers, say 4 in the example, on a new data point.
+The one with the highest score for the positive class, the
+single class, wins, and that class is predicted.</p>
+<p>It’s a little bit unclear why this works as well as it does.
+Maybe there’s some papers about that now, but I’m not</p>
+<p>So in this case we have one coefficient vector w and one
+bias b for each class.</p>
+</div>
+<div class="section" id="one-vs-rest-prediction">
+<h2>One vs Rest Prediction<a class="headerlink" href="#one-vs-rest-prediction" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 80%" src="02-supervised-learning/images/ovr_lines.png" />
+]</p>
+<p>Here is an illustration of what that looks like.
+Unfortunately it’s a bit hard to draw 4 classes in general
+position in 2 dimensions, so I only used 3 classes here. So
+each class has an associated coefficient vector and bias,
+corresponding to a line. The line tries to separate this
+class from the other two classes.</p>
+</div>
+<div class="section" id="fixme-draw-ws">
+<h2>Fixme draw ws?<a class="headerlink" href="#fixme-draw-ws" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id2">
+<h2>One vs Rest Prediction<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 80%" src="02-supervised-learning/images/ovr_boundaries.png" />
+]</p>
+<p>Here are the decision boundaries resulting from the these
+three binary classifiers. Basically what they say is that
+the line that is closest decides the class. What you can not
+see here is that each of the lines also have a magnitude
+associated with them. It’s not only the direction of the
+normal vector that matters, but also the length. You can
+think of that as some form of uncertainty attached to the
+line.</p>
+<p>class: some-space</p>
+</div>
+<div class="section" id="id3">
+<h2>One Vs One<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>1v2, 1v3, 1v4, 2v3, 2v4, 3v4</p></li>
+<li><p>n * (n-1) / 2 binary classifiers - each on a fraction of the data</p></li>
+<li><p>“Vote for highest positives”</p></li>
+<li><p>Classify by all classifiers.</p></li>
+<li><p>Count how often each class was predicted.</p></li>
+<li><p>Return most commonly predicted class.</p></li>
+<li><p>Again - just a heuristic.</p></li>
+</ul>
+<p>FIXME terrible slide</p>
+<p>The other method of reduction is called one vs one. In one
+vs one, we build one binary model for each pair of classes.
+In the example of having four classes that is one for 1 vs
+2, one for 1v3 and so on. So we end up with n * (n - 1) /2
+binary classifiers. And each is trained only on the subset
+of the data that belongs to these classes.</p>
+<p>To make a prediction, we again apply all of the classifiers.
+For each class we count how often one of the classifiers
+predicted that class, and we predict the class with the most
+votes.</p>
+<p>Again, this is just a heuristic and there’s not really a
+good theoretical explanation why this should work.</p>
+<p>class: center</p>
+</div>
+<div class="section" id="one-vs-one-prediction">
+<h2>One vs One Prediction<a class="headerlink" href="#one-vs-one-prediction" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 80%" src="02-supervised-learning/images/ovo_lines.png" /></p>
+<p>Here is an example for predicting on three classes in 2d
+using the one-vs-one heuristic. In the case of three
+classes, there’s also three pairs. Three is a bit of a
+special case, with any more classes there would be more
+classifiers than classes.</p>
+<p>The dashed lines are colored according to the pair of
+classes they separate. So the green and blue line separates
+the green and blue classes. The data points belonging to the
+grey class were not used in building this model at all.</p>
+<p>class: center</p>
+</div>
+<div class="section" id="id4">
+<h2>One vs One Prediction<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 80%" src="02-supervised-learning/images/ovo_boundaries.png" /></p>
+<p>Looking at the predictions made by the one vs one classifier
+the correspondence to the binary decision boundaries is a
+bit more clear than for the one vs rest heuristic, because
+it only takes the actual boundaries into account, not the
+length of the normal vectors. That makes it easier to
+visualize the geometry, but it’s also a bit of a downside of
+the method because it means it discards any notion of
+uncertainty that was present in the binary classifiers. The
+decision boundary for each class is given by the two lines
+that this class is involved in. So the grey class is bounded
+by the green and grey line and the blue and grey line.</p>
+<p>There is a triangle in the center in which there is one vote
+for each of the classes.  In this implemenatation the tie is
+broken to just always predict the first class, which is the
+green one. That might not be the best tie breaking strategy,
+but this is a relatively rare case, in particular if there’s
+more than three classes.</p>
+<p>OVR and OVO are general heuristics not restricted to linear
+models. They can be used whenever a binary model for
+classification needs to be extended to the multi-class case.
+For logistic regression, there is actually a natural
+extension of the formulation, and we don’t have to resort to
+these hacks.</p>
+<p>class: spacious
+.left-column[</p>
+<div class="section" id="id5">
+<h3>One vs Rest<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>n_classes classifiers</p></li>
+<li><p>trained on imbalanced datasets of original size</p></li>
+<li><p>Retains some uncertainty?
+<img alt=":scale 80%" src="02-supervised-learning/images/ovr_boundaries.png" />
+]</p></li>
+</ul>
+<p>.right-column[</p>
+</div>
+<div class="section" id="id6">
+<h3>One vs One<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>n_classes * (n_classes - 1)/2  classifiers</p></li>
+<li><p>trained on balanced subsets</p></li>
+<li><p>No uncertainty propagated
+<img alt=":scale 80%" src="02-supervised-learning/images/ovo_boundaries.png" />
+]</p></li>
+</ul>
+<p>If original problem was balanced, that is…</p>
+</div>
+</div>
+<div class="section" id="multinomial-logistic-regression">
+<h2>Multinomial Logistic Regression<a class="headerlink" href="#multinomial-logistic-regression" title="Permalink to this headline">¶</a></h2>
+<p>Probabilistic multi-class model:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$$p(y=i|x)</span> <span class="pre">=</span> <span class="pre">\frac{e^{\textbf{w}_i^T\textbf{x}</span> <span class="pre">+</span> <span class="pre">b_i}}{\sum_{j=1}^k</span> <span class="pre">e^{\textbf{w}_j^T\textbf{x}</span> <span class="pre">+</span> <span class="pre">b_j}}$$</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{pk},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}^k}</span> <span class="pre">-\sum_{i=1}^n</span> <span class="pre">\log(p(y=y_i|x_i,</span> <span class="pre">w,</span> <span class="pre">b))$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[\hat{y} = \text{arg} \max_{i=1,...,k} \textbf{w}^T_i\textbf{x} + b_i\]</div>
+<ul class="simple">
+<li><p>Same prediction rule as OvR !</p></li>
+</ul>
+<p>The binary logistic regression case can be generalized to
+multinomial logistic regression, in which we model the
+probability that i is one of the classes using this formula,
+which is also known as softmax. The probability is
+proportional to e to the minus <span class="math notranslate nohighlight">\(w^t x\)</span> which is the same as
+in the binary case. But now we need to normalize it so that
+the sum over all classes is one. So we just divide it by
+this sum.</p>
+<p>class: some-space</p>
+</div>
+<div class="section" id="in-sckit-learn">
+<h2>In sckit-learn<a class="headerlink" href="#in-sckit-learn" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>OvO: only SVC</p></li>
+<li><p>OvR: default for all linear models except for logistic regression</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LogisticRegression(multi_class='auto')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">clf.decision_function</span></code> = <span class="math notranslate nohighlight">\(w^Tx + b\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">logreg.predict_proba</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SVC(probability=True)</span></code> not great</p></li>
+</ul>
+<p>All the models in scikit-learn have multi-class built-in and
+most of them use One versus Rest. There’s only one model
+that uses One versus One which is SVC. The Kernel SVM uses
+One versus One because of the authors of the SVM like that.
+For historical reasons, logistic regression also uses One
+versus Rest by default in scikit-learn. That’s probably not
+a good idea, but we can’t really change the default easily.
+Usually, if you do multiclass you probably want to use
+multinomial logistic regression and so you set multinomial
+to true and then it does multinomial logistic regression.
+Question: Does that make it run faster? Answer: Its unlikely
+to make it run faster, but it makes it more theoretically
+sound and gives you better probabilities. The probabilities
+that come out of it, if you do OvR, are a complete hack in
+the multi-class case but in the binary case, it’s the same.
+Logistic regression also has a predict_prob method. This
+method gives the probability estimates, so you get a vector
+of length number of classes for each data point. You might
+be tempted to do SVC (probability) equal to true. That is
+something we’re going to talk about in a couple of weeks.
+This is is running calibration. Basically, this does the One
+versus One SVM and then it builds a second model on top that
+tries to estimate probabilities using built-in
+cross-validation. This will take forever and the outcome
+will probably be not that great. Don’t do this unless you’re
+really sure this is what you want to do. If you want
+probabilities just use logistic regression. predict_proba
+gives you the probabilities. If you call predict_proba, it
+will give you an array that has number of samples times
+number of classes and these entries will sum to one. And the
+prediction is just the arg max of these. You can call
+predict which will give you arg max while predict_proba will
+give you the probabilities as given by the model.</p>
+</div>
+<div class="section" id="multi-class-in-practice">
+<h2>Multi-Class in Practice<a class="headerlink" href="#multi-class-in-practice" title="Permalink to this headline">¶</a></h2>
+<p>OvR and multinomial LogReg produce one coef per class:</p>
+<p>.center[
+<img alt=":scale 80%" src="02-supervised-learning/images/multiclass_coef.png" />
+]</p>
+<p>SVC would produce the same shape, but with different semantics!</p>
+<p>FIXME screenshots</p>
+<p>In practice, I’m using logistic regression on the iris
+dataset. We have 50 data points, 4 features, 3 classes, each
+class has 50 samples, and we’re trying to classify different
+kinds of irises. Here, I’m looking at logistic regression
+and linear SVM, I built the model. So the coefficient W is
+stored in coef on this score. Everything in scikit-learn
+that’s estimated from the data ends with an underscore. If
+it doesn’t, it wasn’t learned from the data. So coef_ are
+the coefficient that is learned by the model. They’re for
+logistic regression and linear Support Vector Machine,
+they’re the same shape, three classes times four features
+but they have different semantics</p>
+<p>class: center</p>
+<p><img alt=":scale 80%" src="02-supervised-learning/images/multiclass_array.png" /></p>
+<p><img alt=":scale 80%" src="02-supervised-learning/images/multiclass_barchart.png" /></p>
+<p>(after centering data, without intercept)</p>
+<p>FIXME screenshots</p>
+<p>Here I’ve interpreted them. You can see the four features,
+for each feature and for each class, you have a coefficient.
+If the sepal width is big, then the setosa classifier is
+happy. If the sepal with is small then versicolor will have
+a large response. If the petal width is big then virginica
+will have a large response. This is a bar plot after
+coefficient vector here. This tells you what the classifier
+has learned. This is maybe for a very simple problem this is
+little much to look at but it’s still way less to look at
+for any other model. If you used a random forest or
+something like that, there would be no way to visualize
+what’s happening.</p>
+<p>class: center, middle</p>
+</div>
+<div class="section" id="computational-considerations">
+<h2>Computational Considerations<a class="headerlink" href="#computational-considerations" title="Permalink to this headline">¶</a></h2>
+<p>#(for all linear models)</p>
+<p>Now I want to talk about more general things, how to make
+your homework run faster, also called Computational
+Considerations.</p>
+<p>class: some-space</p>
+</div>
+<div class="section" id="solver-choices">
+<h2>Solver choices<a class="headerlink" href="#solver-choices" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Don’t use <code class="docutils literal notranslate"><span class="pre">SVC(kernel='linear')</span></code>, use <code class="docutils literal notranslate"><span class="pre">LinearSVC</span></code></p></li>
+<li><p>For <code class="docutils literal notranslate"><span class="pre">n_features</span> <span class="pre">&gt;&gt;</span> <span class="pre">n_samples</span></code>: Lars (or LassoLars) instead of Lasso.</p></li>
+<li><p>For small n_samples (
+&lt;
+10.000?), don’t worry.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LinearSVC</span></code>, <code class="docutils literal notranslate"><span class="pre">LogisticRegression</span></code>: <code class="docutils literal notranslate"><span class="pre">dual=False</span></code> if <code class="docutils literal notranslate"><span class="pre">n_samples</span> <span class="pre">&gt;&gt;</span> <span class="pre">n_features</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LogisticRegression(solver=&quot;sag&quot;)</span></code> for <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> large.</p></li>
+<li><p>Stochastic Gradient Descent for <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> really
+large</p></li>
+</ul>
+<p>Some of the things here are specific to scikit-learn and
+some are not. Scikit-learn has SVC and the linear SVC, and
+they’re both support vector machines. SVC uses One versus
+One while linear SVC uses one versus rest. SVC uses the
+hinged loss while linear SVC uses squared hinge loss. Linear
+SVC will provide faster results than SVC. If you want to do
+regression with a large number of features, you should
+probably use Lars or LassoLars, which allows you to do
+feature selection much more quickly than Lasso. Generally,
+if you have a few samples, don’t worry, any model will find
+and everything will be sparse. If you have, let’s say 10,000
+samples all linear models will be fast all the time.
+Otherwise, use this for regression. For classification, if
+the number of samples is much greater than the number of
+features use dual=false. Basically, solving a dual problem
+means solving something where there are as many variables as
+the number of samples, that’s the default. Whereas solving
+the primal problem, so dual=false means solving something
+that’s with the number of variables as the same number of
+features. If the number of features is big, dual should be
+true, and if the number of samples is big dual should be
+false. If you have really a whole lot of samples you can use
+a recent solver called sag. This works really for really
+large samples. So LogisticRegression(solver=”sag”) that can
+use L1 or L2 penalties or whatever you want. Then finally,
+if you have an extremely large amount of data you can use
+Stochastic Gradient Descent. It has the STD classifier, STD
+regressor, and hopefully, we’ll have enough time to talk
+about these today. But generally often setting dual to false
+will help you a lot and setting the solver to something else
+might help you. All of these basically give you the same
+solution but only at different speeds. I want to talk about
+some tips for getting cross-validation. There are some
+built-in tools for doing quicker cross-validation for linear
+models.</p>
+</div>
+<div class="section" id="exercise">
+<h2>Exercise<a class="headerlink" href="#exercise" title="Permalink to this headline">¶</a></h2>
+<p>Load and preprocess the adult data as before.
+include dummy encoding and scaling
+Learn a logistic regression model and visualize the coefficients.
+Then grid-search the regularization parameter C.
+Compare the coefficients of the best model with the coefficients of a model with more regularization.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">adult</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/adult.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %load solutions/adult_classification.py</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="05-linear-models-regression.html" title="previous page">Linear Models for Regression</a>
+    <a class='right-next' id="next-link" href="07-support-vector-machines.html" title="next page">Support Vector Machines</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Andreas C. Müller<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../_static/js/index.js"></script>
+    
+  </body>
+</html>

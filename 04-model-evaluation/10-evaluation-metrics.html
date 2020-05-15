@@ -27,6 +27,7 @@
     <script src="../_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Calibration" href="aml-11-calibration.html" />
@@ -93,7 +94,10 @@
       <a href="aml-12-interpretation.html">3. Feature importances and Model interpretation</a>
     </li>
     <li class="">
-      <a href="parameter_tuning_automl.html">4. Multifidelity Search</a>
+      <a href="aml-17-cluster-evaluation.html">4. Cluster Stability</a>
+    </li>
+    <li class="">
+      <a href="parameter_tuning_automl.html">5. Parameter Tuning and AutoML</a>
     </li>
   </ul>
   </li>
@@ -168,7 +172,191 @@
     <ul class="nav section-nav flex-column">
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#metrics-for-binary-classification" class="nav-link">Metrics for binary classification</a>
+            <a href="#model-evaluation" class="nav-link">Model evaluation</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#metrics-for-binary-classification" class="nav-link">Metrics for Binary Classification</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#review-confusion-matrix" class="nav-link">Review : confusion matrix</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#positive-negative-are-arbitrary" class="nav-link">Positive & Negative are arbitrary</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#though-often-the-minority-class-is-considered-positive" class="nav-link">Though often the minority class is considered positive</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id1" class="nav-link"></a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#problems-with-accuracy" class="nav-link">Problems with Accuracy</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#precision-recall-f-score" class="nav-link">Precision, Recall, f-score</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#the-zoo" class="nav-link">The Zoo</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#normalizing-the-confusion-matrix" class="nav-link">Normalizing the confusion matrix</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#averaging-strategies" class="nav-link">Averaging strategies</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#balanced-accuracy" class="nav-link">Balanced Accuracy</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#mammography-data" class="nav-link">Mammography Data</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#goal-setting" class="nav-link">Goal setting!</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#changing-thresholds" class="nav-link">Changing Thresholds</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#precision-recall-curve" class="nav-link">Precision-Recall curve</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#side-note-scikit-learn-plotting-api" class="nav-link">Side note: Scikit-learn plotting API</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#roc-curve" class="nav-link">ROC Curve</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#receiver-operating-characteristic" class="nav-link">(Receiver Operating Characteristic)</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#pr-curve" class="nav-link">PR-Curve</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id2" class="nav-link">ROC-Curve</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#comparing-rf-and-svc" class="nav-link">Comparing RF and SVC</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#average-precision" class="nav-link">Average Precision</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#area-under-roc-curve-aka-auc" class="nav-link">Area Under ROC Curve (aka AUC)</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#keep-in-mind-ranking-vs-predictions" class="nav-link">Keep in mind: ranking vs predictions</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#threshold-and-ranking-metrics" class="nav-link">Threshold and ranking metrics</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#further-reading-on-evaluation-curves" class="nav-link">Further reading on evaluation curves</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#summary-of-metrics-for-binary-classification" class="nav-link">Summary of metrics for binary classification</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#multi-class-classification" class="nav-link">Multi-class classification</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#multi-class-roc-auc" class="nav-link">Multi-class ROC AUC</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#summary-of-metrics-for-multiclass-classification" class="nav-link">Summary of metrics for multiclass classification</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#metrics-for-regression-models" class="nav-link">Metrics for regression models</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#build-in-standard-metrics" class="nav-link">Build-in standard metrics</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#absolute-vs-relative-mape" class="nav-link">Absolute vs Relative: MAPE</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#prediction-plots" class="nav-link">Prediction plots</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#residual-plots" class="nav-link">Residual Plots</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#target-vs-feature" class="nav-link">Target vs Feature</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#residual-vs-feature" class="nav-link">Residual vs Feature</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#picking-metrics" class="nav-link">Picking metrics</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#using-metrics-in-cross-validation" class="nav-link">Using metrics in cross-validation</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#multiple-metrics" class="nav-link">Multiple Metrics</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#built-in-scoring" class="nav-link">Built-in scoring</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#the-scorer-interface-vs-the-metrics-interface" class="nav-link">The Scorer interface (vs the metrics interface)</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#providing-you-your-own-callable" class="nav-link">Providing you your own callable</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#you-can-access-the-model" class="nav-link">You can access the model!</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id3" class="nav-link">Metrics for binary classification</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
@@ -208,6 +396,1310 @@
                 
   <div class="section" id="evaluation-metrics-and-scoring">
 <h1>Evaluation Metrics and scoring<a class="headerlink" href="#evaluation-metrics-and-scoring" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="model-evaluation">
+<h2>Model evaluation<a class="headerlink" href="#model-evaluation" title="Permalink to this headline">¶</a></h2>
+<p>02/24/20</p>
+<p>Andreas C. Müller</p>
+<p>FIXME boston
+FIXME explain scorer interface vs metrics interface, plotting has scorer interface
+FIXME ROC curve slide is bad. Illustration of why random is .5
+FIXME format string
+FIXME demonstrate that AUC / average precision are rancing metrics
+FIXME add calibration
+FIXME remove regression?
+FIXME top right of pr curve actually maximizes f1
+FIXME no interpolation on pr curve?
+FIXME add plotting
+FIXME macro vs weighted average example
+FIXME roc auc not good for imbalanced!? show example!!</p>
+<p>FIXME remove regression, go into more depth on cost-sensitive?
+FIXME relate to calibration!
+FIXME How to pick thresholds in multi-class?
+FIXME Add log-loss to metrics, and show why I don’t like it (.4, .6, 0) is better than (.36, .34, .3)
+FIXME explain why ROC AUC doesn’t depend on class imbalance by calculating example
+FIXME write down example on slide about recall being zero and AUC being 1?
+FIXME show example of number nonzero for scorer API</p>
+<p>class: centre,middle</p>
+</div>
+<div class="section" id="metrics-for-binary-classification">
+<h2>Metrics for Binary Classification<a class="headerlink" href="#metrics-for-binary-classification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="review-confusion-matrix">
+<h2>Review : confusion matrix<a class="headerlink" href="#review-confusion-matrix" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 55%" src="04-model-evaluation/images/confusion_matrix.png" />
+]
+.larger[
+<span class="math notranslate nohighlight">\($\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}}\)</span>$
+]</p>
+<p>Diagonal divided by everything.</p>
+<p>class: center, middle</p>
+</div>
+<div class="section" id="positive-negative-are-arbitrary">
+<h2>Positive &amp; Negative are arbitrary<a class="headerlink" href="#positive-negative-are-arbitrary" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="though-often-the-minority-class-is-considered-positive">
+<h3>Though often the minority class is considered positive<a class="headerlink" href="#though-often-the-minority-class-is-considered-positive" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="id1">
+<h2><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">plot_confusion_matrix</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">load_breast_cancer</span><span class="p">()</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">lr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lr</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+<span class="n">plot_confusion_matrix</span><span class="p">(</span><span class="n">lr</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray_r&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="mi">48</span>  <span class="mi">5</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mi">4</span> <span class="mi">86</span><span class="p">]]</span>
+<span class="mf">0.94</span>
+</pre></div>
+</div>
+<p>]</p>
+<p><img alt=":scale 20%" src="04-model-evaluation/images/plot_confusion_matrix.png" /></p>
+<p>confusion_matrix and accuracy_score take y_true, y_pred
+Note that plot_confusion_matrix takes the estimator.
+We might change that. We’ll talk a bit more about that interface later.</p>
+</div>
+<div class="section" id="problems-with-accuracy">
+<h2>Problems with Accuracy<a class="headerlink" href="#problems-with-accuracy" title="Permalink to this headline">¶</a></h2>
+<p>Data with 90% negatives:
+.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="k">for</span> <span class="n">y_pred</span> <span class="ow">in</span> <span class="p">[</span><span class="n">y_pred_1</span><span class="p">,</span> <span class="n">y_pred_2</span><span class="p">,</span> <span class="n">y_pred_3</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.9</span>
+<span class="mf">0.9</span>
+<span class="mf">0.9</span>
+</pre></div>
+</div>
+<p>]</p>
+<p>–</p>
+<p>.center[
+<img alt=":scale 70%" src="04-model-evaluation/images/problems_with_accuracy.png" />
+]</p>
+<ul class="simple">
+<li><p>Imbalanced classes lead to hard-to-interpret accuracy.</p></li>
+</ul>
+<p>class:split-40</p>
+</div>
+<div class="section" id="precision-recall-f-score">
+<h2>Precision, Recall, f-score<a class="headerlink" href="#precision-recall-f-score" title="Permalink to this headline">¶</a></h2>
+<p>.left-column[
+<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\large\text{Precision}</span> <span class="pre">=</span> <span class="pre">\frac{\text{TP}}{\text{TP}+\text{FP}}$$</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$$\large\text{Recall}</span> <span class="pre">=</span> <span class="pre">\frac{\text{TP}}{\text{TP}+\text{FN}}$$</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$$\large\text{F}</span> <span class="pre">=</span> <span class="pre">2</span> <span class="pre">\frac{\text{precision}</span> <span class="pre">\cdot\text{recall}}{\text{precision}+\text{recall}}$$</span></code>]
+.right-column[</p>
+<p>Positive Predicted Value (PPV)</p>
+<p>Sensitivity, coverage, true positive rate.</p>
+<p>Harmonic mean of precision and recall
+]</p>
+<p>All depend on definition of positive and negative.</p>
+<p>class: center, spacious</p>
+</div>
+<div class="section" id="the-zoo">
+<h2>The Zoo<a class="headerlink" href="#the-zoo" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 100%" src="04-model-evaluation/images/zoo.png" /></p>
+<p>https://en.wikipedia.org/wiki/Precision_and_recall</p>
+<p>class: compact</p>
+</div>
+<div class="section" id="normalizing-the-confusion-matrix">
+<h2>Normalizing the confusion matrix<a class="headerlink" href="#normalizing-the-confusion-matrix" title="Permalink to this headline">¶</a></h2>
+<p>.smallest[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt=":scale 30%" src="04-model-evaluation/images/confusion_matrix.png" />
+]
+.left-column[
+.smallest[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span>
+                 <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt=":scale 80%" src="04-model-evaluation/images/confusion_matrix_norm_true.png" />
+]
+]
+.right-column[
+.smallest[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span>
+                 <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;pred&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt=":scale 80%" src="04-model-evaluation/images/confusion_matrix_norm_pred.png" />
+]
+]</p>
+<p>class:compact
+.smallest[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>]
+.left-column[
+<img alt=":scale 38%" src="04-model-evaluation/images/confusion_matrix_col.png" />]
+.smallest[
+.right-column[</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>              <span class="n">precision</span>    <span class="n">recall</span>  <span class="n">f1</span><span class="o">-</span><span class="n">score</span>   <span class="n">support</span>
+
+           <span class="mi">0</span>       <span class="mf">0.90</span>      <span class="mf">1.00</span>      <span class="mf">0.95</span>        <span class="mi">90</span>
+           <span class="mi">1</span>       <span class="mf">0.00</span>      <span class="mf">0.00</span>      <span class="mf">0.00</span>        <span class="mi">10</span>
+
+    <span class="n">accuracy</span>                           <span class="mf">0.90</span>       <span class="mi">100</span>
+   <span class="n">macro</span> <span class="n">avg</span>       <span class="mf">0.45</span>      <span class="mf">0.50</span>      <span class="mf">0.47</span>       <span class="mi">100</span>
+<span class="n">weighted</span> <span class="n">avg</span>       <span class="mf">0.81</span>      <span class="mf">0.90</span>      <span class="mf">0.85</span>       <span class="mi">100</span>
+
+
+              <span class="n">precision</span>    <span class="n">recall</span>  <span class="n">f1</span><span class="o">-</span><span class="n">score</span>   <span class="n">support</span>
+
+           <span class="mi">0</span>       <span class="mf">1.00</span>      <span class="mf">0.89</span>      <span class="mf">0.94</span>        <span class="mi">90</span>
+           <span class="mi">1</span>       <span class="mf">0.50</span>      <span class="mf">1.00</span>      <span class="mf">0.67</span>        <span class="mi">10</span>
+
+    <span class="n">accuracy</span>                           <span class="mf">0.90</span>       <span class="mi">100</span>
+   <span class="n">macro</span> <span class="n">avg</span>       <span class="mf">0.75</span>      <span class="mf">0.94</span>      <span class="mf">0.80</span>       <span class="mi">100</span>
+<span class="n">weighted</span> <span class="n">avg</span>       <span class="mf">0.95</span>      <span class="mf">0.90</span>      <span class="mf">0.91</span>       <span class="mi">100</span>
+
+
+              <span class="n">precision</span>    <span class="n">recall</span>  <span class="n">f1</span><span class="o">-</span><span class="n">score</span>   <span class="n">support</span>
+
+           <span class="mi">0</span>       <span class="mf">0.94</span>      <span class="mf">0.94</span>      <span class="mf">0.94</span>        <span class="mi">90</span>
+           <span class="mi">1</span>       <span class="mf">0.50</span>      <span class="mf">0.50</span>      <span class="mf">0.50</span>        <span class="mi">10</span>
+
+    <span class="n">accuracy</span>                           <span class="mf">0.90</span>       <span class="mi">100</span>
+   <span class="n">macro</span> <span class="n">avg</span>       <span class="mf">0.72</span>      <span class="mf">0.72</span>      <span class="mf">0.72</span>       <span class="mi">100</span>
+<span class="n">weighted</span> <span class="n">avg</span>       <span class="mf">0.90</span>      <span class="mf">0.90</span>      <span class="mf">0.90</span>       <span class="mi">100</span>
+</pre></div>
+</div>
+<p>]]</p>
+</div>
+<div class="section" id="averaging-strategies">
+<h2>Averaging strategies<a class="headerlink" href="#averaging-strategies" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">$$\text{macro</span> <span class="pre">}\frac{1}{\left|L\right|}</span> <span class="pre">\sum_{l</span> <span class="pre">\in</span> <span class="pre">L}</span> <span class="pre">R(y_l,</span> <span class="pre">\hat{y}_l)$$</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$$\text{weighted</span> <span class="pre">}</span> <span class="pre">\frac{1}{n}</span> <span class="pre">\sum_{l</span> <span class="pre">\in</span> <span class="pre">L}</span> <span class="pre">n_l</span> <span class="pre">R(y_l,</span> <span class="pre">\hat{y}_l)$$</span></code></p>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Weighted average: &quot;</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_1</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;weighted&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Macro average: &quot;</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_1</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;macro&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Weighted</span> <span class="n">average</span><span class="p">:</span> <span class="mf">0.90</span>
+<span class="n">Macro</span> <span class="n">average</span><span class="p">:</span> <span class="mf">0.50</span>
+</pre></div>
+</div>
+<p>]</p>
+<p>Two common ways to approach multitask is to look at averages
+over binary metrics. So you can do binary metrics for
+recall, precision f1 score. But in principle, you could do
+it for more things. And in scikit-learn has several
+averaging strategies.</p>
+<p>There is macro, weighted, micro and samples. You should
+really not worried about micro samples, which only apply to
+multi-label prediction. We haven’t talked about multi-label
+prediction and we’re not going to talk about multi-label
+prediction. Multi-level prediction is when each sample can
+have multiple labels.</p>
+<p>Macro and weighted are the two options. They are
+interesting. For example, for recall, we can look at macro
+average recall, which is the average over all the labels and
+then the recall for just this label. So basically, here y_l
+is the true label, y ̂ is the predicted label. The positive
+class is now label l, and the negative classes is any other
+label, so this is sort of one versus rest version of recall.</p>
+<p>You can also do a weighted average, you weight by the number
+of samples in each class, and then divide by the total
+number of samples. So again, for each class, I compute
+recall for that class, and then I weight that by the number
+of samples. This is actually what classification report
+reports here.</p>
+<p>It’s kind of interesting that if you do this, then actually
+looking at precision or recall just by themselves is
+informative. So if you look at macro average recall, that’s
+actually also called balanced accuracy or if you look at
+macro average precision, this will be the useful metric by
+itself, because it looks at the precision of each of the
+classes.</p>
+<p>So basically, the choice between macro and weighted is
+whether you think each class should have the same weight, or
+each sample should have the same weight. Let’s say, we have
+recall for one class is 1 and for the other class 0. And for
+the majority class recall is 1 and for the minority, class
+recall is 0. For macro average recall, you would get 0.5
+because you just take the average of the two. If you look at
+a weighted, then the outcome would be the proportion of the
+positive class. So if 90% of the data is positive, you will
+get 90% here. So basically weighted takes the class sizes
+into account and so the bigger classes count for more. If
+you’re actually interested in the smaller classes, macro is
+probably better because each class weights the same. Which
+one is the best really depends on your application?</p>
+<p>Macro is counted each class the same while weighted is count
+each sample the same. I did this here on the digit data set,
+which is basically balanced and so there’s no difference.</p>
+<p>micro vs macro same for other metrics.</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="balanced-accuracy">
+<h2>Balanced Accuracy<a class="headerlink" href="#balanced-accuracy" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">balanced_accuracy_score</span><span class="p">(</span><span class="n">y_t</span><span class="p">,</span> <span class="n">y_p</span><span class="p">)</span> <span class="o">==</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_t</span><span class="p">,</span> <span class="n">y_p</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>]</p>
+<div class="math notranslate nohighlight">
+\[\text{balanced_accuracy} = \frac{1}{2}\left( \frac{TP}{TP + FN} + \frac{TN}{TN + FP}\right )\]</div>
+<ul class="simple">
+<li><p>Always 0.5 for chance predictions</p></li>
+<li><p>Equal to accuracy for balanced datasets</p></li>
+</ul>
+</div>
+<div class="section" id="mammography-data">
+<h2>Mammography Data<a class="headerlink" href="#mammography-data" title="Permalink to this headline">¶</a></h2>
+<p>.smallest[
+.left-column[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_openml</span>
+<span class="c1">## mammography https://www.openml.org/d/310</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s1">&#39;mammography&#39;</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span>
+<span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+<p>(11183, 6)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="mi">1</span>    <span class="mi">10923</span>
+<span class="mi">1</span>       <span class="mi">260</span>
+</pre></div>
+</div>
+<p>]
+.right-column[
+.center[
+<img alt=":scale 100%" src="04-model-evaluation/images/mammography_data.png" />
+]
+]
+.reset-column[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">## make y boolean</span>
+<span class="c1">## this allows sklearn to determine the positive class more easily</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>]
+]</p>
+<p>I use this mammography data set, which is very imbalanced.
+This is a data set that has many samples, only six features
+and it’s very imbalanced.</p>
+<p>The datasets are about mammography data, and whether there
+are calcium deposits in the breast. They are often mistaken
+for cancer, which is why it’s good to detect them. Since its
+rigidly low dimensional, we can do a scatter plot. And we
+can see that these are much skewed distributions and there’s
+really a lot more of one class than the other.</p>
+<p>.smallest[
+.left-column[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">svc</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span>
+                    <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">))</span>
+<span class="n">svc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">svc</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.986</span>
+</pre></div>
+</div>
+<p>]
+.right-column[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
+
+<span class="n">rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">rf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.989</span>
+</pre></div>
+</div>
+<p>]
+]</p>
+<p>–</p>
+<p>.reset-column[
+]
+.smallest[
+.left-column[</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>              <span class="n">precision</span>   <span class="n">recall</span>  <span class="n">f1</span><span class="o">-</span><span class="n">score</span>  <span class="n">support</span>
+
+       <span class="kc">False</span>       <span class="mf">0.99</span>     <span class="mf">1.00</span>      <span class="mf">0.99</span>     <span class="mi">2732</span>
+        <span class="kc">True</span>       <span class="mf">0.81</span>     <span class="mf">0.53</span>      <span class="mf">0.64</span>       <span class="mi">64</span>
+
+    <span class="n">accuracy</span>                          <span class="mf">0.99</span>     <span class="mi">2796</span>
+   <span class="n">macro</span> <span class="n">avg</span>       <span class="mf">0.90</span>     <span class="mf">0.76</span>      <span class="mf">0.82</span>     <span class="mi">2796</span>
+<span class="n">weighted</span> <span class="n">avg</span>       <span class="mf">0.98</span>     <span class="mf">0.99</span>      <span class="mf">0.99</span>     <span class="mi">2796</span>
+</pre></div>
+</div>
+<p>]
+.right-column[</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>              <span class="n">precision</span>   <span class="n">recall</span>  <span class="n">f1</span><span class="o">-</span><span class="n">score</span>  <span class="n">support</span>
+
+       <span class="kc">False</span>       <span class="mf">0.99</span>     <span class="mf">1.00</span>      <span class="mf">0.99</span>     <span class="mi">2732</span>
+        <span class="kc">True</span>       <span class="mf">0.90</span>     <span class="mf">0.56</span>      <span class="mf">0.69</span>       <span class="mi">64</span>
+
+    <span class="n">accuracy</span>                          <span class="mf">0.99</span>     <span class="mi">2796</span>
+   <span class="n">macro</span> <span class="n">avg</span>       <span class="mf">0.94</span>     <span class="mf">0.78</span>      <span class="mf">0.84</span>     <span class="mi">2796</span>
+<span class="n">weighted</span> <span class="n">avg</span>       <span class="mf">0.99</span>     <span class="mf">0.99</span>      <span class="mf">0.99</span>     <span class="mi">2796</span>
+</pre></div>
+</div>
+<p>]
+]</p>
+<p>class:spacious</p>
+</div>
+<div class="section" id="goal-setting">
+<h2>Goal setting!<a class="headerlink" href="#goal-setting" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>What do I want? What do I care about?</p></li>
+<li><p>Can I assign costs to the confusion matrix?</p></li>
+<li><p>What guarantees do we want to give?</p></li>
+</ul>
+<p>(precision, recall, or something else)
+(i.e. a false positive costs me 10 dollars; a false negative, 100 dollars)</p>
+</div>
+<div class="section" id="changing-thresholds">
+<h2>Changing Thresholds<a class="headerlink" href="#changing-thresholds" title="Permalink to this headline">¶</a></h2>
+<p>.tiny-code[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>              <span class="n">precision</span>    <span class="n">recall</span>  <span class="n">f1</span><span class="o">-</span><span class="n">score</span>   <span class="n">support</span>
+
+       <span class="kc">False</span>       <span class="mf">0.99</span>      <span class="mf">1.00</span>      <span class="mf">0.99</span>      <span class="mi">2732</span>
+        <span class="kc">True</span>       <span class="mf">0.90</span>      <span class="mf">0.56</span>      <span class="mf">0.69</span>        <span class="mi">64</span>
+
+    <span class="n">accuracy</span>                           <span class="mf">0.99</span>      <span class="mi">2796</span>
+   <span class="n">macro</span> <span class="n">avg</span>       <span class="mf">0.94</span>      <span class="mf">0.78</span>      <span class="mf">0.84</span>      <span class="mi">2796</span>
+<span class="n">weighted</span> <span class="n">avg</span>       <span class="mf">0.99</span>      <span class="mf">0.99</span>      <span class="mf">0.99</span>      <span class="mi">2796</span>
+
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">.</span><span class="mi">30</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>              <span class="n">precision</span>    <span class="n">recall</span>  <span class="n">f1</span><span class="o">-</span><span class="n">score</span>   <span class="n">support</span>
+
+       <span class="kc">False</span>       <span class="mf">0.99</span>      <span class="mf">0.99</span>      <span class="mf">0.99</span>      <span class="mi">2732</span>
+        <span class="kc">True</span>       <span class="mf">0.71</span>      <span class="mf">0.64</span>      <span class="mf">0.67</span>        <span class="mi">64</span>
+
+    <span class="n">accuracy</span>                           <span class="mf">0.99</span>      <span class="mi">2796</span>
+   <span class="n">macro</span> <span class="n">avg</span>       <span class="mf">0.85</span>      <span class="mf">0.82</span>      <span class="mf">0.83</span>      <span class="mi">2796</span>
+<span class="n">weighted</span> <span class="n">avg</span>       <span class="mf">0.99</span>      <span class="mf">0.99</span>      <span class="mf">0.99</span>      <span class="mi">2796</span>
+
+</pre></div>
+</div>
+<p>]</p>
+<p>class: compact</p>
+</div>
+<div class="section" id="precision-recall-curve">
+<h2>Precision-Recall curve<a class="headerlink" href="#precision-recall-curve" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">svc</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">))</span>
+<span class="n">svc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">plot_precision_recall_curve</span><span class="p">(</span><span class="n">svc</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;SVC&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>]
+.center[
+<img alt=":scale 65%" src="04-model-evaluation/images/precision_recall_curve.png" />
+]</p>
+</div>
+<div class="section" id="side-note-scikit-learn-plotting-api">
+<h2>Side note: Scikit-learn plotting API<a class="headerlink" href="#side-note-scikit-learn-plotting-api" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">prc</span> <span class="o">=</span> <span class="n">plot_precision_recall_curve</span><span class="p">(</span><span class="n">svc</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;SVC&#39;</span><span class="p">)</span>
+<span class="c1">## plot pops up here</span>
+<span class="n">prc</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">vars</span><span class="p">(</span><span class="n">pr_svc</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;precision&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.023</span><span class="p">,</span> <span class="mf">0.023</span><span class="p">,</span> <span class="mf">0.023</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">1.</span>   <span class="p">,</span> <span class="mf">1.</span>   <span class="p">,</span> <span class="mf">1.</span>   <span class="p">]),</span>
+ <span class="s1">&#39;recall&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">1.</span>   <span class="p">,</span> <span class="mf">0.984</span><span class="p">,</span> <span class="mf">0.984</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">0.031</span><span class="p">,</span> <span class="mf">0.016</span><span class="p">,</span> <span class="mf">0.</span>   <span class="p">]),</span>
+ <span class="s1">&#39;average_precision&#39;</span><span class="p">:</span> <span class="mf">0.6743452407177641</span><span class="p">,</span>
+ <span class="s1">&#39;estimator_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Pipeline&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;line_&#39;</span><span class="p">:</span> 
+<span class="p">,</span>
+ <span class="s1">&#39;ax_&#39;</span><span class="p">:</span> 
+<span class="p">,</span>
+ <span class="s1">&#39;figure_&#39;</span><span class="p">:</span> 
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">## plot again without recomputing</span>
+<span class="n">prc</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>]</p>
+<p>class: compact</p>
+</div>
+<div class="section" id="roc-curve">
+<h2>ROC Curve<a class="headerlink" href="#roc-curve" title="Permalink to this headline">¶</a></h2>
+<p>.center[</p>
+<div class="section" id="receiver-operating-characteristic">
+<h3>(Receiver Operating Characteristic)<a class="headerlink" href="#receiver-operating-characteristic" title="Permalink to this headline">¶</a></h3>
+<p>]
+.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plot_roc_curve</span><span class="p">(</span><span class="n">svc</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;SVC&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>]
+.center[
+<img alt=":scale 65%" src="04-model-evaluation/images/roc_curve_svc.png" />
+]</p>
+<p>.left-column[</p>
+</div>
+</div>
+<div class="section" id="pr-curve">
+<h2>PR-Curve<a class="headerlink" href="#pr-curve" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 100%" src="04-model-evaluation/images/precision_recall_curve.png" />
+]
+.right-column[</p>
+</div>
+<div class="section" id="id2">
+<h2>ROC-Curve<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 100%" src="04-model-evaluation/images/roc_curve_svc.png" />
+]
+.reset-column[</p>
+<ul class="simple">
+<li><p>Share one axis (though transposed!?)</p></li>
+<li><p>Interpolation is meaningful on ROC curve but not PR curve
+]</p></li>
+</ul>
+</div>
+<div class="section" id="comparing-rf-and-svc">
+<h2>Comparing RF and SVC<a class="headerlink" href="#comparing-rf-and-svc" title="Permalink to this headline">¶</a></h2>
+<p>.smallest[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pr_svc</span> <span class="o">=</span> <span class="n">plot_precision_recall_curve</span><span class="p">(</span><span class="n">svc</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;SVC&#39;</span><span class="p">)</span>
+<span class="c1">## if we used computed before, we could just call pr_svc.plot()</span>
+<span class="c1">## using ax=plt.gca() will plot into the existing axes instead of creating  new ones</span>
+<span class="n">pr_rf</span> <span class="o">=</span> <span class="n">plot_precision_recall_curve</span><span class="p">(</span><span class="n">rf</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">())</span>
+
+</pre></div>
+</div>
+<p>]
+.center[
+<img alt=":scale 60%" src="04-model-evaluation/images/rf_vs_svc.png" />
+]</p>
+<p>We’re going to compare random forest and support vector
+machine.</p>
+<p>You can see they’re sort of similar. But in some areas, they
+are different. For example, you can see that the random
+forest is little bit more stable for very high precision but
+in some places the SVM is better than random forest and vice
+versa. So which of the two is better classifier really
+depends on which area you’re interested in.</p>
+<p>By comparing these two curves, again, sort of a very fine
+grain thing that you can do manually, if you want to do this
+for many models, and want to pick the best model. This is
+maybe not really feasible. So you might want to summarize
+this in a single number. So one number you could think of
+is, while I know I definitely want to have a recall of 90%
+so I’m going to put my threshold here and compare at that
+threshold. If you don’t really have a particular goal yet,
+you can also consider all thresholds at once, and basically
+compute the area under this curve. It’s not exactly the same
+but that’s sort of what average precision does.</p>
+</div>
+<div class="section" id="average-precision">
+<h2>Average Precision<a class="headerlink" href="#average-precision" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 100%" src="04-model-evaluation/images/avg_precision.png" />
+]</p>
+<p>Average precision basically does a step function integral of
+this thing. So for each possible threshold, you look at the
+precision at this threshold times the change in recall. So
+this is like fitting a step function under the curve and
+then computing the integral. This allows you to basically
+take all possible thresholds into account at once.</p>
+<p>Q: How do I adjust the precision-recall ratio for the random
+forest?</p>
+<p>I mean, it says predict_proba. So I can alter threshold that
+at different values if I want. For a support vector machine,
+which doesn’t have predict_proba, I can also adjust the
+threshold the decision function.</p>
+<p>Average precision is a pretty good metric to basically
+compare models if there are imbalanced classes.</p>
+<p>Related to area under the precision-recall curve
+(with step interpolation)</p>
+</div>
+<div class="section" id="area-under-roc-curve-aka-auc">
+<h2>Area Under ROC Curve (aka AUC)<a class="headerlink" href="#area-under-roc-curve-aka-auc" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 65%" src="04-model-evaluation/images/roc_curve_svc_auc.png" />
+]</p>
+<ul class="simple">
+<li><p>Always .5 for random/constant prediction</p></li>
+</ul>
+<p>And so when you look at the area under the curve, which is
+called ROC AUC, it’s always 0.5 for random or constant
+predictions. So it’s very easy to say, how much better than
+random are you if you look at ROC AUC.</p>
+<p>I encourage you to read the paper in the link.</p>
+<p>One thing is that the ROC curve is usually much smoother and
+it makes more sense to interpolate it, where the
+precision-recall curve makes less sense to interpolate us.
+But the precision-recall curve can sometimes pick up on more
+fine-grained differences.</p>
+<p>Even though AUC stands for area under the curve, if you see
+it in literature always means the area under the receiver
+operating curve. So AUC always means ROC AUC.</p>
+<p>AUC is a ranking metric. So it takes all possible thresholds
+into account, which means that it’s independent of the
+default thresholds. So again, you can have something with
+very low accuracy but still with perfect ROC AUC.</p>
+</div>
+<div class="section" id="keep-in-mind-ranking-vs-predictions">
+<h2>Keep in mind: ranking vs predictions<a class="headerlink" href="#keep-in-mind-ranking-vs-predictions" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dec</span> <span class="o">=</span> <span class="n">svc</span><span class="o">.</span><span class="n">decision_function</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">((</span><span class="n">dec</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="n">svc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kc">True</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">dec</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">average_precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">dec</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.641</span>
+<span class="mf">0.635</span>
+</pre></div>
+</div>
+<p>–</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dec_new</span> <span class="o">=</span> <span class="n">dec</span> <span class="o">-</span> <span class="mi">10</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">dec_new</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">average_precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">dec_new</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.0</span>
+<span class="mf">0.635</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="threshold-and-ranking-metrics">
+<h2>Threshold and ranking metrics<a class="headerlink" href="#threshold-and-ranking-metrics" title="Permalink to this headline">¶</a></h2>
+<p>.left-column[
+.tiny[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">f1_score</span>
+<span class="n">f1_rf</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;f1_score of random forest: </span><span class="si">{</span><span class="n">f1_rf</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">f1_svc</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">svc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;f1_score of svc: </span><span class="si">{</span><span class="n">f1_svc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">f1_score</span> <span class="n">of</span> <span class="n">random</span> <span class="n">forest</span><span class="p">:</span> <span class="mf">0.709</span>
+<span class="n">f1_score</span> <span class="n">of</span> <span class="n">svc</span><span class="p">:</span> <span class="mf">0.715</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">balanced_accuracy_score</span>
+<span class="n">ba_rf</span> <span class="o">=</span> <span class="n">balanced_accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Balanced accuracy of random forest: </span><span class="si">{</span><span class="n">ba_rf</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">ba_svc</span> <span class="o">=</span> <span class="n">balanced_accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">svc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Balanced accuracy of svc: </span><span class="si">{</span><span class="n">ba_svc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Balanced</span> <span class="n">accuracy</span> <span class="n">of</span> <span class="n">random</span> <span class="n">forest</span><span class="p">:</span> <span class="mf">0.765</span>
+<span class="n">Balanced</span> <span class="n">accuracy</span> <span class="n">of</span> <span class="n">svc</span><span class="p">:</span> <span class="mf">0.764</span>
+</pre></div>
+</div>
+<p>]
+]
+.right-column[
+.tiny[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">average_precision_score</span>
+<span class="n">ap_rf</span> <span class="o">=</span> <span class="n">average_precision_score</span><span class="p">(</span>
+<span class="n">y_test</span><span class="p">,</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average precision of random forest: </span><span class="si">{</span><span class="n">ap_rf</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">ap_svc</span> <span class="o">=</span> <span class="n">average_precision_score</span><span class="p">(</span>
+    <span class="n">y_test</span><span class="p">,</span> <span class="n">svc</span><span class="o">.</span><span class="n">decision_function</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average precision of svc: </span><span class="si">{</span><span class="n">ap_svc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Average</span> <span class="n">precision</span> <span class="n">of</span> <span class="n">random</span> <span class="n">forest</span><span class="p">:</span> <span class="mf">0.682</span>
+<span class="n">Average</span> <span class="n">precision</span> <span class="n">of</span> <span class="n">svc</span><span class="p">:</span> <span class="mf">0.693</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_auc_score</span>
+<span class="n">auc_rf</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Area under ROC curve of random forest: </span><span class="si">{</span><span class="n">auc_rf</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">auc_svc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">svc</span><span class="o">.</span><span class="n">decision_function</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Area under ROC curve of svc: </span><span class="si">{</span><span class="n">auc_svc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Area</span> <span class="n">under</span> <span class="n">ROC</span> <span class="n">curve</span> <span class="n">of</span> <span class="n">random</span> <span class="n">forest</span><span class="p">:</span> <span class="mf">0.936</span>
+<span class="n">Area</span> <span class="n">under</span> <span class="n">ROC</span> <span class="n">curve</span> <span class="n">of</span> <span class="n">svc</span><span class="p">:</span> <span class="mf">0.817</span>
+</pre></div>
+</div>
+<p>]]</p>
+<p>Previously, I just have sort of a simple comparison between
+f1 and average precision. I’m comparing these two models. So
+if I look at f1 score, it’s going to compare basically these
+two points and the SVC is slightly is better.</p>
+<p>But F1 score only looks at the default threshold. If I want
+to look at the whole RC curve, I can use average precision.
+Even if I look at all possible thresholds, SVC is still
+better. Average precision is sort of a very sensitive metric
+that allows you to basically make good decisions even if the
+classes are very imbalanced and that also takes all possible
+thresholds into account.</p>
+<p>One thing that you should keep in mind if you use this is
+that this does not give you a particular threshold. For
+example, if you use the default threshold, your accuracy
+might be zero. This only looks at ranking.</p>
+<p>The curve and the area under the curve, don’t depend on
+where the default threshold is. So if you predict
+everything, like for some weird reason, if you predict
+everything as the minority class, your accuracy will be
+really bad. But if they are ranked in the right order, so
+that all the positive classes are ranked higher than the
+negative classes, then you might still get an area under the
+curve that’s very close to one. So this only looks at
+ranking.</p>
+<p>AP only considers ranking!</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="further-reading-on-evaluation-curves">
+<h2>Further reading on evaluation curves<a class="headerlink" href="#further-reading-on-evaluation-curves" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.biostat.wisc.edu/~page/rocpr.pdf">The Relationship Between Precision-Recall and ROC Curves</a></p></li>
+<li><p><a class="reference external" href="https://papers.nips.cc/paper/5867-precision-recall-gain-curves-pr-analysis-done-right.pdf">Precision-Recall-Gain Curves: PR Analysis Done Right</a></p></li>
+</ul>
+</div>
+<div class="section" id="summary-of-metrics-for-binary-classification">
+<h2>Summary of metrics for binary classification<a class="headerlink" href="#summary-of-metrics-for-binary-classification" title="Permalink to this headline">¶</a></h2>
+<p>Threshold-based:</p>
+<ul class="simple">
+<li><p>(balanced) accuracy</p></li>
+<li><p>precision, recall, f1</p></li>
+</ul>
+<p>Ranking:</p>
+<ul class="simple">
+<li><p>average precision</p></li>
+<li><p>ROC AUC</p></li>
+</ul>
+<p>So let’s briefly summarize the metrics for binary
+classification. So there are basically two approaches. One
+looks just at the predictions or look at soft predictions
+and take multiple thresholds into account. So the ones that
+I called threshold base, which is for single threshold, the
+ones that we talked about in our accuracy, which is just a
+fraction of correctly predicted, precision, recall, and f1.
+So the issue with accuracy is obviously that it can’t
+distinguish between things that are quite different, for
+example, for imbalanced data sets, the classifier always
+predicts majority class often has like very high accuracy
+but tells you nothing. So in particular, for imbalanced
+classes, accuracy is a pretty bad measure. Precision and
+recall together are pretty good measures, though you always
+need to look at both numbers. One way to look at both
+numbers at once is the f1 score, though, using the harmonic
+mean is a little bit arbitrary. But still, only f1 score is
+a somewhat reasonable score if you only look at the actual
+predicted classes.</p>
+<p>For the ranking based losses, I think both average precision
+and ROC AUC are pretty good choices, ROC AUC, I like it
+because I know what 0.5 means, while for average precision,
+it’s a little bit more tricky to see what the different
+orders of magnitude mean, or the different scales mean, but
+it can be more fine-grained measure. And so if you want to
+do cross-validation, my go-to is usually ROC AUC. In
+particular, for imbalance binary datasets, I would usually
+use ROC AUC. But then make sure that your threshold is
+sensible, but anything other than accuracy is okay.</p>
+<p>Just don’t look at only precision or only recall, if you do
+a grid search for just precision, you will probably get
+garbage results.</p>
+<p>add log loss?</p>
+<p>class: centre,middle</p>
+</div>
+<div class="section" id="multi-class-classification">
+<h2>Multi-class classification<a class="headerlink" href="#multi-class-classification" title="Permalink to this headline">¶</a></h2>
+<p>The next thing I want to talk about is multiclass
+classification.</p>
+<p>class:split-40
+#Confusion Matrix
+.left-column[
+.tiny-code[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_digits</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="n">digits</span> <span class="o">=</span> <span class="n">load_digits</span><span class="p">()</span>
+ <span class="c1">## data is between 0 and 16</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">digits</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="mf">16.</span><span class="p">,</span> <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">lr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accuracy: </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred</span><span class="p">)))</span>
+<span class="n">plot_confusion_matrix</span><span class="p">(</span><span class="n">lr</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray_r&#39;</span><span class="p">)</span>
+
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Accuracy</span><span class="p">:</span> <span class="mf">0.964</span>
+</pre></div>
+</div>
+<p><img alt=":scale 70%" src="04-model-evaluation/images/confusion_matrix_digits.png" /></p>
+<p>]
+]
+.right-column[
+.tiny-code[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>             <span class="n">precision</span>    <span class="n">recall</span>  <span class="n">f1</span><span class="o">-</span><span class="n">score</span>   <span class="n">support</span>
+
+          <span class="mi">0</span>       <span class="mf">1.00</span>      <span class="mf">1.00</span>      <span class="mf">1.00</span>        <span class="mi">37</span>
+          <span class="mi">1</span>       <span class="mf">0.91</span>      <span class="mf">0.93</span>      <span class="mf">0.92</span>        <span class="mi">43</span>
+          <span class="mi">2</span>       <span class="mf">0.98</span>      <span class="mf">1.00</span>      <span class="mf">0.99</span>        <span class="mi">44</span>
+          <span class="mi">3</span>       <span class="mf">1.00</span>      <span class="mf">0.96</span>      <span class="mf">0.98</span>        <span class="mi">45</span>
+          <span class="mi">4</span>       <span class="mf">0.95</span>      <span class="mf">0.97</span>      <span class="mf">0.96</span>        <span class="mi">38</span>
+          <span class="mi">5</span>       <span class="mf">0.96</span>      <span class="mf">0.96</span>      <span class="mf">0.96</span>        <span class="mi">48</span>
+          <span class="mi">6</span>       <span class="mf">0.98</span>      <span class="mf">0.98</span>      <span class="mf">0.98</span>        <span class="mi">52</span>
+          <span class="mi">7</span>       <span class="mf">0.98</span>      <span class="mf">0.96</span>      <span class="mf">0.97</span>        <span class="mi">48</span>
+          <span class="mi">8</span>       <span class="mf">0.96</span>      <span class="mf">0.90</span>      <span class="mf">0.92</span>        <span class="mi">48</span>
+          <span class="mi">9</span>       <span class="mf">0.92</span>      <span class="mf">0.98</span>      <span class="mf">0.95</span>        <span class="mi">47</span>
+
+    <span class="n">accuracy</span>                           <span class="mf">0.96</span>       <span class="mi">450</span>
+   <span class="n">macro</span> <span class="n">avg</span>       <span class="mf">0.96</span>      <span class="mf">0.96</span>      <span class="mf">0.96</span>       <span class="mi">450</span>
+<span class="n">weighted</span> <span class="n">avg</span>       <span class="mf">0.96</span>      <span class="mf">0.96</span>      <span class="mf">0.96</span>       <span class="mi">450</span>
+</pre></div>
+</div>
+<p>]
+]</p>
+<p>So again, for multiclass classification, you look at the
+confusion matrix. It’s even more telling in a way than it
+was for binary classification but it’s also pretty big. So
+here, I’m using the digital data set, which has 10 classes,
+and here’s the confusion matrix. The diagonal is everything
+that’s correct, the off-diagonal are mistakes.</p>
+<p>And you can see very fine-grained which classes were
+mistaken for which other classes. So this is very nice if
+you want to look in a very detailed view of the performance
+of the classifier. But again, you can’t really use it for
+model selection, or not easily. You can also again, look at
+the classification report, which will give you
+precision-recall and F score for each for the classes,
+again, very, very fine grained. So you can see, for example,
+that Class 0, was predicted while Class 8 is the hardest.</p>
+<p>It might make more sense to look at in precision average
+classes, recall over the classes or f1 score for the
+classes.</p>
+</div>
+<div class="section" id="multi-class-roc-auc">
+<h2>Multi-class ROC AUC<a class="headerlink" href="#multi-class-roc-auc" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Hand &amp; Till, 2001, one vs one
+<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\frac{1}{c(c-1)}\sum_{j=1}^{c}\sum_{k</span> <span class="pre">\neq</span> <span class="pre">j}^{c}</span> <span class="pre">AUC(j,k)$$</span></code></p></li>
+<li><p>Provost &amp; Domingo, 2000, one vs rest
+<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\frac{1}{c}\sum_{j=1}^{c}p(j)</span> <span class="pre">AUC(j,\text{rest}_j)$$</span></code></p></li>
+</ul>
+<p>You can do that similar for ROC AUC. It will soon be
+available in scikit-learn. There are basically two versions
+of doing multiclass ROC AUC. One is called Hand &amp; Till while
+the other is called Provost &amp; Domingo. And the first one is
+basically one versus one where you iterate over all the
+classes, and then you iterate over all the other classes,
+then you look at the AUC of one class versus the other
+class.</p>
+<p>And this one is basically one versus rest where you look at
+the AUC of one class versus all the other classes.</p>
+<p>H&amp;T is not weighted whereas, on P&amp;D, p(j) means number of
+samples in j, and P&amp;D is weighted. You can also do weighted
+OvO or unweighted OvR.</p>
+<p>There are at least 4 different ways to do multi-class AUC.
+It’s not clear to me how they behave in practice. If you
+weighted then you count the samples are the same weight. If
+you do unweight, you give the different classes the same
+weight.</p>
+<p>So this is definitely a pretty good metric if you want a
+ranking metric for multi-class classification.</p>
+<p>FIXME unify notation with slide on averaging</p>
+</div>
+<div class="section" id="summary-of-metrics-for-multiclass-classification">
+<h2>Summary of metrics for multiclass classification<a class="headerlink" href="#summary-of-metrics-for-multiclass-classification" title="Permalink to this headline">¶</a></h2>
+<p>Threshold-based:</p>
+<ul class="simple">
+<li><p>accuracy</p></li>
+<li><p>precision, recall, f1 (macro average, weighted)</p></li>
+</ul>
+<p>Ranking:</p>
+<ul class="simple">
+<li><p>OVR ROC AUC</p></li>
+<li><p>OVO ROC AUC</p></li>
+</ul>
+<p>The threshold based ones are sort of the same, only now
+looking at only precision, or only recall, if you average
+over all the classes actually makes sense. So you can do a
+grid search over macro average recall, and it’ll give you
+reasonable results.</p>
+<p>For ranking, in theory, you could also do OvR or OvO on the
+precision-recall curve. But I haven’t seen anyone done that
+or any papers on that. So let’s not do that for now. Both
+can be weighted or unweighted versions of that.</p>
+<p>Both are great for imbalance problems again, but now you
+have to pick multiple thresholds and it’s unclear how to do
+that well or at least for me.</p>
+<p>So let’s say you use OVO ROC and you get a classifier with a
+high value there, and now you want to make predictions. What
+thresholds do you use?</p>
+<p>I don’t actually have a good answer. Because you need n
+minus one different threshold to actually make a decision.</p>
+<p>So for this reason, probably for multi-class, I might not
+use the ranking metrics unless you have to be cursed,
+they’re sort of hard to interpret. And I would probably use
+something like macro average precision or macro average
+recall or macro average f1.</p>
+<p>class: centre,middle</p>
+</div>
+<div class="section" id="metrics-for-regression-models">
+<h2>Metrics for regression models<a class="headerlink" href="#metrics-for-regression-models" title="Permalink to this headline">¶</a></h2>
+<p>class:spacious</p>
+</div>
+<div class="section" id="build-in-standard-metrics">
+<h2>Build-in standard metrics<a class="headerlink" href="#build-in-standard-metrics" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\text{R}^2\)</span> : easy to understand scale</p></li>
+<li><p>MSE : easy to relate to input</p></li>
+<li><p>Mean absolute error, median absolute error: more robust</p></li>
+</ul>
+<p>The built-in standard metrics by default in scikit-learn
+uses R squared. The other obvious metric is Mean Squared
+Error. The good thing about R squared is it’s around zero
+and maximum of one. It’s very easy to understand the scale.
+If it’s close to one is good. If it’s negative, it’s really
+bad. If it’s close to zero, it’s bad.</p>
+<p>While the MSE is easier to relate to the input. So the scale
+of the mean squared error is sort of relates to the scale of
+the output. You can also use things like mean absolute
+error, and median absolute error, which is more robust.</p>
+<p>If you square things, then outliers have a very big impact.
+So if we don’t square things, then outliers have less of an
+impact. So often people prefer to use mean absolute error to
+limit the impact of outliers. If being low is good, you need
+to have a neg before and if being high is good you won’t be
+needing to it be neg.</p>
+<p>I think these are actually the only metrics that are in
+scikit-learn.</p>
+<p>class:spacious</p>
+</div>
+<div class="section" id="absolute-vs-relative-mape">
+<h2>Absolute vs Relative: MAPE<a class="headerlink" href="#absolute-vs-relative-mape" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\text{MAPE}</span> <span class="pre">=</span> <span class="pre">\frac{100}{n}</span> <span class="pre">\sum_{i=1}^{n}\left|\frac{y-\hat{y}}{y}\right|$$</span></code></p>
+<p>.center[
+<img alt=":scale 50%" src="04-model-evaluation/images/mape.png" />
+]</p>
+<p>There’s another metric I want to talk about called MAPE.
+Which comes up in particular in forecasting. MAPE stands for
+Mean Absolute Percentage Error. MAPE captures is the
+percentage error. It divides the residual by the true value.
+Here for each individual data point, we’re dividing by the
+true value.</p>
+<p>Basically, what that means is that if a data point is large,
+we care less about how well we predict it. Basically, we
+allow larger error bars around high values. And I tried to
+plot this here, this is sort of for the one feature, LSTAT,
+to have like a reasonable x-axis since that helps us
+visualize this. And so here is the true dataset in blue and
+the predictive dataset in orange predicted using all
+features. And so in the bottom right, you can see it that we
+are under predicting by about 10. And this gives us a MAPE
+of 36%.</p>
+<p>On the top left, we are under predicting by even more, but
+the MAPE is smaller. So even though the absolute error on
+the top is bigger than the absolute error on the bottom, the
+relative error in the top is much smaller than the relative
+error in the bottom.</p>
+<p>This is a very commonly used measure in forecasting. Be
+careful when to use it because sometimes it might be not
+super intuitive. In particular, if something is not defined,
+if anything is zero, and if something is very close to zero,
+you need to perfectly predict it otherwise, you have unbound
+error. So this is usually used for things that are greater
+than one.</p>
+</div>
+<div class="section" id="prediction-plots">
+<h2>Prediction plots<a class="headerlink" href="#prediction-plots" title="Permalink to this headline">¶</a></h2>
+<p>.wide-left-column[
+.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_boston</span>
+<span class="n">boston</span> <span class="o">=</span> <span class="n">load_boston</span><span class="p">()</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">boston</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">boston</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+<span class="n">ridge</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ridge</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">ridge</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>]]
+.narrow-right-column[
+<img alt=":scale 100%" src="04-model-evaluation/images/regression_boston.png" />
+]</p>
+<p>I think one of the best debugging tools is prediction plots,
+where you plot the predicted versus the true outcome. This
+is on the Boston dataset here, I just do a ridge regression
+model. And so here, I plot the predicted outcome by the
+ridge regression on the test data set versus the true
+outcome. And so ideally, it should be the same, they it
+should be on the diagonal.</p>
+<p>But you can see that there’s like, a couple things wrong
+with it. So for example, there are a couple of things where
+the true prediction is 50K, but I under predict severely.
+There’s a lot of underprediction going on. In particular,
+for low values, I’m predicting too high and for high values,
+I’m predicting too low.</p>
+<p>Looking at this you can see different trends and see if
+there are any trends or not.</p>
+<p>class:split-40</p>
+</div>
+<div class="section" id="residual-plots">
+<h2>Residual Plots<a class="headerlink" href="#residual-plots" title="Permalink to this headline">¶</a></h2>
+<p>.left-column[<img alt=":scale 50%" src="04-model-evaluation/images/regression_boston.png" /></p>
+<p><img alt=":scale 60%" src="04-model-evaluation/images/regression_boston_2.png" />]
+.right-column[
+<img alt=":scale 100%" src="04-model-evaluation/images/regression_boston_3.png" />]</p>
+<p>A different way to look at this is to basically rotate that
+45 degrees.</p>
+<p>So here we are looking at the true versus true minus
+predicted. This allows you even more easily to see if there
+are trends, and you can see that basically, we’re over
+predicting for low values and we’re under predicting for
+high values.</p>
+<p>You can also look at the histogram of the residuals and you
+can see that they’re mostly centered around zero, which is
+good so there’s probably no systematic bias but you can see
+that there are some values where we underpredict by quite a
+lot. These are nice because you can do these plots no matter
+what dimension your data set is.</p>
+</div>
+<div class="section" id="target-vs-feature">
+<h2>Target vs Feature<a class="headerlink" href="#target-vs-feature" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 100%" src="04-model-evaluation/images/target_vs_feature.png" /></p>
+<p>If you want to look at in more detail, you can look at per
+feature plots.</p>
+</div>
+<div class="section" id="residual-vs-feature">
+<h2>Residual vs Feature<a class="headerlink" href="#residual-vs-feature" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 100%" src="04-model-evaluation/images/residual_vs_feature.png" /></p>
+<p>Here, I’m plotting y test minus the prediction against each
+of the features and see if there are particular aspects of
+the feature that are not captured. For example, you can see
+here that for a low LSTAT, we are underpredicting more than
+for a high LSTAT. That shows that there might be trends in
+these features that we’re not capturing.</p>
+<p>The X-axis is features. For each data point in the test
+dataset, I look at the value of this feature, and I look at
+the residual, which is the true value minus the prediction.</p>
+<p>Ideally, this should all be sort of horizontal because the
+errors that the model makes should be independent of all of
+the features. If the error that the model makes is not
+independent of the feature that means there’s some aspect of
+the feature that the model didn’t capture.</p>
+<p>This is basically the dependence of the target on the
+feature that is not captured by the prediction. And you can
+meditate that and then at some point it’ll make sense.</p>
+<p>These are all more and more fine grain plots to understand
+the errors that you’re making.</p>
+</div>
+<div class="section" id="picking-metrics">
+<h2>Picking metrics<a class="headerlink" href="#picking-metrics" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Accuracy rarely what you want</p></li>
+<li><p>Problems are rarely balanced</p></li>
+<li><p>Find the right criterion for the task</p></li>
+<li><p>OR pick a substitude, but at least think about it</p></li>
+<li><p>Emphasis on recall or precision?</p></li>
+<li><p>Which classes are the important ones?</p></li>
+</ul>
+<p>In summary, for both multiclass and binary, you should
+really think about what your metrics are. And unless your
+problem is balanced, and even maybe then don’t use accuracy.
+Accuracy is really bad. Problems are rarely balanced, in a
+real world and usually there heavily unbalanced unless
+someone artificially balances them. So it’s really important
+to think about what is the right criterion for a particular
+task, and then you can optimize that criterion.</p>
+<p>So as I said, that can be like having costs associated with
+the confusion matrix, emphasizing precision or recall,
+setting specific goals such as have recall of at least X
+percent, or have precision of at least X percent and for
+multi-class deciding whether are all the classes the same
+importance, or all the samples the same importance, what are
+the important classes, even for binary, which one is the
+positive class?</p>
+<p>So whenever you talk about precision and recall, it’s
+important to think about which one is the positive class and
+how will changing the positive class change these two
+values? So and then finally, obviously, am I going to use
+the default threshold? Why am I going to use the default
+threshold? Do I use a ranking based metric? Or is there a
+reason why I would want to use a ranking based metric?</p>
+</div>
+<div class="section" id="using-metrics-in-cross-validation">
+<h2>Using metrics in cross-validation<a class="headerlink" href="#using-metrics-in-cross-validation" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cancer</span> <span class="o">=</span> <span class="n">load_breast_cancer</span><span class="p">()</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">cancer</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">cancer</span><span class="o">.</span><span class="n">target</span>
+
+<span class="c1">## default scoring for classification is accuracy</span>
+<span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;default scoring &quot;</span><span class="p">,</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">rf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+
+<span class="c1">## providing scoring=&quot;accuracy&quot; doesn&#39;t change the results</span>
+<span class="n">explicit_accuracy</span> <span class="o">=</span>  <span class="n">cross_val_score</span><span class="p">(</span><span class="n">rf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>  <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;explicit accuracy scoring &quot;</span><span class="p">,</span> <span class="n">explicit_accuracy</span><span class="p">)</span>
+
+<span class="n">ap</span> <span class="o">=</span>  <span class="n">cross_val_score</span><span class="p">(</span><span class="n">rf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;average_precision&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;average precision&quot;</span><span class="p">,</span> <span class="n">ap</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">default</span> <span class="n">scoring</span>  <span class="p">[</span><span class="mf">0.93</span>  <span class="mf">0.947</span> <span class="mf">0.991</span> <span class="mf">0.974</span> <span class="mf">0.973</span><span class="p">]</span>
+<span class="n">explicit</span> <span class="n">accuracy</span> <span class="n">scoring</span>  <span class="p">[</span><span class="mf">0.93</span>  <span class="mf">0.947</span> <span class="mf">0.991</span> <span class="mf">0.974</span> <span class="mf">0.973</span><span class="p">]</span>
+<span class="n">average</span> <span class="n">precision</span> <span class="p">[</span><span class="mf">0.992</span> <span class="mf">0.973</span> <span class="mf">0.999</span> <span class="mf">0.995</span> <span class="mf">0.999</span><span class="p">]</span>
+
+</pre></div>
+</div>
+<p>]</p>
+<p>So once you pick them, it’s very easy to use any of these
+metrics in scikit-learn. So they’re all functions inside the
+metrics module, but usually, you’re going to want to use
+them in for cross-validation, or grid search. And then it’s
+even easier. There’s argument called scoring. It takes a
+string or a callable. And so here, if you give it a string,
+it’ll just do the right thing automatically.</p>
+<p>By default its accuracy. So if you don’t do anything, it’s
+the same as if you provide accuracy. But you can also set
+ROC AUC, and it’s going to use ROC AUC. So the thing is ROC
+AUC actually needs probabilities right or a decision
+function, so behind the scenes, it does the right thing and
+gets out the decision function for the positive class to
+compute the ROC AUC correctly.</p>
+<p>Using better a metric than accuracy is as simple as saying
+scoring equal to something. And it’s exactly the same as in
+grid search CV. So if you want to do a grid search CV or
+randomized search CV, you can set scoring equal to ROC AUC
+or average precision or recall macro.</p>
+<p>Same for GridSearchCV</p>
+<p>Will make GridSearchCV.score use your metric!</p>
+</div>
+<div class="section" id="multiple-metrics">
+<h2>Multiple Metrics<a class="headerlink" href="#multiple-metrics" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_validate</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">RandomForestClassifier</span><span class="p">(),</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                     <span class="n">scoring</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;average_precision&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;recall_macro&quot;</span><span class="p">],</span>
+                     <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>.tiny[</p>
+<p>fit_time
+score_time
+test_accuracy
+train_accuracy
+test_average_precision
+train_average_precision
+test_recall_macro
+train_recall_macro</p>
+<p>0
+0.171312
+0.016973
+0.921053
+1.0
+0.992115
+1.0
+0.918277
+1.0</p>
+<p>1
+0.133090
+0.017563
+0.938596
+1.0
+0.972293
+1.0
+0.923190
+1.0</p>
+<p>2
+0.110232
+0.015200
+0.982456
+1.0
+0.999098
+1.0
+0.981151
+1.0</p>
+<p>3
+0.110211
+0.015076
+0.956140
+1.0
+0.992924
+1.0
+0.950397
+1.0</p>
+<p>4
+0.124239
+0.019509
+0.973451
+1.0
+0.998858
+1.0
+0.974011
+1.0</p>
+<p>]</p>
+</div>
+<div class="section" id="built-in-scoring">
+<h2>Built-in scoring<a class="headerlink" href="#built-in-scoring" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">SCORERS</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">SCORERS</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
+</pre></div>
+</div>
+<p>.smaller[</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">accuracy</span>                       <span class="n">adjusted_mutual_info_score</span>     <span class="n">adjusted_rand_score</span>
+<span class="n">average_precision</span>              <span class="n">balanced_accuracy</span>              <span class="n">completeness_score</span>
+<span class="n">explained_variance</span>             <span class="n">f1</span>                             <span class="n">f1_macro</span>
+<span class="n">f1_micro</span>                       <span class="n">f1_samples</span>                     <span class="n">f1_weighted</span>
+<span class="n">fowlkes_mallows_score</span>          <span class="n">homogeneity_score</span>              <span class="n">jaccard</span>
+<span class="n">jaccard_macro</span>                  <span class="n">jaccard_micro</span>                  <span class="n">jaccard_samples</span>
+<span class="n">jaccard_weighted</span>               <span class="n">max_error</span>                      <span class="n">mutual_info_score</span>
+<span class="n">neg_brier_score</span>                <span class="n">neg_log_loss</span>                   <span class="n">neg_mean_absolute_error</span>
+<span class="n">neg_mean_gamma_deviance</span>        <span class="n">neg_mean_poisson_deviance</span>      <span class="n">neg_mean_squared_error</span>
+<span class="n">neg_mean_squared_log_error</span>     <span class="n">neg_median_absolute_error</span>      <span class="n">neg_root_mean_squared_error</span>
+<span class="n">normalized_mutual_info_score</span>   <span class="n">precision</span>                      <span class="n">precision_macro</span>
+<span class="n">precision_micro</span>                <span class="n">precision_samples</span>              <span class="n">precision_weighted</span>
+<span class="n">r2</span>                             <span class="n">recall</span>                         <span class="n">recall_macro</span>
+<span class="n">recall_micro</span>                   <span class="n">recall_samples</span>                 <span class="n">recall_weighted</span>
+<span class="n">roc_auc</span>                        <span class="n">roc_auc_ovo</span>                    <span class="n">roc_auc_ovo_weighted</span>
+<span class="n">roc_auc_ovr</span>                    <span class="n">roc_auc_ovr_weighted</span>           <span class="n">v_measure_score</span>
+</pre></div>
+</div>
+<p>]</p>
+<p>Here’s a list of all the built-in scores, you can look at
+the documentation, there’s really a lot of them. So these
+are for classification or regression or clustering. If you
+look in the documentation, you’ll actually see which ones
+are for classification, which one is binary only, which ones
+are multiclass, which ones are regression and which ones are
+for clustering.</p>
+<p>The thing in scikit-learn, whatever you use for scoring
+greater needs to be better the way it’s written. So you
+can’t use mean_squared_error for doing a grid search,
+because the grid search assumes greater is better so you
+have to use negative mean squared error. So for regression
+or log loss, you use mean squared error. For classification,
+you need to use the neg log loss one.</p>
+</div>
+<div class="section" id="the-scorer-interface-vs-the-metrics-interface">
+<h2>The Scorer interface (vs the metrics interface)<a class="headerlink" href="#the-scorer-interface-vs-the-metrics-interface" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">## metric function interface:</span>
+<span class="n">y_probs</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">ap_rf</span> <span class="o">=</span> <span class="n">average_precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_probs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">ba_rf</span> <span class="o">=</span> <span class="n">balanced_accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="c1">## scorer interface:</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">get_scorer</span>
+<span class="n">ap_scorer</span> <span class="o">=</span> <span class="n">get_scorer</span><span class="p">(</span><span class="s1">&#39;average_precision&#39;</span><span class="p">)</span>
+<span class="n">ap_rf</span> <span class="o">=</span> <span class="n">ap_scorer</span><span class="p">(</span><span class="n">rf</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="n">ab_scorer</span> <span class="o">=</span> <span class="n">get_scorer</span><span class="p">(</span><span class="s1">&#39;balanced_accuracy&#39;</span><span class="p">)</span>
+<span class="n">ba_rf</span> <span class="o">=</span> <span class="n">ab_scorer</span><span class="p">(</span><span class="n">rf</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>class:spacious</p>
+</div>
+<div class="section" id="providing-you-your-own-callable">
+<h2>Providing you your own callable<a class="headerlink" href="#providing-you-your-own-callable" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Takes estimator, X, y</p></li>
+<li><p>Returns score – higher is better (always!)</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">accuracy_scoring</span><span class="p">(</span><span class="n">est</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">est</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can also provide your own metric, for example, if you
+want to do multiclass ROC AUC, you can provide a callable as
+scoring instead of a string. For any of the built-in ones,
+you can just provide a string.</p>
+<p>In this case, I’ve re-implemented accuracy. And the
+arguments for this needs to be an estimator, x - which is
+the test data and y - which is the test data true labels or
+whatever data you want to score. To re-implement accuracy,
+you have to call predict on the test data, check whether
+it’s equal to y, and then compute the mean. This is actually
+a very powerful framework so you can do a lot of things with
+it.</p>
+<p>class: compact</p>
+</div>
+<div class="section" id="you-can-access-the-model">
+<h2>You can access the model!<a class="headerlink" href="#you-can-access-the-model" title="Permalink to this headline">¶</a></h2>
+<p>.tiny-code[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">nonzero</span><span class="p">(</span><span class="n">est</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">est</span><span class="o">.</span><span class="n">coef_</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)}</span>
+<span class="c1">## scoring can be string, single scorer, list or dict</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">Lasso</span><span class="p">(),</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">scoring</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;r2&#39;</span><span class="p">:</span> <span class="s1">&#39;r2&#39;</span><span class="p">,</span> <span class="s1">&#39;num_nonzero&#39;</span><span class="p">:</span> <span class="n">nonzero</span><span class="p">},</span> <span class="n">refit</span><span class="o">=</span><span class="s1">&#39;r2&#39;</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;param_alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;mean_train_r2&#39;</span><span class="p">)</span> 
+<span class="n">b</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;param_alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;mean_test_r2&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">())</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">results</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;param_alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;mean_train_num_nonzero&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>]
+.center[
+<img alt=":scale 50%" src="04-model-evaluation/images/lasso_alpha_triazine.png" />
+]</p>
+<p>The main thing that I want to illustrate here is that you
+can have access to the model. So you can write a function
+for grid search that can do anything with the model it
+wants. So you can do deep introspection into the model and
+use that for your model selection. And then I can set up set
+scoring and then my callable and then I can run grid search
+as I usually would. Only now it’s select a bigger C because
+bigger C give fewer support vectors.</p>
+<p>Question is why is the default accuracy?</p>
+<p>I guess one reason is, we can’t change it anymore. Because
+everybody assumes it is and if it would be anything else,
+people would be very confused because that’s sort of the
+most natural metric that people think about, like the number
+of correctly classified samples. Otherwise, in the first
+lecture, I would have to explain ROC AUC to you if it was
+ROC AUC and it would be harder to understand for people.</p>
+<p>Question is if I don’t have probabilities can I compute ROC
+and yes, it does not depend probabilities at all. It’s just
+I go through all possible thresholds. It’s really just a
+ranking. I go through all possible thresholds and look at if
+I’ve used this threshold and look at what’s the precision?
+What’s the recall? Or what’s the false positive rate, what’s
+the true positive rate, and you only need a ranking.</p>
+<p>Basically, I only need to be able to sort the points and
+then for each possible threshold, I need to call the
+precision and recall. And so as long as it can sort the
+points, it doesn’t matter. I can use any monotonous
+transformation of the decision function and it will still be
+the same because it only considers the ranking.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -222,8 +1714,9 @@
 </div>
 </div>
 </div>
-<div class="section" id="metrics-for-binary-classification">
-<h2>Metrics for binary classification<a class="headerlink" href="#metrics-for-binary-classification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id3">
+<h2>Metrics for binary classification<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>

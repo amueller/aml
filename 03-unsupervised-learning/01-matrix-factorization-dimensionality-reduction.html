@@ -27,6 +27,7 @@
     <script src="../_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Clustering and Mixture Models" href="02-clustering-mixture-models.html" />
@@ -157,9 +158,136 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#dimensionality-reduction" class="nav-link">Dimensionality Reduction</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#pca-discriminants-manifold-learning" class="nav-link">PCA, Discriminants, Manifold Learning</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#principal-component-analysis" class="nav-link">Principal Component Analysis</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#pca-objective-s" class="nav-link">PCA objective(s)</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id1" class="nav-link">PCA objective(s)</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#pca-computation" class="nav-link">PCA Computation</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#whitening" class="nav-link">Whitening</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#pca-for-visualization" class="nav-link">PCA for Visualization</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#scaling" class="nav-link">Scaling!</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#inspecting-components" class="nav-link">Inspecting components</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#pca-for-regularization" class="nav-link">PCA for regularization</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#variance-covered" class="nav-link">Variance covered</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#interpreting-coefficients" class="nav-link">Interpreting coefficients</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#pca-is-unsupervised" class="nav-link">PCA is Unsupervised!</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#left-column-scale-100" class="nav-link">.left-column[
+
+]</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#pca-for-feature-extraction" class="nav-link">PCA for feature extraction</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#nn-and-eigenfaces" class="nav-link">1-NN and Eigenfaces</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id2" class="nav-link">]</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#reconstruction" class="nav-link">Reconstruction</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#pca-for-outlier-detection" class="nav-link">PCA for outlier detection</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#nmf-outlier-detection" class="nav-link">NMF; Outlier detection</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#check-out-dabl" class="nav-link">Check out dabl!</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#non-negative-matrix-factorization" class="nav-link">Non-Negative Matrix Factorization</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#other-matrix-factorizations" class="nav-link">Other Matrix Factorizations</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#nmf" class="nav-link">NMF</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#nmf-loss-and-algorithm" class="nav-link">NMF Loss and algorithm</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#why-nmf" class="nav-link">Why NMF?</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#downsides-of-nmf" class="nav-link">Downsides of NMF</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#applications-of-nmf" class="nav-link">Applications of NMF</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#discriminant-analysis" class="nav-link">Discriminant Analysis</a>
+        </li>
     
     </ul>
 </nav>
@@ -174,6 +302,1608 @@
                 
   <div class="section" id="matrix-factorization-and-dimensionality-reduction">
 <h1>Matrix Factorization and Dimensionality Reduction<a class="headerlink" href="#matrix-factorization-and-dimensionality-reduction" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="dimensionality-reduction">
+<h2>Dimensionality Reduction<a class="headerlink" href="#dimensionality-reduction" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="pca-discriminants-manifold-learning">
+<h3>PCA, Discriminants, Manifold Learning<a class="headerlink" href="#pca-discriminants-manifold-learning" title="Permalink to this headline">¶</a></h3>
+<p>04/01/20</p>
+<p>Andreas C. Müller</p>
+<p>Today we’re going to talk about dimensionality reduction,
+mostly about principal component analysis. We’re also going
+to talk about discriminant analysis and manifold learning.</p>
+<p>These all slightly different sets of goals. But the main
+idea here is to take a high dimensional input dataset and
+produce the dimensionality for processing. It can be either
+before the machine learning pipeline or often for
+visualization.</p>
+<p>FIXME PCA components and scaling: xlabel for components 0 and 1
+FIXME LDA projection slide with explanation and diagram!
+FIXME compare Largevis, t-SNE, UMAP
+FIXME print output in PCA slides: I need to know the dimenionality (29?)
+FIXME trim tsne animation (why?)
+FIXME write down math for inverse transform? (and for pca transform?)
+FIXME show unwhitened vs whitened plot</p>
+<p>class: centre,middle</p>
+</div>
+</div>
+<div class="section" id="principal-component-analysis">
+<h2>Principal Component Analysis<a class="headerlink" href="#principal-component-analysis" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 70%" src="03-unsupervised-learning/images/pca-intuition.png" />
+]</p>
+<p>Here, we have a 2D input space, there’s some point scattered
+here. The color is supposed to show you where the data goes
+in the transformations. PCA finds the directions of the
+maximum variant in the data.</p>
+<p>So starting with this blob of data, you look at the
+direction that is the most elongated. And then you look for
+the next opponent that captures the second most various,
+that’s orthogonal to the first component. Here in
+2-dimensions, there’s only one possibility to be orthogonal
+to the first component and so that’s our second component.</p>
+<p>If you’re in higher dimensions, there are obviously
+infinitely many different directions that could be
+orthogonal, and so then you would iterate.</p>
+<p>What PCA returns is basically an orthogonal basis of the
+space where the components are ordered by how much variance
+of the data they cover and so we get a new basis of the
+original space. So we can do this until like N dimensions
+many times. In this example, I could do two times, after
+that there are no orthogonal vectors left.</p>
+<p>And so this new basis corresponds to rotating the input
+space, I can rotate the input space so that the first
+component is my X-axis and the second component is my Y-axis
+and this is the transformation that PCA learns.</p>
+<p>This doesn’t do any dimensionality reduction as of yet, this
+is just a rotation of the input space. If I want to use it
+for dimensionality reduction, I can now start dropping some
+of these dimensions. So they are ordered by decreasing
+variance, I could in this example drop, for example, the
+second component only to regain the first component.</p>
+<p>So basically, I dropped the Y-axis and projected everything
+to the X line. And this would be dimensionality reduction
+with the PCA going from two dimensions to one dimension. And
+the idea is that if your data lives on a lower dimensional
+space, or essentially lives on lower dimensional space,
+embedded in high dimensional space, you could think of this
+is mostly aligned or Gaussian blob along this direction and
+there’s a little bit of noise in this direction. The most
+information about the data is sort of along this line.</p>
+<p>The idea is that does one-dimensional projection now covers
+as much as possible of this data set.</p>
+<p>You can also look at PCA as being sort of a de-noising
+algorithm, by taking this reduced representation in the
+rotated space and rotating it back to the original space. So
+this is basically transforming the data using PCA, the
+rotation dropping one dimension rotating back, you end up
+with this. And so this is through information that is
+retained in this projection, basically. And so, arguably,
+you still have a lot of information from this dataset.</p>
+</div>
+<div class="section" id="pca-objective-s">
+<h2>PCA objective(s)<a class="headerlink" href="#pca-objective-s" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">$$\large\min_{X',</span> <span class="pre">\text{rank}(X')</span> <span class="pre">=</span> <span class="pre">r}\|X-X'\|$$</span></code>
+.center[
+<img alt=":scale 45%" src="03-unsupervised-learning/images/pca-intuition.png" />
+]</p>
+<p>The maximum variance view can be formalized like this. So
+basically, you look at the variance of a projection. So you
+look over all possible vectors, U1 that have norm 1 and you
+look at what’s the variance of projecting the data X along
+this axis and then the maximum of this will be the maximum
+variance of the data.</p>
+<p>You can also rewrite this in this way.</p>
+<p>Once you compute U1, you subtract the projection onto U1
+from the data. Then you get everything orthogonal to U1. And
+then with this dataset where you subtracted the component
+along U1, you can again find the direction of maximum
+variance, and then you get U2 and so on iterate this….</p>
+<p>One thing that you should keep in mind here is that the
+direction of U1 or the PCA component doesn’t matter.</p>
+<p>These two definitions of the first principle component, if
+you set U1 to –U1 it would be the same maximum. It only
+depends on the direction of U1, not the sign. So whenever
+you look at principal components, the sign is completely
+meaningless.</p>
+<p>Restricted rank reconstruction</p>
+<p>class:split-40</p>
+</div>
+<div class="section" id="id1">
+<h2>PCA objective(s)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>.left-column[
+<code class="docutils literal notranslate"><span class="pre">$$\large\max\limits_{u_1</span> <span class="pre">\in</span> <span class="pre">R^p,</span> <span class="pre">\|</span> <span class="pre">u_1</span> <span class="pre">\|</span> <span class="pre">=</span> <span class="pre">1}</span> <span class="pre">\text{var}(Xu_1)$$</span></code>
+<code class="docutils literal notranslate"><span class="pre">$$\large\max\limits_{u_1</span> <span class="pre">\in</span> <span class="pre">R^p,</span> <span class="pre">\|</span> <span class="pre">u_1</span> <span class="pre">\|</span> <span class="pre">=</span> <span class="pre">1}</span> <span class="pre">u_1^T</span> <span class="pre">\text{cov}</span> <span class="pre">(X)</span> <span class="pre">u_1$$</span></code>
+]
+.smaller.right-column[
+.center[
+<img alt=":scale 90%" src="03-unsupervised-learning/images/pca-intuition.png" />
+]
+]</p>
+<p>So second way to describe PCA is using Reconstruction Error.
+I can look at how well this reconstruction here matches the
+input space. And if I want a reconstruction X’, that is the
+best possible in the least squares sense, so that is the
+square norm. If I look at the square norm of X – X’, then
+this is minimized exactly when I’m using X’, X’ is the PCA
+reduction.</p>
+<p>This is like written in a slightly different way. Because if
+you solve this minimization problem, then you don’t get the
+rotation back, you get the data back. But this problem is
+exactly solved by basically rotating using PCA direction,
+dropping the data and then rotating back.</p>
+<p>Maximizing the variance is the same thing as minimizing the
+Reconstruction Error, given a fixed number of dimensions.</p>
+<p>Find directions of maximum variance. (Find projection (onto
+one vector) that maximizes the variance observed in the
+data.)</p>
+<p>Subtract projection onto u1, iterate to find more components.
+Only well-defined up to sign / direction of arrow!</p>
+</div>
+<div class="section" id="pca-computation">
+<h2>PCA Computation<a class="headerlink" href="#pca-computation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Center X (subtract mean).</p></li>
+<li><p>In practice: Also scale to unit variance.</p></li>
+<li><p>Compute singular value decomposition:
+<img alt=":scale 100%" src="03-unsupervised-learning/images/pca-computation.png" /></p></li>
+</ul>
+<p>If I want to apply PCA to my dataset, the first thing I have
+to do, which is sort of part of the algorithm subtracts the
+mean. Any package will subtract the mean for you before it
+does the SVD. What you should probably also do in practice
+is to scale the data to unit variance.</p>
+<p>And then the PCA algorithm just computes the singular level
+decomposition.</p>
+<p>We decompose the data X into an orthogonal, a diagonal, and
+an orthogonal. V^T is number of features, U is number of
+samples times number of samples, D is diagonal containing
+singular values. Singular values correspond to the variance
+of each of these directions. Usually, in SVD you sort them
+by singular values. So the largest singular value
+corresponds to the first principle components.</p>
+<p>There’s an additional processing step that you can do which
+is the most basic form of PCA. You can also use these
+entries of the diagonal to really scale the data in the
+rotated space so that the variance is the same across each
+of the new dimensions.</p>
+<p>class: center</p>
+</div>
+<div class="section" id="whitening">
+<h2>Whitening<a class="headerlink" href="#whitening" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 100%" src="03-unsupervised-learning/images/whitening.png" /></p>
+<p>So I take my original data, I rotate it, and then I scale
+each of the dimension so that they have standard deviation
+one. It’s basically the same as doing PCA and then doing
+standard scaler.</p>
+<p>You can see now the variance, visually looks like a ball, it
+was a Gaussian before. In the context of signal processing,
+in general, this is called whitening.</p>
+<p>And if you want to use PCA as a feature transformation, to
+extract features you might want to do that, because
+otherwise, the magnitude of the first principle component
+will be much bigger than the magnitude of the other
+components since you just rotated it. So the small variance
+directions will have only very small variance because that’s
+how you define them.</p>
+<p>The question here is do you think the principal components
+are of similar importance? Or do you think the original
+feature is of similar importance?</p>
+<p>And if you think the principal components are of similar
+important then you should do this. So if you want to go on
+and put this in a classifier, this might be helpful. But I
+don’t think I can actually give you a clear rule when you
+would want to do this or when not to. But it kind of makes
+senses if you think of it as being centered scaler in a
+transformed space that seems like something that might be
+helpful for a classifier.</p>
+<p>Same as using PCA without whitening, then doing
+StandardScaler.</p>
+</div>
+<div class="section" id="pca-for-visualization">
+<h2>PCA for Visualization<a class="headerlink" href="#pca-for-visualization" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cancer</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">X_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">cancer</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X_pca</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_pca</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_pca</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">cancer</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;first principal component&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;second principal component&quot;</span><span class="p">)</span>
+<span class="n">components</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">components_</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">components</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cancer</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)),</span> <span class="n">cancer</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt=":scale 80%" src="03-unsupervised-learning/images/pca-for-visualization-cancer-data.png" />
+]
+.right-column[
+<img alt=":scale 90%" src="03-unsupervised-learning/images/pca-for-visualization-components-color-bar.png" />]</p>
+<p>I want to show you an example on real data set. So the first
+data set I’m going to use it on is the breast cancer data
+set.</p>
+<p>The way I use PCA most often is probably for visualization.
+I often do PCA with two components, because my monitor has
+two dimensions.</p>
+<p>I fit, transform the data and I scatter it and then I get
+the scatter plot of the first principle component versus
+second principal component. So this is the binary
+classification problem, PCA obviously is a completely
+unsupervised method, so it doesn’t know what the class
+labels but I could look whether this is a hard problem to
+solve or is it an easy problem to solve. If I look at this
+plot, maybe it looks like it’s a relatively easy problem to
+solve with the points being relatively well separated.</p>
+<p>Now I look at the principal component vectors. So there are
+two principal components, each of them has number of
+features many dimensions. So this is shown here as a heat
+map. And you can see that there are basically two features
+that dominate the principal components, which is mean area
+and worst area. And all the rest of the entries are
+approximately zero. So actually, I didn’t rotate my data at
+all, I just looked at two features.</p>
+<p>So I didn’t scale my data, if I don’t scale my data and a
+particular feature has a much larger magnitude, this feature
+will basically be the first principle component because if I
+multiply a feature by 10,000, this feature will have the
+largest variance of everything. There will be no direction
+that has a larger variance than that.</p>
+<p>class:spacious</p>
+</div>
+<div class="section" id="scaling">
+<h2>Scaling!<a class="headerlink" href="#scaling" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pca_scaled</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">X_pca_scaled</span> <span class="o">=</span> <span class="n">pca_scaled</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">cancer</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_pca_scaled</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_pca_scaled</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">cancer</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;first principal component&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;second principal component&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>.center[<img alt=":scale 45%" src="03-unsupervised-learning/images/scaled-pca-for-visualization-cancer-data.png" />]</p>
+<p>So now I scale the data. And then I get two components on
+the cancer data set. And now actually the data looks even
+better separated. Even with this unsupervised methods it
+very clearly shows me what separation of the classes is, I
+can also see things like the yellow class looks much denser
+than the purple class, maybe there are some outliers here,
+but this definitely gives me a good idea of this dataset.</p>
+<p>So this is much more compact than looking at a 30x30 scatter
+matrix, which I couldn’t comprehend. So we can look at the
+components again.</p>
+<p>Imagine one feature with very large scale. Without scaling,
+it’s guaranteed to be the first principal component!</p>
+<p>class:split-40</p>
+</div>
+<div class="section" id="inspecting-components">
+<h2>Inspecting components<a class="headerlink" href="#inspecting-components" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">components</span> <span class="o">=</span> <span class="n">pca_scaled</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s1">&#39;pca&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">components_</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">components</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cancer</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)),</span> <span class="n">cancer</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>.smaller.left-column[
+<img alt=":scale 70%" src="03-unsupervised-learning/images/inspecting-pca-scaled-components.png" />
+]</p>
+<p>.right-column[
+<img alt=":scale 100%" src="03-unsupervised-learning/images/inspecting-pca-scaled-components-2.png" />]</p>
+<p>So components are stored in the components attribute of the
+PCA class. And you can see now all of the features
+contribute to the principal components.</p>
+<p>And if you’re an expert in the area, and you know what these
+features mean, sometimes it’s possible to read something in
+this. It’s definitely helpful often to look at these
+component vectors.</p>
+<p>Another way to visualize the component vectors is to do a
+scatter plot. But that only works basically for the first
+two principal components. So you can basically look at the
+positions of the original features, each dot here is one of
+the original features, and you can look at how much does
+this feature contribute to principal component one versus
+principal component two. And so I can see that the second
+principal component is dominated by mean fractal dimension
+and the first personal component is dominated by the worst
+perimeter. And worse perimeter negatively contributes to the
+second principal component. And worst case point is also
+very strong in the first principle component but has zero in
+the second principal component.</p>
+<p>This was sort of the first approach trying to use PCA for
+2-dimensional visualization and trying to understand what
+the components mean.</p>
+<p>sign of component is meaningless!</p>
+</div>
+<div class="section" id="pca-for-regularization">
+<h2>PCA for regularization<a class="headerlink" href="#pca-for-regularization" title="Permalink to this headline">¶</a></h2>
+<p>.tiny-code[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">cancer</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">cancer</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">cancer</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">lr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lr</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lr</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.993</span>
+<span class="mf">0.944</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pca_lr</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">10000</span><span class="p">))</span>
+<span class="n">pca_lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pca_lr</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pca_lr</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.961</span>
+<span class="mf">0.923</span>
+</pre></div>
+</div>
+<p>]</p>
+<p>One thing that PCA is often used for, in particular for
+statistics oriented people, is using it for regularizing a
+model. You can use PCA to reduce the dimensionality of your
+data set and then you can do a model on the on the reduced
+dimensional data set. Since it has fewer features, this will
+have less complexity, less power so you can avoid
+overfitting by reducing the dimensionality.</p>
+<p>I’ve given an example here on the same data set. I’m using
+logistic regression, and I basically turn off
+regularization. Instead of using L2 regularization in linear
+regression, I’m trying to do reduce the input space.</p>
+<p>So you can see that, if I do that, I basically overfit the
+data perfectly. So on the training dataset, I have 99.3%
+accuracy, and on test dataset I have 44.4% accuracy.</p>
+<p>Now if I use PCA with two dimensions, I reduce this down to
+just two features. I basically reduce overfitting a lot so I
+get a lower training score but I also get a lower test
+score.</p>
+<p>Generally, if you find that you only need 2-dimension to
+solve a problem, then that’s a very simple problem. But if
+you’re shooting for accuracy, clearly you’ve regularized too
+much, you’re restricted to the model too much by just using
+two components. One way to figure out a good number of
+components, obviously, doing grid search with
+cross-validation. Another way is to look at the variance
+that it is covered by each of the components, so this is
+basically the singular values.</p>
+</div>
+<div class="section" id="variance-covered">
+<h2>Variance covered<a class="headerlink" href="#variance-covered" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 55%" src="03-unsupervised-learning/images/variance-covered.png" />
+]</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pca_lr</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">6</span><span class="p">),</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">10000</span><span class="p">))</span>
+<span class="n">pca_lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pca_lr</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pca_lr</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.981</span>
+<span class="mf">0.958</span>
+</pre></div>
+</div>
+<p>So here are for the singular values. Here is the explained
+variance ratio, basically how much of the variance in the
+data is explained by each of the components. The components
+are sorted by decreasing variance so obviously, this always
+goes down. But now I can sort of look for kinks in this
+variance that’s covered and I can see how many components it
+makes sense to keep for this dataset maybe if you don’t want
+to do a grid search.</p>
+<p>Looking at the top plot, it looks like the six components
+are enough. And if I actually use six components, I overfit
+slightly less in the training dataset, I get a better result
+than I did without using PCA.</p>
+<p>People from statistics like this better than regularization
+since this doesn’t bias to coefficients. I like it slightly
+less because the PCA is completely unsupervised and it might
+discard important information. But it’s definitely a valid
+approach to regularize linear model.</p>
+<p>If you’re using a linear model, what’s nice is that you can
+still interpret the coefficients afterward. The linear model
+is just the dot product with the weights and PCA is just a
+rotation. And so it can take the coefficients and rotate
+them back into the original space.</p>
+<p>Could obviously also do cross-validation + grid-search</p>
+<p>class:split-40</p>
+</div>
+<div class="section" id="interpreting-coefficients">
+<h2>Interpreting coefficients<a class="headerlink" href="#interpreting-coefficients" title="Permalink to this headline">¶</a></h2>
+<p>.tiny-code[<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">pca</span> <span class="pre">=</span> <span class="pre">pca_lr.named_steps['pca']</span> <span class="pre">lr</span> <span class="pre">=</span> <span class="pre">pca_lr.named_steps['logisticregression']</span> <span class="pre">coef_pca</span> <span class="pre">=</span> <span class="pre">pca.inverse_transform(lr.coef_)</span></code>]
+.center[Comparing PCA + Logreg vs plain Logreg:]</p>
+<p>.left-column[
+<img alt=":scale 100%" src="03-unsupervised-learning/images/PCA+logreg.png" />
+]
+.right-column[
+<img alt=":scale 100%" src="03-unsupervised-learning/images/logreg+noPCA.png" />
+]</p>
+<p>So that’s what I’m doing here. I use the logistic
+regression coefficients in the PCA space, I think this was
+six components. And so then I can scatter them and look at
+them, what do these components mean, in terms of the
+original features.</p>
+<p>Here, I’m looking at with no PCA, which is just the logistic
+regression on the original data set, versus doing PCA, doing
+logistic regression on the six-dimensional data set, and
+then rotating the six coefficients back into the input
+space. Even though I did this transformation of the data, I
+can still see how this model in the reduced feature space
+uses these features.</p>
+<p>The left plot shows plain logistic regression coefficients
+and the back-rotated coefficients with PCA.
+The plot on the right shows for each feature the coefficient
+in the standard model and in the model including PCA.
+And you can see that they’re
+sort of related. They’re not going to be perfectly related
+because I reduced the dimensionality of this space and also
+the model with PCA did better in this case. So clearly
+they’re different.</p>
+<p>Rotating coefficients back into input space. Makes sense
+because model is linear! Otherwise more tricky.</p>
+<p>class:split-40</p>
+</div>
+<div class="section" id="pca-is-unsupervised">
+<h2>PCA is Unsupervised!<a class="headerlink" href="#pca-is-unsupervised" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="left-column-scale-100">
+<h2>.left-column[
+<img alt=":scale 100%" src="03-unsupervised-learning/images/pca-is-unsupervised-1.png" />
+]<a class="headerlink" href="#left-column-scale-100" title="Permalink to this headline">¶</a></h2>
+<p>.right-column[
+<img alt=":scale 100%" src="03-unsupervised-learning/images/pca-is-unsupervised-2.png" />
+]</p>
+<p>Look at this dataset. It’s a very fabricated data set. This
+is a 3d classification problem in two dimensions. This looks
+very unstructured.</p>
+<p>So if I do a PCA, I get this. And so if I now look at the
+first two principal components, the problem is actually
+completely random, because that’s how I synthetically
+constructed it. And if I look at the third principal
+component, the third component perfectly classifies the
+dataset. Even though I constructed to be like that, there’s
+nothing that prevents the data set in reality not to look
+like that. Just because the data is very small, or has small
+variance in a particular direction doesn’t mean this
+direction is not important for classification. So basically,
+if you’re dropping components with small variance, basically
+what you’re doing is you’re doing feature selection in the
+PCA space based on the variance of the principal components.
+And so that’s not necessarily a good thing. Because small
+variance in principal component doesn’t necessarily mean
+uninformative.</p>
+<p>Dropping the first two principal components will result in
+random model!
+All information is in the smallest principal
+component!</p>
+</div>
+<div class="section" id="pca-for-feature-extraction">
+<h2>PCA for feature extraction<a class="headerlink" href="#pca-for-feature-extraction" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 85%" src="03-unsupervised-learning/images/pca-for-feature-extraction.png" />
+]</p>
+<p>Next, I want to give an example of where PCA has been used,
+at least historically, for faces. This is a data set
+collected in the 90s.</p>
+<p>The idea is you have a face detector, given the face, you
+want to identify who this person is. Working on the original
+pixel space kind of seems like a pretty bad idea.</p>
+<p>The images here have about 6000 pixels, they’re relatively
+low resolution but still has like 5000 features, just
+looking at the pixel values, which means very high
+dimensional.</p>
+<p>You can do a PCA and this is sort of the components that you
+get from this. You can see here, for example, here, from
+which direction does light come from, how much eyebrows do
+you have and do you have a mustache. These are the PCA
+components constructed on this data set.</p>
+<p>The idea is that these PCA components can be better features
+for doing classification than the original pixels. And this
+is an application where whitening helps. Rescaling the
+feature components so that they all have the same variance
+actually helps classification.</p>
+<p>One different way to think about these components instead of
+thinking about the mass rotations is you can think about
+equivalently that each point is a linear combination of all
+the components because the components form a basis of the
+input space. You can think that each picture, for example,
+Winona Ryder here, is a linear combination of all the
+components and these coefficients of linear combinations are
+the projection in the PCA space. I mean, these are the
+coefficients in the PCA bases after rotation. To me, this
+makes it more interpretable what these components might
+mean.</p>
+<p>So if I have, light from the person’s right, then I would
+expect X1 want to be high, because then this component
+becomes active. If the light comes from a different
+direction, I would expect X1 to be negative. If there’s no
+left or right gradient, I would expect the component to be
+about zero.</p>
+</div>
+<div class="section" id="nn-and-eigenfaces">
+<h2>1-NN and Eigenfaces<a class="headerlink" href="#nn-and-eigenfaces" title="Permalink to this headline">¶</a></h2>
+<p>.tiny-code[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="c1">## split the data into training and test sets</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X_people</span><span class="p">,</span> <span class="n">y_people</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y_people</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="c1">## build a KNeighborsClassifier using one neighbor</span>
+<span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">1547</span><span class="p">,</span> <span class="mi">5655</span><span class="p">)</span>
+<span class="mf">0.23</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>]<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>.tiny-code[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">whiten</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_train_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">X_train_pca</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">1547</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_pca</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test_pca</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.31</span>
+</pre></div>
+</div>
+<p>]</p>
+<p>Alright, so now let’s look at what it does. So here, on this
+dataset, I’m doing one nearest neighbor classifier. The
+reason I’m using one nearest neighbor classifier is that
+that’s often used if people want to demonstrate what a good
+representation of the data is. The idea is that one nearest
+neighbor classifier just looks at your nearest neighbor and
+so it only relies on your representation of the data. So if
+1NN classifier does well, your representation of the data is
+good. That’s the intuition behind this.</p>
+<p>If I use a linear model that’s penalized, PCA will probably
+not make a lot of difference actually.</p>
+<p>Here with the nearest neighbor equal to one, you get about
+23% accuracy. And you can see that the data set is very
+wide. So there are a lot more features than there are
+samples.</p>
+<p>If there are more features than in samples. PCA can only do
+as many components as there is the minimum of features and
+samples. So in this case, I could project a maximum of up to
+1547 directions because this is the rank of the matrix and I
+can only get so many Eigenvectors.</p>
+<p>If I do the same thing with PCA, I go down from 5600
+dimensions to only 100 dimensions and then the 1NN
+classifier actually does quite a bit better. Now it’s 31%
+accurate.</p>
+<p>You could do a grid search to find the number of components
+or you could look at the explained variance ratio.</p>
+</div>
+<div class="section" id="reconstruction">
+<h2>Reconstruction<a class="headerlink" href="#reconstruction" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 70%" src="03-unsupervised-learning/images/reconstruction.png" />
+]</p>
+<p>Another way to select how many components you want for
+classification instead of looking at the explained various
+ratios is looking at the reconstructions. That is most
+useful if you can look at the data points in some meaningful
+way.</p>
+<p>So for example, here, the bottom right image in my
+illustration is what happens if I rotate to 10 dimensions
+and then I rotate back to the original space. For example,
+you can see here if I use only 10 components, these people
+are not recognizable at all. So I wouldn’t expect 10
+components to make to make a lot of sense. On the other
+hand, if I look at 500 components, even though there’s
+high-frequency noise the person is recognizable. Using 500,
+I’m probably not going to lose anything here.</p>
+<p>This is also one way to see how many components you might
+need for a particular result. And so if I just use two
+components, you would see probably nothing.</p>
+<p>And yet, if I used as many components as there are samples
+in this case, if I used like 1500 components, it would be
+completely perfect, because I would basically rotate in
+space, not drop any dimensions and rotate back.</p>
+<p>Another thing that’s interesting when you’re doing
+reconstructions is there’s a different application for PCA
+called outlier detection.</p>
+<p>You can think of PCA as a density model in the sense, you’re
+fitting a big Gaussian and then you dropping directions of
+small variance. And so you can look at what are the faces
+that are reconstructed well versus those that are not
+reconstructed well. And so if they’re not reconstructed as
+well, that means they are quite different from most of the
+data.</p>
+<p>class:split-40</p>
+</div>
+<div class="section" id="pca-for-outlier-detection">
+<h2>PCA for outlier detection<a class="headerlink" href="#pca-for-outlier-detection" title="Permalink to this headline">¶</a></h2>
+<p>.tiny-code[```python
+pca = PCA(n_components=100).fit(X_train)
+reconstruction_errors = np.sum((X_test - pca.inverse_transform(pca.transform(X_test))) ** 2, axis=1)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>]
+.left-column[
+![:scale 90%](images/best-reconstructions.png)
+
+
+Best reconstructions
+]
+.right-column[
+![:scale 90%](images/worst-reconstructions.png)
+
+
+Worst reconstructions
+]
+
+
+So here, I used 100 components. And now I can look at what&#39;s
+the reconstruction error of rotating the data, dropping some
+components and rotating back, and the ones with good
+reconstructions are the ones that look like most of the
+data. And the ones that have bad reconstructions are the
+ones that are sort of outliers.
+
+If something looks a lot like the data, that&#39;s probably
+something the principal component will cover. Whereas if
+something looks very different than the data, that&#39;s
+something that principal component will not cover.
+
+If you look at these images, what is an outlier and what is
+not an outlier has nothing to do with the person in it but
+has only to do with the cropping of the image. So these
+images are all not very well aligned, they have like tilted
+head, wearing glasses, cropped too wide, cropped not wide
+enough, wearing caps and so on. Since they look very
+different from most of the images, and that&#39;s why they&#39;re
+outliers.
+
+But you can use this in general, as a density model,
+basically, looking at how well can the data point be
+reconstructed with PCA.
+
+There are more uses of PCA. These are like a couple of
+different applications of PCA that all have sort of quite
+different goals and quite different ways of setting
+dimensionality.
+
+
+
+
++++
+
+class: middle
+## Discriminant Analysis
+
+
+So the next thing I want to talk about is discriminate
+analysis. In particular, linear discriminate analysis. This
+is also a classifier, but it also can do dimensionality
+reduction.
++++
+class: spacious
+## Linear Discriminant Analysis aka Fisher Discriminant
+
+`$$    P(y=k | X) = \frac{P(X | y=k) P(y=k)}{P(X)} = \frac{P(X | y=k) P(y = k)}{ \sum_{l} P(X | y=l) \cdot P(y=l)}$$`
+
+
+Linear Discriminant Analysis is also called LDA, but never
+call it LDA because LDA also means Latent Dirichlet
+Allocation and so it might be confusing.
+
+Linear Discriminant Analysis is a linear classifier that
+builds on Bayes rule, in that, it assumes the density model
+for each of the classes, if you have a density model for
+each of the classes, you can build a classifier using Bayes
+rule.
+
+This is Bayes rule of having a joint distribution of X and
+Y. If you then look at the conditional probability of X, you
+can say that the probability of Y being a particular class
+given X is the probability of X given Y is class, times
+probability of being in this class divided by P(X).
+
+And so you can expand this now here, the P(x) as a sum over
+all classes. And so the only thing you really need is a
+probability distribution of P(X) given a particular class.
+So if you fix any possibilities distribution for particular
+class Bayes rule gives you like a classifier. Linear
+Discriminant Analysis does basically one particular
+distribution, which is the Gaussian distribution.
+
+
+
+- Generative model: assumes each class has Gaussian distribution
+- Covariances are the same for all classes.
+- Very fast: only compute means and invert covariance matrix (works well if n_features 
+&lt;
+&lt;
+ n_samples)
+- Leads to linear decision boundary.
+- Imagine: transform space by covariance matrix, then nearest centroid.
+- No parameters to tune!
+- Don’t confuse with Latent Dirichlet Allocation (LDA)
+
++++
+class: spacious
+## Linear Discriminant Analysis aka Fisher Discriminant
+
+`$$    P(y=k | X) = \frac{P(X | y=k) P(y=k)}{P(X)} = \frac{P(X | y=k) P(y = k)}{ \sum_{l} P(X | y=l) \cdot P(y=l)}$$`
+
+`$$ p(X | y=k) = \frac{1}{(2\pi)^n |\Sigma|^{1/2}}\exp\left(-\frac{1}{2} (X-\mu_k)^t \Sigma^{-1} (X-\mu_k)\right) $$`
+
+
+So what we&#39;re doing is basically, we&#39;re fitting a Gaussian
+to each of the classes, but we&#39;re sharing the covariance
+matrix. So for each class, we estimate the mean of the
+class, and then we estimate the joint covariance matrix, so
+we subtract the mean of the class from all the data points,
+and then we compute the covariance matrix of that.
+
+So now we have fitted Gaussian into each class, they all
+have the same covariance matrix and then we can apply this
+rule. And this gives us a classifier.
+
++++
+class: spacious
+## Linear Discriminant Analysis aka Fisher Discriminant
+
+`$$    P(y=k | X) = \frac{P(X | y=k) P(y=k)}{P(X)} = \frac{P(X | y=k) P(y = k)}{ \sum_{l} P(X | y=l) \cdot P(y=l)}$$`
+
+`$$ p(X | y=k) = \frac{1}{(2\pi)^n |\Sigma|^{1/2}}\exp\left(-\frac{1}{2} (X-\mu_k)^t \Sigma^{-1} (X-\mu_k)\right) $$`
+
+`$$    \log\left(\frac{P(y=k|X)}{P(y=l | X)}\right) = 0 \Leftrightarrow (\mu_k-\mu_l)\Sigma^{-1} X = \frac{1}{2} (\mu_k^t \Sigma^{-1} \mu_k - \mu_l^t \Sigma^{-1} \mu_l) $$`
+
+
+
+You can actually write this in a slightly different way. The
+decision boundary between the two classes is the same as
+this formula on the right.
+
+What this is basically, the single data point lies on the
+decision boundary, if inverse square matrix times x is some
+constant. This is actually just a nearest centroid
+classifier in the space that was rotated by this joint
+covariance matrix or rotated and stretched by the joint
+covariance matrix.
+
+So basically, I compute the joint covariance matrix and then
+I look at what&#39;s the closest mean and I adjust it based on
+the prior probabilities of the class.
+
++++
+class: spacious
+## Quadratic Discriminant Analysis
+LDA: `$$ p(X | y=k) = \frac{1}{(2\pi)^n |\Sigma|^{1/2}}\exp\left(-\frac{1}{2} (X-\mu_k)^t \Sigma^{-1} (X-\mu_k)\right) $$`
+
+QDA: `$$ p(X | y=k) = \frac{1}{(2\pi)^n |\Sigma_k|^{1/2}}\exp\left(-\frac{1}{2} (X-\mu_k)^t \Sigma_k^{-1} (X-\mu_k)\right) $$`
+
+
+
+- Each class is Gaussian, but separate covariance matrices!
+- More flexible (quadratic decision boundary), but less robust: have less points per covariance matrix.
+- Can’t think of it as transformation of the space.
+
+
+Quadratic Discriminate Analysis is exactly the same thing,
+only that you have a separate covariance matrix for each of
+the classes. This makes a more flexible classifier, but
+also, you have fewer points to estimate each of the various
+matrices. So you have many more parameters, which makes it a
+little bit harder to fit.
+
++++
+class:center
+![:scale 55%](images/linear-vs-quadratic-discriminant-analysis.png)
+
+
+If your data points are actually Gaussian, then obviously,
+this works well because it assumes each class is a Gaussian.
+
+
+If they have the same covariance matrix, Linear Discriminant
+Analysis obviously finds the perfect boundary. If they have
+different covariance matrix, then Quadratic Discriminant
+Analysis does better.
+
+What does this all have to do with dimensionality reduction?
+
+So we can use it as a classifier. Linear Discriminant
+Analysis is just a linear classifier with a particular
+probabilistic model. If I want a linear classifier, I’ll
+probably use a logistic regression instead. But what’s nice
+about this is the joint covariance function.
+
+
++++
+## Discriminants and PCA
+- Both fit Gaussian model
+- PCA for the whole data
+- LDA multiple Gaussians with shared covariance
+- Can use LDA to transform space!
+- At most as many components as there are classes - 1 (needs between class variance)
+
+
+Linear Discriminant Analysis compared to PCA, they both fit
+a Gaussian to the data. The PCA basically fits a Gaussian to
+the whole dataset while Linear Discriminant Analysis fits
+multiple Gaussian with a shared covariance structure. So
+that means we can use this covariance structure to rotate
+our space or stretch our space using Linear Discriminant
+Analysis.
+
+Because of the way it&#39;s defined, we can get as many
+components as there are classes minus one because you
+basically look at the vector that connects the means of the
+classes in the rotated space. So you rotate the space, and
+then you look at the space spend by the means.
+
++++
+class:center
+## PCA vs Linear Discriminants
+![:scale 100%](images/pca-lda.png)
+
+
+Here&#39;s an example of doing Linear Discriminant Analysis
+versus PCA on a synthetic dataset where I have three classes
+and they all share a covariance matrix.
+
+Obviously, that&#39;s the case Linear Discriminant Analysis was
+designed for. If I do a PCA, PCA can’t really do a lot here
+because it flips the x-axis because jointly all three of
+this kind of looked like Gaussian and PCA is completely
+unsupervised so it can&#39;t distinguish between these three.
+
+If I used Linear Discriminant Analysis, it will a give me
+this. And basically, the first discriminant that I mentioned
+here will be the one that perfectly separates all the means.
+So it gets out the interesting dimensions that helped me
+classify.
++++
+class:center
+## Data where PCA failed
+![:scale 100%](images/pca-fail.png)
+
+
+So if I look at the data set that I created so that PCA
+failed. So here, this was the original data set, all the
+information was in the third principal component, if I do
+Linear Discriminant Analysis I will get only one component.
+The one component that was found by Linear Discriminant
+Analysis, it&#39;s just the one that perfectly separates the
+data.
+
+So this is a supervised transformation of the data that
+tries to find the features that best separate the data. I
+find this very helpful for visualizing classification data
+sets in a way that&#39;s nearly as simple as PCA but can take
+the class information into account.
+
+
++++
+## Summary
+- PCA good for visualization, exploring correlations
+- PCA can sometimes help with classification as regularization or for feature extraction.
+- LDA is a supervised alternative to PCA.
+
+
+PCA, I really like for visualization and for exploring
+correlations, you can use it together with a classification
+for regularization if you have lots of features. Often, I
+find that regularization of the classifier works better.
+
+T-SNE probably makes the nicest pictures of the bunch.
+
+And if you want a linear transformation of your data in a
+supervised setting Linear Discriminant Analysis is a good
+alternative to PCA.
+
+
+
+
+LDA also  also yields a rotation of the input spacA
++++
+class: centre,middle
+## Manifold Learning
+
+
+Manifold learning is basically a class of algorithms that
+are the much more complicated transformation of the data. A
+manifold is a geometric structure in higher dimensions.
+
+So the idea is that you have low dimensional space, and sort
+of embedded into a high dimensional space. The classical
+example is this Swiss roll.
+
+
++++
+class: center, middle
+![:scale 100%](images/manifold-learning-structure.png)
+
+
+Here, this is sort of a two-dimensional data set that was
+embedded in a weird way in the three-dimensional data set.
+And you hope to recover the structure of the data. And the
+structure of the data here would be the 2D structure of the
+layouts with Swiss roll. So PCA can&#39;t do that, because PCA
+is only linear. So if you would project this down with two
+dimensions, it&#39;s going to smooch all of these together and
+the blue points will be very close to the red points, if it
+projects down this axis, for example. And that&#39;s sort of not
+really what the geometry of the data is like.
+
+So for this, you would need nonlinear transformations of the
+input space that can sort of try to capture the structure in
+the data.
+
+
+
+Learn underlying “manifold” structure, use for dimensionality reduction.
++++
+## Pros and Cons
+- For visualization only
+- Axes don’t correspond to anything in the input space.
+- Often can’t transform new data.
+- Pretty pictures!
+
+
+Manifold learning is for visualization purposes only. One of
+the problems is the axis don&#39;t correspond to anything,
+mostly. And often you can’t transform your data, but you can
+get pretty pictures for your publications or to show your
+boss.
+
+These are mostly used for exploratory data analysis and less
+in a machine learning pipeline. But they’re still sort of
+useful.
+
++++
+## Algorithms in sklearn
+- KernelPCA – does PCA, but with kernels!
+
+ Eigenvalues of kernel-matrix
+- Spectral embedding (Laplacian Eigenmaps)
+
+Uses eigenvalues of graph laplacian
+- Locally Linear Embedding
+- Isomap “kernel PCA on manifold”
+- t-SNE (t-distributed stochastic neighbor embedding)
+
+
+So some of the most commonly used algorithms which are in
+scikit-learn are…
+
+KernelPCA, which is just PCA but with kernels. So you set up
+the covariance matrix, you look at the kernel matrix.
+
+Spectral embedding, which looks at the eigenvalues of the
+graph Laplacian. It&#39;s somewhat similar to kernel methods but
+you compute the eigenvectors off like a similarity matrix.
+
+There’s locally linear embedding.
+
+There&#39;s Isomap.
+
+Finally, t-SNE.
+
+t-SNE stands for t-distribution stochastic neighbor
+embedding, this is sort of the one that maybe has the least
+strong theory behind it. But they&#39;re all kind of heuristics
+and a little bit of hacky.
+
+t-SNE is something that people found quite useful in
+practice for inspecting datasets.
+
++++
+## t-SNE
+
+`$$p_{j\mid i} = \frac{\exp(-\lVert\mathbf{x}_i - \mathbf{x}_j\rVert^2 / 2\sigma_i^2)}{\sum_{k \neq i} \exp(-\lVert\mathbf{x}_i - \mathbf{x}_k\rVert^2 / 2\sigma_i^2)}$$`
+--
+
+`$$p_{ij} = \frac{p_{j\mid i} + p_{i\mid j}}{2N}$$`
+
+--
+
+`$$q_{ij} = \frac{(1 + \lVert \mathbf{y}_i - \mathbf{y}_j\rVert^2)^{-1}}{\sum_{k \neq i} (1 + \lVert \mathbf{y}_i - \mathbf{y}_k\rVert^2)^{-1}}$$`
+
+--
+
+`$$KL(P||Q) = \sum_{i \neq j} p_{ij} \log \frac{p_{ij}}{q_{ij}}$$`
+
+
+
+The main idea of t-SNE is that you define a probability
+distribution over your data points, given one data point,
+you want to say, “If I&#39;m going to pick one of my neighbors
+at random, and I&#39;m going to do this weighted by distance,
+how likely is it I&#39;m going to pick neighbor I?”
+
+This is just a Gaussian distribution with a particular sigma
+that&#39;s dependent on the data point.
+
+So around each data point, you look at the density of their
+neighbors and you make it symmetric.
+
+Assuming, we have embedded our data into some Yi and now it
+can look at the distance between two of these Ys but we&#39;re
+not using Gaussian, we’re using t-distributions.
+
+So what you&#39;re doing then is, you initialize the Yi’s
+randomly, and then you do gradient descent to basically make
+these two distributions similar. This is quite different
+from other embedding methods. Here, we&#39;re not learning
+transformation at all, we’re just assigning these Yi’s
+randomly in our target space, and then move them around so
+that the distances are similar to the distances in the
+original space.
+
+What this means is basically things that were similar in
+your original space should be similar in the new space as
+well.
+
+The reasons that they use a student-t here instead of a
+Gaussian is because they didn&#39;t want to focus too much on
+things that are too far away. You only want to focus on the
+points that are pretty close to you.
+
+This is used for embedding into two and three-dimensional
+spaces. So 99% of the time you&#39;re using this with the Yi
+being in two-dimensional space and the Xi being the original
+data points.
+
+The sigma is adjusted locally depending on how dense the
+data is in a particular region. But there&#39;s the overall
+parameter which is called the perplexity which basically
+regulates how the local sigmas are set. So perplexity is
+some transformation of the entropy of the distribution. So
+you set the Sigma such that the entropy of the distribution
+is the parameter you&#39;re setting.
+
+If you set perplexity parametric low, you going to look at
+only the close neighbors. If you set it large, you&#39;re going
+to look at a lot of neighbors. This will indirectly
+influence the sigma.
+
+
+
+- Starts with a random embedding
+- Iteratively updates points to make “close” points close.
+- Global distances are less important, neighborhood counts.
+- Good for getting coarse view of topology.
+- Can be good for  nding interesting data point
+- t distribution heavy-tailed so no overcrowding.
+- (low perplexity: only close neighbors)
++++
+class:center
+![:scale 63%](images/tsne-embeddings-digits.png)
+
+
+(Read the next slide and come to this)
+So one way it can help me understand the data, this is
+actually with different random seats so look slightly
+different. Here, I show some of the images, so you can get
+an idea of what&#39;s happening.
+
+You can see that if the one is more angled and has like a
+bar at the bottom, it&#39;s grouped over here. And if the one is
+more straight and doesn&#39;t have a bar, that group over here.
+The nines got actually split up into three groups. These are
+actually pretty natural cluster, so it found out that there
+are different ways to write nine with a bar in the bottom
+and without a bar at the bottom.
+
+Writing the code for this is a little bit of a hassle. But
+often I find it quite helpful to look at these t-SNE
+embedding and looking at outliers, helps me understand my
+dataset.
+
+One of the downsides of this is, I didn&#39;t write anything on
+the axis, because there&#39;s nothing on the axis. These are
+randomly initialized data points that have been moved around
+to have similar distances. This is completely rotationally
+variant. So if I rotated this picture or flipped it, it
+would still mean the same thing.  So there&#39;s no possible
+interpretation for the axis.
+
+
++++
+class:split-40
+.smaller[```python
+from sklearn.manifold import TSNE
+from sklearn.datasets import load_digits
+digits = load_digits()
+X = digits.data / 16.
+X_tsne = TSNE().fit_transform(X)
+X_pca = PCA(n_components=2).fit_transform(X)
+```]
+.left-column[![:scale 95%](images/pca-digits.png)]
+--
+.right-column[![:scale 95%](images/tsne-digits.png)]
+
+
+Now I want to show you some of the outcomes. This is a PCA
+visualization of digit dataset, so both PCA and peacenik are
+completely unsupervised. This is just doing PCA with two
+components, first principle, and second principal component,
+and then I color it by the class labels.
+
+PCA obviously doesn’t anything about the class labels, I
+just put them in here so we can see what&#39;s happening. You
+can see that sort of some of these classes is pretty well
+separated, others are like, kind of smooshed together.
+
+This is in t-SNE, when I first saw this I thought this was
+pretty impressive, because this Algorithm is completely
+unsupervised, but it still manages to mostly group nearly
+all of these classes in very compact clusters.
+
+In this completely unsupervised method, I could sort of draw
+boundaries by hand in 2D from the original 64-dimensional
+space and I could group the data. This 2D view can help me
+understand the data.
++++
+class: center, compact
+## Showing algorithm progress
+
+![:scale 50%](images/digits_tsne_animation.gif)
+
+.smallest[https://github.com/oreillymedia/t-SNE-tutorial]
+
++++
+class:split-40
+## Tuning t-SNE perplexity
+.left-column[
+![:scale 70%](images/tsne-tuning-2.png)
+![:scale 70%](images/tsne-tuning-5.png)]
+.right-column[
+![:scale 70%](images/tsne-tuning-30.png)
+![:scale 70%](images/tsne-tuning-300.png)]
+
+
+The one parameter I mentioned, is perplexity. I want to give
+a couple of illustrations of the influence of this
+perplexity parameter. This is again the digit dataset.
+
+The results will be slightly different for each run because
+of the randomness. The author suggests perplexity equal to
+30 and says it always works.
+
+Here it’s set to 2, 5, 30 and 300. And you can see that 30
+actually does produce the most compact clusters. What will
+give you the best results depends on the dataset.
+
+Generally, for small data sets, I think people found lower
+perplexity works better while for larger data sets, larger
+perplexity works better. And again, there’s sort of a
+tradeoff between looking at very close neighbors and looking
+at neighbors further away.
+
+
+
+- Important parameter: perplexity
+- Intuitively: bandwidth of neighbors to consider
+- (low perplexity: only close neighbors)
+- smaller datasets try lower perplexity
+- authors say 30 always works well.
+
++++
+class:spacious
+![:scale 25%](images/tsne-moons.png) ![:scale 55%](images/tsne-perplexity.png)
+
+
+Here&#39;s the same for a very small two dimensional data set. I
+wanted to see how well t-SNE can separate these out. Again,
+perplexity equal to 30, probably looks the best to me.
++++
+class: center, middle, spacious
+## Play around online
+
+http://distill.pub/2016/misread-tsne/
+
+
+There&#39;s a really cool article in this link.
+
+The question was how do we reconcile categorical data with
+this?
+
+So this indeed, this seems to be continuous data. You can
+apply it after one hot encoding. Sometimes the results will
+look strange.
+
+You might probably be able to come up with something that
+more specifically uses the discrete distributions. But all
+the things I talked about are really for continuous data.
+
+Is s-SNE more computationally expensive than PCA?
+
+Yes, by a lot. PCA is computing an SPD, which is like a very
+centered linear algebra thing, which is very fast. And a lot
+of people spent like 50 years optimizing it. Still, there&#39;s
+a bunch of things to speed t-SNE.
++++
+## UMAP
+https://github.com/lmcinnes/umap
+.smaller[
+- Construct graph from simplices, use graph layout algorithm
+- Much faster than t-SNE: MNIST takes 2 minutes vs 45 minutes for t-SNE]
+
+![:scale 45%](images/umap_mnist.png)
+![:scale 50%](images/umap_fashion_mnist.png)
++++
+## LargeVis
+https://github.com/elbamos/largeVis
+.smaller[
+- Use nearest neighbor graph constructed very efficiently (and approximately)
+- Much faster than t-SNE
+]
+![:scale 47%](images/largevis_mnist.png)
+![:scale 47%](images/largevis_wikidoc.png)
++++
+class: center, middle
+
+## Questions ?
+</pre></div>
+</div>
+<p>class: center, middle</p>
+</div>
+<div class="section" id="nmf-outlier-detection">
+<h2>NMF; Outlier detection<a class="headerlink" href="#nmf-outlier-detection" title="Permalink to this headline">¶</a></h2>
+<p>04/01/19</p>
+<p>Andreas C. Müller</p>
+<p>Today, I want to talk about non-negative matrix
+factorization and outlier detection.</p>
+<p>FIXME better illustration for NMF
+FIXME list KL divergence loss for NMF
+FIXME related gaussian model and Kernel density to GMM?
+FIXME talk more about all outliers are different in different ways vs classification (add example where outlier is better?)
+FIXME relate NMF to K-Means and PCA, give example, spell out vector quantization (maybe before NMF for factorization in general?)
+FIXME realistic data for both NMF and for outlier detection. maybe cool time series for outlier detection? hum</p>
+</div>
+<div class="section" id="check-out-dabl">
+<h2>Check out dabl!<a class="headerlink" href="#check-out-dabl" title="Permalink to this headline">¶</a></h2>
+<p>https://amueller.github.io/dabl/user_guide.html</p>
+<p>For now: visualization and preprocessing</p>
+<p>try:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dapl</span>
+<span class="n">dapl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_df</span><span class="p">,</span> <span class="n">target_col</span><span class="o">=</span><span class="s1">&#39;some_target&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dapl</span>
+<span class="n">data_clean</span> <span class="o">=</span> <span class="n">dapl</span><span class="o">.</span><span class="n">clean</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>class: center, middle</p>
+</div>
+<div class="section" id="non-negative-matrix-factorization">
+<h2>Non-Negative Matrix Factorization<a class="headerlink" href="#non-negative-matrix-factorization" title="Permalink to this headline">¶</a></h2>
+<p>NMF is basically in line with what we talked about with
+dimensionality reduction but also related to clustering.
+It’s a particular algorithm in a wider family of matrix
+factorization algorithms.</p>
+<p>#Matrix Factorization</p>
+<p>.center[
+<img alt=":scale 80%" src="03-unsupervised-learning/images/matrix_factorization.png" />
+]</p>
+<p>So matrix factorization algorithm works like this. We have
+our data matrix, X, which is number of samples times number
+of features. And we want to factor it into two matrices, A
+and B.</p>
+<p>A is number of samples times k and B is k times number of
+features.</p>
+<p>If we do this in some way, we get for each sample, a new
+representation in k-dimensional, each row of k will
+correspond to one sample and the columns of B will
+correspond to the input features. So they encode how the
+entries of A correspond to the original data. Often this is
+called latent representation. So, these new features here in
+A, somehow represent the rows of X and the features are
+encoded in B.</p>
+<p>#Matrix Factorization</p>
+<p>.center[
+<img alt=":scale 80%" src="03-unsupervised-learning/images/matrix_factorization_2.png" />
+]
+sklearn speak: <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">=</span> <span class="pre">mf.transform(X)</span></code></p>
+<p>#PCA</p>
+<p>.center[
+<img alt=":scale 80%" src="03-unsupervised-learning/images/pca.png" />
+]</p>
+<p>The one example of this that we already saw is principal
+component analysis. In PCA, B was basically the rotation and
+then a projection. And A is just the  projection of X.</p>
+<p>This is just one particular factorization you can do. I have
+the sign equal, but usually, more generally, you’re trying
+to find matrixes A and B so that this is as close to equal
+as possible.</p>
+<p>In particular, for PCA, what we’re trying to do is we try to
+find matrices A and B so that the rows of B are orthogonal,
+and we restrict the rank of k. K would be the number of
+components and we get PCA, if we restrict the columns of B
+to be orthogonal, then the product of matrixes A and B is
+most close to X in the least square sense is the principal
+component analysis.</p>
+<p>class:spacious</p>
+</div>
+<div class="section" id="other-matrix-factorizations">
+<h2>Other Matrix Factorizations<a class="headerlink" href="#other-matrix-factorizations" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>PCA: principal components orthogonal, minimize
+squared loss</p></li>
+<li><p>Sparse PCA: components orthogonal and sparse</p></li>
+<li><p>ICA: independent components</p></li>
+<li><p>Non-negative matrix factorization (NMF):
+latent representation and latent features are nonnegative.</p></li>
+</ul>
+<p>There’s a bunch of other matrix factorization. They
+basically change the requirements we make in matrices A and
+B and what is the loss that we optimize.</p>
+<p>As I said, PCA wants the columns of B to be orthogonal, and
+minimize the squared loss to the data.</p>
+<p>In sparse PCA you do the same, but you say the entries of B
+should also be sparse, so you put an L1 norm on it, and then
+that maybe gives you more easily interpretable features or
+definitely more sparse features.</p>
+<p>Independent component analysis tries to make sure that the
+projections given by B are statistically independent.</p>
+<p>NMF is used more commonly in practice. In this, we restrict
+ourselves to the matrices being positive, what I mean by
+that is, each entry is a positive number.</p>
+</div>
+<div class="section" id="nmf">
+<h2>NMF<a class="headerlink" href="#nmf" title="Permalink to this headline">¶</a></h2>
+<p>.center[
+<img alt=":scale 80%" src="03-unsupervised-learning/images/nmf.png" />
+]</p>
+<p>In NMF, we compute X as a product of W and H. W stands for
+weights, and H stands for hidden representation. We want to
+find W and H so that their product is as close as possible
+to X.</p>
+<p>class: compact</p>
+</div>
+<div class="section" id="nmf-loss-and-algorithm">
+<h2>NMF Loss and algorithm<a class="headerlink" href="#nmf-loss-and-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>Frobenius loss / squared loss ($ Y = H W$):</p>
+<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">l_{\text{frob}}(X,</span> <span class="pre">Y)</span> <span class="pre">=</span> <span class="pre">\sum_{i,j}</span> <span class="pre">(X_{ij}</span> <span class="pre">-</span> <span class="pre">Y_{ij})^</span> <span class="pre">2$$</span></code></p>
+<p>Kulback-Leibler (KL) divergence:
+<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">l_{\text{KL}}(X,</span> <span class="pre">Y)</span> <span class="pre">=</span> <span class="pre">\sum_{i,j}</span> <span class="pre">X_{ij}</span> <span class="pre">\log\left(\frac{X_{ij}}{Y_{ij}}\right)</span> <span class="pre">-</span> <span class="pre">X_{ij}</span>&#160; <span class="pre">+</span> <span class="pre">Y_{ij}$$</span></code></p>
+<p>–</p>
+<p>optimization :</p>
+<ul class="simple">
+<li><p>Convex in either W or H, not both.</p></li>
+<li><p>Randomly initialize (PCA?)</p></li>
+<li><p>Iteratively update W and H (block coordinate descent)</p></li>
+</ul>
+<p>–</p>
+<p>Transforming data:</p>
+<ul class="simple">
+<li><p>Given new data <code class="docutils literal notranslate"><span class="pre">X_test</span></code>, fixed <code class="docutils literal notranslate"><span class="pre">W</span></code>, computing <code class="docutils literal notranslate"><span class="pre">H</span></code> requires optimization.</p></li>
+</ul>
+<p>In literature: often everything transposed</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="why-nmf">
+<h2>Why NMF?<a class="headerlink" href="#why-nmf" title="Permalink to this headline">¶</a></h2>
+<p>–</p>
+<ul class="simple">
+<li><p>Meaningful signs</p></li>
+</ul>
+<p>–</p>
+<ul class="simple">
+<li><p>Positive weights</p></li>
+</ul>
+<p>–</p>
+<ul class="simple">
+<li><p>No “cancellation” like in PCA</p></li>
+</ul>
+<p>–</p>
+<ul class="simple">
+<li><p>Can learn over-complete representation</p></li>
+</ul>
+<p>Since everything is now positive, you have meaningful signs.
+In, PCA the signs were arbitrary so you could flip all the
+signs and component and it would still be the same thing. In
+NMF, everything is positive so there’s no flipping of signs.</p>
+<p>All the weights are positive, this makes it much easier for
+us to conceptualize. So you could think about, as each data
+point is represented as a positive combination of the
+columns of W, so positive combinations of these basic parts.
+This is often thought to represent something like part. So
+you basically build up each data point out of these columns
+in W that has like positive contributions.</p>
+<p>If you have like positive and negative coefficients it’s
+usually much harder to interpret.</p>
+<p>In PCA, you can get the cancellation effect. Basically, you
+can have components that vary a lot in different directions
+and so once you add them all up, the variation vanishes.</p>
+<p>Since you have positive weights, you can think of NMF a
+little bit like soft clustering, in the sense of slightly
+related to GMMs, you can think of the columns of W as being
+something like prototypes and so you express each data point
+as a combination of these prototypes. Since they’re all
+positive, it’s more similar to clustering.</p>
+<p>Another thing that’s quite interesting is that you can learn
+overcomplete representations. What that means is that you
+can learn representations where you have more components and
+features. So before we had this k and it was drawn as being
+smaller than number of features, if you have more than
+number of features, you can always trivially make W the
+identity matrix, and so nothing happens. But if you add
+particular restrictions to W and H, then you can learn
+something, where actually the H is wider than X, which might
+be interesting if you’re interested in extracting
+interesting features. In NMF, you can do this by, for
+example, imposing sparsity constraints.</p>
+<ul class="simple">
+<li><p>positive weights -&gt; parts / components</p></li>
+<li><p>Can be viewed as “soft clustering”: each point is
+positive linear combination of weights.</p></li>
+<li><p>(n_components &gt; n_features) by asking for sparsity (in either W or H)</p></li>
+</ul>
+<p>.center[
+PCA (ordered by projection, not eigenvalue)</p>
+<p><img alt=":scale 70%" src="03-unsupervised-learning/images/pca_projection.png" />
+]</p>
+<p>.center[
+NMF (ordered by hidden representation)
+<img alt=":scale 70%" src="03-unsupervised-learning/images/nmf_hid_rep.png" />
+]</p>
+<p>Here’s an example of what this looks like in practice. Here
+we have NMF and PCA.</p>
+<p>This is the digit dataset, so the images are 28x28 grayscale
+images. I have these the digits, 0 and 1, and I tried to
+express them as a linear combination of the PCA components
+and as a linear combination of the NMF components. Here, I
+ordered them by which component is the most important for
+each of these data points.</p>
+<p>For both, 0 and 1, the most active component is this one,
+which is a guess either 0 or 1, depending on whether it’s
+positive or negative. You can see that neither of these
+latter components looks a hardly like a 0 or a 1.</p>
+<p>What you’re seeing here is the cancellation effect taking
+place.</p>
+<p>The idea with NMF is that in NMF, hopefully, you got
+something that’s more interpretable in particular, since
+everything is positive.</p>
+<p>Usually, we can’t actually look at our data this easily and
+so being able to interpret the component might be quite
+important. Often, people use this for gene analysis, for
+example, where you have very high dimensional vectors, and
+if you want to see which genes act together and so having
+these positive combinations really helps with
+interpretability.</p>
+</div>
+<div class="section" id="downsides-of-nmf">
+<h2>Downsides of NMF<a class="headerlink" href="#downsides-of-nmf" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Can only be applied to non-negative data</p></li>
+</ul>
+<p>–</p>
+<ul class="simple">
+<li><p>Interpretability is hit or miss</p></li>
+</ul>
+<p>–</p>
+<ul class="simple">
+<li><p>Non-convex optimization, requires initialization</p></li>
+</ul>
+<p>–</p>
+<ul class="simple">
+<li><p>Not orthogonal</p></li>
+</ul>
+<p>–</p>
+<p>.center[
+<img alt=":scale 60%" src="03-unsupervised-learning/images/nmf_downsides.png" />
+]</p>
+<p>There’s a couple of downsides. The most obvious one is it
+can only be applied to non-negative data, if your data has
+negative entries, then obviously, you can’t express it as a
+product of two positive matrices.</p>
+<p>Also, 0 needs to mean something. 0 needs to be in the
+absence of signal for this to make sense. So obviously, you
+could always make your data positive by subtracting the
+minimum of the data and just shifting the 0 point. But
+that’s not going to work very well. 0 really needs to mean
+something in NMF to make sense.</p>
+<p>One kind of data where NMF is commonly used is text data. In
+text data, you look at word counts, and they’re always
+positive so they’re a very natural candidate.</p>
+<p>As with all things interpretable, the interpretability of a
+model is a hit or miss. So it depends a lot on the
+application and on the data, whether you actually get
+something out that you can understand. This is an
+unsupervised model and so the outcome might be anything.</p>
+<p>Another issue is that this is a non-convex optimization and
+it requires initialization. So often this is initialized
+with PCA, or you could actually think about initializing it
+with KMeans or something else, there’s no direct formula to
+compute W and H.</p>
+<p>So in PCA, we can just do an SVD and it gives us the
+rotation and it gives us the representation of the data. In
+NMF, we basically have to do something like gradient
+descent. There are several different ways to do this but
+basically, all of them come down to some form of optimizing
+minimization problem and trying to find a W and H. So
+depending on how you initialize them, and what kind of
+optimization you run, you’ll get different outcomes, and you
+will get some local optimum, but you’re not going to get the
+global optimum. So that’s a bit disappointing.</p>
+<p>Even if you did compute this for a dataset. So you have your
+data matrix X, you decompose it into W and H and now you
+might want to take new data and projected it into the same
+space. In PCA, you can just do the rotation to new data. In
+an NMF, you actually have to run the optimization again. So
+there’s no forward process that can give you H given W. So
+you need to keep W fixed and then run the optimization over
+H. So the only way to get the hidden representation for any
+data is by running optimization, given the weights W doing
+the optimization is convex, though, so it’s not really
+problematic, and the outcome will always be the same, but it
+takes a lot longer to run optimization for something, than
+just do rotation.</p>
+<p>The components are not orthogonal as in PCA which can make
+sometimes be a bit confusing because you can’t really think
+about it in terms of projections.</p>
+<p>Finally, another thing that’s quite different in NMF than
+PCA is:</p>
+<p>A)  They’re not ordered</p>
+<p>B) If you want fewer components, there will not be a subset
+of the more components solution.</p>
+<p>So here, is a solution for this positive dataset. If I do
+NMF with two components, I get these two arrows, they
+basically point towards the ends of the data which has the
+extreme points so it can express everything in there as a
+positive combination of the two.</p>
+<p>And if I do only one component, I get the mean of the data,
+because that’s the best I can do with one component.</p>
+<p>If I change the number of components, I might get completely
+different results every time. So picking the right number of
+components is quite critical because it really influences
+what the solution looks like. So if compute 20 components,
+and then I compute 10 components, the 10 will be just
+completely different from any subset of the 20 components.</p>
+<p>.center[
+NMF with 20 components on MNIST</p>
+<p><img alt=":scale 60%" src="03-unsupervised-learning/images/nmf_20_mnist.png" />
+]</p>
+<p>.center[
+NMF with 5 components on MNIST</p>
+<p><img alt=":scale 60%" src="03-unsupervised-learning/images/nmf_5_mnist.png" />
+]</p>
+<p>Here’s another illustration of this. If I do 20 components,
+I get the top, if I do 5 components, I get the bottom. And
+you can see these are quite different. And if I would use
+more components, they would probably be even more localized,
+and be just like, sort of small pieces of strokes.</p>
+<p>With 5 components, you get something like digits out there
+and all of these together seems to sort of cover space
+somewhat.</p>
+<p>class:spacious</p>
+</div>
+<div class="section" id="applications-of-nmf">
+<h2>Applications of NMF<a class="headerlink" href="#applications-of-nmf" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Text analysis (next week)</p></li>
+<li><p>Signal processing</p></li>
+<li><p>Speech and Audio (see
+librosa
+)</p></li>
+<li><p>Source separation</p></li>
+<li><p>Gene expression analysis</p></li>
+</ul>
+<p>This is often used in text analysis. It’s also used in
+signal processing, particular for speech and audio. It’s
+often down for separating the sources, when there are
+multiple speakers, and you want to separate out one of the
+speakers or if you want to remove the singer’s voice and
+keep the music intact.</p>
+<p>This can be done using the library librosa. There are also
+plugins for common audio players, where you can just remove
+the voice with NMF.</p>
+<p>Also, it’s commonly used gene expression analysis.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -253,7 +1983,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;second principal component&#39;)
 </pre></div>
 </div>
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_5_2.png" src="../_images/01-matrix-factorization-dimensionality-reduction_5_2.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_30_2.png" src="../_images/01-matrix-factorization-dimensionality-reduction_30_2.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -268,7 +1998,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;second principal component&#39;)
 </pre></div>
 </div>
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_6_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_6_1.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_31_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_31_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -282,7 +2012,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_7_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_7_0.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_32_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_32_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -299,7 +2029,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;second principal component&#39;)
 </pre></div>
 </div>
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_8_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_8_1.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_33_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_33_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -332,7 +2062,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_10_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_10_0.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_35_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_35_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -350,7 +2080,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;second principal component&#39;)
 </pre></div>
 </div>
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_11_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_11_1.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_36_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_36_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -448,7 +2178,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_18_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_18_0.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_43_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_43_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -536,7 +2266,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;coefficient value&#39;)
 </pre></div>
 </div>
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_24_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_24_1.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_49_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_49_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -551,7 +2281,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;PCA coefficient&#39;)
 </pre></div>
 </div>
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_25_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_25_1.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_50_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_50_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -576,7 +2306,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0.98, &#39;Data&#39;)
 </pre></div>
 </div>
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_27_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_27_1.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_52_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_52_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -591,7 +2321,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0.98, &#39;Principal Components&#39;)
 </pre></div>
 </div>
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_28_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_28_1.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_53_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_53_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -608,7 +2338,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_29_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_29_0.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_54_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_54_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -689,7 +2419,7 @@ Test set score of 1-nn: 0.23
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_34_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_34_0.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_59_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_59_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -718,7 +2448,7 @@ Test set score of 1-nn: 0.23
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_37_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_37_0.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_62_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_62_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -733,7 +2463,7 @@ Test set score of 1-nn: 0.23
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_38_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_38_0.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_63_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_63_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -757,7 +2487,7 @@ Test set score of 1-nn: 0.23
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_39_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_39_0.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_64_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_64_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -789,7 +2519,7 @@ Test set score of 1-nn: 0.23
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_43_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_43_0.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_68_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_68_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -803,7 +2533,7 @@ Test set score of 1-nn: 0.23
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_44_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_44_0.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_69_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_69_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -820,10 +2550,10 @@ Test set score of 1-nn: 0.23
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_45_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_45_0.png" />
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_45_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_45_1.png" />
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_45_2.png" src="../_images/01-matrix-factorization-dimensionality-reduction_45_2.png" />
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_45_3.png" src="../_images/01-matrix-factorization-dimensionality-reduction_45_3.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_70_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_70_0.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_70_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_70_1.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_70_2.png" src="../_images/01-matrix-factorization-dimensionality-reduction_70_2.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_70_3.png" src="../_images/01-matrix-factorization-dimensionality-reduction_70_3.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -892,7 +2622,7 @@ Test set score of 1-nn: 0.23
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Computing t-SNE embedding
 </pre></div>
 </div>
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_46_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_46_1.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_71_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_71_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -908,7 +2638,7 @@ Test set score of 1-nn: 0.23
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x7fd87fe9a668&gt;
 </pre></div>
 </div>
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_47_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_47_1.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_72_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_72_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -923,12 +2653,12 @@ Test set score of 1-nn: 0.23
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_48_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_48_0.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_73_0.png" src="../_images/01-matrix-factorization-dimensionality-reduction_73_0.png" />
 </div>
 </div>
 </div>
 <div class="section" id="discriminant-analysis">
-<h1>Discriminant Analysis<a class="headerlink" href="#discriminant-analysis" title="Permalink to this headline">¶</a></h1>
+<h2>Discriminant Analysis<a class="headerlink" href="#discriminant-analysis" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.discriminant_analysis</span> <span class="kn">import</span> <span class="n">LinearDiscriminantAnalysis</span><span class="p">,</span> <span class="n">QuadraticDiscriminantAnalysis</span>
@@ -1107,7 +2837,7 @@ class has its own standard deviation with QDA.
 
 </pre></div>
 </div>
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_51_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_51_1.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_76_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_76_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1127,7 +2857,7 @@ class has its own standard deviation with QDA.
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x7fd861ca8a90&gt;
 </pre></div>
 </div>
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_52_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_52_1.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_77_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_77_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1147,7 +2877,7 @@ class has its own standard deviation with QDA.
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x7fd861c122b0&gt;
 </pre></div>
 </div>
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_54_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_54_1.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_79_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_79_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1168,7 +2898,7 @@ class has its own standard deviation with QDA.
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x7fd861bf2a58&gt;
 </pre></div>
 </div>
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_56_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_56_1.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_81_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_81_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1191,7 +2921,7 @@ class has its own standard deviation with QDA.
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.text.Text at 0x7fd86c4a15c0&gt;
 </pre></div>
 </div>
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_57_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_57_1.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_82_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_82_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1219,7 +2949,7 @@ class has its own standard deviation with QDA.
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.text.Text at 0x7fd8659b32e8&gt;
 </pre></div>
 </div>
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_59_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_59_1.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_84_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_84_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1246,7 +2976,8 @@ class has its own standard deviation with QDA.
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x7fd86c47f5c0&gt;
 </pre></div>
 </div>
-<img alt="../_images/01-matrix-factorization-dimensionality-reduction_61_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_61_1.png" />
+<img alt="../_images/01-matrix-factorization-dimensionality-reduction_86_1.png" src="../_images/01-matrix-factorization-dimensionality-reduction_86_1.png" />
+</div>
 </div>
 </div>
 </div>

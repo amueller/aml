@@ -27,6 +27,7 @@
     <script src="../_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Model Evaluation" href="../04-model-evaluation/index.html" />
@@ -157,9 +158,20 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#applications" class="nav-link">Applications</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#basic-idea" class="nav-link">Basic idea</a>
+        </li>
     
     </ul>
 </nav>
@@ -174,6 +186,769 @@
                 
   <div class="section" id="outlier-detection">
 <h1>Outlier Detection<a class="headerlink" href="#outlier-detection" title="Permalink to this headline">¶</a></h1>
+<p>The idea in outlier detection is to find points that are
+different. There are two quite related kinds of outlier
+detection summarized under outlier detection. There’s
+outlier detection and novelty detection.</p>
+<p>#Motivation
+.padding-top[
+.left-column[
+<img alt=":scale 100%" src="03-unsupervised-learning/images/outlier_detection.png" />
+]</p>
+<p>.right-column[
+<img alt=":scale 100%" src="03-unsupervised-learning/images/novelty_detection.png" />
+]
+]</p>
+<p>Both are unsupervised methods. The idea is to find things
+that are different. In outlier detection, usually, your
+training dataset also contains outliers which makes it a bit
+dirty, while in novelty detection, you get a dataset and
+then, later on, someone gives you new data and asks you what
+is new here. So in novelty detection, your dataset would be
+clean.</p>
+<p>But in both, you want to identify something that’s sort of
+different from the standard distribution. Only, in the
+outlier detection case, there are already different samples
+in your training dataset.</p>
+<p>This is one of the rigidly few unsupervised problems that
+are pretty heavily used in practice.</p>
+<ul class="simple">
+<li><p>Find points that are “different” within the training set (and in the future).</p></li>
+<li><p>“Novelty detection” - no outliers in the training set.</p></li>
+<li><p>Outliers are not labeled! (otherwise it’s just imbalanced classification)</p></li>
+<li><p>Often outlier detection and novelty detection used interchangeably in practice.</p></li>
+</ul>
+<p>class:spacious</p>
+<div class="section" id="applications">
+<h2>Applications<a class="headerlink" href="#applications" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Fraud detection (credit cards, click fraud, …)</p></li>
+<li><p>Network failure detection</p></li>
+<li><p>Intrusion detection in networks</p></li>
+<li><p>Defect detection (engineering etc…)</p></li>
+<li><p>News? Intelligence?</p></li>
+<li><p>usual assumption: all outliers are different in a different way.</p></li>
+<li><p>Often people use classification datasets for outlier detection:
+that’s a bit strange. See homework results.</p></li>
+</ul>
+<p>class:spacious</p>
+</div>
+<div class="section" id="basic-idea">
+<h2>Basic idea<a class="headerlink" href="#basic-idea" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Model data distribution <span class="math notranslate nohighlight">\(p(X)\)</span></p></li>
+</ul>
+<p>–</p>
+<ul class="simple">
+<li><p>Outlier: <span class="math notranslate nohighlight">\(p(X) 
+&lt;
+\varepsilon\)</span></p></li>
+</ul>
+<p>–</p>
+<ul class="simple">
+<li><p>For outlier detection: be robust in modelling <span class="math notranslate nohighlight">\(p(X)\)</span></p></li>
+</ul>
+<p>The main idea is, you model your data distribution, p(X).
+And then you look at the data points that are unlikely under
+the model. So if it’s unlikely under the model, then it’s
+probably an outlier.</p>
+<p>If you’re doing outlier detection that means your sample is
+going to be contaminated. So they’re outliers in the dataset
+X already if that is the case, you want to be robust in
+modeling p(X), so you want to model p(X) in a way that is
+robust to outliers.</p>
+<p>Both of these tasks are generally ill-defined. So unless you
+actually know the real data distribution, how good something
+does is hard to measure. Usually, you don’t have ground
+truth of what the outliers are if you have the ground truth
+what the outliers are, you could just do an imbalance
+classification task.</p>
+<p>So similar to clustering, what we’re doing here is building
+a model, trying to find some outliers, and then check if
+they’re actually outliers. If we are satisfied with the
+things that our model finds, then we can put into
+production. But there’s no guarantee that it’s going to find
+like x fraction of the outliers and since we don’t have
+labeled data, usually, we can’t really measure our recall.
+We won’t ever know about the samples that we didn’t find.</p>
+<p>So maybe with respect to the homework and in the homework
+actually have ground truth data. And it’s similar to the
+clustering setting, where researchers are basically cheating
+and evaluating methods that are unsupervised in a supervised
+manner. So once you have ground truth label, you can
+evaluate your outlier detection, using, for example, AUC,
+which is what you’re going to do your homework.</p>
+<p>But in a real-world setting, if you had the labels, you
+would never use outlier detection.</p>
+<p>Again, similar to clustering, what makes an outlier in a
+particular dataset is ill-defined. So depends on the
+application, what do you want to consider an outlier or not.
+So in the homework, it’s ill and healthy, and the ill people
+are the outliers. But it could also be that the people that
+are much older and everybody else are the outliers.</p>
+<p>If there’s sort of a very clear density model, and so you
+don’t know what the density of the data is supposed to look
+like and then, you know, things that don’t share this
+density, then you can sort of define this. But usually you
+don’t know what the density supposed to look like and so
+there’s no clearly defined notion of what is an outlier.
+Similarly only, there’s no clearly defined solution of what
+should be a cluster.</p>
+<p>So we’re going to talk through a couple of different
+algorithms that make different assumptions about what makes
+a data point an outlier. So here, I said, we start usually
+with a data distribution p(X).</p>
+<ul class="simple">
+<li><p>Task is generally ill-defined (unless you know the
+real data distribution).</p></li>
+<li><p>Task is generally ill-defined (unless you know the
+real data distribution).</p></li>
+</ul>
+<p>#Elliptic Envelope</p>
+<p><code class="docutils literal notranslate"><span class="pre">$$p(X)</span> <span class="pre">=</span> <span class="pre">\mathcal{N}(\mu,</span> <span class="pre">\Sigma)$$</span></code></p>
+<p>.center[
+<img alt=":scale 60%" src="03-unsupervised-learning/images/elliptic_envelope.png" />
+]</p>
+<p>This leads to the elliptic envelope outlier detection.
+Basically, it fits a Gaussian into the data, and then it
+looks at the points that are not fit well by the Gaussians
+and those points are the outliers. Since this is meant for
+the outlier detection task, what we’re trying to do is
+actually trying to find a robust estimate of the mean and
+covariance matrix so that we can tolerate some outliers in
+the training dataset, and still sort of recover the real
+covariance matrix.</p>
+<p>In this illustration, the black points, inliers, are what
+you expect the data to look like and the outlier
+distribution is plotted in red.</p>
+<p>They overlap, so usually in unsupervised methods, you will
+never label any of these red points as outliers but we could
+try to figure out that these points here are outliers.</p>
+<p>The way that elliptic envelope works are that it finds a
+robust version of the variance matrix. Basically, it finds
+the covariance matrix with the smallest determinant that
+still covers a large portion of the data.</p>
+<p>In most outlier detection methods, you have to specify how
+many outliers you expect. So here, let’s say we specify 10%
+of the data to be outliers, then it will try to construct
+the covariance matrix that covers 90% of the data, but holds
+the lowest possible determinant.</p>
+<p>If you do this, you get the red dotted circles, which are
+the contours covariance fitted with the robust estimate and
+the blue circles are the covariance fitted with the maximum
+likelihood estimates, using all the data.</p>
+<p>Obviously, these outliers can disturb the covariance matrix
+and so the blue is sort of too thick in one direction
+whereas the red is not. So now, if you have this red model,
+you can basically say, all the data lies within these two
+standard deviations and so everything outside here is an
+outlier.</p>
+<p>Fit robust covariance matrix and mean
+FIXME add slide on Covariance: Minimum Covariance Determination (MinCovDet)</p>
+<p>#Elliptic Envelope</p>
+<ul class="simple">
+<li><p>Preprocessing with PCA might help sometimes.</p></li>
+</ul>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>from sklearn.covariance import EllipticEnvelope
+ee = EllipticEnvelope(contamination=.1).fit(X)
+pred = ee.predict(X)
+print(pred)
+print(np.mean(pred == -1))
+```]
+
+.smaller[
+```python
+[ 1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
+  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
+  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
+  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
+ -1  1  1  1 -1 -1  1 -1  1  1 -1  1 -1 -1 -1  1  1 -1 -1 -1 -1  1 -1  1  1]
+0.104
+
+```]
+
+
+
+The way we do this in scikit-learn. The covariance module
+has all the robust covariance methods. As I said, you have
+to specify the contamination, which is how many outliers do
+you expect. Here, I set it to 10%.
+
+If I predict I get 1s and -1s. All the outlier models in
+scikit-learn use 1 for inliers and -1 to outliers.
+
+The mean of the prediction tells me that about 10% of the
+training data was labeled as an outlier, which is what we
+would expect, given that we set it as 10%.  You could also
+get a continuous score saying how much of an outlier is each
+point with the score samples methods.
+
+Here, in the elliptic envelope, contamination parameter
+changes how the model is fit, for some other models, this
+will actually only change the threshold. It’s important here
+to have the right contamination parameters for the right
+covariance fit.
+
+For real-world model, set it based on what your expectations
+are.
+
++++
+## Failure-case: Non-Gaussian Data
+
+.center[
+![:scale 80%](images/elliptic_envelope_plot.png)
+]
+
+
+
+If the data is not Gaussian, we get this.
+
+In this dataset, my intuition was that the isolated three
+points are the outliers and the rest are the normal data.
+Since the data is non-Gaussian, it gives you 10% as outliers
+that are furthest away from the mean. And this is not what I
+wanted at all.
+
+So if your data is very non-Gaussian, then the method will
+not clearly work well.
+
+Now, we could obviously use a more complicated density
+model. So we talked about Gaussian mixture models, we could
+use a Gaussian mixture model. Instead of fitting a single
+Gaussian, we could try to fit multiple Gaussian. If you just
+use the Gaussian mixture models in scikit-learn, they will
+not do a robust fit, so that might make more sense in the
+novelty detection than in the outlier detection sense
+because it will try to fit all of the data. You can still
+try to do it on the outlier detection task and just fit, so
+if I fit three Gaussians here, it&#39;ll probably give me the
+right outliers. But then again, I need to know what the
+number of components is for my GMM, for this to work well.
+
+So I still to make the assumptions about what the density
+is.
+
+Another approach is instead of having a parametric density
+model like this, we can do a non-parametric density model
+like a kernel density estimate.
+
+
+Could do mixtures of gaussians obviously!
++++
+class: center, spacious
+#Kernel Density
+
+
+![:scale 80%](images/kde_vs_histogram.png)
+
+
+
+KDE is a most simple non-parametric estimate for probability
+distributions. The ticks at the bottom in the left plot are
+data points. One way to visualize the distribution is to do
+a histogram.
+
+For the KDE estimate in the right, we put a small Gaussian
+blob around each data point. So here, each data point here
+at the bottom corresponds to one of these Gaussians and then
+we just sum them all up and this gives you sort of this
+smooth density here.
+
+So this a little bit like a GMM where we have as many
+components as data points. You could also use other kernels.
+
+
+The word kernel here means slightly different than in SVMs.
+Kernel here means kernel in the sense of signal processing.
+So another commonly used kernel here is the top hat kernel,
+which is a kernel in the signal processing sense but it&#39;s
+not a kernel in the support vector machine sense, the
+Gaussian kernel was the kernel in both senses.
+
+A kernel can mean a lot of different things. And here, it
+means basically windowing function. And so any windowing
+function would work for this, you kind of put a little bit
+of probability math around each data point.
+
+An obvious problem with this is that you need to pick the
+bandwidth.
+
+
+
+- Non-parametric density model
+
+- Gaussian blob on each data point
+
+- Doesn’t work well in high dimensions
++++
+class:center
+
+## Kernel Bandwidth
+
+![:scale 50%](images/kde_bandwidth.png)
+
+
+
+So depending on what bandwidth you pick, you can either over
+smooth or under smooth the data. Here, in red, you’ve picked
+too small of bandwidth while in green, you’ve picked two
+large of bandwidth and black is probably a decent bandwidth.
+
+
+Again, this is an unsupervised problem. So it&#39;s very hard to
+do this. You can actually use cross validation to adjust the
+bandwidth. So you can look at what&#39;s the score of the held
+out data.
+
+This is also not a robust estimate. So if you have outliers
+in your data, the outliers in your data might influence your
+estimate.
+
+The other problem with this is that KDDs don&#39;t work in
+higher dimensions. You can obviously not only do this
+1-dimension, but you can also do this in any number of
+dimensions. But here, you get the curse of dimensionality.
+Basically, if you have higher dimensional space, you need
+more and more data points to actually fill the space with
+these small Gaussian blobs. If you would want to do a
+histogram, in like 10 dimensions, and you don&#39;t have enough
+data, then most of the histogram cells will be empty. And
+here, this is only like a smooth version of the histogram so
+it has the same problem.
+
+So if your space is in high dimensional, most of the space
+will be empty and this is not going to work very well.
+
+
+- Need to adjust kernel bandwidth
+
+- Unsupervised model, so how to pick kernel bandwidth?
+- cross-validation can be used to pick the bandwidth, but if there&#39;s outliers in the training
+data, could go wrong?
+
+
++++
+
+.smaller[
+```python
+kde = KernelDensity(bandwidth=3)
+kde.fit(X_train_noise)
+pred = kde.score_samples(X_train_noise)
+pred = (pred &gt; np.percentile(pred, 10)).astype(int)
+```]
+
+.center[
+![:scale 70%](images/kernel_density_bw3.png)
+]
+
+
+If your space is low dimensional, and you can plot it, it
+might work nicely. So here, I might have used the
+cross-validation to find out the bandwidth of 3 is good. And
+then I can look at the scores. So here, KDE is not an
+outlier detection method in scikit-learn, but I can use it
+as an outlier detection method by just looking at score
+samples, which are the log probabilities of all the data
+points under this probability model. And I say that
+everything that&#39;s higher than the 10th percentile is an
+inlier.
+
+So basically, now I label 10% of the data as outliers and I
+actually get the right three points that I wanted and a
+couple more points. Obviously, I get more points, because I
+told them I want 10% of my data to be outliers.
+
+So this is a really is a very simple method. But it doesn’t
+work well in higher dimensions and it gets very slow since
+you have a lot of these kernels that you need to evaluate.
+So you need to compute the distance between all pairs of
+points mostly.
+
+
+
++++
+
+## One Class SVM
+
+- Also uses Gaussian kernel to cover data
+
+- Only select support vectors (not all points)
+
+- Specify outlier ratio (contamination) via nu
+
+
+.smaller[
+```python
+from sklearn.svm import OneClassSVM
+scaler = StandardScaler()
+X_train_noise_scaled = scaler.fit_transform(X_train_noise)
+oneclass = OneClassSVM(nu=.1).fit(X_train_noise_scaled)
+pred = oneclass.predict(X_train_noise_scaled)
+```]
+
+
+
+A more sophisticated variant of this is the one class SVM.
+This also uses Gaussian kernels to basically cover the data.
+But it selects only support vectors, not all points as basis
+points. You get a similar function, in KDE.
+
+But the density function is supported only by some support
+vectors. Again, you need to specify the bandwidth parameter
+gamma. So this only makes sense with an RVF kernel. It’s
+quite similar to what KDE does, but only, it selects support
+vectors and does it in a more robust way.
+
+You also have to set the number of outliers you expect as
+nu. Again, nu is part of the optimization process. So
+setting the outlier fraction differently will change how the
+models fit.
+
+
+- Need to adjust kernel bandwidth
+- nu is &quot;training mistakes&quot;
+
++++
+.center[
+![:scale 80%](images/one_class_svm_plot.png)
+]
+
+
+
+So here, this was with a particular setting of gamma, and
+you can see that it seems like a somewhat reasonable model.
+If I made gamma a little bit smaller, it would probably have
+found the right points. But here, it&#39;s even harder to adjust
+the gamma parameter because there&#39;s no way to really do it.
+So for KDE, I can do cross-validation to see how good of a
+probability model this is, while the SVM doesn&#39;t have a
+probability model. So I can&#39;t do cross-validation or
+anything. So I just need to pick gamma in some way that
+makes sense to me, which is not great.
+
+If you can visualize data, obviously, that helps. But in
+higher dimensions, you need to look at projections or other
+things to see how to set gamma. So in a sense, is also sort
+of a non-parametric density estimate. But it doesn&#39;t really
+have a probabilistic model.
+
+
++++
+class:center,middle
+
+#Isolation Forests
+
+
+
+The final model I want to talk about is also a
+non-parametric estimate that also doesn&#39;t have a probability
+model and it’s called isolation forest
+
+By far, it’s my favorite since it has no parameters to tune.
+
+
+
++++
+#Idea
+
+- Outliers are easy to isolate from the rest
+
+.center[
+![:scale 80%](images/isolation_forests.png)
+]
+
+
+
+
+So the idea of isolation forest is that if you build a
+random tree over a dataset, then if you want to figure out
+how easy is it to split up a particular point, it&#39;s much
+easier to split up a point that&#39;s an outlier, that’s on the
+outside of the data than a point that&#39;s like somewhere where
+the data is very dense.
+
+The idea is that you build many completely random trees,
+it&#39;s complete unsupervised, so it just keeps splitting the
+data in some way and we look at how deep do we need to go to
+isolate a data point from the other data points.
+
+If on average, we have to go very deep into the tree, it’s
+probably if some of our data is dense, it&#39;s not an outlier.
+So on average, if we split off the point very early, it&#39;s
+probably an outlier.
+
+
+- Measure as Path length!
+
++++
+class:center,middle
+.left-column[
+![:scale 100%](images/isolation_forests.png)
+]
+
+.right-column[
+![:scale 100%](images/avgpathlen_numtrees.png)
+]
+
+
+If you add more and more completely random trees, you get a
+relatively stable score that tells you is it an outlier or
+is it an outlier. You can think of this as sort of trying to
+model the density of the data. But there&#39;s no probabilistic
+model here.
+
+X1 has over 1000 trees, you need a very long path line so
+you go very deep into a tree before it&#39;s isolated from the
+other point. That means it&#39;s in a very dense region.
+Whereas, X0, on average is split up quite early from the
+rest of data points so it&#39;s probably an outlier. So
+basically, if you&#39;re on the outside of the data, no matter
+what feature is picked, you’re likely to be split off, given
+that you&#39;re an outlier with respect to any of these
+features.
+
++++
+#Normalizing the Path Length
+
+Average path length of unsuccessful search in Binary Search Tree:
+
+`$$ c(n) = 2H(n-1) - \left(\frac{2(n-1)}{n}\right) \text{  (H = Harmonic number)}$$`
+
+
+
+`$$ s(x,n) = 2^{-\frac{E(h(x))}{c(n)}} \text{   (h = depth in tree)}$$`
+
+
+- s &lt; 0.5 : definite inlier
+
+- s close to 1: outlier
+
+
+
+So to make this more coherent, we need to normalize the path
+lines. And so depending on how many data points there are,
+you expect to go deeper to the tree to separate something.
+And so you can calculate what the average path length of an
+unsuccessful search is in the binary tree, which is similar
+to trying to isolate a point, and you can compute this
+number.
+
+And the score that we actually compute, the outlier score is
+2 to the minus average path length over all the trees
+divided by the average path lengths for an unsuccessful
+search in binary trees. So this only depends on n which is
+the number of data points. So basically, we are only
+normalizing the score to make sense independent of the
+dataset size.
+
+If this score is smaller than 0.5 then definitely you’re an
+inlier. If it’s closer to 1, it’s an outlier.
+
+Basically, the way you determine outliers is by threshold
+the score. So here, setting the number of expected outliers
+doesn&#39;t change the algorithm at all, it only changes the
+threshold for this core function. So here, picking the
+number of outliers in advance is not as important.
+
++++
+class:spacious
+## Building the forest
+
+- Subsample dataset for each tree
+
+- Default sample size of 256 works surprisingly well
+
+- Stop growing tree at depth log_2(sample size) – so 8
+
+- No bootstrapping
+
+- More trees are better – default 100
+
+- Need to specify contamination rate
+
+
+
+It has no parameters, it’s quite simple to do this. So what
+we&#39;re doing is actually we subsample the dataset for each
+tree and we picked 256 samples. The default value of 256
+samples always works, no matter what the dataset size is.
+And we stopped growing the tree at depth log_2 (sample
+size), which is 8.
+
+So you repeatedly draw, without replacement, 256 samples
+from your data and grow trees of depth 8 and then you look
+at the average path length to isolate a point.
+
+Obviously, as with all random forest, more trees are better
+but the default in scikit-learn is 100.
+
+In principle, these are free parameters of the algorithm,
+like, how much to subsample for each tree, and how to prune
+each tree. But people don&#39;t tune these parameters and it
+just works well.
+
+The contamination rate only picks the threshold on this
+final score.
+
+
+FIXME all the text
++++
+.center[![:scale 90%](images/building_forest_1.png)]
+
+
+Here is what the algorithm produces and it worked as good as
+I thought.
+
+Remember, this is a toy dataset. It doesn&#39;t really tell you
+that much about how works in the real world.
+
++++
+.center[![:scale 90%](images/building_forest_2.png)]
+
+
+Here, I plotted the score for each data point. You could do
+this for data models too. Here, since it’s tree-based, it’s
+not nice and smooth as it is for support vector machine or
+the KDE. I didn&#39;t have to tune any kernel bandwidth or
+anything and so that&#39;s kind of nice.
+
+Again, it also depends on what your assumptions are about
+outliers. This will not work very well for the homework. And
+you can think about why this does not work very well from
+your homework.
++++
+class:spacious
+## Other density based-models
+
+- PCA
+
+- GMMs
+
+- Robust PCA (not in sklearn :-()
+
+- Any other probabilistic model - “robust” is better.
+
+
+
+You can use other density based models. You can use just PCA which is also like a higher dimensional Gaussian model in some sense, where you drop some of the directions.
+
+You can use GMMs.
+
+There’s a robust variant of PCA that is, unfortunately, not
+on scikit-learn.
+
+You can use any probabilistic model that you want. But you
+need to think about if the model is appropriate for the data
+that you’re trying to model. And if you expect there&#39;s a lot
+of outliers in your training dataset already, then you might
+need to think about how to make the model robust.
+
+So PCA is not robust, while robust PCA is robust. And so if
+you have very big outliers in your dataset, it will skew
+your PCA results and so that might not work as well.
+
+
+robust only needed for outlier detection, not novelty detection.
++++
+.center[
+![:scale 60%](images/other_density_models_1.png)
+]
+
+.center[
+![:scale 60%](images/other_density_models_2.png)
+]
+
+.center[
+![:scale 60%](images/other_density_models_3.png)
+]
+
+
+Here is a comparison of the three of the four models that we
+talked about. So here, we&#39;re looking at isolation forest,
+one class SVM, and robust covariance.
+
+Basically, the robots covariance works perfectly for
+isotropic Gaussian, because that&#39;s what it fits. If you have
+multiple Gaussians it kind of breaks down. So if they&#39;re
+close enough together, maybe it makes sense to model them as
+joint Gaussian. But if you put them further apart,
+basically, it will change the covariance shape and so it
+will have a bad model of your data.
+
+So the isolation forest does kind of reasonably well in all
+cases. I mean, this is a 2D dataset and so it can just find
+dense regions without a problem. Whereas the one class SVM,
+gives slightly strange results, probably because it picked
+some support vectors to cover the data.
+
+Ideally, the one class SVM is supposed to be robust to
+contamination in the training set, but as we can see, it&#39;s
+not that robust to contamination. The one clause SVM might
+work better when you have a clean training dataset.
+
+There&#39;s no definition of true outliers, obviously. But here,
+we have drawn very densely from either one or two Gaussian
+models, the inliers are white and then we have random
+uniform over this whole square some outliers.
+
+The idea is basically, there&#39;s 3 different distribution that
+the data is drawn from. There&#39;s like some Gaussian points
+and some points that are just uniform. And you want to
+isolate the very dense points from the uniform that not very
+dense points.
+
++++
+class:spacious
+## Summary
+
+- Isolation Forest works great!
+
+- Density models are great if they are correct.
+
+- Estimating bandwidth can be tricky in the
+unsupervised setting.
+
+- Validation of results often requires manual inspection.
+
+
+
+As with all unsupervised methods, for outlier detection,
+validating the model and tuning the parameters are really
+hard. So the more your model depends on parameters, like the
+one class SVM depends a lot on parameters, it&#39;s just very
+tricky to do that.
+
+As with the clustering, validation often means looking into
+the data, looking at single data points, why are they
+outliers and trying to interpret the results. Because if you
+have two labels, why don&#39;t you learn a classifier.
+
+One possible approach that I didn’t talk about is if you
+have a big dataset that&#39;s not labeled, you can run an
+outlier detection algorithm, you can find like 10% most
+outlier things according to your algorithm, you can confirm
+manually whether they are outliers or not and then you could
+run a classifier. It depends a little bit on whether the
+outliers are all outliers in a similar way or outliers in
+different ways. So if all your outliers are outliers in a
+different way, then running a classifier will actually not
+work. So in that setting, you might actually be better off
+with an outlier detection method.
+
+Even if you have labels, if all of your outliers are
+outliers in a very different way, it might be better to just
+build the model off the non-outlier data and then call
+everything else that’s an outlier instead of trying to learn
+a classifier. If there&#39;s no dense region of outliers, then
+you can’t learn a classifier for that.
+
+
++++
+class: middle
+## Questions ?
+</pre></div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -369,8 +1144,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/03-outlier-detection_6_0.png" src="../_images/03-outlier-detection_6_0.png" />
-<img alt="../_images/03-outlier-detection_6_1.png" src="../_images/03-outlier-detection_6_1.png" />
+<img alt="../_images/03-outlier-detection_12_0.png" src="../_images/03-outlier-detection_12_0.png" />
+<img alt="../_images/03-outlier-detection_12_1.png" src="../_images/03-outlier-detection_12_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -396,8 +1171,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/03-outlier-detection_8_0.png" src="../_images/03-outlier-detection_8_0.png" />
-<img alt="../_images/03-outlier-detection_8_1.png" src="../_images/03-outlier-detection_8_1.png" />
+<img alt="../_images/03-outlier-detection_14_0.png" src="../_images/03-outlier-detection_14_0.png" />
+<img alt="../_images/03-outlier-detection_14_1.png" src="../_images/03-outlier-detection_14_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -441,7 +1216,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/03-outlier-detection_11_0.png" src="../_images/03-outlier-detection_11_0.png" />
+<img alt="../_images/03-outlier-detection_17_0.png" src="../_images/03-outlier-detection_17_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -455,7 +1230,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/03-outlier-detection_12_0.png" src="../_images/03-outlier-detection_12_0.png" />
+<img alt="../_images/03-outlier-detection_18_0.png" src="../_images/03-outlier-detection_18_0.png" />
+</div>
 </div>
 </div>
 </div>
@@ -482,7 +1258,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.text.Text at 0x7fc8daef46d8&gt;
 </pre></div>
 </div>
-<img alt="../_images/03-outlier-detection_14_1.png" src="../_images/03-outlier-detection_14_1.png" />
+<img alt="../_images/03-outlier-detection_20_1.png" src="../_images/03-outlier-detection_20_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -506,7 +1282,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.text.Text at 0x7fc8dad73cc0&gt;
 </pre></div>
 </div>
-<img alt="../_images/03-outlier-detection_15_1.png" src="../_images/03-outlier-detection_15_1.png" />
+<img alt="../_images/03-outlier-detection_21_1.png" src="../_images/03-outlier-detection_21_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -574,7 +1350,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>([], &lt;a list of 0 Text yticklabel objects&gt;)
 </pre></div>
 </div>
-<img alt="../_images/03-outlier-detection_16_1.png" src="../_images/03-outlier-detection_16_1.png" />
+<img alt="../_images/03-outlier-detection_22_1.png" src="../_images/03-outlier-detection_22_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -611,7 +1387,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x7fc8da8fe198&gt;
 </pre></div>
 </div>
-<img alt="../_images/03-outlier-detection_18_1.png" src="../_images/03-outlier-detection_18_1.png" />
+<img alt="../_images/03-outlier-detection_24_1.png" src="../_images/03-outlier-detection_24_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -632,7 +1408,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(-6, -2)
 </pre></div>
 </div>
-<img alt="../_images/03-outlier-detection_19_1.png" src="../_images/03-outlier-detection_19_1.png" />
+<img alt="../_images/03-outlier-detection_25_1.png" src="../_images/03-outlier-detection_25_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -652,7 +1428,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(-7, 1)
 </pre></div>
 </div>
-<img alt="../_images/03-outlier-detection_20_1.png" src="../_images/03-outlier-detection_20_1.png" />
+<img alt="../_images/03-outlier-detection_26_1.png" src="../_images/03-outlier-detection_26_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -685,7 +1461,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x7fc8d8ed5a90&gt;
 </pre></div>
 </div>
-<img alt="../_images/03-outlier-detection_23_1.png" src="../_images/03-outlier-detection_23_1.png" />
+<img alt="../_images/03-outlier-detection_29_1.png" src="../_images/03-outlier-detection_29_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -713,7 +1489,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x7fc8d89f5e48&gt;
 </pre></div>
 </div>
-<img alt="../_images/03-outlier-detection_25_1.png" src="../_images/03-outlier-detection_25_1.png" />
+<img alt="../_images/03-outlier-detection_31_1.png" src="../_images/03-outlier-detection_31_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -734,7 +1510,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/03-outlier-detection_27_0.png" src="../_images/03-outlier-detection_27_0.png" />
+<img alt="../_images/03-outlier-detection_33_0.png" src="../_images/03-outlier-detection_33_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -760,7 +1536,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x7fc8d9456128&gt;
 </pre></div>
 </div>
-<img alt="../_images/03-outlier-detection_29_1.png" src="../_images/03-outlier-detection_29_1.png" />
+<img alt="../_images/03-outlier-detection_35_1.png" src="../_images/03-outlier-detection_35_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
