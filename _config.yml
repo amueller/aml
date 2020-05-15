@@ -2,13 +2,15 @@
 title: Applied Machine Learning in Python
 author: Andreas C. Müller
 logo: logo.png
-navbar_number_sections: true
 exclude_patterns: ['notebooks-old', 'data', 'README.md']
 
 execute:
   execute_notebooks: 'off'
 
+html:
+  navbar_number_sections: true
+
+
 latex:
   latex_documents:
     targetname: book.tex
-  
