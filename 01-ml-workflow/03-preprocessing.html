@@ -26,7 +26,8 @@
     <script src="../_static/mystnb.js"></script>
     <script src="../_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -60,7 +61,7 @@
 
 <form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form>
 
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -172,9 +173,40 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#scaling-and-distances" class="nav-link">Scaling and Distances</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#ways-to-scale-data" class="nav-link">Ways to Scale Data</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#sparse-data" class="nav-link">Sparse Data</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#standard-scaler-example" class="nav-link">Standard Scaler Example</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#pipelines" class="nav-link">Pipelines</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#not-using-pipelines-vs-feature-selection" class="nav-link">Not using Pipelines vs feature selection</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#back-to-house-price" class="nav-link">Back to house price?</a>
+        </li>
     
     </ul>
 </nav>
@@ -210,9 +242,8 @@ CHArS doesn’t matter!</p>
 <p>Linear models: the different scales mean different
 penalty. L2 is the same for all!</p>
 <p>We can also see non-gaussian distributions here btw!</p>
-</div>
 <div class="section" id="scaling-and-distances">
-<h1>Scaling and Distances<a class="headerlink" href="#scaling-and-distances" title="Permalink to this headline">¶</a></h1>
+<h2>Scaling and Distances<a class="headerlink" href="#scaling-and-distances" title="Permalink to this headline">¶</a></h2>
 <p><img alt=":scale 90%" src="../_images/knn_scaling.png" /></p>
 <p>Here is an example of the importance of scaling using a
 distance-based algorithm, K nearest neighbors. My favorite
@@ -223,9 +254,6 @@ values than the y axis. On the right hand side, I used
 standard scaler and so both features have zero mean and unit
 variance. So what do you think will happen if I use k
 nearest neighbors here? Let’s see</p>
-</div>
-<div class="section" id="id1">
-<h1>Scaling and Distances<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p><img alt=":scale 90%" src="../_images/knn_scaling2.png" /></p>
 <p>As you can see, the difference is quite dramatic. Because
 the X axis has such a larger magnitude on the left-hand
@@ -240,7 +268,7 @@ L2 is the same for all!</p>
 <p>class: center</p>
 </div>
 <div class="section" id="ways-to-scale-data">
-<h1>Ways to Scale Data<a class="headerlink" href="#ways-to-scale-data" title="Permalink to this headline">¶</a></h1>
+<h2>Ways to Scale Data<a class="headerlink" href="#ways-to-scale-data" title="Permalink to this headline">¶</a></h2>
 <p><img alt=":scale 80%" src="../_images/scaler_comparison_scatter.png" /></p>
 <p>Here’s an illustration of four of the most common ways. One
 of the most common ones that we already saw before is the
@@ -279,7 +307,7 @@ use the L1 normalizer.</p>
 <p>class: spacious</p>
 </div>
 <div class="section" id="sparse-data">
-<h1>Sparse Data<a class="headerlink" href="#sparse-data" title="Permalink to this headline">¶</a></h1>
+<h2>Sparse Data<a class="headerlink" href="#sparse-data" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Data with many zeros – only store non-zero entries.</p></li>
 <li><p>Subtracting anything will make the data “dense” (no more zeros) and blow the RAM.</p></li>
@@ -315,7 +343,7 @@ each feature and makes sure that this is one, just by
 scaling by one divided by the maximum absolute value.</p>
 </div>
 <div class="section" id="standard-scaler-example">
-<h1>Standard Scaler Example<a class="headerlink" href="#standard-scaler-example" title="Permalink to this headline">¶</a></h1>
+<h2>Standard Scaler Example<a class="headerlink" href="#standard-scaler-example" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
 <span class="c1"># Back to King Country house prices</span>
 <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
@@ -986,10 +1014,10 @@ Downloaded from openml.org.
 </div>
 </div>
 <div class="section" id="pipelines">
-<h1>Pipelines<a class="headerlink" href="#pipelines" title="Permalink to this headline">¶</a></h1>
+<h2>Pipelines<a class="headerlink" href="#pipelines" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="not-using-pipelines-vs-feature-selection">
-<h1>Not using Pipelines vs feature selection<a class="headerlink" href="#not-using-pipelines-vs-feature-selection" title="Permalink to this headline">¶</a></h1>
+<h2>Not using Pipelines vs feature selection<a class="headerlink" href="#not-using-pipelines-vs-feature-selection" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rnd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -1034,7 +1062,7 @@ Downloaded from openml.org.
 </div>
 </div>
 <div class="section" id="back-to-house-price">
-<h1>Back to house price?<a class="headerlink" href="#back-to-house-price" title="Permalink to this headline">¶</a></h1>
+<h2>Back to house price?<a class="headerlink" href="#back-to-house-price" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
@@ -1183,6 +1211,7 @@ Downloaded from openml.org.
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.36901969445308325
 </pre></div>
+</div>
 </div>
 </div>
 </div>

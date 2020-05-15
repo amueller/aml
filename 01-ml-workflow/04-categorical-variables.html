@@ -26,7 +26,8 @@
     <script src="../_static/mystnb.js"></script>
     <script src="../_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -60,7 +61,7 @@
 
 <form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form>
 
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -172,9 +173,28 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#ordinal-encoding" class="nav-link">Ordinal encoding</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#one-hot-dummy-encoding" class="nav-link">One-Hot (Dummy) Encoding</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#onehotencoder" class="nav-link">OneHotEncoder</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#onehotencoder-columntransformer" class="nav-link">OneHotEncoder + ColumnTransformer</a>
+        </li>
     
     </ul>
 </nav>
@@ -189,42 +209,82 @@
                 
   <div class="section" id="categorical-variables">
 <h1>Categorical Variables<a class="headerlink" href="#categorical-variables" title="Permalink to this headline">¶</a></h1>
-<p>.smaller[</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
   <span class="s1">&#39;boro&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Manhattan&#39;</span><span class="p">,</span> <span class="s1">&#39;Queens&#39;</span><span class="p">,</span> <span class="s1">&#39;Manhattan&#39;</span><span class="p">,</span> <span class="s1">&#39;Brooklyn&#39;</span><span class="p">,</span> <span class="s1">&#39;Brooklyn&#39;</span><span class="p">,</span> <span class="s1">&#39;Bronx&#39;</span><span class="p">],</span>
   <span class="s1">&#39;salary&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">103</span><span class="p">,</span> <span class="mi">89</span><span class="p">,</span> <span class="mi">142</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">219</span><span class="p">],</span>
      <span class="s1">&#39;vegan&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;No&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">,</span><span class="s1">&#39;No&#39;</span><span class="p">,</span><span class="s1">&#39;Yes&#39;</span><span class="p">,</span> <span class="s1">&#39;Yes&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">]})</span>
+<span class="n">df</span>
 </pre></div>
 </div>
-<p>]</p>
-<p>boro
-salary
-vegan</p>
-<p>0
-Manhattan
-103
-No</p>
-<p>1
-Queens
-89
-No</p>
-<p>2
-Manhattan
-142
-No</p>
-<p>3
-Brooklyn
-54
-Yes</p>
-<p>4
-Brooklyn
-63
-Yes</p>
-<p>5
-Bronx
-219
-No</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>boro</th>
+      <th>salary</th>
+      <th>vegan</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Manhattan</td>
+      <td>103</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Queens</td>
+      <td>89</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Manhattan</td>
+      <td>142</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Brooklyn</td>
+      <td>54</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Brooklyn</td>
+      <td>63</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Bronx</td>
+      <td>219</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 <p>Before we can apply a machine learning algorithm, we first
 need to think about how we represent our data.</p>
 <p>Earlier, I said x \in R^n. That’s not how you usually get
@@ -239,45 +299,89 @@ in nearly all applications.</p>
 in general that all your input is continuous numbers.
 This is different from how many libraries in R do it,
 which deal with categorical variables implicitly.</p>
-</div>
 <div class="section" id="ordinal-encoding">
-<h1>Ordinal encoding<a class="headerlink" href="#ordinal-encoding" title="Permalink to this headline">¶</a></h1>
-<p>.smaller[</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;boro_ordinal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">boro</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span>
+<h2>Ordinal encoding<a class="headerlink" href="#ordinal-encoding" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;boro_ordinal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">boro</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span>
 <span class="n">df</span>
 </pre></div>
 </div>
-<p>]
-.left-column[</p>
-<p>boro
-salary
-vegan</p>
-<p>0
-2
-103
-No</p>
-<p>1
-3
-89
-No</p>
-<p>2
-2
-142
-No</p>
-<p>3
-1
-54
-Yes</p>
-<p>4
-1
-63
-Yes</p>
-<p>5
-0
-219
-No</p>
-<p>]</p>
-<p>–</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>boro</th>
+      <th>salary</th>
+      <th>vegan</th>
+      <th>boro_ordinal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Manhattan</td>
+      <td>103</td>
+      <td>No</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Queens</td>
+      <td>89</td>
+      <td>No</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Manhattan</td>
+      <td>142</td>
+      <td>No</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Brooklyn</td>
+      <td>54</td>
+      <td>Yes</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Brooklyn</td>
+      <td>63</td>
+      <td>Yes</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Bronx</td>
+      <td>219</td>
+      <td>No</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 <p>.right-column[
 <img alt=":scale 100%" src="../_images/boro_ordinal.png" />
 ]</p>
@@ -287,50 +391,12 @@ particular you define an order between the categories.
 Usually, there is no semantic ordering of the categories,
 and so we shouldn’t introduce one in our representation of
 the data.</p>
-</div>
-<div class="section" id="id1">
-<h1>Ordinal encoding<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>.smaller[</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;boro_ordinal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">boro</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span>
-<span class="n">df</span>
-</pre></div>
-</div>
-<p>]
-.left-column[</p>
-<p>boro_ordinal
-salary
-vegan</p>
-<p>0
-2
-103
-No</p>
-<p>1
-3
-89
-No</p>
-<p>2
-2
-142
-No</p>
-<p>3
-1
-54
-Yes</p>
-<p>4
-1
-63
-Yes</p>
-<p>5
-0
-219
-No</p>
-<p>]</p>
 <p>.right-column[
 <img alt=":scale 100%" src="../_images/boro_ordinal_classification.png" />
 ]</p>
 </div>
 <div class="section" id="one-hot-dummy-encoding">
-<h1>One-Hot (Dummy) Encoding<a class="headerlink" href="#one-hot-dummy-encoding" title="Permalink to this headline">¶</a></h1>
+<h2>One-Hot (Dummy) Encoding<a class="headerlink" href="#one-hot-dummy-encoding" title="Permalink to this headline">¶</a></h2>
 <p>.narrow-left-column[</p>
 <p>boro
 salary
@@ -439,9 +505,6 @@ values. The get_dummies applies transformation to all
 columns that have a dtype that’s either object or
 categorical.</p>
 <p>In this case we didn’t actually want to transform the target variable vegan.</p>
-</div>
-<div class="section" id="id2">
-<h1>One-Hot (Dummy) Encoding<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h1>
 <p>.narrow-left-column[</p>
 <p>boro
 salary
@@ -527,9 +590,6 @@ No
 <p>]
 ]</p>
 <p>We can specify selectively which columns to apply the encoding to.</p>
-</div>
-<div class="section" id="id3">
-<h1>One-Hot (Dummy) Encoding<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h1>
 <p>.narrow-left-column[</p>
 <p>boro
 salary
@@ -845,7 +905,7 @@ all the columns are always the same no matter what are the
 values are actually in the data set.</p>
 </div>
 <div class="section" id="onehotencoder">
-<h1>OneHotEncoder<a class="headerlink" href="#onehotencoder" title="Permalink to this headline">¶</a></h1>
+<h2>OneHotEncoder<a class="headerlink" href="#onehotencoder" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;salary&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">103</span><span class="p">,</span> <span class="mi">89</span><span class="p">,</span> <span class="mi">142</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">219</span><span class="p">],</span>
                    <span class="s1">&#39;boro&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Manhattan&#39;</span><span class="p">,</span> <span class="s1">&#39;Queens&#39;</span><span class="p">,</span> <span class="s1">&#39;Manhattan&#39;</span><span class="p">,</span>
@@ -869,7 +929,7 @@ values are actually in the data set.</p>
 </ul>
 </div>
 <div class="section" id="onehotencoder-columntransformer">
-<h1>OneHotEncoder + ColumnTransformer<a class="headerlink" href="#onehotencoder-columntransformer" title="Permalink to this headline">¶</a></h1>
+<h2>OneHotEncoder + ColumnTransformer<a class="headerlink" href="#onehotencoder-columntransformer" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">categorical</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="nb">object</span>
 
 <span class="n">preprocess</span> <span class="o">=</span> <span class="n">make_column_transformer</span><span class="p">(</span>
@@ -902,6 +962,7 @@ extract principal components. I can use the same column as inputs to multiple
 transformers, and the results will be concatenated.</p>
 <p>FIXME add code</p>
 <p>class: some-space</p>
+</div>
 </div>
 <div class="section" id="dummy-variables-and-colinearity">
 <h1>Dummy variables and colinearity<a class="headerlink" href="#dummy-variables-and-colinearity" title="Permalink to this headline">¶</a></h1>
@@ -939,14 +1000,9 @@ Encoder or you just encode this as integers and treat it as
 a continuous. If you have very high categorical variables
 with many levels, maybe it keeping it as an integer might
 make more sense.</p>
-</div>
 <div class="section" id="target-encoding-impact-encoding">
-<h1>Target Encoding (Impact Encoding)<a class="headerlink" href="#target-encoding-impact-encoding" title="Permalink to this headline">¶</a></h1>
+<h2>Target Encoding (Impact Encoding)<a class="headerlink" href="#target-encoding-impact-encoding" title="Permalink to this headline">¶</a></h2>
 <p><img alt=":scale 100%" src="../_images/zip_code_prices.png" /></p>
-<p>class: some-space</p>
-</div>
-<div class="section" id="id4">
-<h1>Target Encoding (Impact Encoding)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li><p>For high cardinality categorical features</p></li>
 <li><p>Instead of 70 one-hot variables, one “response encoded” variable.</p></li>
@@ -983,15 +1039,13 @@ people in each of the classes. So in multi-class, you get
 one new feature per class and you count for each state how
 many people in this state are classified for each of them.</p>
 <p>class: center, middle</p>
+<p>More encodings for categorical features:</p>
 </div>
-<div class="section" id="more-encodings-for-categorical-features">
-<h1>More encodings for categorical features:<a class="headerlink" href="#more-encodings-for-categorical-features" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="http-contrib-scikit-learn-org-categorical-encoding">
 <h2>http://contrib.scikit-learn.org/categorical-encoding/<a class="headerlink" href="#http-contrib-scikit-learn-org-categorical-encoding" title="Permalink to this headline">¶</a></h2>
 </div>
-</div>
 <div class="section" id="load-data-include-zip-code">
-<h1>Load data, include ZIP code<a class="headerlink" href="#load-data-include-zip-code" title="Permalink to this headline">¶</a></h1>
+<h2>Load data, include ZIP code<a class="headerlink" href="#load-data-include-zip-code" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">&quot;house_sales&quot;</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
@@ -1206,10 +1260,6 @@ sqft_lot15</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.78</span>
 </pre></div>
 </div>
-<p>class: center, middle</p>
-</div>
-<div class="section" id="questions">
-<h1>Questions?<a class="headerlink" href="#questions" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -1375,7 +1425,7 @@ sqft_lot15</p>
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1aa0cec89c8&gt;
 </pre></div>
 </div>
-<img alt="../_images/04-categorical-variables_23_1.png" src="../_images/04-categorical-variables_23_1.png" />
+<img alt="../_images/04-categorical-variables_25_1.png" src="../_images/04-categorical-variables_25_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1440,7 +1490,7 @@ sqft_lot15</p>
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x1aa0d0c7b88&gt;
 </pre></div>
 </div>
-<img alt="../_images/04-categorical-variables_28_1.png" src="../_images/04-categorical-variables_28_1.png" />
+<img alt="../_images/04-categorical-variables_30_1.png" src="../_images/04-categorical-variables_30_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2241,9 +2291,6 @@ sqft_lot15</p>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="target-featurizer">
-<h1>target featurizer<a class="headerlink" href="#target-featurizer" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_openml</span>
@@ -2303,7 +2350,7 @@ Name: zipcode, Length: 70, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/04-categorical-variables_44_0.png" src="../_images/04-categorical-variables_44_0.png" />
+<img alt="../_images/04-categorical-variables_45_0.png" src="../_images/04-categorical-variables_45_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -3038,6 +3085,7 @@ Name: zipcode, Length: 70, dtype: int64
 </table>
 <p>21613 rows × 20 columns</p>
 </div></div></div>
+</div>
 </div>
 </div>
 
