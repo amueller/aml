@@ -173,9 +173,80 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#ensemble-models" class="nav-link">Ensemble Models</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#poor-mans-ensembles" class="nav-link">Poor man’s ensembles</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#votingclassifier" class="nav-link">VotingClassifier</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#bagging-bootstrap-aggregation" class="nav-link">Bagging (Bootstrap AGGregation)</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#bias-and-variance" class="nav-link">Bias and Variance</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#bias-and-variance-in-ensembles" class="nav-link">Bias and Variance in Ensembles</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id1" class="nav-link">Random Forests</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#randomize-in-two-ways" class="nav-link">Randomize in two ways</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#tuning-random-forests" class="nav-link">Tuning Random Forests</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#extremely-randomized-trees" class="nav-link">Extremely Randomized Trees</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#warm-starts" class="nav-link">Warm-Starts</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#out-of-bag-estimates" class="nav-link">Out-of-bag estimates</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#variable-importance" class="nav-link">Variable Importance</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#questions" class="nav-link">Questions ?</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#tree-visualization" class="nav-link">tree visualization</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#parameter-tuning" class="nav-link">Parameter Tuning</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#exercise" class="nav-link">Exercise</a>
+        </li>
     
     </ul>
 </nav>
@@ -190,6 +261,439 @@
                 
   <div class="section" id="random-forests">
 <h1>Random Forests<a class="headerlink" href="#random-forests" title="Permalink to this headline">¶</a></h1>
+<p>class: centre,middle</p>
+<div class="section" id="ensemble-models">
+<h2>Ensemble Models<a class="headerlink" href="#ensemble-models" title="Permalink to this headline">¶</a></h2>
+<p>One way to get rid of these problems is to actually use
+multiple trees and Ensemble. Ensemble is a general term that
+captures any way you combine multiple models into one.
+There’s like a lot of different kinds of ensemble models
+that work in many different ways. We’re going to talk
+particularly about random forest. But that’s only one
+association of this more general framework.</p>
+</div>
+<div class="section" id="poor-mans-ensembles">
+<h2>Poor man’s ensembles<a class="headerlink" href="#poor-mans-ensembles" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Build different models</p></li>
+<li><p>Average the result</p></li>
+<li><p>Owen Zhang (long time kaggle 1st): build XGBoosting models with different random seeds.</p></li>
+<li><p>More models are better – if they are not correlated.</p></li>
+<li><p>Also works with neural networks</p></li>
+<li><p>You can average any models as long as they provide calibrated (“good”) probabilities.</p></li>
+<li><p>Scikit-learn: VotingClassifier hard and soft voting</p></li>
+</ul>
+<p>If you do computation, we’ll see poor man’s ensembles which
+is just build the same model multiple times with different
+random seeds and average them.</p>
+<p>Owen Zhang who used to be in the first place in kaggle for
+five years, he just builds XGBoost models, which are off the
+tree based models with different random seeds, and then he
+just averaged all of them. And if you averaged multiple good
+models, it will get better. This is ideal for competitions.</p>
+<p>These are not usually done in practice because it makes the
+model hard to understand, it takes more RAM, it takes more
+time to predict because you have to do it like number of
+models many times.</p>
+<p>In scikit-learn, there’s this voting classifier which just
+takes the list of models of different types or be the same
+model type with different visualizations. And it will train
+all of them and average the results.</p>
+<p>You can either do soft voting or hard voting. Soft voting
+means averaging the probabilities and take the arg max. Hard
+voting means everything makes a prediction and then you take
+the thing that was most commonly predicted.</p>
+</div>
+<div class="section" id="votingclassifier">
+<h2>VotingClassifier<a class="headerlink" href="#votingclassifier" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">voting</span> <span class="o">=</span> <span class="n">VotingClassifier</span><span class="p">(</span>
+    <span class="p">[(</span><span class="s1">&#39;logreg&#39;</span><span class="p">,</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">100</span><span class="p">)),</span>
+     <span class="p">(</span><span class="s1">&#39;tree&#39;</span><span class="p">,</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">))],</span>
+    <span class="n">voting</span><span class="o">=</span><span class="s1">&#39;soft&#39;</span><span class="p">)</span>
+<span class="n">voting</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">lr</span><span class="p">,</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">voting</span><span class="o">.</span><span class="n">estimators_</span>
+<span class="n">tree</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">),</span> <span class="n">lr</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">),</span> <span class="n">voting</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.80</span> <span class="mf">0.84</span> <span class="mf">0.88</span> 
+</pre></div>
+</div>
+<p>]</p>
+<p>.center[<img alt=":scale 80%" src="../_images/voting_classifier.png" />]</p>
+<p>It looks like this. Here is the logistic regression model on
+this 2D data set. This is the decision tree based model and
+the voting classifier weights - probability estimates by
+most of them. And if you want, you can do that.  Again,
+mostly done in competitions.</p>
+<p>The easiest way to do ensembles is to just average models.
+Problem is, if they overfit in the same way, you’re not
+going to get rid of the overfitting. So what you really want
+to do is you want to make sure you have models that are
+quite different from each other and you averaged the models
+that are different.</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="bagging-bootstrap-aggregation">
+<h2>Bagging (Bootstrap AGGregation)<a class="headerlink" href="#bagging-bootstrap-aggregation" title="Permalink to this headline">¶</a></h2>
+<p>.left-column[</p>
+<ul class="simple">
+<li><p>Generic way to build “slightly different” models</p></li>
+<li><p>BaggingClassifier, BaggingRegressor
+]
+.right-column[
+.center[<img alt=":scale 100%" src="../_images/bootstrap_sample.png" />]
+]</p></li>
+</ul>
+<p>One way to do this is called Bagging or Bootstrap
+Aggregation. And the idea in bagging is, imagine that these
+are your data points, you have five data points and so you
+want to make sure that you built similar but slightly
+different models. And you want to do more than just change
+the random seed. One way is to take bootstrap samples of
+your dataset. Bootstrap samples mean sampling with
+replacement, number of samples many points. So here in this
+example, from these five data points, I would sample a new
+dataset that again has five data points (sample with
+replacement). On average this will mean that each dataset
+will have about 66% of the original data points, and the
+other data points will be just duplicates. So you leave out
+some data, duplicate some other data, and you end up with a
+slightly different dataset.</p>
+<p>You can do this obviously, as often as you want. If you
+average these models, if the model was prone to overfitting,
+then the average might not overfit as much.</p>
+<ul class="simple">
+<li><p>Draw bootstrap samples from dataset</p></li>
+<li><p>(as many as there are in the dataset, with repetition)</p></li>
+</ul>
+<p>class: spacious</p>
+</div>
+<div class="section" id="bias-and-variance">
+<h2>Bias and Variance<a class="headerlink" href="#bias-and-variance" title="Permalink to this headline">¶</a></h2>
+<p>.center[<img alt=":scale 40%" src="../_images/bias_vs_variance.png" />]</p>
+<p>.left[
+.smaller[http://scott.fortmann-roe.com/docs/BiasVariance.html]
+]</p>
+<p>What you often hear in this context is talking about bias
+and variance, which is not entirely the same thing as
+underfitting and overfitting but quite related to it. The
+idea is that the errors you make on the test set are
+basically combinations of the error you make in modeling
+plus the uncertainty in the modeling.</p>
+<p>The idea is that you can have models that are very
+consistent, but off. So that would be a high bias low
+variance model. So this would be, for example, a low
+dimensional linear model that is mixed inconsistent
+predictions, but it might not be able to capture the target
+very well since it’s not powerful enough.</p>
+<p>You want ideally a model that has low bias and low variance.
+So that’s sort of captures the data concept very well and
+also has very little variance in the predictions it makes. A
+high variance model is one that on average captures the
+predictions but has very high variance in the prediction it
+makes.</p>
+<p>The idea of bagging is that you can take multiple high
+variance models and if you average them, then it will reduce
+the variance of the average. If the predictions are not very
+correlated, then there’s like a very nice, easy proof to say
+that if I average multiple high variance estimators, I get a
+low variance estimator.</p>
+<p>They need to be sort of good enough, on average, if they’re
+all really, really bad, and if you average then it will
+still be pretty bad.</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="bias-and-variance-in-ensembles">
+<h2>Bias and Variance in Ensembles<a class="headerlink" href="#bias-and-variance-in-ensembles" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Breiman showed that generalization depends on strength of the individual classifiers and (inversely) on their correlation</p></li>
+<li><p>Uncorrelating them might help, even at the expense of strength</p></li>
+</ul>
+<p>There’s this proof that shows that if you have decorrelated
+errors, then averaging will help. Basically, the correlation
+between the errors that you make shows up there. And so the
+idea is to make the errors as different as possible. Maybe
+even go further than the bagging in trying to make sure the
+different models that you build are as different from each
+other as possible, while still being reasonably good models.
+This leads to the idea of random forests, which basically
+tries to randomize trees, even more than you would do with
+bagging, and then average results of these trees.</p>
+<p>FIXME worst slide!</p>
+<p>class: spacious</p>
+</div>
+<div class="section" id="id1">
+<h2>Random Forests<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>.center[<img alt=":scale 90%" src="../_images/random_forest.png" />]</p>
+<p>Here example of a random forest on a 2-dimensional dataset.</p>
+<ul class="simple">
+<li><p>Smarter bagging for trees!</p></li>
+</ul>
+</div>
+<div class="section" id="randomize-in-two-ways">
+<h2>Randomize in two ways<a class="headerlink" href="#randomize-in-two-ways" title="Permalink to this headline">¶</a></h2>
+<p>.left-column[</p>
+<ul class="simple">
+<li><p>For each tree:</p></li>
+<li><p>Pick bootstrap sample of data</p></li>
+<li><p>For each split:</p></li>
+<li><p>Pick random sample of features</p></li>
+<li><p>More trees are always better
+]</p></li>
+</ul>
+<p>.right-column[</p>
+<p><img alt=":scale 100%" src="../_images/bootstrap_sample.png" /></p>
+<p><img alt=":scale 100%" src="../_images/feature_sample.png" />
+]</p>
+<p>The way that random forest work is they randomize tree
+building in two ways. As with bagging if you do a bootstrap
+sample of the dataset, so each tree you take a bootstrap
+sample of the data set and then for each split in the tree,
+you take a sampling without replacement of the features. So
+let’s say you have this representation of the dataset again.
+And for each node where you want to make a splitting
+decision before you want to scan all over the features and
+all the thresholds, you select just the subset of the number
+of features and just look for splits there. And this is done
+for each node independently. In the end, the tree will use
+all the features probably, if it’s deep enough, eventually
+it might use all the features but you randomize the tree
+building process in a way that hopefully de-correlated the
+error of the different trees. And so this adds another
+hyperparameter in the tree building.</p>
+<p>class:some-space</p>
+</div>
+<div class="section" id="tuning-random-forests">
+<h2>Tuning Random Forests<a class="headerlink" href="#tuning-random-forests" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Main parameter: max_features</p>
+<ul>
+<li><p>around sqrt(n_features) for classification</p></li>
+<li><p>Around n_features for regression</p></li>
+</ul>
+</li>
+<li><p>n_estimators &gt; 100</p></li>
+<li><p>Prepruning might help, definitely helps with model size!</p></li>
+<li><p>max_depth, max_leaf_nodes, min_samples_split again</p></li>
+</ul>
+<p>Which are max features, which is the number of features that
+you want to look at each split. So the heuristic is usually
+for classification you want something like the square root
+of the number of features, whereas, for regression, you
+usually want something that is around the same size as the
+number of features. This basically, controls the variance of
+the model because if you set this to number of features, it
+will be just sort of the old decision tree. If you set this
+to one, it will pick a feature at random, and then it needs
+to split on that feature, basically.</p>
+<p>So this will be like a very, very random tree that probably
+would grow very deep because it can really make good
+decisions.</p>
+<p>This is the main parameter that you need to tune, although
+random forest is actually very robust to these parameter
+settings. Usually, if you leave this to the default, it will
+be reasonably well.</p>
+<p>By default, in scikit-learn, the number of trees in the
+forest is way too low. Usually, you want something like 100,
+or 500 but scikit-learn only gives you like 10.</p>
+<p>Sometimes people find that pre-pruning techniques like
+maximum depth or maximum leaf nodes help. Generally, the
+idea doesn’t really matter that much, how good the vigil
+trees are as long as you have enough of them. But limiting
+the size of the tree will definitely help with model size.
+That said, if you randomize a lot, these trees will grow
+very deep. Because if you’re unlucky, you’ll always just
+split on bad feature so you will always not really get much
+further in getting pure leaves and so you need to do a lot
+of splits. So setting something like max depth will allow
+you to decrease RAM size and decrease prediction time.</p>
+<p>class:spacious</p>
+</div>
+<div class="section" id="extremely-randomized-trees">
+<h2>Extremely Randomized Trees<a class="headerlink" href="#extremely-randomized-trees" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>More randomness!</p></li>
+<li><p>Randomly draw threshold for each feature!</p></li>
+<li><p>Doesn’t use bootstrap</p></li>
+<li><p>Faster because no sorting / searching</p></li>
+<li><p>Can have smoother boundaries</p></li>
+</ul>
+<p>Alright, so there’s a slightly different variant of random
+forest that’s also kind of interesting, which is Extremely
+Randomized Trees. They work very similarly except for the
+fact that you draw randomly a threshold for each feature. So
+here, you don’t search over the thresholds, you just pick
+one at random. And usually, you don’t use bootstrap.</p>
+<p>Since you don’t need to do sorting these are faster to
+build. You probably get smoother decision boundaries since
+the thresholds are drawn at random.</p>
+<p>Sometimes they aren’t as bad as random forest but they’re
+definitely not commonly used as the default random forest.</p>
+<p>One of the nice things about extremely randomized trees and
+the random forests is they work without any preprocessing.
+If you set number of estimators large enough, they will just
+work. They will not be the best model but they will always
+work.</p>
+</div>
+<div class="section" id="warm-starts">
+<h2>Warm-Starts<a class="headerlink" href="#warm-starts" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_scores</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">test_scores</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">estimator_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">n_estimators</span> <span class="ow">in</span> <span class="n">estimator_range</span><span class="p">:</span>
+    <span class="n">rf</span><span class="o">.</span><span class="n">n_estimators</span> <span class="o">=</span> <span class="n">n_estimators</span>
+    <span class="n">rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">train_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+    <span class="n">test_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>]</p>
+<p>.center[
+<img alt=":scale 39%" src="../_images/warm_start_forest.png" />
+]</p>
+<p>The more trees you use, the better it is since you decrease
+the variance more. Don’t ever grid search the number of
+trees, because the higher will be better and you’re just
+wasting your time.</p>
+<p>But there are diminishing returns. So maybe 100 trees are
+good enough and if you built 500 trees, again, you’re
+wasting your time and you might not want to do that.</p>
+<p>In scikit-learn, when you use Warm-Starts, you basically
+iteratively add more and more trees to the forest and you
+can stop whenever you think it’s good enough.</p>
+<p>Basically, the fit method will keep all the previous trees
+and add on more trees.</p>
+<p>I go from 1 feature to 100 features in steps of five. I set
+the number estimator. So I started with one tree and then
+increased by five every time. I fit the model. And then I
+look at training and test score. This is much better than
+grid searching it because in grid search I would do the same
+work over and over again, while here, I’m adding more and
+more trees and find out what is it good enough.</p>
+<p>Usually, I would double the search like 50, 100, and 200 and
+so on and find where it stabilizes, and then only I will
+stop adding more trees.</p>
+<p>If you don’t want to do that, just picking large enough
+number and stick to that number. Then you don’t need to
+fiddle around as much but you might be wasting computational
+resources that could be used otherwise for like parameter
+tuning, for example.</p>
+</div>
+<div class="section" id="out-of-bag-estimates">
+<h2>Out-of-bag estimates<a class="headerlink" href="#out-of-bag-estimates" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Each tree only uses ~66% of data</p></li>
+<li><p>Can evaluate it on the rest!</p></li>
+<li><p>Make predictions for out-of-bag, average, score.</p></li>
+<li><p>Each prediction is an average over different subset of trees</p></li>
+</ul>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_scores</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">test_scores</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">oob_scores</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">feature_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">max_features</span> <span class="ow">in</span> <span class="n">feature_range</span><span class="p">:</span>
+    <span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">max_features</span><span class="o">=</span><span class="n">max_features</span><span class="p">,</span> <span class="n">oob_score</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                <span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">train_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+    <span class="n">test_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+    <span class="n">oob_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rf</span><span class="o">.</span><span class="n">oob_score_</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>]</p>
+<p>Another thing is looking at out of back estimates. This is
+something that’s specific to random forest. That said, if
+you do bootstrap sampling, usually you get like 66% of your
+data for each estimator. That means there’s about 33% of
+your data that you haven’t used for each individual tree. So
+you can use that data as a test set for that particular
+tree.</p>
+<p>The out of back estimate in a random forest is for each
+tree, I individually predict on the 33% on which I haven’t
+trained. And then for each data point, I look at all the
+trees that held out this particular data point and let them
+vote. So then for each data point, I only have a subset of
+the trees that makes a prediction but if I have enough trees
+overall, it’ll still be fine.</p>
+<p>Let’s say, I used 300 estimators, then basically, on
+average, for each data point, I will have 100 estimators
+that didn’t use those data points. And so it can use this
+data point as a test set for this 100 estimators and can let
+them vote on what the prediction should be. And this way,
+basically, I get a test set score for free. In fact, it’s
+like a bootstrap estimate of a test set score.</p>
+<p>And so basically, I don’t need to use a test set, I can just
+use the out of bag estimate.</p>
+<p>So here, for example, using this to find the best number of
+features.  I look for max number of features in a particular
+range in a random forest classifier. In this case, for
+illustration purposes, I use both the out of bag estimate
+and the test set scores to see how they compare.</p>
+<p>.center[
+<img alt=":scale 90%" src="../_images/oob_estimates.png" />
+]</p>
+<p>You can see that since I didn’t prune the trees in any way,
+the training scores is always one because it’s always
+perfect and you perfectly overfit everything. The test sets
+scores and the out of bag scores are at least somewhat
+similar in trend and also in magnitude because the out of
+bag estimate uses only one-third of the trees, it might be
+slightly worse. But basically, I got this for free without
+spending any additional data or any additional computation.</p>
+<p>And so both of these probably have a habit of uncertainty. I
+have no uncertainty estimate but theoretically, this is sort
+of an unbiased estimate of the test set accuracy.</p>
+</div>
+<div class="section" id="variable-importance">
+<h2>Variable Importance<a class="headerlink" href="#variable-importance" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">rf</span><span class="o">.</span><span class="n">feature_importances_</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">rf</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">array([</span> <span class="pre">0.126,</span>&#160; <span class="pre">0.033,</span>&#160; <span class="pre">0.445,</span>&#160; <span class="pre">0.396])</span></code>
+]
+.center[
+<img alt=":scale 40%" src="../_images/forest_importances.png" />
+]</p>
+<p>As for the trees, for the random forest, I can get variable
+importance. And these are more useful now because they’re
+more robust. Again, they don’t have directionality.</p>
+<p>But now, if you have two correlated features, probably if
+you build enough trees, and because of the way they’re
+randomized, both of these features will be picked some of
+the time. And so if you average over all of the trees, then
+both will have the same amount of importance. So this will
+basically just give you like a smoother estimate of the
+feature importance that will be more robust and will not
+fail on correlated features.</p>
+<p>class: center, middle</p>
+</div>
+<div class="section" id="questions">
+<h2>Questions ?<a class="headerlink" href="#questions" title="Permalink to this headline">¶</a></h2>
+<p>Question: Is there a statistical test where the variable is
+important?</p>
+<p>It’s probably the wrong question to ask. Because these are
+like greedily trained and so trying to extract any
+statistical meaning out of that is probably not the best
+idea. So if you’re trying to understand your dataset or your
+data generating process, I probably wouldn’t use tree-based
+models. These are really good for predicting no matter what
+your input is.</p>
+<p>Question: How is the feature importance calculated?</p>
+<p>Whenever a particular feature was used in the tree, you look
+at the decrease in impurity, and you aggregate these and at
+the end, you normalize it sum to one.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -229,7 +733,7 @@
 </div>
 </div>
 <div class="section" id="tree-visualization">
-<h1>tree visualization<a class="headerlink" href="#tree-visualization" title="Permalink to this headline">¶</a></h1>
+<h2>tree visualization<a class="headerlink" href="#tree-visualization" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span><span class="p">,</span> <span class="n">plot_tree</span>
@@ -249,7 +753,7 @@
 </div>
 </div>
 <div class="section" id="parameter-tuning">
-<h1>Parameter Tuning<a class="headerlink" href="#parameter-tuning" title="Permalink to this headline">¶</a></h1>
+<h2>Parameter Tuning<a class="headerlink" href="#parameter-tuning" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tree</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
@@ -371,10 +875,11 @@
 </div>
 </div>
 <div class="section" id="exercise">
-<h1>Exercise<a class="headerlink" href="#exercise" title="Permalink to this headline">¶</a></h1>
+<h2>Exercise<a class="headerlink" href="#exercise" title="Permalink to this headline">¶</a></h2>
 <p>Apply a decision tree to the “adult” dataset and visualize it.</p>
 <p>Tune parameters with grid-search; try at least max_leaf_nodes and max_depth, but separately.</p>
 <p>Visualize the resulting tree and it’s feature importances.</p>
+</div>
 </div>
 
 

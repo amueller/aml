@@ -201,19 +201,6 @@
         </li>
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#h-x-f-w-1x-b-1-o-x-g-w-2h-x-b-2-g-w-2f-w-1x-b-1-b-2" class="nav-link">$$ h(x) = f(W_1x+b_1) $$
-$$ o(x) = g(W_2h(x)+b_2) = g(W_2f(W_1x + b_1) + b_2)$$</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#min-w-1-w-2-b-1-b-2-sum-limits-i-1-n-l-y-i-o-x-i" class="nav-link">$$ \min_{W_1,W_2,b_1,b_2} \sum\limits_{i=1}^N l(y_i,o(x_i)) $$</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#min-w-1-w-2-b-1-b-2-sum-limits-i-1-n-l-y-i-g-w-2f-w-1x-b-1-b-2" class="nav-link">$$ =\min_{W_1,W_2,b_1,b_2} \sum\limits_{i=1}^N l(y_i,g(W_2f(W_1x+b_1)+b_2)$$</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
             <a href="#learning-heuristics" class="nav-link">Learning Heuristics</a>
         </li>
     
@@ -527,16 +514,14 @@ human.</p>
 </div>
 <div class="section" id="training-objective">
 <h2>Training Objective<a class="headerlink" href="#training-objective" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="h-x-f-w-1x-b-1-o-x-g-w-2h-x-b-2-g-w-2f-w-1x-b-1-b-2">
-<h2><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">h(x)</span> <span class="pre">=</span> <span class="pre">f(W_1x+b_1)</span> <span class="pre">$$</span></code>
-<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">o(x)</span> <span class="pre">=</span> <span class="pre">g(W_2h(x)+b_2)</span> <span class="pre">=</span> <span class="pre">g(W_2f(W_1x</span> <span class="pre">+</span> <span class="pre">b_1)</span> <span class="pre">+</span> <span class="pre">b_2)$$</span></code><a class="headerlink" href="#h-x-f-w-1x-b-1-o-x-g-w-2h-x-b-2-g-w-2f-w-1x-b-1-b-2" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="min-w-1-w-2-b-1-b-2-sum-limits-i-1-n-l-y-i-o-x-i">
-<h2><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\min_{W_1,W_2,b_1,b_2}</span> <span class="pre">\sum\limits_{i=1}^N</span> <span class="pre">l(y_i,o(x_i))</span> <span class="pre">$$</span></code><a class="headerlink" href="#min-w-1-w-2-b-1-b-2-sum-limits-i-1-n-l-y-i-o-x-i" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="min-w-1-w-2-b-1-b-2-sum-limits-i-1-n-l-y-i-g-w-2f-w-1x-b-1-b-2">
-<h2><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">=\min_{W_1,W_2,b_1,b_2}</span> <span class="pre">\sum\limits_{i=1}^N</span> <span class="pre">l(y_i,g(W_2f(W_1x+b_1)+b_2)$$</span></code><a class="headerlink" href="#min-w-1-w-2-b-1-b-2-sum-limits-i-1-n-l-y-i-g-w-2f-w-1x-b-1-b-2" title="Permalink to this headline">¶</a></h2>
+<div class="math notranslate nohighlight">
+\[ h(x) = f(W_1x+b_1) \]</div>
+<div class="math notranslate nohighlight">
+\[ o(x) = g(W_2h(x)+b_2) = g(W_2f(W_1x + b_1) + b_2)\]</div>
+<div class="math notranslate nohighlight">
+\[ \min_{W_1,W_2,b_1,b_2} \sum\limits_{i=1}^N l(y_i,o(x_i)) \]</div>
+<div class="math notranslate nohighlight">
+\[ =\min_{W_1,W_2,b_1,b_2} \sum\limits_{i=1}^N l(y_i,g(W_2f(W_1x+b_1)+b_2)\]</div>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">$l$</span></code> Squared loss for regression. Cross-entropy loss for classification</p></li>
 </ul>

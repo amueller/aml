@@ -164,53 +164,55 @@
         </li>
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#what-is-machine-learning-and-when-should-i-use-it" class="nav-link">What is machine learning and when should I use it?</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#supervised-learning" class="nav-link">Supervised Learning</a><ul class="nav section-nav flex-column">
+            <a href="#what-is-machine-learning" class="nav-link">What is machine learning?</a><ul class="nav section-nav flex-column">
                 
         <li class="nav-item toc-entry toc-h3">
+            <a href="#supervised-learning" class="nav-link">Supervised Learning</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h4">
             <a href="#classification-and-regression" class="nav-link">Classification and Regression</a>
         </li>
     
-        <li class="nav-item toc-entry toc-h3">
+        <li class="nav-item toc-entry toc-h4">
             <a href="#generalization" class="nav-link">Generalization</a>
         </li>
     
-        <li class="nav-item toc-entry toc-h3">
+        <li class="nav-item toc-entry toc-h4">
             <a href="#examples" class="nav-link">Examples</a>
         </li>
     
             </ul>
         </li>
     
-        <li class="nav-item toc-entry toc-h2">
+        <li class="nav-item toc-entry toc-h3">
             <a href="#unsupervised-learning" class="nav-link">Unsupervised Learning</a><ul class="nav section-nav flex-column">
                 
-        <li class="nav-item toc-entry toc-h3">
+        <li class="nav-item toc-entry toc-h4">
             <a href="#id1" class="nav-link">Examples</a>
         </li>
     
             </ul>
         </li>
     
-        <li class="nav-item toc-entry toc-h2">
+        <li class="nav-item toc-entry toc-h3">
             <a href="#reinforcement-learning" class="nav-link">Reinforcement Learning</a><ul class="nav section-nav flex-column">
                 
-        <li class="nav-item toc-entry toc-h3">
+        <li class="nav-item toc-entry toc-h4">
             <a href="#id2" class="nav-link">Examples</a>
         </li>
     
             </ul>
         </li>
     
-        <li class="nav-item toc-entry toc-h2">
+        <li class="nav-item toc-entry toc-h3">
             <a href="#isn-t-this-just-statistics" class="nav-link">Isn’t this just statistics?</a>
         </li>
     
+            </ul>
+        </li>
+    
         <li class="nav-item toc-entry toc-h2">
-            <a href="#when-not-to-use-machine-learning" class="nav-link">When not to use machine learning</a>
+            <a href="#when-to-use-and-not-to-use-machine-learning" class="nav-link">When to use and not to use machine learning</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
@@ -248,52 +250,73 @@
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
 <p>This book aims to provide an accessible introduction into applying machine learning with Python, in particular using the scikit-learn library.
 I assume that you’re already somewhat familiar with Python and the libaries of the scientific Python ecosystem. If you find that you
-have a hard time following along some of the details of numpy, matplotlib and pandas, I highly recommend you look at Jake VanderPlas’ Python Data Science handbook.</p>
+have a hard time following along some of the details of numpy, matplotlib and pandas, I highly recommend you look at Jake VanderPlas’ <a class="reference external" href="https://jakevdp.github.io/PythonDataScienceHandbook/">Python Data Science handbook</a>.</p>
 <div class="section" id="scope-and-goals">
 <h2>Scope and Goals<a class="headerlink" href="#scope-and-goals" title="Permalink to this headline">¶</a></h2>
 <p>After reading this book, you will be able to do exploratory data analysis on a dataset, evaluate potential machine learning solutions, implement, and evaluate them.
 The focus of the book is on tried-and-true methodology for solving real-world machine learning problems. However, we will not go into the details of productionizing and deloying the solutions.
-We will mostly focus on what’s know as tabular data, i.e. data that would usually be represented as a pandas DataFrame, Excel Spreadsheet, or CSV file. While we will discuss working with text-data in Chapter, there are many more advanced techniques, for which I’ll point you towards Alex’ book. We will not look at image recognition, video or speech data, or time series forecasting, though many of the core concepts described in this book will also apply there.</p>
+We will mostly focus on what’s know as tabular data, i.e. data that would usually be represented as a pandas DataFrame, Excel Spreadsheet, or CSV file. While we will discuss working with text-data in Chapter, there are many more advanced techniques, for which I’ll point you towards <a class="reference external" href="https://d2l.ai/">Dive into Deep Learning</a> by Aston Zhang, Zachary C. Lipton, Mu Li, and Alexander J. Smola.
+We will not look at image recognition, video or speech data, or time series forecasting, though many of the core concepts described in this book will also apply there.</p>
 </div>
-<div class="section" id="what-is-machine-learning-and-when-should-i-use-it">
-<h2>What is machine learning and when should I use it?<a class="headerlink" href="#what-is-machine-learning-and-when-should-i-use-it" title="Permalink to this headline">¶</a></h2>
-<p>Machine learning, also known as predictive modeling in statistics, is a research field and a collection of techniques to extract knowledge from data, often used to automate decision-making processes.
-There are three main sub-areas of machine learning, supervised learning, unsupervised learning, and reinforcement learning, each of which applies to a somewhat different setting.</p>
-</div>
+<div class="section" id="what-is-machine-learning">
+<h2>What is machine learning?<a class="headerlink" href="#what-is-machine-learning" title="Permalink to this headline">¶</a></h2>
+<p>Machine learning, also known as predictive modeling in statistics, is a research field and a collection of techniques to extract knowledge from data, often used to automate decision-making processes. Applications of machine learning are pervasive in technology, in particular in complex websites such as facebook, Amazon, youtube or Google. These sites use machine learning to personalize the experience, show relevant content, decide on advertisements, and much more. Without machine learning, none of these services would look anything like they do today.
+Outside the web, machine learning has also become integral to commercial applications in manifacturing, logistics, material design, financial markets and many more. Finally, over the last years, machine learning has also become essential to research in practically all data-driven sciences, including physics, astronomy, biology, medicine, earth sciences and social sciences.</p>
+<p>There are three main sub-areas of machine learning, supervised learning, unsupervised learning, and reinforcement learning, each of which applies to a somewhat different setting. We’ll discuss each in turn, and give some examples of how they can be used.</p>
 <div class="section" id="supervised-learning">
-<h2>Supervised Learning<a class="headerlink" href="#supervised-learning" title="Permalink to this headline">¶</a></h2>
-<p>In supervised learning, the dataset we learn form is input-output pairs (x_i, y_i), where x_i is some n_dimensional input, or feature vector, and y_i is the desired output we want to learn. Generally, we assume these samples are drawn from some unknown joint distribution p(x, y). In statistics, x_i might be called independent variables and y_i dependent variable. What does iid mean? We say they are drawn iid, which stands for independent identically distributed. In other words, the x_i, y_i pairs are independent and all come from the same distribution p. You can think of this as there being some process that goes from x_i to y_i, but that we don’t know. We write this as a probability distribution and not as a function since even if there is a real process creating y from x, this process might not be deterministic. The goal is to learn a function f so that for new inputs x for which we don’t observe y, f(x) is close to y. This approach is very similar to function approximation. The name supervised comes from the fact that during learning, a supervisor gives you the correct answers y_i.</p>
+<h3>Supervised Learning<a class="headerlink" href="#supervised-learning" title="Permalink to this headline">¶</a></h3>
+<p>Supervised learning is by far the most commonly used in practice. In supervised learning, a model is built from a dataset of input-output pairs, where the input is known as features or independent variables, which we’ll denote by <span class="math notranslate nohighlight">\(x\)</span>, and the output is known as target or label, which we’ll denote by <span class="math notranslate nohighlight">\(y\)</span>. The input here is a representation of an entity of interest, say a customer to your online shop, represented by their age, location and shopping history. The output is a quantity of interest that we want our model to predict, say whether they would buy a particular product if we recommend it to them. To build a model, we need to collect many such pair, i.e. we need to build records of many customers and their decisions about whether or not they bought the product after an recommendation was shown to them. Such a set of input-output pairs for the purpose of building a supervised machine learning model is called a <em>training set</em>.</p>
+<p>(customers of bank easier? because discrete products?)</p>
+<p>Once we collected this dataset, we can (attempt to) build a supervised machine learning model that will make a prediction for a new user that wasn’t included in the training dataset. That might enable us to make better recommendations, i.e. only show recommendations to a user that’s likely to buy.
+(given an example?)</p>
+<p>The name supervised learning comes from the fact that during learning, the dataset contains the correct targets, which acts as a supervisor for the model training.</p>
+<div class="admonition-mathematical-background alert alert-info">
+<p class="admonition-title">Mathematical Background</p>
+<p>From a mathematical standpoint, supervised learning assumes that there is a joint distribution <span class="math notranslate nohighlight">\(p(x, y)\)</span> and that the training dataset consists for independent, identically distributed (i.i.d.) samples from this joint distribution.
+The model is then applied to new data sampled from the same distribution, but <span class="math notranslate nohighlight">\(y\)</span> is unknown. The model is then used to estimate <span class="math notranslate nohighlight">\(p(y | x)\)</span>, or more commonly the mode of this distribution, i.e. the most likely value for <span class="math notranslate nohighlight">\(y\)</span> to take given the <span class="math notranslate nohighlight">\(x\)</span> we observed.
+In the case of learning to predict a coin flip, you could actually learn a very accurate model of <span class="math notranslate nohighlight">\(p(y | x)\)</span>, that predicts heads and tails with equal probability. There is no way to predict the particular outcome itself, though.</p>
+</div>
 <p>For both regression and classification, it’s important to keep in mind the concept of generalization. Let’s say we have a regression task. We have features, that is data vectors x_i and targets y_i drawn from a joint distribution. We now want to learn a function f, such that f(x) is approximately y, not on this training data, but on new data drawn from this distribution. This is what’s called generalization, and this is a core distinction to function approximation. In principle we don’t care about how well we do on x_i, we only care how well we do on new samples from the distribution. We’ll go into much more detail about generalization in about a week, when we dive into supervised learning.</p>
 <div class="section" id="classification-and-regression">
-<h3>Classification and Regression<a class="headerlink" href="#classification-and-regression" title="Permalink to this headline">¶</a></h3>
+<h4>Classification and Regression<a class="headerlink" href="#classification-and-regression" title="Permalink to this headline">¶</a></h4>
 <p>So getting back to supervised learning, there are two basic kinds, called classification and regression. The difference is quite simple: if y is continuous, then it’s regression, and if y is discrete, it’s classification.</p>
 <p>While it’s simple, let me give an example. If I want to predict whether a one of you will pass the class, it’s a classification problem. There are two possible answers, “yes” and “no”. If I want to predict how many points you get on an exam, it’s a regression problem, there is a continuous, gradual output space.</p>
 <p>There are generalizations of this where we try to predict more than one variable, but we won’t go into that in this course. The main reason the distinction between classification and regression is important is because the way we measure how good a prediction is is very different for the two. It’s not always entirely clear whether it’s best to formulate a problem as classification or regression. If you think of predicting a 5-star rating, there’s only 5 different possible outcomes, so you might think it’s classification. But there is also an obvious ordering between the outcomes, which would make it a regression problem. Both formulations could work, and there are approaches that combine the two for this particular problem.</p>
 </div>
 <div class="section" id="generalization">
-<h3>Generalization<a class="headerlink" href="#generalization" title="Permalink to this headline">¶</a></h3>
+<h4>Generalization<a class="headerlink" href="#generalization" title="Permalink to this headline">¶</a></h4>
 <p>For both regression and classification, it’s important to keep in mind the concept of generalization. Let’s say we have a regression task. We have features, that is data vectors x_i and targets y_i drawn from a joint distribution. We now want to learn a function f, such that f(x) is approximately y, not on this training data, but on new data drawn from this distribution. This is what’s called generalization, and this is a core distinction to function approximation. In principle we don’t care about how well we do on x_i, we only care how well we do on new samples from the distribution. We’ll go into much more detail about generalization in about a week, when we dive into supervised learning.</p>
+<p>For supervised learning to work, some key assumptions must be met:</p>
+<p>First, <strong>the necessary information for making the correct prediction actually needs to be encoded in the training data</strong>. For example, if I try to learn to predict a fair coin flip before the coin is tossed, it’s unlikely for me to build a working machine learning model, no matter what I choose as the input. The process is very (or entirely?) random, and the information to make a prediction is just not available.
+In other cases, a prediction might be possible in principle, but we might not have provided the right information to the model. For example, it might be possible for a machine learning model to learn to diagnose pneumonia in a patient, but not if the only information about the patient that we represent to them is their shopping habbits and wardrobe. If we use a chest x-ray as a representation of the patient, together with a collection of symptoms, we will likely have better success.
+Even if the information is represented in the input, learning might still fail if the model is unable to extract the information. For example, visual stimuli are very easy to interpret for humans, but in general much harder to understand for machine learning algorithms.
+Consequently, it would be much harder for a machine to determine if a graffiti is offensive, than if the same information was represented as a text file.</p>
+<p>Secondly, the</p>
+<ul class="simple">
+<li><p>cover variability</p></li>
+<li><p>i.i.d samples in test set</p></li>
+</ul>
 </div>
 <div class="section" id="examples">
-<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<h4>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h4>
 <p>Here are some examples of supervised learning. Given an array of test results from a patient, does this patient have diabetes? The x_i would be the different test results, and y_i would be diabetes or no diabetes. Given a piece of a satellite image, what is the terrain in this image? Here x_i would be the pixels of the image, and y_i would be the terrain types.</p>
 <p>This is often used to automate manual labor. For example, you might annotate part of a dataset manually, then learn a machine learning model from this annotations, and use the model to annotate the rest of your data.</p>
 </div>
 </div>
 <div class="section" id="unsupervised-learning">
-<h2>Unsupervised Learning<a class="headerlink" href="#unsupervised-learning" title="Permalink to this headline">¶</a></h2>
+<h3>Unsupervised Learning<a class="headerlink" href="#unsupervised-learning" title="Permalink to this headline">¶</a></h3>
 <p>In unsupervised machine learning, we are just given data points x_i, that are assumed to be drawn from an unknown distribution. Usually we want to learn something about these, such as whether they lie on a low-dimensional subspace, or whether the data clusters in several groups, or find ways to represent the distribution compactly. The goal in unsupervised learning is often much less clear than in supervised learning, and there is no-one providing a “correct” answers and no supervisor.</p>
 <div class="section" id="id1">
-<h3>Examples<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h4>Examples<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
 <p>Common examples of unsupervised learning is discovering topics in news articles or on twitter, or grouping data into clusters for easier analysis. Another one is outlier detection, where you ask “does this data look normal” which is important for fraud detection and security systems.</p>
 </div>
 </div>
 <div class="section" id="reinforcement-learning">
-<h2>Reinforcement Learning<a class="headerlink" href="#reinforcement-learning" title="Permalink to this headline">¶</a></h2>
+<h3>Reinforcement Learning<a class="headerlink" href="#reinforcement-learning" title="Permalink to this headline">¶</a></h3>
 <p>The third kind, reinforcement learning, has been in the news quite a bit in the last year. Has anyone heard of that? Alpha go beat the world champion in go. Reinforcement learning is about an agent learning to interact with an environment, with some ultimate goal. The environment could be a go board, and the goal to win the game. For self-driving cars, the the environment could be roads, sensed by cameras and laser sensors, and the goal would be to get you somewhere quickly and safely. Or, the environment could be a social media platform, and the goal could be to provide you such great content that you never remove your eyes from your phone again!</p>
 <p>Reinforcement learning is quite different in that you usually don’t work with a dataset – you work with a whole world. This can be a video game, a simulation, or the real world. The actions of the agent influence which part of the world they see and which situations they encounter, and it’s usually impossible to look at all possible situations, even for something as limited as a go board. This means in reinforcement learning you can not separate data collection and learning, which you can do for unsupervised and supervised learning. There will be no reinforcement learning in this class, as the techniques are quite different, and real-world use of this technique is still quite limited.</p>
 <div class="section" id="id2">
-<h3>Examples<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h4>Examples<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
 <p>As you might have notices in the table of contents, this book mostly concerns itself with supervised and unsupervised learning, and we will not discuss reinforcement learning any further.
 As a matter of fact, the book heavily emphasizes supervised learning, which has found the larges success among the three in practical applications so far.
 While all three of these areas are interesting in their own right, when you see an application of machine learning, or when someone says they are using machine learning for something,
@@ -301,7 +324,7 @@ chances are they mean supervised learning, which is arguably the most well-under
 </div>
 </div>
 <div class="section" id="isn-t-this-just-statistics">
-<h2>Isn’t this just statistics?<a class="headerlink" href="#isn-t-this-just-statistics" title="Permalink to this headline">¶</a></h2>
+<h3>Isn’t this just statistics?<a class="headerlink" href="#isn-t-this-just-statistics" title="Permalink to this headline">¶</a></h3>
 <p>Before I’ll go into some general principles, I want to position machine learning in relation to statistics. I recently got chewed out by a colleague for doing that. My goal here is not to say one is better than the other. Actually, there’s really no clear boundary between statistics and machine learning, and anyone that tells you otherwise is lying. Two of the books I recommended for the course are actually statistics text books. But I can tell you how the tools that I’m talking about in this course will differ from what you’d learn in a typical stats course.</p>
 <p>Statistics is usually about inference, often phrased in terms of hypothesis testing. An example might be a yes-no-question, such as “are women less likely to enroll in a Data Science Program”, and you have a sample population, for example this classroom, and you can then try to make an inference about whether this statement is true. Often this includes making assumptions on how your sample relates to the general population, say this class vs all of DSI or Columbia vs all of the US. You might also have a specific model of how the process behind your question works.</p>
 <p>On the other hand, machine learning is about prediction and generalization. We want to learn from past data to predict outcomes on future, unseen data.</p>
@@ -309,8 +332,9 @@ chances are they mean supervised learning, which is arguably the most well-under
 <p>There are statisticians that do predictions and there are machine learning scientists that do inference, but I find this distinction helpful.</p>
 <p>Again I’m not saying one or the other is better, I’m just saying that you should know what kind of problem you are trying to solve, and what the right tool for the problem is. And then you can call it machine learning or statistics or probabilistic inference or data science. The tools you learn in this class will usually not help you to make yes/no inferences, and they will only give you a limited insight into the data generating process.</p>
 </div>
-<div class="section" id="when-not-to-use-machine-learning">
-<h2>When not to use machine learning<a class="headerlink" href="#when-not-to-use-machine-learning" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="when-to-use-and-not-to-use-machine-learning">
+<h2>When to use and not to use machine learning<a class="headerlink" href="#when-to-use-and-not-to-use-machine-learning" title="Permalink to this headline">¶</a></h2>
 <p>My first advice would be, don’t try machine learning. Machine learning systems are very complex and often fragile. Whether you’re in research or a startup, don’t immediately start with “oh we can apply deep learning to this”. Often it’s good to collect data, and be able to use data to drive and evaluate decisions. But including a complex process like machine learning into whatever you’re trying to do will make it much harder to debug and much harder to understand.</p>
 </div>
 <div class="section" id="the-role-of-data">

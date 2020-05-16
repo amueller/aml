@@ -66,7 +66,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
     "## Applications\n",
     "\n",
     "- Fraud detection (credit cards, click fraud, ...)\n",
@@ -90,7 +89,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
     "## Basic idea\n",
     "\n",
     "- Model data distribution $p(X)$\n",
@@ -238,7 +236,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "#Elliptic Envelope\n",
+    "## Elliptic Envelope\n",
     "\n",
     "- Preprocessing with PCA might help sometimes.\n",
     "\n",
@@ -285,9 +283,20 @@
     "covariance fit.\n",
     "\n",
     "For real-world model, set it based on what your expectations\n",
-    "are.\n",
-    "\n",
-    "+++\n",
+    "are."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "+++"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
     "## Failure-case: Non-Gaussian Data\n",
     "\n",
     ".center[\n",
@@ -328,10 +337,14 @@
     "like a kernel density estimate.\n",
     "\n",
     "\n",
-    "Could do mixtures of gaussians obviously!\n",
-    "+++\n",
-    "class: center, spacious\n",
-    "#Kernel Density\n",
+    "Could do mixtures of gaussians obviously!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Kernel Density\n",
     "\n",
     "\n",
     "![:scale 80%](images/kde_vs_histogram.png)\n",
@@ -457,12 +470,13 @@
     "work well in higher dimensions and it gets very slow since\n",
     "you have a lot of these kernels that you need to evaluate.\n",
     "So you need to compute the distance between all pairs of\n",
-    "points mostly.\n",
-    "\n",
-    "\n",
-    "\n",
-    "+++\n",
-    "\n",
+    "points mostly."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
     "## One Class SVM\n",
     "\n",
     "- Also uses Gaussian kernel to cover data\n",
@@ -525,15 +539,14 @@
     "higher dimensions, you need to look at projections or other\n",
     "things to see how to set gamma. So in a sense, is also sort\n",
     "of a non-parametric density estimate. But it doesn't really\n",
-    "have a probabilistic model.\n",
-    "\n",
-    "\n",
-    "+++\n",
-    "class:center,middle\n",
-    "\n",
-    "#Isolation Forests\n",
-    "\n",
-    "\n",
+    "have a probabilistic model."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Isolation Forests\n",
     "\n",
     "The final model I want to talk about is also a\n",
     "non-parametric estimate that also doesn't have a probability\n",
@@ -643,10 +656,18 @@
     "the score. So here, setting the number of expected outliers\n",
     "doesn't change the algorithm at all, it only changes the\n",
     "threshold for this core function. So here, picking the\n",
-    "number of outliers in advance is not as important.\n",
-    "\n",
-    "+++\n",
-    "class:spacious\n",
+    "number of outliers in advance is not as important."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
     "## Building the forest\n",
     "\n",
     "- Subsample dataset for each tree\n",
@@ -790,10 +811,13 @@
     "the data is drawn from. There's like some Gaussian points\n",
     "and some points that are just uniform. And you want to\n",
     "isolate the very dense points from the uniform that not very\n",
-    "dense points.\n",
-    "\n",
-    "+++\n",
-    "class:spacious\n",
+    "dense points."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
     "## Summary\n",
     "\n",
     "- Isolation Forest works great!\n",
@@ -835,12 +859,7 @@
     "build the model off the non-outlier data and then call\n",
     "everything else that’s an outlier instead of trying to learn\n",
     "a classifier. If there's no dense region of outliers, then\n",
-    "you can’t learn a classifier for that.\n",
-    "\n",
-    "\n",
-    "+++\n",
-    "class: middle\n",
-    "## Questions ?"
+    "you can’t learn a classifier for that.\n"
    ]
   },
   {
@@ -1176,7 +1195,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Outlier Detection"
+    "## Outlier Detection"
    ]
   },
   {
