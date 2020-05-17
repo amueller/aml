@@ -219,11 +219,7 @@
         </li>
     
         <li class="nav-item toc-entry toc-h3">
-            <a href="#ethics" class="nav-link">Ethics</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h3">
-            <a href="#explainable-ai" class="nav-link">Explainable AI</a>
+            <a href="#ethical-aspects-of-machine-learning" class="nav-link">Ethical aspects of machine learning</a>
         </li>
     
         <li class="nav-item toc-entry toc-h3">
@@ -339,6 +335,10 @@ Going back to the example of portraits, an algorithm might find that head orient
 Another common application of signal decomposition is topic modeling of text data. Here, we are trying to find <em>topics</em> among a set of documents, say news articles, or court documents, or social media posts. This is related to clustering, though with the difference that each document can be assigned multiple topics, i.e. topics in the news could be politics, religion, sports and economics, and an article could be about both, politics and economics.</p>
 <p>Both, clustering and signal decomposition, are most commonly used in exploratory analysis, where we are trying to understand the data. They are less commonly used in production systems, as they lend themselves less easily to automating a decision process.
 Sometimes signal decomposition is used as a mechanism to extract more semantic features from a dataset, on top of which a supervised model is learned. This can be particularly useful if there is a large amount of data, but only a small amount of annotated data, i.e. data for which the outcome <span class="math notranslate nohighlight">\(y\)</span> is known.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">TODO</p>
+<p>Outlier detection</p>
+</div>
 </div>
 <div class="section" id="reinforcement-learning">
 <h3>Reinforcement Learning<a class="headerlink" href="#reinforcement-learning" title="Permalink to this headline">¶</a></h3>
@@ -405,6 +405,7 @@ The answer for the inference question would be either “yes” or “no”, and
 </div>
 <div class="section" id="the-bigger-picture">
 <h2>The bigger picture<a class="headerlink" href="#the-bigger-picture" title="Permalink to this headline">¶</a></h2>
+<p>This book is mostly technical in nature, with an emphasis on practial programming techniques. However, there are some important guiding principles for developing machine learning solutions that are often forgotten by practitioners who find themselves deep in the technical aspects. In this section, I want to draw your attention to what I think are crucial aspects of using machine learning in applications. It might seem a bit dry for now, but I encourage you to keep these ideas in mind while working through the rest of the book, and maybe come back here in the end, once you’ve got your toes a bit wet.</p>
 <div class="section" id="the-role-of-data">
 <h3>The role of data<a class="headerlink" href="#the-role-of-data" title="Permalink to this headline">¶</a></h3>
 <p>Clearly the data used for building and evaluating a machine learning model are crucial ingredients. How crucial is something that is often overlooked. Much of the education on machine learning looks at fixed datasets, and the same is true for online competitions and platforms such as <a class="reference external" href="https://kaggle.com">kaggle</a>. However, in practice, data collection is usually part of building any machine learning application, and there is usually a choice to collect additional data, or to change the data collection.
@@ -430,10 +431,22 @@ As long as your post is similar to other posts on the platform, you can obtain a
 </div>
 <div class="section" id="metrics-and-evaluation">
 <h3>Metrics and evaluation<a class="headerlink" href="#metrics-and-evaluation" title="Permalink to this headline">¶</a></h3>
-<p>One of the most important parts of machine learning is defining the goal, and defining a way to measure that goal. In this way, Kaggle is a really bad way to prepare you for machine learning in the real world, because they already did that work for you. In the real world, people don’t tell you whether you should use unsupervised learning, supervised learning, classification or regression, and what’s the right way to cast something as a machine learning task – or whether to cast it as machine learning at all.</p>
-<p>So think in context of your problem. What do you want to achieve? What is the easiest way to achieve this? And what will improving over this baseline buy you?</p>
-<p>The problem of metrics is not unique to machine learning, but a problem in any data driven decision making. And often you have no choice but to use a substitute metric, either because the effect you’re interested in is too hard to measure, or because the influence is too indirect. Imagine spotify improved their artist radio to be waaay better. The metric they care about is revenue. Do you think better radio will increase revenue short-term? What would be a good substitute metric?</p>
-<p>Let’s say facebook wants to optimize their ad revenue. What should they measure? If people click on ads, that’s probably good, right? But you can optimize clicks on ads by increasing accidental clicks by putting ads next to things people click. But accidental clicks will not yield conversions, and if you sell clicks to the ad buyers, and they don’t result in conversions, they will go somewhere else.</p>
+<p>One of the most important parts of machine learning is defining the goal, and defining a way to measure that goal. The first part of this is having the right data for evaluating your model, data that will reflect the way the model will be used in production.
+Equally important is establishing a measure of impact for your task. Usually your application is driven by some ultimate goal, such as user engagement, revenue, keeping patients healthy or any number of possible motivations. The question is now how your machine learning solution will impact this goal. It’s important to note that the goal is rarely if ever to make accurate predictions. It’s not some evaluation metrics that counts, but it’s the real world impact of the decision that are made by your model.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><span class="math notranslate nohighlight">\(^3\)</span> Here and in the following I will talk of your goals in terms of a business, however, if your goal is scientific discovery, health or justice, the same principles apply.</p>
+</div>
+<p>There are some common hurdles in measuring the impact of your model. Often, the effect on the bottom line might only be very indirect. If you’re removing fake news from your social media platform, this will not directly increase your ad revenue, and removing a particular fake news article will probably have no measurable impact. However, curating your platform will help maintain a brand image and might drive users to your platform, which in turn will create more revenue. But this effect is likely to be mixed in with many other effects, and much delayed in time. So often data scientists rely on surrogate metrics, measures that relate to intermediate business goals<span class="math notranslate nohighlight">\(^3\)</span> that can be measured more directly, such as user engagement or click-through-rate.</p>
+<p>The problem with such surrogate metrics is that they might not capture what you assume they capture. I heard an (if not true, then at least illustrative) anectote about optimizing the placement of an ad on a shopping website. An opptimization algorithm placed it right next to the search button, with the same color as the search button, which resulted in the the most clicks. However, when analyzing the results more closely, the team found that the clicks were caused by users missing the search button and accidentally clicking the ad,
+not resulting in any sales, but resulting in irritated users that had to go back and search again.</p>
+<p>There is usually a hierachy of measurements, from accuracy of a model on an offline holdout dataset, which is easy to calculate but can be misleading in several ways, to more business specific metrics that can be evaluated on an online system, to the actual business goal.
+Moving from evaluating just the model to the whole process and then to how the process integrates into your business makes evaluation more complex and more risky. Usually, evaluation on all levels is required if possible: if a model does well in offline tests, it can be tried in a user-study. If the user study is promising, it can be deployed more widely, and potentially an outcome on the actual objective can be observed.
+However, often we have to be satisfied with surrogate metrics on some level, as it’s unlikely that each model will have a measurable impact on the bottom line of a complex product.</p>
+<p>One aspect that I find is often overlooked by junior data scientists is to establish a baseline. If you are employing machine learning in any part of your process, you should have a baseline of not employing machine learning.
+What are your gains if you do? What if your replace your deep neural network with the simplest heuristic that you can come up with? How will it affect your users?
+There are cases in which the difference between 62% accuracy and 63% accuracy can have a big impact on the bottom line, but more often than not, small improvements in the model will not drastically alter the overall process and result.</p>
+<p>When developing any machine learning solution, always keep in mind how your model will fit in the overal process, what consequences your predictions have, and how to measure the overall impact of the decisions made by the model.</p>
 </div>
 <div class="section" id="feedback-loops-in-data-collection">
 <h3>Feedback loops in data collection<a class="headerlink" href="#feedback-loops-in-data-collection" title="Permalink to this headline">¶</a></h3>
@@ -453,20 +466,32 @@ There is a whole subset of machine learning devoted to this kind of interactive 
 <h3>When to use and not to use machine learning<a class="headerlink" href="#when-to-use-and-not-to-use-machine-learning" title="Permalink to this headline">¶</a></h3>
 <p>As you might be able to tell by the existance of this book, I’m excited about machine learning and an avid advocate. However, I think it is cruicial to not fall victim to hype, and carefully consider whether a particular situation calls for a machine learning solution. Many machine learning practitioners get caught up in the (fascinating) details of algorithms and datasets, but lose perspective of the bigger picture. To the data scientist with a machine learning hammer, too often everything looks like a classification nail.
 In general, I would recommend restricting yourself to supervised learning in most practical settings; in other words, if you do not have a training dataset for which you know the outcome, it will be very hard to create an effective solution. As mentioned before, machine learning will be most useful for making individual-level predictions, not for inference. I also already laid out some prerequisits for using supervised learning in the respective section above.
-Let’s assume all of these criteria are met.</p>
-<p>My first advice would be, don’t try machine learning. Machine learning systems are very complex and often fragile. Whether you’re in research or a startup, don’t immediately start with “oh we can apply deep learning to this”. Often it’s good to collect data, and be able to use data to drive and evaluate decisions. But including a complex process like machine learning into whatever you’re trying to do will make it much harder to debug and much harder to understand.</p>
+Let’s assume all of these criteria are met and you carefully chose your business-relevant metrics. This still doesn’t mean machine learning is the right solution for your problem.
+There are several aspects that need to be balanced; on the one hand there is the positive effect a successful model can have. On the other hand there is the cost of developing the initial solution. Is it worth your time as a data scientist to attack this problem, or are there problems where you can have a bigger impact? There is also the even greater cost of maintaining a machine learning solution in a production environment. Machine learning models are often intransparent and hard to maintain. The exact behavior depends on the training data, and if the data changes (maybe the trends on social media change, or the political climate changes or a new competitor appeared), the model needs to be adjusted. A model might also make unexpected predictions, potentially leading to costly errors, or annoyed customers. All of these issues need to be weight against the potential benefits of using a model.</p>
+<p>Your default should be <strong>not</strong> to use machine learning, unless you can demonstrate that your solution improves the overall process and impacts relevant business goals, while being robust to possible changes in the data and potentially even to adverserial behavior.
+Try hard to come up with heuristics to outperform any model you develop, and always compare your model to the simplest approach and the simplest model that you can think of. And keep in mind, don’t evaluate these via model accuracy, evaluate them on something relevant to your process.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">TODO</p>
+<p>high interest credit card of technical debt.</p>
 </div>
-<div class="section" id="ethics">
-<h3>Ethics<a class="headerlink" href="#ethics" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="ethical-aspects-of-machine-learning">
+<h3>Ethical aspects of machine learning<a class="headerlink" href="#ethical-aspects-of-machine-learning" title="Permalink to this headline">¶</a></h3>
+<div class="margin sidebar">
+<p class="sidebar-title">TODO</p>
+<p>Zach Lipton talk/paper,
+Mulching the elderly</p>
+</div>
 <p>One aspect of machine learning that only recently is getting some more attention is ethics. There was a recent article in propublica about racial bias in risk-assessment used in the criminal justice system. Spoiler alert: it’s bad. I recommend reading the article, it’s quite interesting. This is a black-box machine learning system created by some company. If they had to provide explanations, or a more transparent system, the situation would likely be better. But this is not the only place where ethics plays a role in machine learning. There will be a more focused course on ethics in the DSI next semester, and I really recommend looking into it.</p>
 <p>Some people think that ethics is not something that the technical people should care about, but I disagree. I think if you build a machine learning system, you should know whether and how it is biased, and whether its application is ethical. Sometimes it’s hard to decide that, though. There’s an example of two high-schools, both of whom tried to predict which of their students will underperform in the coming year. There is a lot of ways this could be biased based on race, financial background and other factors. But that’s not the point. The point is that one of the schools used the predictions, and kicked out these students before the annual evaluation, so that they got a better evaluation score. The other school used the data to provide these students with targeted support and help. The algorithm could be the same, but the outcome is quite different. Ok, that’s enough about ethics, I hope you’ll keep these considerations in mind. The next thing I want to talk about is data!</p>
-</div>
-<div class="section" id="explainable-ai">
-<h3>Explainable AI<a class="headerlink" href="#explainable-ai" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="scaling-up">
 <h3>Scaling up<a class="headerlink" href="#scaling-up" title="Permalink to this headline">¶</a></h3>
 <p>There’s another aspect to data collection and dataset size. More data might be more expensive to collect, but it might also be more expensive and more complicated to work with. With the available cloud services, storage might not be that much of an issue any more. But runtime is. And I’m less concerned about buying a bigger cluster, I’m more concerned about your time, the data scientists time and the machine learning analysis. There’s a reason we’ll be using Python in this course. Python is easy to learn, has lots of tools and allows very close interactions with the data. If we would try to use SPARK instead, this would be whole other story. Working with distributed systems is hard, they are not responsive and the tooling is often not as good. So what I often do, no matter how big the dataset is, is to work with a subset of the data that fits into my RAM. Then I can use python, and everything is easy. And with AWS, I can easily get 512GB of RAM, if I really need to. Arguably I’m a bit biased because I work on scikit-learn. For some applications that subsampling might not make sense, or working on very large data is critical. But I don’t think that should ever be the first step.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">TODO</p>
+<p>No one got ever fired for using hadoop on a cluster</p>
+</div>
 </div>
 <div class="section" id="the-machine-learning-process">
 <h3>The machine learning process<a class="headerlink" href="#the-machine-learning-process" title="Permalink to this headline">¶</a></h3>
