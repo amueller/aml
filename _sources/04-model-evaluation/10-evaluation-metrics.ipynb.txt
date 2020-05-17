@@ -47,7 +47,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: centre,middle\n",
     "## Metrics for Binary Classification"
    ]
   },
@@ -56,12 +55,12 @@
    "metadata": {},
    "source": [
     "## Review : confusion matrix\n",
-    ".center[\n",
+    "\n",
     "![:scale 55%](images/confusion_matrix.png)\n",
-    "]\n",
-    ".larger[\n",
+    "\n",
+    "\n",
     "$$\\text{Accuracy} = \\frac{\\text{TP} + \\text{TN}}{\\text{TP} + \\text{TN} + \\text{FP} + \\text{FN}}$$\n",
-    "]\n",
+    "\n",
     "\n",
     "\n",
     "Diagonal divided by everything."
@@ -71,7 +70,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
     "## Positive & Negative are arbitrary\n",
     "### Though often the minority class is considered positive"
    ]
@@ -145,15 +143,14 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:split-40\n",
     "## Precision, Recall, f-score\n",
-    ".left-column[\n",
-    "`$$ \\large\\text{Precision} = \\frac{\\text{TP}}{\\text{TP}+\\text{FP}}$$`\n",
     "\n",
-    "`$$\\large\\text{Recall} = \\frac{\\text{TP}}{\\text{TP}+\\text{FN}}$$`\n",
     "\n",
-    "`$$\\large\\text{F} = 2 \\frac{\\text{precision} \\cdot\\text{recall}}{\\text{precision}+\\text{recall}}$$`]\n",
-    ".right-column[\n",
+    "$$ \\large\\text{Precision} = \\frac{\\text{TP}}{\\text{TP}+\\text{FP}}$$\n",
+    "\n",
+    "$$\\large\\text{Recall} = \\frac{\\text{TP}}{\\text{TP}+\\text{FN}}$$\n",
+    "\n",
+    "$$\\large\\text{F} = 2 \\frac{\\text{precision} \\cdot\\text{recall}}{\\text{precision}+\\text{recall}}$$\n",
     "\n",
     "\n",
     "Positive Predicted Value (PPV)\n",
@@ -175,7 +172,7 @@
     "\n",
     "\n",
     "Harmonic mean of precision and recall\n",
-    "]\n",
+    "\n",
     "\n",
     "\n",
     "All depend on definition of positive and negative."
@@ -185,7 +182,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, spacious\n",
     "## The Zoo\n",
     "![:scale 100%](images/zoo.png)\n",
     "\n",
@@ -196,7 +192,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: compact\n",
     "## Normalizing the confusion matrix\n",
     ".smallest[\n",
     "```python\n",
@@ -228,7 +223,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:compact\n",
     ".smallest[\n",
     "```python\n",
     "classification_report(y_true, y_pred)\n",
@@ -277,12 +271,11 @@
    "source": [
     "## Averaging strategies\n",
     "\n",
-    "`$$\\text{macro }\\frac{1}{\\left|L\\right|} \\sum_{l \\in L} R(y_l, \\hat{y}_l)$$`\n",
+    "$$\\text{macro }\\frac{1}{\\left|L\\right|} \\sum_{l \\in L} R(y_l, \\hat{y}_l)$$\n",
     "\n",
-    "`$$\\text{weighted } \\frac{1}{n} \\sum_{l \\in L} n_l R(y_l, \\hat{y}_l)$$`\n",
+    "$$\\text{weighted } \\frac{1}{n} \\sum_{l \\in L} n_l R(y_l, \\hat{y}_l)$$\n",
     "\n",
     "\n",
-    ".smaller[\n",
     "```python\n",
     "print(\"Weighted average: \", recall_score(y_test, y_pred_1, average=\"weighted\"))\n",
     "print(\"Macro average: \", recall_score(y_test, y_pred_1, average=\"macro\"))\n",
@@ -291,7 +284,7 @@
     "Weighted average: 0.90\n",
     "Macro average: 0.50\n",
     "```\n",
-    "]\n",
+    "\n",
     "\n",
     "\n",
     "\n",
@@ -360,15 +353,12 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
     "## Balanced Accuracy\n",
-    ".smaller[\n",
     "```python\n",
     "balanced_accuracy_score(y_t, y_p) == recall_score(y_t, y_p, average='macro')\n",
     "```\n",
-    "]\n",
     "\n",
-    "$$\\text{balanced_accuracy} = \\frac{1}{2}\\left( \\frac{TP}{TP + FN} + \\frac{TN}{TN + FP}\\right )$$\n",
+    "\\text{balanced_accuracy} = \\frac{1}{2}\\left( \\frac{TP}{TP + FN} + \\frac{TN}{TN + FP}\\right )\n",
     "\n",
     "- Always 0.5 for chance predictions\n",
     "- Equal to accuracy for balanced datasets"
@@ -491,7 +481,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
     "## Goal setting!\n",
     "- What do I want? What do I care about? \n",
     "- Can I assign costs to the confusion matrix?\n",
@@ -548,7 +537,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: compact\n",
     "## Precision-Recall curve\n",
     ".smaller[\n",
     "```python\n",
@@ -603,7 +591,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: compact\n",
     "## ROC Curve\n",
     ".center[\n",
     "### (Receiver Operating Characteristic)\n",
@@ -878,7 +865,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
     "## Further reading on evaluation curves\n",
     "\n",
     "- [The Relationship Between Precision-Recall and ROC Curves](https://www.biostat.wisc.edu/~page/rocpr.pdf)\n",
@@ -944,7 +930,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: centre,middle\n",
     "## Multi-class classification\n",
     "\n",
     "\n",
@@ -956,7 +941,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:split-40\n",
     "#Confusion Matrix\n",
     ".left-column[\n",
     ".tiny-code[\n",
@@ -1036,9 +1020,9 @@
    "source": [
     "## Multi-class ROC AUC\n",
     "- Hand & Till, 2001, one vs one\n",
-    "`$$ \\frac{1}{c(c-1)}\\sum_{j=1}^{c}\\sum_{k \\neq j}^{c} AUC(j,k)$$`\n",
+    " $$ \\frac{1}{c(c-1)}\\sum_{j=1}^{c}\\sum_{k \\neq j}^{c} AUC(j,k)$$\n",
     "- Provost & Domingo, 2000, one vs rest\n",
-    "`$$ \\frac{1}{c}\\sum_{j=1}^{c}p(j) AUC(j,\\text{rest}_j)$$`\n",
+    "$$ \\frac{1}{c}\\sum_{j=1}^{c}p(j) AUC(j,\\text{rest}_j)$$\n",
     "\n",
     "\n",
     "You can do that similar for ROC AUC. It will soon be\n",
@@ -1119,7 +1103,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: centre,middle\n",
     "## Metrics for regression models"
    ]
   },
@@ -1127,7 +1110,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
     "## Build-in standard metrics\n",
     "- $\\text{R}^2$ : easy to understand scale\n",
     "- MSE : easy to relate to input\n",
@@ -1161,9 +1143,8 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
     "## Absolute vs Relative: MAPE\n",
-    "`$$ \\text{MAPE} = \\frac{100}{n} \\sum_{i=1}^{n}\\left|\\frac{y-\\hat{y}}{y}\\right|$$`\n",
+    "$$ \\text{MAPE} = \\frac{100}{n} \\sum_{i=1}^{n}\\left|\\frac{y-\\hat{y}}{y}\\right|$$\n",
     "\n",
     ".center[\n",
     "![:scale 50%](images/mape.png)\n",
@@ -1251,7 +1232,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:split-40\n",
     "## Residual Plots\n",
     ".left-column[![:scale 50%](images/regression_boston.png)\n",
     "\n",
@@ -1596,7 +1576,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
     "## Providing you your own callable\n",
     "- Takes estimator, X, y\n",
     "- Returns score – higher is better (always!)\n",
@@ -1625,7 +1604,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: compact\n",
     "## You can access the model!\n",
     ".tiny-code[\n",
     "\n",

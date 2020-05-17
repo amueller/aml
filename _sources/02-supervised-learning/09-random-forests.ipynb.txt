@@ -11,7 +11,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: centre,middle\n",
+    
     "## Ensemble Models\n",
     "\n",
     "\n",
@@ -109,7 +109,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "## Bagging (Bootstrap AGGregation)\n",
     ".left-column[\n",
     "- Generic way to build “slightly different” models\n",
@@ -149,7 +149,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "\n",
     "## Bias and Variance\n",
     ".center[![:scale 40%](images/bias_vs_variance.png)]\n",
@@ -198,7 +198,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "\n",
     "## Bias and Variance in Ensembles\n",
     "\n",
@@ -225,7 +225,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "\n",
     "## Random Forests\n",
     "\n",
@@ -286,7 +286,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:some-space\n",
+    
     "## Tuning Random Forests\n",
     "\n",
     "- Main parameter: max_features\n",
@@ -340,7 +340,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
+    
     "## Extremely Randomized Trees\n",
     "\n",
     "- More randomness!\n",
@@ -562,7 +562,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "## Questions ?\n",
     "\n",

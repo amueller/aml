@@ -305,7 +305,6 @@
                 
   <div class="section" id="linear-models-for-regression">
 <h1>Linear Models for Regression<a class="headerlink" href="#linear-models-for-regression" title="Permalink to this headline">¶</a></h1>
-<p>class: center, middle</p>
 <div class="section" id="id1">
 <h2>Linear models for Regression<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>02/10/20</p>
@@ -327,11 +326,9 @@ FIXME add missing value indicator
 FIXME better explanations for imputation, in particular iterative! too short, this fixes it
 FIXME L1 explanation unclear
 FIXME adding features: use pipeline</p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="linear-models">
 <h2>Linear Models<a class="headerlink" href="#linear-models" title="Permalink to this headline">¶</a></h2>
-<p>class:center</p>
 </div>
 <div class="section" id="id2">
 <h2>Linear Models for Regression<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
@@ -358,7 +355,8 @@ the training data.</p>
 <h2>Ordinary Least Squares<a class="headerlink" href="#ordinary-least-squares" title="Permalink to this headline">¶</a></h2>
 <div class="math notranslate nohighlight">
 \[\hat{y} = w^T \mathbf{x} + b = \sum_{i=1}^p w_i x_i +b \]</div>
-<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}^p,</span> <span class="pre">b\in\mathbb{R}}</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">(w^T\mathbf{x}_i</span> <span class="pre">+</span> <span class="pre">b</span> <span class="pre">-</span> <span class="pre">y_i)^2$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[\min_{w \in \mathbb{R}^p, b\in\mathbb{R}} \sum_{i=1}^n (w^T\mathbf{x}_i + b - y_i)^2\]</div>
 <p>Unique solution if <span class="math notranslate nohighlight">\(\mathbf{X} = (\mathbf{x}_1, ... \mathbf{x}_n)^T\)</span> has full column rank.</p>
 <p>The most straight-forward solution that goes back to Gauss
 is ordinary least squares. In ordinary least squares, find w
@@ -381,7 +379,8 @@ alternative.</p>
 </div>
 <div class="section" id="ridge-regression">
 <h2>Ridge Regression<a class="headerlink" href="#ridge-regression" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\min_{w</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}^p,</span> <span class="pre">b\in\mathbb{R}}</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">(w^T\mathbf{x}_i</span> <span class="pre">+</span> <span class="pre">b</span> <span class="pre">-</span> <span class="pre">y_i)^2</span> <span class="pre">+</span> <span class="pre">\alpha</span> <span class="pre">||w||^2</span> <span class="pre">$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[ \min_{w \in \mathbb{R}^p, b\in\mathbb{R}} \sum_{i=1}^n (w^T\mathbf{x}_i + b - y_i)^2 + \alpha ||w||^2 \]</div>
 <p>Always has a unique solution.</p>
 <p>Tuning parameter alpha.</p>
 <p>In Ridge regression we add another term to the optimization
@@ -410,7 +409,8 @@ minimization.</p>
 </div>
 <div class="section" id="regularized-empirical-risk-minimization">
 <h2>(regularized) Empirical Risk Minimization<a class="headerlink" href="#regularized-empirical-risk-minimization" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">min_{f</span> <span class="pre">\in</span> <span class="pre">F}</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">L(f(\mathbf{x}_i),</span> <span class="pre">y_i)</span> <span class="pre">+</span> <span class="pre">\alpha</span> <span class="pre">R(f)</span> <span class="pre">$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[ min_{f \in F} \sum_{i=1}^n L(f(\mathbf{x}_i), y_i) + \alpha R(f) \]</div>
 <p>FIXME pointers data fitting / regularization!</p>
 <p>Many models in machine learning, like linear models, SVMs
 and neural networks follow the general framework of
@@ -509,8 +509,10 @@ Linear Regression</p>
 </div>
 <div class="section" id="coefficient-of-determination-r-2">
 <h2>Coefficient of determination R^2<a class="headerlink" href="#coefficient-of-determination-r-2" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">R^2(y,</span> <span class="pre">\hat{y})</span> <span class="pre">=</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">\frac{\sum_{i=0}^{n</span> <span class="pre">-</span> <span class="pre">1}</span> <span class="pre">(y_i</span> <span class="pre">-</span> <span class="pre">\hat{y}_i)^2}{\sum_{i=0}^{n</span> <span class="pre">-</span> <span class="pre">1}</span> <span class="pre">(y_i</span> <span class="pre">-</span> <span class="pre">\bar{y})^2}</span> <span class="pre">$$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\bar{y}</span> <span class="pre">=</span>&#160; <span class="pre">\frac{1}{n}</span> <span class="pre">\sum_{i=0}^{n</span> <span class="pre">-</span> <span class="pre">1}</span> <span class="pre">y_i$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[ R^2(y, \hat{y}) = 1 - \frac{\sum_{i=0}^{n - 1} (y_i - \hat{y}_i)^2}{\sum_{i=0}^{n - 1} (y_i - \bar{y})^2} \]</div>
+<div class="math notranslate nohighlight">
+\[ \bar{y} =  \frac{1}{n} \sum_{i=0}^{n - 1} y_i\]</div>
 <p>Can be negative for biased estimators - or the test set!</p>
 <p>The scores are R squared or coefficient of determination.
 This is basically a score that’s usually between zero and
@@ -530,7 +532,6 @@ data and some consider it a bad metric. Max Kuhn, author of APM
 thinks it’s a bad metric. It’s not clear to me that MSE is much
 better in general, though. Reducing anything to a single number
 is tricky.</p>
-<p>class: smaller</p>
 </div>
 <div class="section" id="preprocessing">
 <h2>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this headline">¶</a></h2>
@@ -557,7 +558,6 @@ is tricky.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span><span class="mf">0.928</span><span class="p">,</span> <span class="mf">0.927</span><span class="p">,</span> <span class="mf">0.932</span><span class="p">,</span> <span class="mf">0.898</span><span class="p">,</span> <span class="mf">0.884</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>class: smaller</p>
 </div>
 <div class="section" id="skewed-targets">
 <h2>Skewed targets<a class="headerlink" href="#skewed-targets" title="Permalink to this headline">¶</a></h2>
@@ -573,7 +573,6 @@ is tricky.</p>
 </div>
 <p><img alt=":scale 100%" src="../_images/ames_housing_price_hist_log.png" /></p>
 <p>]</p>
-<p>class: middle, spacious</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">make_pipeline</span><span class="p">(</span><span class="n">preprocess</span><span class="p">,</span> <span class="n">LinearRegression</span><span class="p">()),</span>
                 <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
@@ -820,7 +819,8 @@ but then, in the end, they overlap.</p>
 </div>
 <div class="section" id="lasso-regression">
 <h2>Lasso Regression<a class="headerlink" href="#lasso-regression" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\min_{w</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}^p,</span> <span class="pre">b\in\mathbb{R}}</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">(w^T\mathbf{x}_i</span> <span class="pre">+</span> <span class="pre">b</span> <span class="pre">-</span> <span class="pre">y_i)^2</span> <span class="pre">+</span> <span class="pre">\alpha</span> <span class="pre">||w||_1</span> <span class="pre">$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[ \min_{w \in \mathbb{R}^p, b\in\mathbb{R}} \sum_{i=1}^n (w^T\mathbf{x}_i + b - y_i)^2 + \alpha ||w||_1 \]</div>
 <ul class="simple">
 <li><p>Shrinks w towards zero like Ridge</p></li>
 <li><p>Sets some w exactly to zero - automatic feature selection!</p></li>
@@ -849,9 +849,9 @@ number of features that it uses, that would be L0 norm.</p>
 ]</p>
 <p>.narrow-right-column[
 .smaller[
-<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\ell_2(w)</span> <span class="pre">=</span> <span class="pre">\sqrt{\sum_i</span> <span class="pre">w_i</span> <span class="pre">^</span> <span class="pre">2}$$</span></code>
-<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\ell_1(w)</span> <span class="pre">=</span> <span class="pre">\sum_i</span> <span class="pre">|w_i|$$</span></code>
-<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\ell_0(w)</span> <span class="pre">=</span> <span class="pre">\sum_i</span> <span class="pre">1_{w_i</span> <span class="pre">!=</span> <span class="pre">0}$$</span></code>
+<span class="math notranslate nohighlight">\($ \ell_2(w) = \sqrt{\sum_i w_i ^ 2}\)</span>$
+<span class="math notranslate nohighlight">\($ \ell_1(w) = \sum_i |w_i|\)</span>$
+<span class="math notranslate nohighlight">\($ \ell_0(w) = \sum_i 1_{w_i != 0}\)</span>$
 ]]</p>
 <p>The L0 norm penalizes the number of features that are not
 zero. The L1 norm penalizes the absolute values. L2 norm
@@ -872,9 +872,9 @@ penalizes large values much more than small values.</p>
 .narrow-right-column[
 .padding-top[
 .smaller[
-<code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">f(x)</span> <span class="pre">=</span> <span class="pre">(2</span> <span class="pre">x</span> <span class="pre">-</span> <span class="pre">1)^2</span> <span class="pre">$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">f(x)</span> <span class="pre">+</span> <span class="pre">L2</span> <span class="pre">=</span> <span class="pre">(2</span> <span class="pre">x</span> <span class="pre">-</span> <span class="pre">1)^2</span> <span class="pre">+</span> <span class="pre">\alpha</span> <span class="pre">x^2$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">f(x)</span> <span class="pre">+</span> <span class="pre">L1=</span> <span class="pre">(2</span> <span class="pre">x</span> <span class="pre">-</span> <span class="pre">1)^2</span> <span class="pre">+</span> <span class="pre">\alpha</span> <span class="pre">|x|$</span></code>
+$ f(x) = (2 x - 1)^2 $</p>
+<p>$ f(x) + L2 = (2 x - 1)^2 + \alpha x^2$</p>
+<p>$ f(x) + L1= (2 x - 1)^2 + \alpha |x|$
 ]]]</p>
 <p>Let’s say I want to do a one-dimensional linear regression
 problem. The problem to solve is something of this form. I
@@ -893,7 +893,6 @@ value of zero and that makes it much more likely that the
 optimum will actually be at zero. So here the optimum for
 orange is somewhere here, so it was pushed towards zero but
 not exactly zero.</p>
-<p>class: center</p>
 </div>
 <div class="section" id="id4">
 <h2>Understanding L1 and L2 Penalties<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
@@ -906,7 +905,6 @@ are the L1 and L2 balls. So this is all the 2D vectors that
 have Euclidean norm 1 or the ball and all the vectors that
 have L1 norm is the diamond. Let’s say we restrict ourselves
 to a solution that lies on this ball.</p>
-<p>class: center</p>
 </div>
 <div class="section" id="id5">
 <h2>Understanding L1 and L2 Penalties<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
@@ -979,7 +977,8 @@ interpretation a little bit harder.</p>
 <li><p>Combines benefits of Ridge and Lasso</p></li>
 <li><p>two parameters to tune.</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}^p,</span> <span class="pre">b\in\mathbb{R}}</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">||w^T\mathbf{x}_i</span> <span class="pre">+</span> <span class="pre">b</span> <span class="pre">-</span> <span class="pre">y_i||^2</span> <span class="pre">+</span> <span class="pre">\alpha_1</span> <span class="pre">||w||_1</span> <span class="pre">+</span>&#160; <span class="pre">\alpha_2</span> <span class="pre">||w||^2_2</span> <span class="pre">$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[\min_{w \in \mathbb{R}^p, b\in\mathbb{R}} \sum_{i=1}^n ||w^T\mathbf{x}_i + b - y_i||^2 + \alpha_1 ||w||_1 +  \alpha_2 ||w||^2_2 \]</div>
 <p>You can also combine them. This actually what works best in
 practice. This is what’s called the Elastic Net. Elastic Net
 tries to combine both of these penalizations together. You
@@ -991,7 +990,6 @@ anything in between. Generally, ridge helps generalization.
 So it’s a good idea to have the ridge penalty in there, but
 also maybe if there are some features that are really not
 useful, the L1 penalty helps makes the same exactly zero.</p>
-<p>class: center</p>
 </div>
 <div class="section" id="comparing-unit-balls">
 <h2>Comparing unit balls<a class="headerlink" href="#comparing-unit-balls" title="Permalink to this headline">¶</a></h2>
@@ -1003,7 +1001,8 @@ you to hit the exact zeros.</p>
 </div>
 <div class="section" id="parametrization-in-scikit-learn">
 <h2>Parametrization in scikit-learn<a class="headerlink" href="#parametrization-in-scikit-learn" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}^p,</span> <span class="pre">b\in\mathbb{R}}</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">(w^T\mathbf{x}_i</span> <span class="pre">+</span> <span class="pre">b</span> <span class="pre">-</span> <span class="pre">y_i)^2</span> <span class="pre">+</span> <span class="pre">\alpha</span> <span class="pre">\eta</span> <span class="pre">||w||_1</span> <span class="pre">+</span>&#160; <span class="pre">\alpha</span> <span class="pre">(1</span> <span class="pre">-</span> <span class="pre">\eta)</span> <span class="pre">||w||^2_2</span> <span class="pre">$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[\min_{w \in \mathbb{R}^p, b\in\mathbb{R}} \sum_{i=1}^n (w^T\mathbf{x}_i + b - y_i)^2 + \alpha \eta ||w||_1 +  \alpha (1 - \eta) ||w||^2_2 \]</div>
 <p>Where <span class="math notranslate nohighlight">\(\eta\)</span> is the relative amount of l1 penalty (<code class="docutils literal notranslate"><span class="pre">l1_ratio</span></code> in the code).</p>
 <p>The way this parameterize in scikit-learn is slightly
 different. In scikit-learn, you have a parameter alpha,
@@ -1049,7 +1048,6 @@ something that’s very close to one and some stuff in
 between. If you want to analyze the output of a 2D grid
 search a little bit harder we can’t do the nice curve
 anymore.</p>
-<p>class: smaller</p>
 </div>
 <div class="section" id="analyzing-grid-search-results">
 <h2>Analyzing grid-search results<a class="headerlink" href="#analyzing-grid-search-results" title="Permalink to this headline">¶</a></h2>
@@ -1105,7 +1103,6 @@ Ridge which is L2 penalty, Lasso which is an L1 penalty and
 combining two of them which is Elastic Net. So now I want to
 talk about changing the first part, which was the squared
 loss of the predictions, basically.</p>
-<p>class: middle</p>
 </div>
 <div class="section" id="questions">
 <h2>Questions ?<a class="headerlink" href="#questions" title="Permalink to this headline">¶</a></h2>

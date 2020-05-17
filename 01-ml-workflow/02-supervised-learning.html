@@ -219,15 +219,17 @@
 <h1>Supervised learning with scikit-learn<a class="headerlink" href="#supervised-learning-with-scikit-learn" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="supervised-learning">
 <h2>Supervised Learning<a class="headerlink" href="#supervised-learning" title="Permalink to this headline">¶</a></h2>
-<p>.larger[
-<span class="math notranslate nohighlight">\($ (x_i, y_i) \propto p(x, y) \text{ i.i.d.}\)</span>$
-<span class="math notranslate nohighlight">\($ x_i \in \mathbb{R}^p\)</span>$
-<span class="math notranslate nohighlight">\($ y_i \in \mathbb{R}\)</span>$
-<span class="math notranslate nohighlight">\($\text{learn }f(x_i) \approx y_i\)</span>$
-such that
+<div class="math notranslate nohighlight">
+\[ (x_i, y_i) \propto p(x, y) \text{ i.i.d.}\]</div>
+<div class="math notranslate nohighlight">
+\[ x_i \in \mathbb{R}^p\]</div>
+<div class="math notranslate nohighlight">
+\[ y_i \in \mathbb{R}\]</div>
+<div class="math notranslate nohighlight">
+\[\text{learn }f(x_i) \approx y_i\]</div>
+<p>such that
 <span class="math notranslate nohighlight">\($f(x) \approx y \quad\)</span>$
-for new <span class="math notranslate nohighlight">\((x, y) \propto p(x, y)\)</span>.
-]</p>
+for new <span class="math notranslate nohighlight">\((x, y) \propto p(x, y)\)</span>.</p>
 <p>As a reminder, in supervised learning, the dataset we learn form is
 input-output pairs <span class="math notranslate nohighlight">\((x_i, y_i)\)</span>, where <span class="math notranslate nohighlight">\(x_i\)</span> is some n-dimensional input,
 or feature vector, and <span class="math notranslate nohighlight">\(y_i\)</span> is the desired output we want to learn to predict.
@@ -289,7 +291,7 @@ data, for which we don’t have labels.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>accuracy:  0.5384615384615384
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>accuracy:  0.6153846153846154
 </pre></div>
 </div>
 </div>

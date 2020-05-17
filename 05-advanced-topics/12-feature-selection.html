@@ -292,7 +292,6 @@
 <h1>Automatic Feature Selection<a class="headerlink" href="#automatic-feature-selection" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="univariate-statistics">
 <h2>Univariate statistics<a class="headerlink" href="#univariate-statistics" title="Permalink to this headline">¶</a></h2>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="feature-selection">
 <h2>Feature Selection<a class="headerlink" href="#feature-selection" title="Permalink to this headline">¶</a></h2>
@@ -300,7 +299,6 @@
 want to talk about what methods are there to determine what
 features are important for your dataset, what features are
 important for a particular model.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="why-select-features">
 <h2>Why Select Features?<a class="headerlink" href="#why-select-features" title="Permalink to this headline">¶</a></h2>
@@ -332,7 +330,6 @@ of 500, it’s probably much easier for you to grasp what the
 model does. If you can have a model that is as good with way
 fewer features, it will be much easier to explain and most
 people will be happy with it.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="types-of-feature-selection">
 <h2>Types of Feature Selection<a class="headerlink" href="#types-of-feature-selection" title="Permalink to this headline">¶</a></h2>
@@ -350,7 +347,6 @@ each feature at a time and determines if it’s important.
 Multivariate looks at interactions as well. And you can have
 a feature selection based on a particular machine learning
 model or not.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="unsupervised-feature-selection">
 <h2>Unsupervised Feature Selection<a class="headerlink" href="#unsupervised-feature-selection" title="Permalink to this headline">¶</a></h2>
@@ -433,7 +429,6 @@ these two are correlated, but I can’t see anything else.
 Whereas on the left hand I can see much more clearly what
 the structure of the data is. What it did just was, it did
 clustering on the rows and columns to resort them.</p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="supervised-feature-selection">
 <h2>Supervised Feature Selection<a class="headerlink" href="#supervised-feature-selection" title="Permalink to this headline">¶</a></h2>
@@ -565,7 +560,6 @@ feature selection like taking these nonlinear features into
 account is good. This is much more computationally intensive
 than doing the F statistics. But this is still Univariate,
 looking at one feature at a time.</p>
-<p>class: spacious</p>
 <p>#Model-Based Feature Selection</p>
 <ul class="simple">
 <li><p>Get best fit for a particular model</p></li>
@@ -663,7 +657,6 @@ important for the feature selection and so you might want to
 grid search. Now, let’s say we want to use this and so we
 want a scikit-learn estimator that does this. So we can put
 it in a pipeline.</p>
-<p>class: smaller</p>
 </div>
 <div class="section" id="selectfrommodel">
 <h2>SelectFromModel<a class="headerlink" href="#selectfrommodel" title="Permalink to this headline">¶</a></h2>
@@ -713,7 +706,6 @@ pipeline, for example, you can see here that lasso with
 these parameters, drop two of the features and 11 after 13
 remains. If I put it in a pipeline the performance is about
 the same.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="iterative-model-based-selection">
 <h2>Iterative Model-Based Selection<a class="headerlink" href="#iterative-model-based-selection" title="Permalink to this headline">¶</a></h2>
@@ -729,7 +721,6 @@ single feature then add more important ones or we could
 start with all features and discard some.</p>
 <p>We’ll talk about these two strategies which are slightly
 different.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="recursive-feature-elimination">
 <h2>Recursive Feature Elimination<a class="headerlink" href="#recursive-feature-elimination" title="Permalink to this headline">¶</a></h2>
@@ -844,7 +835,6 @@ cross-validation, it will select the best number.</p>
 <p>If we want to predict with the same model as used for
 selection, RFECV can be used as the prediction step. Could
 also use RFECV as transformer and use any other model!</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="wrapper-methods">
 <h2>Wrapper Methods<a class="headerlink" href="#wrapper-methods" title="Permalink to this headline">¶</a></h2>
@@ -939,7 +929,6 @@ predictions to be linear so I can explain to my boss what it
 means. But I can also still do the feature selection using a
 more complicated model and just tell my boss “Oh, only these
 features are important and here’s how I make the prediction”</p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="questions">
 <h2>Questions ?<a class="headerlink" href="#questions" title="Permalink to this headline">¶</a></h2>

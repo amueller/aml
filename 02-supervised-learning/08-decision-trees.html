@@ -299,7 +299,6 @@
                 
   <div class="section" id="decision-trees">
 <h1>Decision Trees<a class="headerlink" href="#decision-trees" title="Permalink to this headline">¶</a></h1>
-<p>class: center, middle</p>
 <div class="section" id="trees-forests-ensembles">
 <h2>Trees, Forests &amp; Ensembles<a class="headerlink" href="#trees-forests-ensembles" title="Permalink to this headline">¶</a></h2>
 <p>02/17/20</p>
@@ -327,7 +326,6 @@ FIXME Go over finding a single split in some toy data! 1d regression?
 FIXME order is a bit weight
 FIXME better example of CCP helping
 FIXME show averaging in forest on regression example?</p>
-<p>class: spacious, middle</p>
 </div>
 <div class="section" id="why-trees">
 <h2>Why Trees?<a class="headerlink" href="#why-trees" title="Permalink to this headline">¶</a></h2>
@@ -349,7 +347,6 @@ stronger models.</p>
 <li><p>Basis of very powerful models!</p></li>
 <li><p>add stacking classifier from PR?</p></li>
 </ul>
-<p>class: centre,middle</p>
 </div>
 <div class="section" id="decision-trees-for-classification">
 <h2>Decision Trees for Classification<a class="headerlink" href="#decision-trees-for-classification" title="Permalink to this headline">¶</a></h2>
@@ -429,11 +426,13 @@ too computationally expensive.</p>
 <ul class="simple">
 <li><p>Gini Index:</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">$$H_\text{gini}(X_m)</span> <span class="pre">=</span> <span class="pre">\sum_{k\in\mathcal{Y}}</span> <span class="pre">p_{mk}</span> <span class="pre">(1</span> <span class="pre">-</span> <span class="pre">p_{mk})$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[H_\text{gini}(X_m) = \sum_{k\in\mathcal{Y}} p_{mk} (1 - p_{mk})\]</div>
 <ul class="simple">
 <li><p>Cross-Entropy:</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">$$H_\text{CE}(X_m)</span> <span class="pre">=</span> <span class="pre">-\sum_{k\in\mathcal{Y}}</span> <span class="pre">p_{mk}</span> <span class="pre">\log(p_{mk})$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[H_\text{CE}(X_m) = -\sum_{k\in\mathcal{Y}} p_{mk} \log(p_{mk})\]</div>
 <p><span class="math notranslate nohighlight">\(X_m\)</span> observations in node m</p>
 <p><span class="math notranslate nohighlight">\(\mathcal{Y}\)</span> classes</p>
 <p><span class="math notranslate nohighlight">\(p_{m\cdot}\)</span> distribution over classes in node m</p>
@@ -464,11 +463,12 @@ since this tree is not very deep.</p>
 </div>
 <div class="section" id="regression-trees">
 <h2>Regression trees<a class="headerlink" href="#regression-trees" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">$$\text{Prediction:</span> <span class="pre">}</span> <span class="pre">\bar{y}_m</span> <span class="pre">=</span> <span class="pre">\frac{1}{N_m}</span> <span class="pre">\sum_{i</span> <span class="pre">\in</span> <span class="pre">N_m}</span> <span class="pre">y_i</span> <span class="pre">$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[\text{Prediction: } \bar{y}_m = \frac{1}{N_m} \sum_{i \in N_m} y_i \]</div>
 <p>Mean Squared Error:
-<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">H(X_m)</span> <span class="pre">=</span> <span class="pre">\frac{1}{N_m}</span> <span class="pre">\sum_{i</span> <span class="pre">\in</span> <span class="pre">N_m}</span> <span class="pre">(y_i</span> <span class="pre">-</span> <span class="pre">\bar{y}_m)^2</span> <span class="pre">$$</span></code></p>
+<span class="math notranslate nohighlight">\($ H(X_m) = \frac{1}{N_m} \sum_{i \in N_m} (y_i - \bar{y}_m)^2 $\)</span></p>
 <p>Mean Absolute Error:
-<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">H(X_m)</span> <span class="pre">=</span> <span class="pre">\frac{1}{N_m}</span> <span class="pre">\sum_{i</span> <span class="pre">\in</span> <span class="pre">N_m}</span> <span class="pre">|y_i</span> <span class="pre">-</span> <span class="pre">\bar{y}_m|</span> <span class="pre">$$</span></code></p>
+<span class="math notranslate nohighlight">\($ H(X_m) = \frac{1}{N_m} \sum_{i \in N_m} |y_i - \bar{y}_m| $\)</span></p>
 <p>You can do the same thing also for regression. In
 regression, the prediction is usually the mean over the
 target targets in a leaf. The impurity criteria that I
@@ -547,7 +547,6 @@ which class the samples belong to. In the original breast
 cancer dataset, the top node corresponds to the whole
 dataset. The tree gets purer and purer as you move down the
 tree.</p>
-<p>class:some-space</p>
 </div>
 <div class="section" id="parameter-tuning">
 <h2>Parameter Tuning<a class="headerlink" href="#parameter-tuning" title="Permalink to this headline">¶</a></h2>
@@ -576,7 +575,6 @@ decisions that you made, but you don’t restructure the tree.</p>
 most commonly used criteria are the maximum depth of the
 tree, the maximum number of leaf nodes, the minimum samples
 in a node split and minimum decrease impurity.</p>
-<p>class:spacious</p>
 </div>
 <div class="section" id="no-pruning">
 <h2>No pruning<a class="headerlink" href="#no-pruning" title="Permalink to this headline">¶</a></h2>
@@ -584,7 +582,6 @@ in a node split and minimum decrease impurity.</p>
 <img alt=":scale 100%" src="../_images/no_pruning.png" />
 ]</p>
 <p>Here’s the full tree for the same dataset.</p>
-<p>class:spacious</p>
 </div>
 <div class="section" id="max-depth-4">
 <h2>max_depth = 4<a class="headerlink" href="#max-depth-4" title="Permalink to this headline">¶</a></h2>
@@ -619,7 +616,6 @@ has the greatest impurity decrease first. You can see that
 in different parts of the trees, there’s different depth. It
 will prioritize the ones that decrease the impurity the
 most.</p>
-<p>class:spacious</p>
 </div>
 <div class="section" id="min-samples-split-50">
 <h2>min_samples_split = 50<a class="headerlink" href="#min-samples-split-50" title="Permalink to this headline">¶</a></h2>
@@ -806,7 +802,6 @@ learning is hard. And if you need to extrapolate, there’s a
 chance you’re not going to be able to do with any model. But
 in particular, for tree-based and nearest neighbor based
 models, you should keep in mind that they can’t do that.</p>
-<p>class:spacious</p>
 </div>
 </div>
 <div class="section" id="relation-to-nearest-neighbors">
@@ -991,7 +986,6 @@ can split on and you can say, “if I split on a missing
 value, I have a separate branch just for missing values.”</p>
 <p>But you can easily emulate this by replacing it with a
 binary feature which says missing or not missing.</p>
-<p>class:spacious</p>
 </div>
 <div class="section" id="predicting-probabilities">
 <h2>Predicting probabilities<a class="headerlink" href="#predicting-probabilities" title="Permalink to this headline">¶</a></h2>
@@ -1016,7 +1010,6 @@ the tree, but it still might be certain, and so the
 probability estimates that come out of a tree might not be
 very good.</p>
 <p>FIXME PLOT</p>
-<p>class:spacious</p>
 </div>
 <div class="section" id="conditional-inference-trees">
 <h2>Conditional Inference Trees<a class="headerlink" href="#conditional-inference-trees" title="Permalink to this headline">¶</a></h2>

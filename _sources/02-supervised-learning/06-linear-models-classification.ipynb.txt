@@ -11,7 +11,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "## Linear Models for Classification, SVMs\n",
     "\n",
@@ -34,7 +34,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "## Linear models for \n",
     "binary\n",
@@ -108,7 +108,7 @@
     "\n",
     "$$\\hat{y} = \\text{sign}(w^T \\textbf{x} + b)$$\n",
     "\n",
-    "`$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}} \\sum_{i=1}^n 1_{y_i \\neq \\text{sign}(w^T \\textbf{x} + b)}$$`\n",
+    "$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}} \\sum_{i=1}^n 1_{y_i \\neq \\text{sign}(w^T \\textbf{x} + b)}$$\n",
     "\n",
     ".center[\n",
     "![:scale 40%](images/binary_loss.png)\n",
@@ -155,7 +155,7 @@
     "\n",
     "$$p(y=1|\\textbf{x}) = \\frac{1}{1+e^{-w^T\\textbf{x} -b }}$$\n",
     "\n",
-    "`$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}} \\sum_{i=1}^n \\log(\\exp(-y_i(w^T \\textbf{x}_i + b)) + 1)$$`\n",
+    "$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}} \\sum_{i=1}^n \\log(\\exp(-y_i(w^T \\textbf{x}_i + b)) + 1)$$\n",
     "\n",
     "\n",
     "$$\\hat{y} = \\text{sign}(w^T\\textbf{x} + b)$$\n",
@@ -208,9 +208,9 @@
    "source": [
     "## Penalized Logistic Regression\n",
     "\n",
-    "`$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}}C \\sum_{i=1}^n\\log(\\exp(-y_i(w^T \\textbf{x}_i + b )) + 1) + ||w||_2^2$$`\n",
+    "$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}}C \\sum_{i=1}^n\\log(\\exp(-y_i(w^T \\textbf{x}_i + b )) + 1) + ||w||_2^2$$\n",
     "\n",
-    "`$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}}C \\sum_{i=1}^n\\log(\\exp(-y_i (w^T \\textbf{x}_i + b)) + 1) + ||w||_1$$`\n",
+    "$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}}C \\sum_{i=1}^n\\log(\\exp(-y_i (w^T \\textbf{x}_i + b)) + 1) + ||w||_1$$\n",
     "\n",
     "- C is inverse to alpha (or alpha / n_samples)\n",
     "\n",
@@ -322,10 +322,10 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "\n",
     "#Max-Margin and Support Vectors\n",
-    "`$$ \\min_{w \\in \\mathbb{R}^p, b \\in \\mathbb{R}} C \\sum_{i=1}^n \\max(0, 1 - y_i (w^T\\mathbf{x} + b)) + ||w||^2_2 $$`\n",
+    "$$ \\min_{w \\in \\mathbb{R}^p, b \\in \\mathbb{R}} C \\sum_{i=1}^n \\max(0, 1 - y_i (w^T\\mathbf{x} + b)) + ||w||^2_2 $$\n",
     "\n",
     "$$\\text{Within margin} \\Leftrightarrow y_i(w^T x  + b)\n",
     "<\n",
@@ -338,7 +338,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "\n",
     "#Max-Margin and Support Vectors\n",
     "\n",
@@ -379,9 +379,9 @@
     "## (soft margin) linear SVM\n",
     "\n",
     ".larger[\n",
-    "`$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}}C \\sum_{i=1}^n\\max(0,1-y_i(w^T \\textbf{x}_i + b)) + ||w||_2^2$$`\n",
+    "$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}}C \\sum_{i=1}^n\\max(0,1-y_i(w^T \\textbf{x}_i + b)) + ||w||_2^2$$\n",
     "\n",
-    "`$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}}C \\sum_{i=1}^n\\max(0,1-y_i(w^T \\textbf{x}_i + b))+ ||w||_1$$`\n",
+    "$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}}C \\sum_{i=1}^n\\max(0,1-y_i(w^T \\textbf{x}_i + b))+ ||w||_1$$\n",
     "]\n",
     "\n",
     "\n",
@@ -425,11 +425,11 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "## Logistic Regression vs SVM\n",
     ".compact[\n",
-    "`$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}}C \\sum_{i=1}^n\\log(\\exp(-y_i(w^T \\textbf{x}_i+b)) + 1) + ||w||_2^2$$`\n",
-    "`$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}}C \\sum_{i=1}^n\\max(0,1-y_i(w^T \\textbf{x}_i + b)) + ||w||_2^2$$`\n",
+    "$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}}C \\sum_{i=1}^n\\log(\\exp(-y_i(w^T \\textbf{x}_i+b)) + 1) + ||w||_2^2$$\n",
+    "$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}}C \\sum_{i=1}^n\\max(0,1-y_i(w^T \\textbf{x}_i + b)) + ||w||_2^2$$\n",
     "\n",
     "![:scale 35%](images/binary_loss.png)\n",
     "]\n",
@@ -471,7 +471,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "## Multiclass classification\n",
     "\n",
@@ -494,7 +494,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "\n",
     "## Reduction to Binary Classification\n",
     ".padding-top[\n",
@@ -524,7 +524,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "\n",
     "## One Vs Rest\n",
     "\n",
@@ -553,7 +553,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "\n",
     "## Prediction with One Vs Rest\n",
     "\n",
@@ -627,7 +627,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: some-space\n",
+
     "\n",
     "## One Vs One\n",
     "\n",
@@ -666,7 +666,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "\n",
     "## One vs One Prediction\n",
     "\n",
@@ -691,7 +691,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "## One vs One Prediction\n",
     "\n",
     "\n",
@@ -732,7 +732,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     ".left-column[\n",
     "### One vs Rest\n",
     "- n_classes classifiers\n",
@@ -761,9 +761,9 @@
     "\n",
     "Probabilistic multi-class model:\n",
     "\n",
-    "`$$p(y=i|x) = \\frac{e^{\\textbf{w}_i^T\\textbf{x} + b_i}}{\\sum_{j=1}^k e^{\\textbf{w}_j^T\\textbf{x} + b_j}}$$`\n",
+    "$$p(y=i|x) = \\frac{e^{\\textbf{w}_i^T\\textbf{x} + b_i}}{\\sum_{j=1}^k e^{\\textbf{w}_j^T\\textbf{x} + b_j}}$$\n",
     "\n",
-    "`$$\\min_{w \\in ℝ^{pk}, b \\in \\mathbb{R}^k} -\\sum_{i=1}^n \\log(p(y=y_i|x_i, w, b))$$`\n",
+    "$$\\min_{w \\in ℝ^{pk}, b \\in \\mathbb{R}^k} -\\sum_{i=1}^n \\log(p(y=y_i|x_i, w, b))$$\n",
     "\n",
     "$$\\hat{y} = \\text{arg} \\max_{i=1,...,k} \\textbf{w}^T_i\\textbf{x} + b_i$$\n",
     "\n",
@@ -785,7 +785,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: some-space\n",
+
     "\n",
     "## In sckit-learn\n",
     "\n",
@@ -872,7 +872,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "\n",
     "![:scale 80%](images/multiclass_array.png)\n",
     "\n",
@@ -903,7 +903,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "\n",
     "## Computational Considerations\n",
@@ -921,7 +921,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: some-space\n",
+
     "\n",
     "## Solver choices\n",
     "\n",

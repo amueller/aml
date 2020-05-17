@@ -61,7 +61,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
+    
     "#Calibration\n",
     ".center[\n",
     "\n",
@@ -111,7 +111,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "#Calibration curve (Reliability diagram)\n",
     ".left-column[\n",
     "![:scale 100%](images/prob_table.png)\n",
@@ -184,7 +184,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: split-40\n",
+    
     "## calibration_curve with sklearn\n",
     "\n",
     "Using subsample of covertype dataset\n",
@@ -277,7 +277,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
+    
     "#Influence of number of bins\n",
     "\n",
     ".center[![:scale 100%](images/influence_bins.png)]\n",
@@ -301,7 +301,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
+    
     "## Comparing Models\n",
     "\n",
     ".center[![:scale 90%](images/calib_curve_models.png)]\n",
@@ -324,7 +324,7 @@
     "## Brier Score (for binary classification)\n",
     "\n",
     "- “mean squared error of probability estimate”\n",
-    "`$$ BS = \\frac{\\sum_{i=1}^{n} (\\widehat{p} (y_i)-y_i)^{2}}{n}$$`\n",
+    "$$ BS = \\frac{\\sum_{i=1}^{n} (\\widehat{p} (y_i)-y_i)^{2}}{n}$$\n",
     "\n",
     ".center[![:scale 70%](images/models_bscore.png)]\n",
     "\n",
@@ -365,7 +365,7 @@
     "- Build another model, mapping classifier probabilities to better probabilities!\n",
     "- 1d model! (or more for multi-class)\n",
     "\n",
-    "`$$ f_{calib}(s(x)) \\approx p(y)$$`\n",
+    "$$ f_{calib}(s(x)) \\approx p(y)$$\n",
     "\n",
     "\n",
     "\n",
@@ -409,7 +409,7 @@
     "- (+ some tricks)\n",
     "- Works well for SVMs\n",
     "\n",
-    "`$$f_{platt} = \\frac{1}{1 + exp(-ws(x) - b)}$$`\n",
+    "$$f_{platt} = \\frac{1}{1 + exp(-ws(x) - b)}$$\n",
     "\n",
     "\n",
     "\n",
@@ -462,7 +462,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
+    
     "## Building the model\n",
     "- Using the training set is bad\n",
     "- Either use hold-out set or cross-validation\n",
@@ -473,7 +473,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "## Fitting the calibration model\n",
     "![:scale 70%](images/calibration_val_scores.png)"
    ]
@@ -482,7 +482,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "\n",
     "## Fitting the calibration model\n",
     "![:scale 70%](images/calibration_val_scores_fitted.png)"

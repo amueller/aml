@@ -11,7 +11,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "\n",
     "## Trees, Forests & Ensembles\n",
@@ -51,7 +51,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious, middle\n",
+    
     "## Why Trees?\n",
     "\n",
     "\n",
@@ -80,7 +80,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: centre,middle\n",
+    
     "## Decision Trees for Classification"
    ]
   },
@@ -185,11 +185,11 @@
     "## Criteria (for classification)\n",
     " - Gini Index:\n",
     "\n",
-    "`$$H_\\text{gini}(X_m) = \\sum_{k\\in\\mathcal{Y}} p_{mk} (1 - p_{mk})$$`\n",
+    "$$H_\\text{gini}(X_m) = \\sum_{k\\in\\mathcal{Y}} p_{mk} (1 - p_{mk})$$\n",
     "\n",
     " - Cross-Entropy:\n",
     "\n",
-    "`$$H_\\text{CE}(X_m) = -\\sum_{k\\in\\mathcal{Y}} p_{mk} \\log(p_{mk})$$`\n",
+    "$$H_\\text{CE}(X_m) = -\\sum_{k\\in\\mathcal{Y}} p_{mk} \\log(p_{mk})$$\n",
     "\n",
     "\n",
     "$X_m$ observations in node m\n",
@@ -240,14 +240,14 @@
    "source": [
     "## Regression trees\n",
     "\n",
-    "`$$\\text{Prediction: } \\bar{y}_m = \\frac{1}{N_m} \\sum_{i \\in N_m} y_i $$`\n",
+    "$$\\text{Prediction: } \\bar{y}_m = \\frac{1}{N_m} \\sum_{i \\in N_m} y_i $$\n",
     "\n",
     "\n",
     "Mean Squared Error:\n",
-    "`$$ H(X_m) = \\frac{1}{N_m} \\sum_{i \\in N_m} (y_i - \\bar{y}_m)^2 $$`\n",
+    "$$ H(X_m) = \\frac{1}{N_m} \\sum_{i \\in N_m} (y_i - \\bar{y}_m)^2 $$\n",
     "\n",
     "Mean Absolute Error:\n",
-    "`$$ H(X_m) = \\frac{1}{N_m} \\sum_{i \\in N_m} |y_i - \\bar{y}_m| $$`\n",
+    "$$ H(X_m) = \\frac{1}{N_m} \\sum_{i \\in N_m} |y_i - \\bar{y}_m| $$\n",
     "\n",
     "\n",
     "\n",
@@ -360,7 +360,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:some-space\n",
+    
     "\n",
     "## Parameter Tuning\n",
     "\n",
@@ -400,7 +400,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
+    
     "\n",
     "## No pruning\n",
     ".center[\n",
@@ -415,7 +415,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
+    
     "\n",
     "## max_depth = 4\n",
     "\n",
@@ -467,7 +467,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
+    
     "\n",
     "## min_samples_split = 50\n",
     ".center[\n",
@@ -736,7 +736,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
+    
     "## Relation to Nearest Neighbors\n",
     "- Predict average of neighbors – either by k, by epsilon ball or by leaf.\n",
     "- Trees are much faster to predict.\n",
@@ -954,7 +954,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
+    
     "## Predicting probabilities\n",
     "- Fraction of class in leaf.\n",
     "- Without pruning: Always 100% certain!\n",
@@ -986,7 +986,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
+    
     "## Conditional Inference Trees\n",
     "\n",
     "- Select “best” split with correcting for multiple-hypothesis testing.\n",

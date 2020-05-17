@@ -190,7 +190,6 @@
                 
   <div class="section" id="algorithm-chains-and-pipelines">
 <h1>Algorithm Chains and Pipelines<a class="headerlink" href="#algorithm-chains-and-pipelines" title="Permalink to this headline">¶</a></h1>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="a-note-on-preprocessing">
 <h1>A note on preprocessing<a class="headerlink" href="#a-note-on-preprocessing" title="Permalink to this headline">¶</a></h1>
@@ -199,7 +198,6 @@
 <h1>(and pipelines)<a class="headerlink" href="#and-pipelines" title="Permalink to this headline">¶</a></h1>
 <p>I want to talk a bit more about preprocessing and
 cross-validation here, and introduce pipelines.</p>
-<p>class: smallest, compact</p>
 </div>
 <div class="section" id="a-common-errror">
 <h1>A common errror<a class="headerlink" href="#a-common-errror" title="Permalink to this headline">¶</a></h1>
@@ -236,7 +234,6 @@ cross-validation here, and introduce pipelines.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="mf">0.18</span>
 </pre></div>
 </div>
-<p>class: smallest</p>
 <p>#Leaking Information</p>
 <p>.left-column[</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># BAD!</span>
@@ -287,7 +284,6 @@ robust and you will not see a big difference between the two
 methods. But for other preprocessing steps that we’ll see
 later, this might make a huge difference. So we should get
 it right from the start.</p>
-<p>class: smaller</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Housing data example</span>
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
 <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span> <span class="n">target</span>
@@ -334,7 +330,6 @@ ridge on the scaled data, and when we call score, it
 transforms the data and then evaluates the model.</p>
 <p>The code below is exactly equivalent to the code above, only
 shorter.</p>
-<p>class: left, middle</p>
 <p>.center[
 <img alt=":scale 70%" src="../_images/pipeline.png" />
 ]</p>
@@ -353,7 +348,6 @@ to transform X’1 into X’2, and call the predict method of
 the classifier on X’2. This sounds a bit complicated, but
 it’s really just doing “the right thing”to apply multiple
 transformation steps.</p>
-<p>class: smallest</p>
 </div>
 <div class="section" id="undoing-our-feature-selection-mistake">
 <h1>Undoing our feature selection mistake<a class="headerlink" href="#undoing-our-feature-selection-mistake" title="Permalink to this headline">¶</a></h1>

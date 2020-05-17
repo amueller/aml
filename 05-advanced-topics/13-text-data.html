@@ -460,6 +460,10 @@
         </li>
     
         <li class="nav-item toc-entry toc-h2">
+            <a href="#assumption-can-sample-from-conditional-p-x-i-x-j-neq-i" class="nav-link">Assumption: Can sample from conditional p(X_i|X_{j\neq i})</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
             <a href="#block-gibbs-sampling-for-lda" class="nav-link">(Block) Gibbs Sampling for LDA</a>
         </li>
     
@@ -769,7 +773,6 @@ in the second string?</p>
 also don’t appear. And we’re going to talk about how exactly
 it works in a little bit.</p>
 <p>Consider two documents in a dataset “malory”</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="bag">
 <h2>“bag”<a class="headerlink" href="#bag" title="Permalink to this headline">¶</a></h2>
@@ -793,7 +796,6 @@ words so you will only get back ‘ants’ ‘do’ ‘want’ ‘you’ and
 <p>Basically, you store all the words in a big bag and
 completely lose any context and any order of the words.
 That’s why it’s called a bag of words.</p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="text-classification-example">
 <h2>Text classification example:<a class="headerlink" href="#text-classification-example" title="Permalink to this headline">¶</a></h2>
@@ -984,7 +986,6 @@ I get is 88% accuracy, which is pretty good.</p>
 <p>Here, accuracy is meaningful because we know it’s a balanced
 dataset. The next thing I always like to do is look at the
 coefficients.</p>
-<p>class: middle</p>
 <p>.center[
 <img alt=":scale 100%" src="../_images/coefficients.png" />
 ]</p>
@@ -996,7 +997,6 @@ harder to visualize.</p>
 <p>This seems to be like a pretty reasonable model to pick up
 on the bad words and the good words. This is the baseline
 approach.</p>
-<p>class:spacious</p>
 </div>
 <div class="section" id="soo-many-options">
 <h2>Soo many options!<a class="headerlink" href="#soo-many-options" title="Permalink to this headline">¶</a></h2>
@@ -1011,7 +1011,6 @@ what’s happening here.</p>
 break it up into tokens. Then normalization, which is how do
 you make tokens look sort of reasonable. And then what to
 include in vocabulary.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="tokenization">
 <h2>Tokenization<a class="headerlink" href="#tokenization" title="Permalink to this headline">¶</a></h2>
@@ -1150,7 +1149,6 @@ work similar to English.</p>
 <p>Scikit-learn only lowercases it. You can plug in other
 normalization from NLTK or spacy into the count vectorizer
 if you want, but the default is it lower cases the tokens.</p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="restricting-the-vocabulary">
 <h2>Restricting the Vocabulary<a class="headerlink" href="#restricting-the-vocabulary" title="Permalink to this headline">¶</a></h2>
@@ -1688,7 +1686,6 @@ my_stopwords.add(&quot;ve&quot;)
 <p>Basically, removing stop words is fine but you should keep
 in the ‘not’ and the ‘well’ so that the important things can
 still be expressed.</p>
-<p>class: middle</p>
 </div>
 <div class="section" id="character-n-grams">
 <h2>Character n-grams<a class="headerlink" href="#character-n-grams" title="Permalink to this headline">¶</a></h2>
@@ -1724,8 +1721,7 @@ of length 3.</p>
 <p>My first one would be “Do_” and then “o_y” and then “_you”
 and so…</p>
 <p>Then you build the vocabulary over these trigrams.</p>
-<p>class: spacious
-#Applications</p>
+<p>#Applications</p>
 <ul class="simple">
 <li><p>Be robust to misspelling / obfuscation</p></li>
 <li><p>Language detection</p></li>
@@ -1833,8 +1829,7 @@ that there’s no white space inside the character n-gram.</p>
 vocabulary is quite a bit bigger than if I looked at single
 words. But actually, I get a result that is about as good as
 the bag of words.</p>
-<p>class: middle
-.center[
+<p>.center[
 <img alt=":scale 100%" src="../_images/imdb_char_ngrams.png" />
 ]</p>
 <p>I can also look at the features that are important. The way
@@ -1847,7 +1842,6 @@ comment. This is actually leaking the label of the star
 rating. This is not something that we saw before but here
 looking at his character n-grams, we can see that that’s
 something that’s in the dataset.</p>
-<p>class: middle</p>
 </div>
 <div class="section" id="predicting-nationality-from-name">
 <h2>Predicting Nationality from Name<a class="headerlink" href="#predicting-nationality-from-name" title="Permalink to this headline">¶</a></h2>
@@ -1962,7 +1956,6 @@ results.</p>
 ]</p>
 <p>Here, I used pivot tables and Pandas to look into the effect
 of the different parameters.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="other-features">
 <h2>Other features<a class="headerlink" href="#other-features" title="Permalink to this headline">¶</a></h2>
@@ -1985,7 +1978,6 @@ word might appear only very infrequently in your dataset but
 you can still learn that positive word means good.</p>
 <p>Bag of words is a pretty good baseline. It’s a very simple
 approach and often gives reasonable results.</p>
-<p>class: middle</p>
 </div>
 <div class="section" id="large-scale-text-vectorization">
 <h2>Large Scale Text Vectorization<a class="headerlink" href="#large-scale-text-vectorization" title="Permalink to this headline">¶</a></h2>
@@ -2118,7 +2110,6 @@ away without storing the vocabulary</p>
 <ul class="simple">
 <li><p>focus on topic modeling</p></li>
 </ul>
-<p>class: center, middle</p>
 <div class="section" id="w4995-applied-machine-learning">
 <h4>W4995 Applied Machine Learning<a class="headerlink" href="#w4995-applied-machine-learning" title="Permalink to this headline">¶</a></h4>
 </div>
@@ -2165,7 +2156,6 @@ methods. And next time, we’re going to talk about word
 vectors and word embedding, which also tries to solve the
 same problem of getting more semantically meaningful
 representations for text data.</p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="topic-models">
 <h2>Topic Models<a class="headerlink" href="#topic-models" title="Permalink to this headline">¶</a></h2>
@@ -2187,7 +2177,6 @@ vocabulary for a given document.</p>
 are active and others are not and they have very varying
 importance. So movies could be mixtures of different genres
 and then they could have words from multiple genres.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="motivation">
 <h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
@@ -2457,14 +2446,14 @@ dimensional representation.</p>
 large sparse matrix of word counts and we factorize this
 into HxW, H is the hidden or latent representation, and W
 represents the weights.</p>
-<p>class: compact</p>
 </div>
 <div class="section" id="nmf-loss-and-algorithm">
 <h2>NMF Loss and algorithm<a class="headerlink" href="#nmf-loss-and-algorithm" title="Permalink to this headline">¶</a></h2>
 <p>Frobenius loss / squared loss ($ Y = H W$):</p>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">l_{\text{frob}}(X,</span> <span class="pre">Y)</span> <span class="pre">=</span> <span class="pre">\sum_{i,j}</span> <span class="pre">(X_{ij}</span> <span class="pre">-</span> <span class="pre">Y_{ij})^</span> <span class="pre">2$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[ l_{\text{frob}}(X, Y) = \sum_{i,j} (X_{ij} - Y_{ij})^ 2\]</div>
 <p>Kulback-Leibler (KL) divergence:
-<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">l_{\text{KL}}(X,</span> <span class="pre">Y)</span> <span class="pre">=</span> <span class="pre">\sum_{i,j}</span> <span class="pre">X_{ij}</span> <span class="pre">\log\left(\frac{X_{ij}}{Y_{ij}}\right)</span> <span class="pre">-</span> <span class="pre">X_{ij}</span>&#160; <span class="pre">+</span> <span class="pre">Y_{ij}$$</span></code></p>
+<span class="math notranslate nohighlight">\($ l_{\text{KL}}(X, Y) = \sum_{i,j} X_{ij} \log\left(\frac{X_{ij}}{Y_{ij}}\right) - X_{ij}  + Y_{ij}\)</span>$</p>
 </div>
 <div class="section" id="s-t-h-w-all-entries-positive">
 <h2>s.t. H, W all entries positive<a class="headerlink" href="#s-t-h-w-all-entries-positive" title="Permalink to this headline">¶</a></h2>
@@ -2556,13 +2545,11 @@ genre-specific components.</p>
 <p>One of the things you can do with this is you can find
 genre specific reviews by looking at the component that
 corresponds to it.</p>
-<p>class: center</p>
 </div>
 <div class="section" id="nmf-components-without-scaling">
 <h2>NMF components without scaling<a class="headerlink" href="#nmf-components-without-scaling" title="Permalink to this headline">¶</a></h2>
 <p><img alt=":scale 70%" src="../_images/nmf_topics_no_scaling.png" /></p>
 <p>I did the same thing without scaling.</p>
-<p>class: center</p>
 </div>
 <div class="section" id="nmf-with-tfidf">
 <h2>NMF with tfidf<a class="headerlink" href="#nmf-with-tfidf" title="Permalink to this headline">¶</a></h2>
@@ -2609,7 +2596,6 @@ makes it easy to look at them.</p>
 <p>A friend of mine who is an expert on topic models told me to
 always use thousands of components, and then go through all
 of them and see if something’s interesting.</p>
-<p>class: center, middle</p>
 <p>#Latent Dirichlet Allocation</p>
 </div>
 <div class="section" id="the-other-lda">
@@ -2755,7 +2741,8 @@ distributions is called Dirichlet.</p>
 </div>
 <div class="section" id="dirichlet">
 <h3>Dirichlet<a class="headerlink" href="#dirichlet" title="Permalink to this headline">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">P(x_1,</span> <span class="pre">\dots,</span> <span class="pre">x_k</span> <span class="pre">|</span> <span class="pre">\alpha_1,</span> <span class="pre">\dots</span> <span class="pre">\alpha_k)=\frac{1}{B(\alpha)}</span> <span class="pre">x_1^{\alpha_1</span> <span class="pre">-</span> <span class="pre">1}</span> <span class="pre">\dots</span> <span class="pre">x_k^{\alpha_k</span> <span class="pre">-</span> <span class="pre">1}</span> <span class="pre">$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[ P(x_1, \dots, x_k | \alpha_1, \dots \alpha_k)=\frac{1}{B(\alpha)} x_1^{\alpha_1 - 1} \dots x_k^{\alpha_k - 1} \]</div>
 <ul class="simple">
 <li><p>if <span class="math notranslate nohighlight">\(p(x|\theta)\)</span> is multimnomial (discrete distribution),
 then <span class="math notranslate nohighlight">\(p(\theta) = \text{Dirichlet}(...)\)</span> is a conjugate prior.</p></li>
@@ -3023,7 +3010,6 @@ Dirichlet priors over distribution, one over the topic
 distribution and one over the document topic distribution.</p>
 <p>Large value use means that they’re more dispersed. Small
 values mean they’re more concentrated.</p>
-<p>class: middle</p>
 </div>
 <div class="section" id="rough-overview-of-mcmc-and-gibbs-sampling">
 <h2>Rough overview of MCMC and Gibbs sampling<a class="headerlink" href="#rough-overview-of-mcmc-and-gibbs-sampling" title="Permalink to this headline">¶</a></h2>
@@ -3039,19 +3025,16 @@ values mean they’re more concentrated.</p>
 <div class="section" id="gibbs-sampling">
 <h2>Gibbs Sampling<a class="headerlink" href="#gibbs-sampling" title="Permalink to this headline">¶</a></h2>
 <p><strong>Goal</strong>: Sample from complex distribution <span class="math notranslate nohighlight">\(p(X_1, ... X_n)\)</span>.</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="head"><p><strong>Assumption</strong>: Can sample from conditional <code class="docutils literal notranslate"><span class="pre">$p(X_i|X_{j\neq</span> <span class="pre">i})$</span></code></p></th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
+</div>
+<div class="section" id="assumption-can-sample-from-conditional-p-x-i-x-j-neq-i">
+<h2><strong>Assumption</strong>: Can sample from conditional <span class="math notranslate nohighlight">\(p(X_i|X_{j\neq i})\)</span><a class="headerlink" href="#assumption-can-sample-from-conditional-p-x-i-x-j-neq-i" title="Permalink to this headline">¶</a></h2>
 <p>Initialize</p>
 <p>Start from random initialization <span class="math notranslate nohighlight">\((x^0_1, ..., x^0_n)\)</span></p>
 <p>Construct <span class="math notranslate nohighlight">\(x^{k+1}\)</span> from <span class="math notranslate nohighlight">\(x^k\)</span>:</p>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">x^{k+1}_0</span> <span class="pre">\propto</span>&#160; <span class="pre">p(X_i|</span> <span class="pre">x^{k}_{1},</span> <span class="pre">...,</span> <span class="pre">x^{k}_{n})$$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">x^{k+1}_i</span> <span class="pre">\propto</span>&#160; <span class="pre">p(X_i|x^{k+1}_0,</span> <span class="pre">...,</span> <span class="pre">x^{k+1}_{i-1},</span> <span class="pre">x^{k}_{i+1},</span> <span class="pre">...,</span> <span class="pre">x^{k}_{n})$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[ x^{k+1}_0 \propto  p(X_i| x^{k}_{1}, ..., x^{k}_{n})\]</div>
+<div class="math notranslate nohighlight">
+\[ x^{k+1}_i \propto  p(X_i|x^{k+1}_0, ..., x^{k+1}_{i-1}, x^{k}_{i+1}, ..., x^{k}_{n})\]</div>
 </div>
 <div class="section" id="block-gibbs-sampling-for-lda">
 <h2>(Block) Gibbs Sampling for LDA<a class="headerlink" href="#block-gibbs-sampling-for-lda" title="Permalink to this headline">¶</a></h2>
@@ -3096,9 +3079,9 @@ really matter.</p>
 documents, for example.</p>
 <p>–
 Updates sampled from:</p>
-<p><code class="docutils literal notranslate"><span class="pre">$p(z_{iv}</span> <span class="pre">=</span> <span class="pre">k</span> <span class="pre">\,</span> <span class="pre">\vert</span> <span class="pre">\,</span> <span class="pre">\mathbf{\theta}_i,</span> <span class="pre">\phi_k)</span> <span class="pre">\propto</span> <span class="pre">\exp(\log</span> <span class="pre">\theta_{ik}</span> <span class="pre">+</span> <span class="pre">\log</span> <span class="pre">\phi_{k,</span> <span class="pre">y_{iv}})$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$p(\theta_i</span> <span class="pre">\,</span> <span class="pre">\vert</span> <span class="pre">\,</span> <span class="pre">z_{iv}</span> <span class="pre">=</span> <span class="pre">k,</span> <span class="pre">\phi_k)</span> <span class="pre">=</span> <span class="pre">\text{Dir}(\alpha</span> <span class="pre">+</span> <span class="pre">\sum_l</span> <span class="pre">\mathbb{I}(z_{il}</span> <span class="pre">=</span> <span class="pre">k))$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$p(\phi_k</span> <span class="pre">\,</span> <span class="pre">\vert</span> <span class="pre">\,</span> <span class="pre">z_{iv}</span> <span class="pre">=</span> <span class="pre">k,</span> <span class="pre">\mathbf{\theta}_i)</span> <span class="pre">=</span> <span class="pre">\text{Dir}(\beta</span> <span class="pre">+</span> <span class="pre">\sum_i</span> <span class="pre">\sum_l</span> <span class="pre">\mathbb{I}(y_{il}</span> <span class="pre">=</span> <span class="pre">v,</span> <span class="pre">z_{il}</span> <span class="pre">=</span> <span class="pre">k))$</span></code></p>
+<p><span class="math notranslate nohighlight">\(p(z_{iv} = k \, \vert \, \mathbf{\theta}_i, \phi_k) \propto \exp(\log \theta_{ik} + \log \phi_{k, y_{iv}})\)</span></p>
+<p><span class="math notranslate nohighlight">\(p(\theta_i \, \vert \, z_{iv} = k, \phi_k) = \text{Dir}(\alpha + \sum_l \mathbb{I}(z_{il} = k))\)</span></p>
+<p><span class="math notranslate nohighlight">\(p(\phi_k \, \vert \, z_{iv} = k, \mathbf{\theta}_i) = \text{Dir}(\beta + \sum_i \sum_l \mathbb{I}(y_{il} = v, z_{il} = k))\)</span></p>
 <p>i is index for documents, v is index for words in document, k index for topics.
 z is word-topic assignments.</p>
 <p><span class="math notranslate nohighlight">\(z_{iv}=k\)</span> means word v in document i is assigned topic k.</p>
@@ -3112,7 +3095,7 @@ z is word-topic assignments.</p>
 <p>.center[
 <img alt=":scale 50%" src="../_images/lda_params.png" />
 ]</p>
-<p>Sample only <code class="docutils literal notranslate"><span class="pre">$p(z_i=k|\mathbf{z}_{-i})$</span></code></p>
+<p>Sample only <span class="math notranslate nohighlight">\(p(z_i=k|\mathbf{z}_{-i})\)</span></p>
 <p>Compute <span class="math notranslate nohighlight">\(\theta\)</span>, <span class="math notranslate nohighlight">\(\phi\)</span> from <span class="math notranslate nohighlight">\(\mathbf{z}\)</span></p>
 <p>If you don’t want to paralyze it, you can reformulate Gibbs
 sampling into collapsed Gibbs sampling, where we only look

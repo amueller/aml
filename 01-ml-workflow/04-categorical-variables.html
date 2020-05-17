@@ -814,7 +814,6 @@ you call get_dummies, you don’t know that the columns
 correspond actually to the same thing. Unless you take care
 of the names, unfortunately, scikit-learn completely ignores
 column names.</p>
-<p>class: smaller</p>
 <p>#Pandas Categorical Columns</p>
 <p>.smaller[</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
@@ -951,8 +950,7 @@ or use column transformer and everything is awesome.</p>
 this uses the column information in pandas and allows you to slice
 out different columns based on column names, integer indices or boolean masks.
 In this example I’m constructing a boolean mask</p>
-<p>class:center, middle
-<img alt=":scale 100%" src="../_images/column_transformer_schematic.png" /></p>
+<p><img alt=":scale 100%" src="../_images/column_transformer_schematic.png" /></p>
 <p>Here’s a schematic of the column transformer.
 Most commonly you might want to separate continuous and categorical columns,
 but you can select any subsets of columns you like. They can also overlap.
@@ -961,7 +959,6 @@ Let’s say I want a scaled version of the data, but I also want to
 extract principal components. I can use the same column as inputs to multiple
 transformers, and the results will be concatenated.</p>
 <p>FIXME add code</p>
-<p>class: some-space</p>
 </div>
 </div>
 <div class="section" id="dummy-variables-and-colinearity">
@@ -974,7 +971,6 @@ transformers, and the results will be concatenated.</p>
 <li><p>Keeping all can make the model more interpretable</p></li>
 </ul>
 <p>N/A</p>
-<p>class: some-space</p>
 <p>#Models Supporting Discrete Features</p>
 <ul class="simple">
 <li><p>In principle:</p>
@@ -1038,7 +1034,6 @@ multi-class, you usually do the percentage or fraction of
 people in each of the classes. So in multi-class, you get
 one new feature per class and you count for each state how
 many people in this state are classified for each of them.</p>
-<p>class: center, middle</p>
 <p>More encodings for categorical features:</p>
 </div>
 <div class="section" id="http-contrib-scikit-learn-org-categorical-encoding">
@@ -1059,8 +1054,7 @@ many people in this state are classified for each of them.</p>
       <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>class: compact
-.tiny[</p>
+<p>.tiny[</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1226,7 +1220,6 @@ sqft_lot15</p>
 446448.065
 360416.811</p>
 <p>]</p>
-<p>class: smallest</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;zipcode&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">Ridge</span><span class="p">(),</span> <span class="n">X</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
 <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>

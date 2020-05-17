@@ -313,7 +313,6 @@
                 
   <div class="section" id="linear-models-for-classification">
 <h1>Linear Models for Classification<a class="headerlink" href="#linear-models-for-classification" title="Permalink to this headline">¶</a></h1>
-<p>class: center, middle</p>
 <div class="section" id="linear-models-for-classification-svms">
 <h2>Linear Models for Classification, SVMs<a class="headerlink" href="#linear-models-for-classification-svms" title="Permalink to this headline">¶</a></h2>
 <p>02/12/20</p>
@@ -324,7 +323,6 @@ principles and advanced topics surrounding general models,
 both for classification and regression.</p>
 <p>FIXME: in regularizing SVM, long vs short normal vectors.
 FIXME do we need ovo? we kinda do, right?</p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="linear-models-for">
 <h2>Linear models for<a class="headerlink" href="#linear-models-for" title="Permalink to this headline">¶</a></h2>
@@ -379,7 +377,8 @@ misclassifications.</p>
 <h2>Picking a loss?<a class="headerlink" href="#picking-a-loss" title="Permalink to this headline">¶</a></h2>
 <div class="math notranslate nohighlight">
 \[\hat{y} = \text{sign}(w^T \textbf{x} + b)\]</div>
-<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">1_{y_i</span> <span class="pre">\neq</span> <span class="pre">\text{sign}(w^T</span> <span class="pre">\textbf{x}</span> <span class="pre">+</span> <span class="pre">b)}$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[\min_{w \in ℝ^{p}, b \in \mathbb{R}} \sum_{i=1}^n 1_{y_i \neq \text{sign}(w^T \textbf{x} + b)}\]</div>
 <p>.center[
 <img alt=":scale 40%" src="../_images/binary_loss.png" />
 ]</p>
@@ -414,7 +413,8 @@ starting with the logistic loss.</p>
 <span class="math notranslate nohighlight">\($\log\left(\frac{p(y=1|x)}{p(y=-1|x)}\right) = w^T\textbf{x} + b\)</span>$</p>
 <div class="math notranslate nohighlight">
 \[p(y=1|\textbf{x}) = \frac{1}{1+e^{-w^T\textbf{x} -b }}\]</div>
-<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">\log(\exp(-y_i(w^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">+</span> <span class="pre">b))</span> <span class="pre">+</span> <span class="pre">1)$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[\min_{w \in ℝ^{p}, b \in \mathbb{R}} \sum_{i=1}^n \log(\exp(-y_i(w^T \textbf{x}_i + b)) + 1)\]</div>
 <div class="math notranslate nohighlight">
 \[\hat{y} = \text{sign}(w^T\textbf{x} + b)\]</div>
 <p>]
@@ -454,8 +454,10 @@ care about finding a simple solution.</p>
 </div>
 <div class="section" id="penalized-logistic-regression">
 <h2>Penalized Logistic Regression<a class="headerlink" href="#penalized-logistic-regression" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}C</span> <span class="pre">\sum_{i=1}^n\log(\exp(-y_i(w^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">+</span> <span class="pre">b</span> <span class="pre">))</span> <span class="pre">+</span> <span class="pre">1)</span> <span class="pre">+</span> <span class="pre">||w||_2^2$$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}C</span> <span class="pre">\sum_{i=1}^n\log(\exp(-y_i</span> <span class="pre">(w^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">+</span> <span class="pre">b))</span> <span class="pre">+</span> <span class="pre">1)</span> <span class="pre">+</span> <span class="pre">||w||_1$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[\min_{w \in ℝ^{p}, b \in \mathbb{R}}C \sum_{i=1}^n\log(\exp(-y_i(w^T \textbf{x}_i + b )) + 1) + ||w||_2^2\]</div>
+<div class="math notranslate nohighlight">
+\[\min_{w \in ℝ^{p}, b \in \mathbb{R}}C \sum_{i=1}^n\log(\exp(-y_i (w^T \textbf{x}_i + b)) + 1) + ||w||_1\]</div>
 <ul class="simple">
 <li><p>C is inverse to alpha (or alpha / n_samples)</p></li>
 <li><p>Both versions strongly convex, l2 version smooth (differentiable).</p></li>
@@ -530,15 +532,13 @@ have a smaller margin given that you’re on the correct side.
 If you’re on the wrong side, you’ll have always have a loss.
 If you’re in the correct side, if you’re w^x is small, then
 you also have a loss.</p>
-<p>class: center</p>
 <p>#Max-Margin and Support Vectors
-<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\min_{w</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}^p,</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}</span> <span class="pre">C</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">\max(0,</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">y_i</span> <span class="pre">(w^T\mathbf{x}</span> <span class="pre">+</span> <span class="pre">b))</span> <span class="pre">+</span> <span class="pre">||w||^2_2</span> <span class="pre">$$</span></code></p>
+<span class="math notranslate nohighlight">\($ \min_{w \in \mathbb{R}^p, b \in \mathbb{R}} C \sum_{i=1}^n \max(0, 1 - y_i (w^T\mathbf{x} + b)) + ||w||^2_2 $\)</span></p>
 <div class="math notranslate nohighlight">
 \[\text{Within margin} \Leftrightarrow y_i(w^T x  + b)
 &lt;
  1\]</div>
 <p>Smaller <span class="math notranslate nohighlight">\(w \Rightarrow\)</span> larger margin</p>
-<p>class: center</p>
 <p>#Max-Margin and Support Vectors</p>
 <p>.left-column[
 <img alt=":scale 80%" src="../_images/max_margin_C_0.1.png" />
@@ -569,9 +569,10 @@ solution.</p>
 <div class="section" id="soft-margin-linear-svm">
 <h2>(soft margin) linear SVM<a class="headerlink" href="#soft-margin-linear-svm" title="Permalink to this headline">¶</a></h2>
 <p>.larger[
-<code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}C</span> <span class="pre">\sum_{i=1}^n\max(0,1-y_i(w^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">+</span> <span class="pre">b))</span> <span class="pre">+</span> <span class="pre">||w||_2^2$$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}C</span> <span class="pre">\sum_{i=1}^n\max(0,1-y_i(w^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">+</span> <span class="pre">b))+</span> <span class="pre">||w||_1$$</span></code>
-]</p>
+<span class="math notranslate nohighlight">\($\min_{w \in ℝ^{p}, b \in \mathbb{R}}C \sum_{i=1}^n\max(0,1-y_i(w^T \textbf{x}_i + b)) + ||w||_2^2\)</span>$</p>
+<div class="math notranslate nohighlight">
+\[\min_{w \in ℝ^{p}, b \in \mathbb{R}}C \sum_{i=1}^n\max(0,1-y_i(w^T \textbf{x}_i + b))+ ||w||_1\]</div>
+<p>]</p>
 <ul class="simple">
 <li><p>Both versions strongly convex, neither smooth.</p></li>
 <li><p>Only some points contribute (the support vectors) to <span class="math notranslate nohighlight">\(w\)</span> (sparse solution to dual).</p></li>
@@ -600,13 +601,12 @@ solution any more. All the point that are not classified
 correctly by this margin are the ones that do influence the
 solution and they are called the support vectors.</p>
 <p>FIXME graph of not influencing the solution?</p>
-<p>class: center</p>
 </div>
 <div class="section" id="logistic-regression-vs-svm">
 <h2>Logistic Regression vs SVM<a class="headerlink" href="#logistic-regression-vs-svm" title="Permalink to this headline">¶</a></h2>
 <p>.compact[
-<code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}C</span> <span class="pre">\sum_{i=1}^n\log(\exp(-y_i(w^T</span> <span class="pre">\textbf{x}_i+b))</span> <span class="pre">+</span> <span class="pre">1)</span> <span class="pre">+</span> <span class="pre">||w||_2^2$$</span></code>
-<code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}C</span> <span class="pre">\sum_{i=1}^n\max(0,1-y_i(w^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">+</span> <span class="pre">b))</span> <span class="pre">+</span> <span class="pre">||w||_2^2$$</span></code></p>
+<span class="math notranslate nohighlight">\($\min_{w \in ℝ^{p}, b \in \mathbb{R}}C \sum_{i=1}^n\log(\exp(-y_i(w^T \textbf{x}_i+b)) + 1) + ||w||_2^2\)</span>$
+<span class="math notranslate nohighlight">\($\min_{w \in ℝ^{p}, b \in \mathbb{R}}C \sum_{i=1}^n\max(0,1-y_i(w^T \textbf{x}_i + b)) + ||w||_2^2\)</span>$</p>
 <p><img alt=":scale 35%" src="../_images/binary_loss.png" />
 ]</p>
 <p>So this is the main difference between logistic regression
@@ -631,7 +631,6 @@ samples, it might make sense to use linear SVMs and solve
 the dual, but you can actually solve either of the problems
 in the dual, and we’ll talk about what that means in
 practice in a little bit.</p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="multiclass-classification">
 <h2>Multiclass classification<a class="headerlink" href="#multiclass-classification" title="Permalink to this headline">¶</a></h2>
@@ -643,7 +642,6 @@ that they are in fact quite similar in practice.</p>
 to multi-class classification. Basically there is a simple
 but hacky way, and there’s a slightly more complicated but
 theoretically sound way.</p>
-<p>class: center</p>
 </div>
 <div class="section" id="reduction-to-binary-classification">
 <h2>Reduction to Binary Classification<a class="headerlink" href="#reduction-to-binary-classification" title="Permalink to this headline">¶</a></h2>
@@ -667,7 +665,6 @@ deal with binary classification.</p>
 <p>There are two straight-forward ways to reduce multi-class to
 binary classification. the first is called one vs rest, the
 second one is called one-vs-one.</p>
-<p>class: spacious</p>
 </div>
 </div>
 <div class="section" id="id1">
@@ -684,7 +681,6 @@ a binary classifier of the points in class 1 vs the points
 in the classes 2, 3 and 4.  Then, we do the same for class
 2, and so on. The way we end up building as many classifiers
 as we have classes.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="prediction-with-one-vs-rest">
 <h2>Prediction with One Vs Rest<a class="headerlink" href="#prediction-with-one-vs-rest" title="Permalink to this headline">¶</a></h2>
@@ -728,7 +724,6 @@ associated with them. It’s not only the direction of the
 normal vector that matters, but also the length. You can
 think of that as some form of uncertainty attached to the
 line.</p>
-<p>class: some-space</p>
 </div>
 <div class="section" id="id3">
 <h2>One Vs One<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
@@ -754,7 +749,6 @@ predicted that class, and we predict the class with the most
 votes.</p>
 <p>Again, this is just a heuristic and there’s not really a
 good theoretical explanation why this should work.</p>
-<p>class: center</p>
 </div>
 <div class="section" id="one-vs-one-prediction">
 <h2>One vs One Prediction<a class="headerlink" href="#one-vs-one-prediction" title="Permalink to this headline">¶</a></h2>
@@ -768,7 +762,6 @@ classifiers than classes.</p>
 classes they separate. So the green and blue line separates
 the green and blue classes. The data points belonging to the
 grey class were not used in building this model at all.</p>
-<p>class: center</p>
 </div>
 <div class="section" id="id4">
 <h2>One vs One Prediction<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
@@ -796,8 +789,7 @@ classification needs to be extended to the multi-class case.
 For logistic regression, there is actually a natural
 extension of the formulation, and we don’t have to resort to
 these hacks.</p>
-<p>class: spacious
-.left-column[</p>
+<p>.left-column[</p>
 <div class="section" id="id5">
 <h3>One vs Rest<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
@@ -824,8 +816,10 @@ these hacks.</p>
 <div class="section" id="multinomial-logistic-regression">
 <h2>Multinomial Logistic Regression<a class="headerlink" href="#multinomial-logistic-regression" title="Permalink to this headline">¶</a></h2>
 <p>Probabilistic multi-class model:</p>
-<p><code class="docutils literal notranslate"><span class="pre">$$p(y=i|x)</span> <span class="pre">=</span> <span class="pre">\frac{e^{\textbf{w}_i^T\textbf{x}</span> <span class="pre">+</span> <span class="pre">b_i}}{\sum_{j=1}^k</span> <span class="pre">e^{\textbf{w}_j^T\textbf{x}</span> <span class="pre">+</span> <span class="pre">b_j}}$$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{pk},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}^k}</span> <span class="pre">-\sum_{i=1}^n</span> <span class="pre">\log(p(y=y_i|x_i,</span> <span class="pre">w,</span> <span class="pre">b))$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[p(y=i|x) = \frac{e^{\textbf{w}_i^T\textbf{x} + b_i}}{\sum_{j=1}^k e^{\textbf{w}_j^T\textbf{x} + b_j}}\]</div>
+<div class="math notranslate nohighlight">
+\[\min_{w \in ℝ^{pk}, b \in \mathbb{R}^k} -\sum_{i=1}^n \log(p(y=y_i|x_i, w, b))\]</div>
 <div class="math notranslate nohighlight">
 \[\hat{y} = \text{arg} \max_{i=1,...,k} \textbf{w}^T_i\textbf{x} + b_i\]</div>
 <ul class="simple">
@@ -839,7 +833,6 @@ proportional to e to the minus <span class="math notranslate nohighlight">\(w^t 
 in the binary case. But now we need to normalize it so that
 the sum over all classes is one. So we just divide it by
 this sum.</p>
-<p>class: some-space</p>
 </div>
 <div class="section" id="in-sckit-learn">
 <h2>In sckit-learn<a class="headerlink" href="#in-sckit-learn" title="Permalink to this headline">¶</a></h2>
@@ -905,7 +898,6 @@ the coefficient that is learned by the model. They’re for
 logistic regression and linear Support Vector Machine,
 they’re the same shape, three classes times four features
 but they have different semantics</p>
-<p>class: center</p>
 <p><img alt=":scale 80%" src="../_images/multiclass_array.png" /></p>
 <p><img alt=":scale 80%" src="../_images/multiclass_barchart.png" /></p>
 <p>(after centering data, without intercept)</p>
@@ -922,7 +914,6 @@ little much to look at but it’s still way less to look at
 for any other model. If you used a random forest or
 something like that, there would be no way to visualize
 what’s happening.</p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="computational-considerations">
 <h2>Computational Considerations<a class="headerlink" href="#computational-considerations" title="Permalink to this headline">¶</a></h2>
@@ -930,7 +921,6 @@ what’s happening.</p>
 <p>Now I want to talk about more general things, how to make
 your homework run faster, also called Computational
 Considerations.</p>
-<p>class: some-space</p>
 </div>
 <div class="section" id="solver-choices">
 <h2>Solver choices<a class="headerlink" href="#solver-choices" title="Permalink to this headline">¶</a></h2>

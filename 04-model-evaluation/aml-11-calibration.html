@@ -272,8 +272,7 @@ FIXME grid-search SMOTE show uncertainty
 FIXME research comparison papers more
 FIXME smote: clarify to only sample from same class
 FIXME smote: paper vs implementation: do along coordinates in rectangle?</p>
-<p>class:spacious
-#Calibration
+<p>#Calibration
 .center[</p>
 <p>Source</p>
 <p>]</p>
@@ -309,8 +308,7 @@ and use it to estimate probabilities, if it says “this is
 the model is not really trained to optimize probability
 estimates so the probability estimates could be off quite a
 bit.</p>
-<p>class: spacious
-#Calibration curve (Reliability diagram)
+<p>#Calibration curve (Reliability diagram)
 .left-column[
 <img alt=":scale 100%" src="../_images/prob_table.png" />
 ]
@@ -366,7 +364,6 @@ model.</p>
 <li><p>Plot fraction of data that’s positive in each bin.</p></li>
 <li><p>Doesn’t require ground truth probabilities!</p></li>
 </ul>
-<p>class: split-40</p>
 </div>
 <div class="section" id="calibration-curve-with-sklearn">
 <h2>calibration_curve with sklearn<a class="headerlink" href="#calibration-curve-with-sklearn" title="Permalink to this headline">¶</a></h2>
@@ -444,8 +441,7 @@ this bin 10 is the true class, but actually, it’s more like
 <p>In the second bin from 0.2 to 0.4. So what I would expect is
 that 30% of these data points are predicted as class one and
 actually- it’s 30%.</p>
-<p>class:spacious
-#Influence of number of bins</p>
+<p>#Influence of number of bins</p>
 <p>.center[<img alt=":scale 100%" src="../_images/influence_bins.png" />]</p>
 <p>How do I pick the number of bins?</p>
 <p>More bins give me more resolution. But also at some point,
@@ -457,7 +453,6 @@ usually enough bins.</p>
 <li><p>Works here because dataset is big</p></li>
 <li><p>Might become very noisy for larger datasets</p></li>
 </ul>
-<p>class:spacious</p>
 </div>
 <div class="section" id="comparing-models">
 <h2>Comparing Models<a class="headerlink" href="#comparing-models" title="Permalink to this headline">¶</a></h2>
@@ -474,7 +469,7 @@ trust them let’s measure them first.</p>
 <h2>Brier Score (for binary classification)<a class="headerlink" href="#brier-score-for-binary-classification" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>“mean squared error of probability estimate”
-<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">BS</span> <span class="pre">=</span> <span class="pre">\frac{\sum_{i=1}^{n}</span> <span class="pre">(\widehat{p}</span> <span class="pre">(y_i)-y_i)^{2}}{n}$$</span></code></p></li>
+<span class="math notranslate nohighlight">\($ BS = \frac{\sum_{i=1}^{n} (\widehat{p} (y_i)-y_i)^{2}}{n}\)</span>$</p></li>
 </ul>
 <p>.center[<img alt=":scale 70%" src="../_images/models_bscore.png" />]</p>
 <p>This graph is a nice way to look at how calibrated something
@@ -505,7 +500,8 @@ calibrate it.</p>
 <li><p>Build another model, mapping classifier probabilities to better probabilities!</p></li>
 <li><p>1d model! (or more for multi-class)</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{calib}(s(x))</span> <span class="pre">\approx</span> <span class="pre">p(y)$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[ f_{calib}(s(x)) \approx p(y)\]</div>
 <ul class="simple">
 <li><p>s(x) is score given by model, usually</p></li>
 <li><p>Can also work with models that don’t even provide probabilities!
@@ -538,7 +534,8 @@ cross-validation again.</p>
 <li><p>(+ some tricks)</p></li>
 <li><p>Works well for SVMs</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">$$f_{platt}</span> <span class="pre">=</span> <span class="pre">\frac{1}{1</span> <span class="pre">+</span> <span class="pre">exp(-ws(x)</span> <span class="pre">-</span> <span class="pre">b)}$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[f_{platt} = \frac{1}{1 + exp(-ws(x) - b)}\]</div>
 <p>There are two main methods that people use and both are in
 scikit-learn. One is Platt scaling, Platt scaling is
 basically the same as 1D logistic regression. So you learn
@@ -571,7 +568,6 @@ model that allows you to say how steep should the sigmoid
 correction be while Isotonic regression is a very flexible
 model that allows you to correct anything in any way, it’s
 monotonous.</p>
-<p>class:spacious</p>
 </div>
 <div class="section" id="building-the-model">
 <h2>Building the model<a class="headerlink" href="#building-the-model" title="Permalink to this headline">¶</a></h2>
@@ -580,12 +576,10 @@ monotonous.</p>
 <li><p>Either use hold-out set or cross-validation</p></li>
 <li><p>Cross-validation can be used to make unbiased probability predictions, use that as training set.</p></li>
 </ul>
-<p>class: center</p>
 </div>
 <div class="section" id="fitting-the-calibration-model">
 <h2>Fitting the calibration model<a class="headerlink" href="#fitting-the-calibration-model" title="Permalink to this headline">¶</a></h2>
 <p><img alt=":scale 70%" src="../_images/calibration_val_scores.png" /></p>
-<p>class: center</p>
 </div>
 <div class="section" id="id1">
 <h2>Fitting the calibration model<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>

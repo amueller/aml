@@ -337,7 +337,6 @@
                 
   <div class="section" id="clustering-and-mixture-models">
 <h1>Clustering and Mixture Models<a class="headerlink" href="#clustering-and-mixture-models" title="Permalink to this headline">¶</a></h1>
-<p>class: center, middle</p>
 <div class="section" id="id1">
 <h2>Clustering and Mixture Models<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>04/06/20</p>
@@ -349,7 +348,6 @@ FIXME: illustration of Kmeans++
 FIXME: linkage explanation diagram
 FIXME: cluster sized in particularly good for dbscan (what did I mean?)
 debugging (what did I mean?!)</p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="clustering">
 <h2>Clustering<a class="headerlink" href="#clustering" title="Permalink to this headline">¶</a></h2>
@@ -380,7 +378,6 @@ should keep in mind that the number themselves have no
 meaning, renumbering the clusters corresponds to the same
 clustering.  We’re really only interested in which points
 have the same labels and which points have different labels.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="id2">
 <h2>Clustering<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
@@ -479,13 +476,11 @@ extraction are more common.</p>
 </ul>
 </li>
 </ul>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="clustering-algorithms">
 <h2>Clustering Algorithms<a class="headerlink" href="#clustering-algorithms" title="Permalink to this headline">¶</a></h2>
 <p>So now let’s start discussing some of the standard
 algorithms.</p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="k-means">
 <h2>K-Means<a class="headerlink" href="#k-means" title="Permalink to this headline">¶</a></h2>
@@ -495,8 +490,9 @@ find.</p>
 </div>
 <div class="section" id="objective-function-for-k-means">
 <h2>Objective function for K-Means<a class="headerlink" href="#objective-function-for-k-means" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">$$\Large</span> <span class="pre">\min_{\mathbf{c}_j</span> <span class="pre">\in</span> <span class="pre">\mathbf{R}^p,</span> <span class="pre">j=1,..,k}</span> <span class="pre">\sum_i</span> <span class="pre">||\mathbf{x}_i</span> <span class="pre">-</span> <span class="pre">\mathbf{c}_{x_i}||^2</span> <span class="pre">$$</span></code>
-<span class="math notranslate nohighlight">\(\mathbf{c}_{x_i}\)</span> is the cluster center <span class="math notranslate nohighlight">\(c_j\)</span> closest to <span class="math notranslate nohighlight">\(x_i\)</span></p>
+<div class="math notranslate nohighlight">
+\[\Large \min_{\mathbf{c}_j \in \mathbf{R}^p, j=1,..,k} \sum_i ||\mathbf{x}_i - \mathbf{c}_{x_i}||^2 \]</div>
+<p><span class="math notranslate nohighlight">\(\mathbf{c}_{x_i}\)</span> is the cluster center <span class="math notranslate nohighlight">\(c_j\)</span> closest to <span class="math notranslate nohighlight">\(x_i\)</span></p>
 <ul class="simple">
 <li><p>Finds a local minimum of minimizing squared distances (exact solution is
 NP hard):</p></li>
@@ -687,7 +683,6 @@ lines for two clusters.</p>
 <p>Even though it has these restrictions it’s still a very
 commonly used algorithm. And so we’ll talk a little bit more
 about some of the other properties of this algorithm.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="computational-properties">
 <h2>Computational Properties<a class="headerlink" href="#computational-properties" title="Permalink to this headline">¶</a></h2>
@@ -836,7 +831,6 @@ was very interesting because it uses very simple approach to
 find basically prototypes in the data center, they used like
 hundreds or thousands of cluster centers and then use the
 distances to these cluster centers as the features.</p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="agglomerative-clustering">
 <h2>Agglomerative Clustering<a class="headerlink" href="#agglomerative-clustering" title="Permalink to this headline">¶</a></h2>
@@ -864,7 +858,6 @@ merged until there’s three clusters left.</p>
 <li><p>Creates a hierarchical clustering from with cluster
 sizes from n_samples to single cluster.</p></li>
 </ul>
-<p>class: spacious</p>
 </div>
 <div class="section" id="dendograms">
 <h2>Dendograms<a class="headerlink" href="#dendograms" title="Permalink to this headline">¶</a></h2>
@@ -985,7 +978,6 @@ equivalent to top down approach.</p>
 <p>Ward is the default in scikit-learn. It’s kind of nice
 because it makes relatively equally sized clusters.</p>
 <p>single linkage = cutting longest edge in minimum spanning tree.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="pros-and-cons">
 <h2>Pros and Cons<a class="headerlink" href="#pros-and-cons" title="Permalink to this headline">¶</a></h2>
@@ -1041,7 +1033,6 @@ that.</p>
 <p>common graph: neighborhood in input space, neighborhood in
 image
 hierachy / dendrogram can help picking number of clusters.</p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="dbscan">
 <h2>DBSCAN<a class="headerlink" href="#dbscan" title="Permalink to this headline">¶</a></h2>
@@ -1217,7 +1208,6 @@ various similar sized clusters, KMeans or ward is better.</p>
 clustering algorithm. But it’s a probabilistic generative
 model.</p>
 <p>eps is related to number of clusters, so not much worse than kmeans or agglomerative</p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="gaussian-mixture-models">
 <h2>(Gaussian) Mixture Models<a class="headerlink" href="#gaussian-mixture-models" title="Permalink to this headline">¶</a></h2>
@@ -1252,8 +1242,10 @@ components</p></li>
 </div>
 <div class="section" id="id7">
 <h2>Gaussian Mixture Models<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">p(\mathbf{x})</span> <span class="pre">=</span> <span class="pre">\sum_{j=1}^k</span> <span class="pre">\pi_k</span> <span class="pre">\mathcal{N}(\mathbf{x},</span> <span class="pre">\mu_k,</span> <span class="pre">\Sigma_k)</span> <span class="pre">$$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">k</span> <span class="pre">\sim</span> <span class="pre">\text{Mult}(\pi),</span> <span class="pre">x</span> <span class="pre">\sim</span> <span class="pre">\mathcal{N}(\mathbf{x},</span> <span class="pre">\mu_k,</span> <span class="pre">\Sigma_k)$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[ p(\mathbf{x}) = \sum_{j=1}^k \pi_k \mathcal{N}(\mathbf{x}, \mu_k, \Sigma_k) \]</div>
+<div class="math notranslate nohighlight">
+\[ k \sim \text{Mult}(\pi), x \sim \mathcal{N}(\mathbf{x}, \mu_k, \Sigma_k)\]</div>
 <p>So for Gaussian mixture models, each of these distribution
 would just be a Gaussian with a different mean and a
 different covariance function.</p>
@@ -1318,7 +1310,8 @@ parametric form of the density.</p>
 </ul>
 </li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">p(\mathbf{x})</span> <span class="pre">=</span> <span class="pre">\sum_{j=1}^k</span> <span class="pre">\pi_k</span> <span class="pre">\mathcal{N}(\mathbf{x},</span> <span class="pre">\mu_k,</span> <span class="pre">\Sigma_k)</span> <span class="pre">$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[ p(\mathbf{x}) = \sum_{j=1}^k \pi_k \mathcal{N}(\mathbf{x}, \mu_k, \Sigma_k) \]</div>
 <p>.center[
 <img alt=":scale 40%" src="../_images/gmm1.png" />
 ]</p>
@@ -1333,7 +1326,6 @@ kind of hard to draw distributions in 2D so I did it in 1D.</p>
 and initialization and so on, and then you fit the means and
 the covariance</p>
 <p>FIXME make clear bottom is weighted sum of top plots</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="why-mixture-models">
 <h2>Why Mixture Models?<a class="headerlink" href="#why-mixture-models" title="Permalink to this headline">¶</a></h2>
@@ -1513,7 +1505,6 @@ high dimensions.</p>
 <p>In high dimensions or with few samples, fitting the whole
 (n_features ** 2) covariance matrix can be unstable.
 We can restric it to be spherical, diagonal, tied or full.</p>
-<p>class:center</p>
 </div>
 <div class="section" id="gmm-vs-kmeans">
 <h2>GMM vs KMeans<a class="headerlink" href="#gmm-vs-kmeans" title="Permalink to this headline">¶</a></h2>
@@ -1530,7 +1521,6 @@ that it’s going to work.</p>
 Gaussian and you won’t know how many components there might
 be.</p>
 <p>GMM can be more unstable, is more expensive to compute.</p>
-<p>class: some-space</p>
 </div>
 <div class="section" id="summary">
 <h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
@@ -1597,7 +1587,6 @@ is your data set actually going to look like this or is it
 going to look like this?</p>
 <p>I think in in the real world data sets are much more likely
 to look something like this.</p>
-<p>class: middle</p>
 </div>
 <div class="section" id="questions">
 <h2>Questions ?<a class="headerlink" href="#questions" title="Permalink to this headline">¶</a></h2>

@@ -374,7 +374,6 @@ $w_{j+1} = w_j - \gamma \frac{\partial L(\mathbf{x}_i, y_i, \mathbf{w}, b)}{\par
 </div>
 </div>
 </div>
-<p>class: center, middle</p>
 <div class="section" id="stochastic-gradient-descent-gradient-boosting">
 <h1>(Stochastic) Gradient Descent, Gradient Boosting<a class="headerlink" href="#stochastic-gradient-descent-gradient-boosting" title="Permalink to this headline">¶</a></h1>
 <p>02/19/20</p>
@@ -450,11 +449,14 @@ at a time.</p>
 <h2>(Stochastic) Gradient Descent<a class="headerlink" href="#stochastic-gradient-descent" title="Permalink to this headline">¶</a></h2>
 <p>.smaller[
 Logistic Regression Objective:</p>
-<p><code class="docutils literal notranslate"><span class="pre">$$F(w,</span> <span class="pre">b)</span> <span class="pre">=</span> <span class="pre">-C</span> <span class="pre">\sum_{i=1}^n\log(\exp(-y_iw^T</span> <span class="pre">\textbf{x}_ii</span> <span class="pre">-b)</span> <span class="pre">+1</span> <span class="pre">)</span> <span class="pre">+</span> <span class="pre">||w||_2^2$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[F(w, b) = -C \sum_{i=1}^n\log(\exp(-y_iw^T \textbf{x}_ii -b) +1 ) + ||w||_2^2\]</div>
 <p>Gradient:</p>
-<p><code class="docutils literal notranslate"><span class="pre">$$\frac{d}{dw}F(w)</span> <span class="pre">=</span> <span class="pre">\frac{d}{dw}</span> <span class="pre">-C</span> <span class="pre">\sum_{i=1}^n\log(\exp(-y_iw^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">-</span> <span class="pre">b)</span> <span class="pre">+1</span> <span class="pre">)</span> <span class="pre">+</span> <span class="pre">||w||_2^2$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[\frac{d}{dw}F(w) = \frac{d}{dw} -C \sum_{i=1}^n\log(\exp(-y_iw^T \textbf{x}_i - b) +1 ) + ||w||_2^2\]</div>
 <p>Stochastic Gradient: Pick <span class="math notranslate nohighlight">\(x_i\)</span> randomly, then</p>
-<p><code class="docutils literal notranslate"><span class="pre">$$\frac{d}{dw}F(w)</span> <span class="pre">\approx</span> <span class="pre">\frac{d}{dw}</span> <span class="pre">-C</span> <span class="pre">\log(\exp(-y_iw^T</span> <span class="pre">\textbf{x}_ii</span> <span class="pre">-b)</span> <span class="pre">+1</span> <span class="pre">)</span> <span class="pre">+</span> <span class="pre">\frac{1}{n}||w||_2^2$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[\frac{d}{dw}F(w) \approx \frac{d}{dw} -C \log(\exp(-y_iw^T \textbf{x}_ii -b) +1 ) + \frac{1}{n}||w||_2^2\]</div>
 <p>In practice: just iterate over i.
 ]</p>
 <p>Looking at the Logistic Regression, the functional Logistic
@@ -467,7 +469,6 @@ through all the data points. We make sure we shuffle them
 before. Then we do small gradient steps. This is a very bad
 optimizer compared to the SAG but it can go very quickly
 over a lot of data.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="sgdclassifier-sgdregressor-and-partial-fit">
 <h2>SGDClassifier, SGDRegressor and partial_fit<a class="headerlink" href="#sgdclassifier-sgdregressor-and-partial-fit" title="Permalink to this headline">¶</a></h2>
@@ -500,7 +501,6 @@ do more of gradient descent, then you get better results.
 This code is the same code for all combinations of losses
 and regularizers because it’s very simple to write this
 down.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="sgd-and-partial-fit">
 <h2>SGD and partial_fit<a class="headerlink" href="#sgd-and-partial-fit" title="Permalink to this headline">¶</a></h2>
@@ -554,7 +554,6 @@ residuals, and it’s been found to work very well in
 practice, in particular if you’re using shallow trees as the
 weak learners. In principle, you could use any model as a
 weak learner, but trees just work really well.</p>
-<p>class: centre,middle</p>
 </div>
 <div class="section" id="gradient-boosting">
 <h2>Gradient Boosting<a class="headerlink" href="#gradient-boosting" title="Permalink to this headline">¶</a></h2>
@@ -576,9 +575,12 @@ single split.</p>
 </div>
 <div class="section" id="gradient-boosting-algorithm">
 <h2>Gradient Boosting Algorithm<a class="headerlink" href="#gradient-boosting-algorithm" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{1}(x)</span> <span class="pre">\approx</span> <span class="pre">y</span>&#160; <span class="pre">$$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{2}(x)</span> <span class="pre">\approx</span> <span class="pre">y</span> <span class="pre">-</span> <span class="pre">f_{1}(x)</span> <span class="pre">$$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{3}(x)</span> <span class="pre">\approx</span> <span class="pre">y</span> <span class="pre">-</span> <span class="pre">f_{1}(x)</span> <span class="pre">-</span> <span class="pre">f_{2}(x)$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[ f_{1}(x) \approx y  \]</div>
+<div class="math notranslate nohighlight">
+\[ f_{2}(x) \approx y - f_{1}(x) \]</div>
+<div class="math notranslate nohighlight">
+\[ f_{3}(x) \approx y - f_{1}(x) - f_{2}(x)\]</div>
 <p>–</p>
 <p><span class="math notranslate nohighlight">\(y \approx\)</span> <img alt=":scale 22.5%" src="../_images/grad_boost_term_1.png" /> + <img alt=":scale 22.5%" src="../_images/grad_boost_term_2.png" /> + <img alt=":scale 20%" src="../_images/grad_boost_term_3.png" /> + …</p>
 <p>Let’s look at the regression case first. We start by
@@ -604,9 +606,12 @@ powerful composite model.</p>
 </div>
 <div class="section" id="id2">
 <h2>Gradient Boosting Algorithm<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{1}(x)</span> <span class="pre">\approx</span> <span class="pre">y</span>&#160; <span class="pre">$$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{2}(x)</span> <span class="pre">\approx</span> <span class="pre">y</span> <span class="pre">-</span> <span class="pre">\gamma</span> <span class="pre">f_{1}(x)</span> <span class="pre">$$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">f_{3}(x)</span> <span class="pre">\approx</span> <span class="pre">y</span> <span class="pre">-</span> <span class="pre">\gamma</span> <span class="pre">f_{1}(x)</span> <span class="pre">-</span> <span class="pre">\gamma</span> <span class="pre">f_{2}(x)$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[ f_{1}(x) \approx y  \]</div>
+<div class="math notranslate nohighlight">
+\[ f_{2}(x) \approx y - \gamma f_{1}(x) \]</div>
+<div class="math notranslate nohighlight">
+\[ f_{3}(x) \approx y - \gamma f_{1}(x) - \gamma f_{2}(x)\]</div>
 <p><span class="math notranslate nohighlight">\(y \approx \gamma\)</span> <img alt=":scale 22.5%" src="../_images/grad_boost_term_1.png" /> + <span class="math notranslate nohighlight">\(\gamma\)</span> <img alt=":scale 22.5%" src="../_images/grad_boost_term_2.png" /> + <span class="math notranslate nohighlight">\(\gamma\)</span> <img alt=":scale 20%" src="../_images/grad_boost_term_3.png" /> + …</p>
 <p>Learning rate <span class="math notranslate nohighlight">\(\gamma, i.e. 0.1\)</span></p>
 <ul class="simple">
@@ -616,7 +621,6 @@ powerful composite model.</p>
 </ul>
 <p>FIXME plot for regression models
 Come back to this</p>
-<p>class: compact</p>
 </div>
 <div class="section" id="gradient-boosting-is-gradient-descent">
 <h2>Gradient Boosting is Gradient Descent<a class="headerlink" href="#gradient-boosting-is-gradient-descent" title="Permalink to this headline">¶</a></h2>
@@ -628,7 +632,8 @@ Come back to this</p>
 <div class="math notranslate nohighlight">
 \[ = \sum_i(y_i - w^T \mathbf{x}_i - b)^2 \]</div>
 <p>optimize:</p>
-<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}^p,</span> <span class="pre">b\in\mathbb{R}}</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">(y_i</span> <span class="pre">-</span> <span class="pre">w^T\mathbf{x}_i</span> <span class="pre">-</span> <span class="pre">b)^2$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[\min_{w \in \mathbb{R}^p, b\in\mathbb{R}} \sum_{i=1}^n (y_i - w^T\mathbf{x}_i - b)^2\]</div>
 </div>
 </div>
 <div class="section" id="gradient-descent-w-j-1-w-j-gamma-frac-partial-l-mathbf-x-i-y-i-mathbf-w-b-partial-mathbf-w">
@@ -641,7 +646,8 @@ Come back to this</p>
 <div class="math notranslate nohighlight">
 \[ L(y_i, \hat{y}_i) = \sum_i(y_i - \hat{y}_i)^2 \]</div>
 <p>optimize:</p>
-<p><code class="docutils literal notranslate"><span class="pre">$$\min_{\hat{y}\in</span> <span class="pre">\mathbb{R}^n}</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">(y_i</span> <span class="pre">-</span> <span class="pre">\hat{y_i})^2$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[\min_{\hat{y}\in \mathbb{R}^n} \sum_{i=1}^n (y_i - \hat{y_i})^2\]</div>
 <p>gradient descent:
 <span class="math notranslate nohighlight">\($\hat{y}_{j+1} = \hat{y}_j - \gamma \frac{\partial L(y_i, \hat{y}_i)}{\partial\hat{y}}\)</span>$
 ]</p>
@@ -719,16 +725,17 @@ will be a very large residual.</p>
 <div class="section" id="gradient-boosting-for-classification">
 <h2>Gradient boosting for classification<a class="headerlink" href="#gradient-boosting-for-classification" title="Permalink to this headline">¶</a></h2>
 <p>Logistic regression:</p>
-<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}\sum_{i=1}^n\log(\exp(-y_i(w^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">+</span> <span class="pre">b</span> <span class="pre">))</span> <span class="pre">+</span> <span class="pre">1)$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[\min_{w \in ℝ^{p}, b \in \mathbb{R}}\sum_{i=1}^n\log(\exp(-y_i(w^T \textbf{x}_i + b )) + 1)\]</div>
 <p>Gradient boosting:
-<code class="docutils literal notranslate"><span class="pre">$$\min_{y_i\in</span> <span class="pre">\mathbb{R}^n}\sum_{i=1}^n\log(\exp(-y_i</span> <span class="pre">\hat{y}_i)</span> <span class="pre">+</span> <span class="pre">1)$$</span></code></p>
+<span class="math notranslate nohighlight">\($\min_{y_i\in \mathbb{R}^n}\sum_{i=1}^n\log(\exp(-y_i \hat{y}_i) + 1)\)</span>$</p>
 </div>
 <div class="section" id="multiclass-gradient-boosting">
 <h2>Multiclass Gradient Boosting<a class="headerlink" href="#multiclass-gradient-boosting" title="Permalink to this headline">¶</a></h2>
 <p>Multinomial logistic regression:
-<code class="docutils literal notranslate"><span class="pre">$$p(y=c|x)</span> <span class="pre">=</span> <span class="pre">\frac{e^{\textbf{w}_c^T\textbf{x}</span> <span class="pre">+</span> <span class="pre">b_i}}{\sum_{j=1}^k</span> <span class="pre">e^{\textbf{w}_j^T\textbf{x}</span> <span class="pre">+</span> <span class="pre">b_j}}$$</span></code>
+<span class="math notranslate nohighlight">\($p(y=c|x) = \frac{e^{\textbf{w}_c^T\textbf{x} + b_i}}{\sum_{j=1}^k e^{\textbf{w}_j^T\textbf{x} + b_j}}\)</span>$
 Multi-class gradient boosting:
-<code class="docutils literal notranslate"><span class="pre">$$p(y=c|x)</span> <span class="pre">=</span> <span class="pre">\frac{e^{\hat{y}^{(c)}}}{\sum_{j=1}^k</span> <span class="pre">e^{\hat{y}^{(j)}}}$$</span></code>
+<span class="math notranslate nohighlight">\($p(y=c|x) = \frac{e^{\hat{y}^{(c)}}}{\sum_{j=1}^k e^{\hat{y}^{(j)}}}\)</span>$
 One regression tree per class (per gradient step).</p>
 <p>#GradientBoostingClassifier / HistGradientBoostingClassifier</p>
 <p>.center[
@@ -784,7 +791,6 @@ data to train your model because you need to the validation
 set for early stopping. You’ll still need a separate test
 set to see how well the model actually does. You can’t use
 the same set for early stopping and for evaluation.</p>
-<p>class:spacious</p>
 </div>
 <div class="section" id="tuning-of-gradient-boosting">
 <h2>Tuning of Gradient Boosting<a class="headerlink" href="#tuning-of-gradient-boosting" title="Permalink to this headline">¶</a></h2>
@@ -818,7 +824,6 @@ about analyzing the models. So again, because it’s a
 tree-based model, the prediction is a linear combination of
 trees, you can look at feature importance like the same way
 we did for random forest and trees.</p>
-<p>class: middle</p>
 </div>
 <div class="section" id="improvements">
 <h2>Improvements:<a class="headerlink" href="#improvements" title="Permalink to this headline">¶</a></h2>
@@ -826,7 +831,6 @@ we did for random forest and trees.</p>
 <div class="section" id="extreme-gradient-boosting">
 <h2>“extreme” gradient boosting<a class="headerlink" href="#extreme-gradient-boosting" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="http://dmlc.cs.washington.edu/data/pdf/XGBoostArxiv.pdf">XGBoost: A Scalable Tree Boosting System, 2016</a></p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="speeding-up-tree-building-via-binning">
 <h2>Speeding up tree-building via binning<a class="headerlink" href="#speeding-up-tree-building-via-binning" title="Permalink to this headline">¶</a></h2>
@@ -896,7 +900,6 @@ we did for random forest and trees.</p>
 <p>.right-column[
 <img alt=":scale 100%" src="../_images/xgboost-binning.png" />
 ]</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="a-better-split-criterion">
 <h2>A better split criterion<a class="headerlink" href="#a-better-split-criterion" title="Permalink to this headline">¶</a></h2>
@@ -1040,7 +1043,6 @@ threshold will be approximate.</p>
 <li><p>lots of tooling
 ]</p></li>
 </ul>
-<p>class:spacious</p>
 </div>
 <div class="section" id="gradient-boosting-advantages">
 <h2>Gradient Boosting Advantages<a class="headerlink" href="#gradient-boosting-advantages" title="Permalink to this headline">¶</a></h2>
@@ -1064,11 +1066,9 @@ random forests.</p>
 low versus high learning rate changes?</p>
 <p>High learning rate allows you to fit the data more strongly
 and also overfit the data more strongly.</p>
-<p>class: middle</p>
 </div>
 <div class="section" id="concluding-tree-based-models">
 <h2>Concluding tree-based models<a class="headerlink" href="#concluding-tree-based-models" title="Permalink to this headline">¶</a></h2>
-<p>class:spacious</p>
 </div>
 <div class="section" id="when-to-use-tree-based-models">
 <h2>When to use tree-based models<a class="headerlink" href="#when-to-use-tree-based-models" title="Permalink to this headline">¶</a></h2>

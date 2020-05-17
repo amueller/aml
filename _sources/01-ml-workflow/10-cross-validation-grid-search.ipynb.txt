@@ -43,7 +43,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, some-space\n",
     "## Cross-validation + test set\n",
     "\n",
     "![:scale 105%](images/grid_search_cross_validation_new.png)\n",
@@ -109,7 +108,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "![:scale 80%](images/gridsearch_workflow.png)\n",
     "\n",
     "\n",
@@ -189,7 +188,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: compact\n",
+    
     "\n",
     "## GridSearchCV Results\n",
     ".tiny[\n",
@@ -243,7 +242,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "## n_neighbors Search Results\n",
     "\n",
     "![:scale 70%](images/grid_search_n_neighbors.png)\n",
@@ -259,7 +258,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "## Nested Cross-Validation\n",
     "\n",
     "- Replace outer split by CV loop\n",
@@ -285,7 +284,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "## Cross-Validation Strategies\n",
     "\n",
     "\n",
@@ -309,7 +308,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: compact\n",
+    
     ".center[\n",
     "![:scale 90%](images/stratified_cv.png)\n",
     "]\n",
@@ -376,7 +375,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "## Repeated KFold and LeaveOneOut\n",
     "\n",
     "- LeaveOneOut : KFold(n_folds=n_samples) \n",
@@ -409,7 +408,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: compact\n",
+    
     ".center[\n",
     "![:scale 100%](images/shuffle_split_cv.png)\n",
     "]\n",
@@ -430,7 +429,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: compact\n",
+    
     ".center[\n",
     "![:scale 100%](images/repeated_stratified_kfold.png)\n",
     "]\n",
@@ -445,7 +444,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "## Defaults in scikit-learn\n",
     "\n",
     "- 5-fold in 0.22 (used to be 3 fold)\n",
@@ -472,7 +471,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "## Cross-Validation with non-iid data"
    ]
   },
@@ -529,7 +528,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "## Correlations in time (and/or space)\n",
     "\n",
     "![:scale 70%](images/time_series1.png)\n",
@@ -544,7 +543,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "## Correlations in time (and/or space)\n",
     "\n",
     "![:scale 70%](images/time_series2.png)\n",
@@ -559,7 +558,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "## Correlations in time (and/or space)\n",
     "\n",
     "![:scale 70%](images/time_series3.png)\n",
@@ -697,7 +696,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: middle\n",
+    
     "\n",
     "## Questions ?"
    ]

@@ -11,7 +11,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "## Recap on imbalanced data"
    ]
@@ -20,7 +20,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "\n",
     "## Two sources of imbalance\n",
     "\n",
@@ -43,7 +43,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "\n",
     "## Why do we care?\n",
     "\n",
@@ -154,7 +154,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "### Remedies for the model\n",
     "\n",
@@ -309,7 +309,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, spacious\n",
+    
     "\n",
     "## Sckit-learn vs resampling\n",
     "\n",
@@ -332,7 +332,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "## Imbalance-Learn\n",
     "\n",
     "http://imbalanced-learn.org\n",
@@ -674,7 +674,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "\n",
     "## Class-weights\n",
     "\n",
@@ -700,13 +700,13 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "\n",
     "## Class-weights in linear models\n",
     "\n",
-    "`$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}}-C \\sum_{i=1}^n\\log(\\exp(-y_i(w^T \\textbf{x}_i + b )) + 1) + ||w||_2^2$$`\n",
+    "$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}}-C \\sum_{i=1}^n\\log(\\exp(-y_i(w^T \\textbf{x}_i + b )) + 1) + ||w||_2^2$$\n",
     "\n",
-    "`$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}}-C \\sum_{i=1}^n c_{y_i}  \\log(\\exp(-y_i(w^T \\textbf{x}_i + b )) + 1) + ||w||_2^2$$`\n",
+    "$$\\min_{w \\in ℝ^{p}, b \\in \\mathbb{R}}-C \\sum_{i=1}^n c_{y_i}  \\log(\\exp(-y_i(w^T \\textbf{x}_i + b )) + 1) + ||w||_2^2$$\n",
     "\n",
     "Similar for linear and non-linear SVM\n",
     "\n",
@@ -738,9 +738,9 @@
     "\n",
     "Gini Index:\n",
     "\n",
-    "`$$H_\\text{gini}(X_m) = \\sum_{k\\in\\mathcal{Y}} p_{mk} (1 - p_{mk})$$`\n",
+    "$$H_\\text{gini}(X_m) = \\sum_{k\\in\\mathcal{Y}} p_{mk} (1 - p_{mk})$$\n",
     "\n",
-    "`$$H_\\text{gini}(X_m) = \\sum_{k\\in\\mathcal{Y}} c_k p_{mk} (1 - p_{mk})$$`\n",
+    "$$H_\\text{gini}(X_m) = \\sum_{k\\in\\mathcal{Y}} c_k p_{mk} (1 - p_{mk})$$\n",
     "\n",
     "Prediction:\n",
     "\n",
@@ -805,7 +805,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "\n",
     "## Ensemble Resampling\n",
     "\n",
@@ -888,7 +888,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "![:scale 100%](images/roc_vs_pr.png)\n",
     "\n",
@@ -925,7 +925,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "### Synthetic Sample Generation\n",
     "\n",
@@ -981,7 +981,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     ".center[\n",
     "![:scale 100%](images/smote_mammography.png)\n",
@@ -1078,7 +1078,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     ".center[\n",
     "![:scale 100%](images/roc_vs_pr_smote.png)\n",
@@ -1089,7 +1089,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "\n",
     "## Summary\n",
     "\n",

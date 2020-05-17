@@ -201,6 +201,10 @@
         </li>
     
         <li class="nav-item toc-entry toc-h2">
+            <a href="#backpropagation" class="nav-link">Backpropagation</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
             <a href="#learning-heuristics" class="nav-link">Learning Heuristics</a>
         </li>
     
@@ -245,7 +249,6 @@
                 
   <div class="section" id="neural-networks">
 <h1>Neural Networks<a class="headerlink" href="#neural-networks" title="Permalink to this headline">¶</a></h1>
-<p>class: center, middle</p>
 <div class="section" id="id1">
 <h2>Neural Networks<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>04/20/20</p>
@@ -358,8 +361,8 @@ function like the logistic sigmoid.</p>
 <p>.center[
 <img alt=":scale 50%" src="../_images/nn_basic_arch.png" />
 ]</p>
-<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">h(x)</span> <span class="pre">=</span> <span class="pre">f(W_1x+b_1)</span> <span class="pre">$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">o(x)</span> <span class="pre">=</span> <span class="pre">g(W_2h(x)</span> <span class="pre">+</span> <span class="pre">b_2)</span> <span class="pre">$</span></code></p>
+<p>$ h(x) = f(W_1x+b_1) $</p>
+<p>$ o(x) = g(W_2h(x) + b_2) $</p>
 <p>So now let’s look at what a neural network is. It’s very
 similar to the logistic regression, only applied several
 times.
@@ -523,7 +526,7 @@ human.</p>
 <div class="math notranslate nohighlight">
 \[ =\min_{W_1,W_2,b_1,b_2} \sum\limits_{i=1}^N l(y_i,g(W_2f(W_1x+b_1)+b_2)\]</div>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">$l$</span></code> Squared loss for regression. Cross-entropy loss for classification</p></li>
+<li><p><span class="math notranslate nohighlight">\(l\)</span> Squared loss for regression. Cross-entropy loss for classification</p></li>
 </ul>
 <p>So how are we going to learn these parameters, these weights
 and biases for all the layers? If we did logistic
@@ -559,11 +562,12 @@ basically the best we can do.</p>
 <p>Because you have to care about this optimization more than
 for many other models I’ll go into a bit more details about
 how this works. Let me know if anything is unclear.</p>
-<p>#Backpropagation</p>
-<ul class="simple">
-<li><p>Need <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">\frac{\partial</span> <span class="pre">l(y,</span> <span class="pre">o)}{\partial</span> <span class="pre">W_i}</span> <span class="pre">$</span></code> and <code class="docutils literal notranslate"><span class="pre">$\frac{\partial</span> <span class="pre">l(y,</span> <span class="pre">o)}{\partial</span> <span class="pre">b_i}$</span></code></p></li>
-</ul>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\text{net}(x)</span> <span class="pre">:=</span> <span class="pre">W_1x</span> <span class="pre">+</span> <span class="pre">b_1</span> <span class="pre">$$</span></code></p>
+</div>
+<div class="section" id="backpropagation">
+<h2>Backpropagation<a class="headerlink" href="#backpropagation" title="Permalink to this headline">¶</a></h2>
+<p>Need $\frac{\partial l(y, o)}{\partial W_i} $ and <span class="math notranslate nohighlight">\(\frac{\partial l(y, o)}{\partial b_i}\)</span></p>
+<div class="math notranslate nohighlight">
+\[ \text{net}(x) := W_1x + b_1 \]</div>
 <p>.center[<img alt=":scale 70%" src="../_images/backprop_eqn.png" />]</p>
 <p>To run an optimizer, we do need to compute the gradients for
 all our parameters though, and that’s a bit non-obious.
@@ -623,16 +627,18 @@ gradients. We still need to think about what optimizer to
 use to actually find the minimum given the gradients. So how
 could we do that? Gradient descent for example(FIXME gave
 answer earlier)</p>
-<p>class: compact
-#Optimizing W, b</p>
-<p>Batch
-<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">W_i</span> <span class="pre">\leftarrow</span> <span class="pre">W_i</span> <span class="pre">-</span> <span class="pre">\eta\sum\limits_{j=1}^N</span> <span class="pre">\frac{\partial</span> <span class="pre">l(x_j,y_j)}{\partial</span> <span class="pre">W_i}</span> <span class="pre">$$</span></code></p>
+<p>#Optimizing W, b</p>
+<p>Batch</p>
+<div class="math notranslate nohighlight">
+\[ W_i \leftarrow W_i - \eta\sum\limits_{j=1}^N \frac{\partial l(x_j,y_j)}{\partial W_i} \]</div>
 <p>–</p>
-<p>Online/Stochastic
-<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">W_i</span> <span class="pre">\leftarrow</span> <span class="pre">W_i</span> <span class="pre">-</span> <span class="pre">\eta\frac{\partial</span> <span class="pre">l(x_j,y_j)}{\partial</span> <span class="pre">W_i}$$</span></code></p>
+<p>Online/Stochastic</p>
+<div class="math notranslate nohighlight">
+\[ W_i \leftarrow W_i - \eta\frac{\partial l(x_j,y_j)}{\partial W_i}\]</div>
 <p>–</p>
-<p>Minibatch
-<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">W_i</span> <span class="pre">\leftarrow</span> <span class="pre">W_i</span> <span class="pre">-</span> <span class="pre">\eta\sum\limits_{j=k}^{k+m}</span> <span class="pre">\frac{\partial</span> <span class="pre">l(x_j,y_j)}{\partial</span> <span class="pre">W_i}$$</span></code></p>
+<p>Minibatch</p>
+<div class="math notranslate nohighlight">
+\[ W_i \leftarrow W_i - \eta\sum\limits_{j=k}^{k+m} \frac{\partial l(x_j,y_j)}{\partial W_i}\]</div>
 <p>So doing standard gradient descent, we would update a weight
 matrix W_i but using the old W_i and taking a gradient step,
 so subtracting the gradient of the loss wrt the paramters,
@@ -670,14 +676,13 @@ methods, like second order methods or LBFGS, but these are
 often not very effective on these large non-convex problems.
 One, called levenberg-marquardt is actually a possibility,
 but it’s not really used these days.</p>
-<p>class:spacious</p>
 </div>
 <div class="section" id="learning-heuristics">
 <h2>Learning Heuristics<a class="headerlink" href="#learning-heuristics" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Constant <code class="docutils literal notranslate"><span class="pre">$\eta$</span></code> not good</p></li>
-<li><p>Can decrease <code class="docutils literal notranslate"><span class="pre">$\eta$</span></code></p></li>
-<li><p>Better: adaptive <code class="docutils literal notranslate"><span class="pre">$\eta$</span></code> for each entry if W_i</p></li>
+<li><p>Constant <span class="math notranslate nohighlight">\(\eta\)</span> not good</p></li>
+<li><p>Can decrease <span class="math notranslate nohighlight">\(\eta\)</span></p></li>
+<li><p>Better: adaptive <span class="math notranslate nohighlight">\(\eta\)</span> for each entry if W_i</p></li>
 <li><p>State-of-the-art: adam (with magic numbers)</p></li>
 <li><p>https://arxiv.org/pdf/1412.6980.pdf</p></li>
 <li><p>http://sebastianruder.com/optimizing-gradient-descent/</p></li>
@@ -707,7 +712,6 @@ really hard to do actual theory about this, as it’s
 fundamentally impossible to actually find a global optimum.
 So nearly all of these strategies are heuristics, that have
 just proven well to work in practice.</p>
-<p>class:spacious</p>
 </div>
 <div class="section" id="picking-optimization-algorithms">
 <h2>Picking Optimization Algorithms<a class="headerlink" href="#picking-optimization-algorithms" title="Permalink to this headline">¶</a></h2>
@@ -734,7 +738,6 @@ we’ll use lbfgs instead, which is more likely to give good
 results if it’s feasible to run a large number of
 iterations. So let’s start using these models now, for now
 with scikit-learn.</p>
-<p>class: middle</p>
 </div>
 <div class="section" id="neural-nets-in-practice">
 <h2>Neural Nets in Practice<a class="headerlink" href="#neural-nets-in-practice" title="Permalink to this headline">¶</a></h2>
@@ -882,7 +885,6 @@ usually don&#39;t want to compress down your input space too
 quickly.
 
 +++
-class:spacious
 ## Complexity Control
 
 - Number of parameters
@@ -980,7 +982,6 @@ If you have a big dataset running this will probably take
 too long.
 
 +++
-class:center,middle
 #Getting Flexible and Scaling Up
 
 
@@ -995,7 +996,6 @@ If you want to get serious about neural nets, you are
 likely to include some modifications to the standard
 network. So how could you go about doing that?
 +++
-class:spacious
 ## Write your own neural networks
 .smaller[
 ```python
@@ -1321,7 +1321,6 @@ for t in range(500):
 <h2>Don’t go down to the metal unless you have to!<a class="headerlink" href="#don-t-go-down-to-the-metal-unless-you-have-to" title="Permalink to this headline">¶</a></h2>
 <p>Don’t write TensorFlow, write Keras!</p>
 <p>Don’t write PyTorch, write pytorch.nn or FastAI (or Skorch or ignite)</p>
-<p>class: middle</p>
 </div>
 <div class="section" id="questions">
 <h2>Questions ?<a class="headerlink" href="#questions" title="Permalink to this headline">¶</a></h2>

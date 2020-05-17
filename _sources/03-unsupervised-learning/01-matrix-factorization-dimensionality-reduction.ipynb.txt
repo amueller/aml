@@ -46,7 +46,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: centre,middle\n",
+    
     "## Principal Component Analysis"
    ]
   },
@@ -123,7 +123,7 @@
    "metadata": {},
    "source": [
     "## PCA objective(s)\n",
-    "`$$\\large\\min_{X', \\text{rank}(X') = r}\\|X-X'\\|$$`\n",
+    "$$\\large\\min_{X', \\text{rank}(X') = r}\\|X-X'\\|$$\n",
     ".center[\n",
     "![:scale 45%](images/pca-intuition.png)\n",
     "]\n",
@@ -161,11 +161,11 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:split-40\n",
+    
     "## PCA objective(s)\n",
     ".left-column[\n",
-    "`$$\\large\\max\\limits_{u_1 \\in R^p, \\| u_1 \\| = 1} \\text{var}(Xu_1)$$`\n",
-    "`$$\\large\\max\\limits_{u_1 \\in R^p, \\| u_1 \\| = 1} u_1^T \\text{cov} (X) u_1$$`\n",
+    "$$\\large\\max\\limits_{u_1 \\in R^p, \\| u_1 \\| = 1} \\text{var}(Xu_1)$$\n",
+    "$$\\large\\max\\limits_{u_1 \\in R^p, \\| u_1 \\| = 1} u_1^T \\text{cov} (X) u_1$$\n",
     "]\n",
     ".smaller.right-column[\n",
     ".center[\n",
@@ -240,7 +240,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "## Whitening\n",
     "![:scale 100%](images/whitening.png)\n",
     "\n",
@@ -340,7 +340,7 @@
     "that has a larger variance than that.\n",
     "\n",
     "+++\n",
-    "class:spacious\n",
+    
     "## Scaling!\n",
     "```python\n",
     "pca_scaled = make_pipeline(StandardScaler(), PCA(n_components=2))\n",
@@ -369,7 +369,7 @@
     "Imagine one feature with very large scale. Without scaling,\n",
     "it’s guaranteed to be the first principal component!\n",
     "+++\n",
-    "class:split-40\n",
+    
     "## Inspecting components\n",
     "```python\n",
     "components = pca_scaled.named_steps['pca'].components_\n",
@@ -525,7 +525,7 @@
     "\n",
     "Could obviously also do cross-validation + grid-search\n",
     "+++\n",
-    "class:split-40\n",
+    
     "## Interpreting coefficients\n",
     ".tiny-code[```python\n",
     "pca = pca_lr.named_steps['pca']\n",
@@ -571,7 +571,7 @@
     "Rotating coefficients back into input space. Makes sense\n",
     "because model is linear! Otherwise more tricky.\n",
     "+++\n",
-    "class:split-40\n",
+    
     "## PCA is Unsupervised!\n",
     ".left-column[\n",
     "![:scale 100%](images/pca-is-unsupervised-1.png)\n",
@@ -787,7 +787,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:split-40\n",
+    
     "## PCA for outlier detection\n",
     ".tiny-code[```python\n",
     "pca = PCA(n_components=100).fit(X_train)\n",
@@ -843,7 +843,7 @@
     "\n",
     "+++\n",
     "\n",
-    "class: middle\n",
+    
     "## Discriminant Analysis\n",
     "\n",
     "\n",
@@ -852,10 +852,10 @@
     "is also a classifier, but it also can do dimensionality\n",
     "reduction.\n",
     "+++\n",
-    "class: spacious\n",
+    
     "## Linear Discriminant Analysis aka Fisher Discriminant\n",
     "\n",
-    "`$$    P(y=k | X) = \\frac{P(X | y=k) P(y=k)}{P(X)} = \\frac{P(X | y=k) P(y = k)}{ \\sum_{l} P(X | y=l) \\cdot P(y=l)}$$`\n",
+    "$$    P(y=k | X) = \\frac{P(X | y=k) P(y=k)}{P(X)} = \\frac{P(X | y=k) P(y = k)}{ \\sum_{l} P(X | y=l) \\cdot P(y=l)}$$\n",
     "\n",
     "\n",
     "Linear Discriminant Analysis is also called LDA, but never\n",
@@ -896,12 +896,12 @@
     "- Don’t confuse with Latent Dirichlet Allocation (LDA)\n",
     "\n",
     "+++\n",
-    "class: spacious\n",
+    
     "## Linear Discriminant Analysis aka Fisher Discriminant\n",
     "\n",
-    "`$$    P(y=k | X) = \\frac{P(X | y=k) P(y=k)}{P(X)} = \\frac{P(X | y=k) P(y = k)}{ \\sum_{l} P(X | y=l) \\cdot P(y=l)}$$`\n",
+    "$$    P(y=k | X) = \\frac{P(X | y=k) P(y=k)}{P(X)} = \\frac{P(X | y=k) P(y = k)}{ \\sum_{l} P(X | y=l) \\cdot P(y=l)}$$\n",
     "\n",
-    "`$$ p(X | y=k) = \\frac{1}{(2\\pi)^n |\\Sigma|^{1/2}}\\exp\\left(-\\frac{1}{2} (X-\\mu_k)^t \\Sigma^{-1} (X-\\mu_k)\\right) $$`\n",
+    "$$ p(X | y=k) = \\frac{1}{(2\\pi)^n |\\Sigma|^{1/2}}\\exp\\left(-\\frac{1}{2} (X-\\mu_k)^t \\Sigma^{-1} (X-\\mu_k)\\right) $$\n",
     "\n",
     "\n",
     "So what we're doing is basically, we're fitting a Gaussian\n",
@@ -916,14 +916,14 @@
     "rule. And this gives us a classifier.\n",
     "\n",
     "+++\n",
-    "class: spacious\n",
+    
     "## Linear Discriminant Analysis aka Fisher Discriminant\n",
     "\n",
-    "`$$    P(y=k | X) = \\frac{P(X | y=k) P(y=k)}{P(X)} = \\frac{P(X | y=k) P(y = k)}{ \\sum_{l} P(X | y=l) \\cdot P(y=l)}$$`\n",
+    "$$    P(y=k | X) = \\frac{P(X | y=k) P(y=k)}{P(X)} = \\frac{P(X | y=k) P(y = k)}{ \\sum_{l} P(X | y=l) \\cdot P(y=l)}$$\n",
     "\n",
-    "`$$ p(X | y=k) = \\frac{1}{(2\\pi)^n |\\Sigma|^{1/2}}\\exp\\left(-\\frac{1}{2} (X-\\mu_k)^t \\Sigma^{-1} (X-\\mu_k)\\right) $$`\n",
+    "$$ p(X | y=k) = \\frac{1}{(2\\pi)^n |\\Sigma|^{1/2}}\\exp\\left(-\\frac{1}{2} (X-\\mu_k)^t \\Sigma^{-1} (X-\\mu_k)\\right) $$\n",
     "\n",
-    "`$$    \\log\\left(\\frac{P(y=k|X)}{P(y=l | X)}\\right) = 0 \\Leftrightarrow (\\mu_k-\\mu_l)\\Sigma^{-1} X = \\frac{1}{2} (\\mu_k^t \\Sigma^{-1} \\mu_k - \\mu_l^t \\Sigma^{-1} \\mu_l) $$`\n",
+    "$$    \\log\\left(\\frac{P(y=k|X)}{P(y=l | X)}\\right) = 0 \\Leftrightarrow (\\mu_k-\\mu_l)\\Sigma^{-1} X = \\frac{1}{2} (\\mu_k^t \\Sigma^{-1} \\mu_k - \\mu_l^t \\Sigma^{-1} \\mu_l) $$\n",
     "\n",
     "\n",
     "\n",
@@ -943,11 +943,11 @@
     "the prior probabilities of the class.\n",
     "\n",
     "+++\n",
-    "class: spacious\n",
+    
     "## Quadratic Discriminant Analysis\n",
-    "LDA: `$$ p(X | y=k) = \\frac{1}{(2\\pi)^n |\\Sigma|^{1/2}}\\exp\\left(-\\frac{1}{2} (X-\\mu_k)^t \\Sigma^{-1} (X-\\mu_k)\\right) $$`\n",
+    "LDA: $$ p(X | y=k) = \\frac{1}{(2\\pi)^n |\\Sigma|^{1/2}}\\exp\\left(-\\frac{1}{2} (X-\\mu_k)^t \\Sigma^{-1} (X-\\mu_k)\\right) $$\n",
     "\n",
-    "QDA: `$$ p(X | y=k) = \\frac{1}{(2\\pi)^n |\\Sigma_k|^{1/2}}\\exp\\left(-\\frac{1}{2} (X-\\mu_k)^t \\Sigma_k^{-1} (X-\\mu_k)\\right) $$`\n",
+    "QDA: $$ p(X | y=k) = \\frac{1}{(2\\pi)^n |\\Sigma_k|^{1/2}}\\exp\\left(-\\frac{1}{2} (X-\\mu_k)^t \\Sigma_k^{-1} (X-\\mu_k)\\right) $$\n",
     "\n",
     "\n",
     "\n",
@@ -964,7 +964,7 @@
     "little bit harder to fit.\n",
     "\n",
     "+++\n",
-    "class:center\n",
+    
     "![:scale 55%](images/linear-vs-quadratic-discriminant-analysis.png)\n",
     "\n",
     "\n",
@@ -1010,7 +1010,7 @@
     "then you look at the space spend by the means.\n",
     "\n",
     "+++\n",
-    "class:center\n",
+    
     "## PCA vs Linear Discriminants\n",
     "![:scale 100%](images/pca-lda.png)\n",
     "\n",
@@ -1031,7 +1031,7 @@
     "So it gets out the interesting dimensions that helped me\n",
     "classify.\n",
     "+++\n",
-    "class:center\n",
+    
     "## Data where PCA failed\n",
     "![:scale 100%](images/pca-fail.png)\n",
     "\n",
@@ -1074,7 +1074,7 @@
     "\n",
     "LDA also  also yields a rotation of the input spacA\n",
     "+++\n",
-    "class: centre,middle\n",
+    
     "## Manifold Learning\n",
     "\n",
     "\n",
@@ -1088,7 +1088,7 @@
     "\n",
     "\n",
     "+++\n",
-    "class: center, middle\n",
+    
     "![:scale 100%](images/manifold-learning-structure.png)\n",
     "\n",
     "\n",
@@ -1168,18 +1168,18 @@
     "+++\n",
     "## t-SNE\n",
     "\n",
-    "`$$p_{j\\mid i} = \\frac{\\exp(-\\lVert\\mathbf{x}_i - \\mathbf{x}_j\\rVert^2 / 2\\sigma_i^2)}{\\sum_{k \\neq i} \\exp(-\\lVert\\mathbf{x}_i - \\mathbf{x}_k\\rVert^2 / 2\\sigma_i^2)}$$`\n",
+    "$$p_{j\\mid i} = \\frac{\\exp(-\\lVert\\mathbf{x}_i - \\mathbf{x}_j\\rVert^2 / 2\\sigma_i^2)}{\\sum_{k \\neq i} \\exp(-\\lVert\\mathbf{x}_i - \\mathbf{x}_k\\rVert^2 / 2\\sigma_i^2)}$$\n",
     "--\n",
     "\n",
-    "`$$p_{ij} = \\frac{p_{j\\mid i} + p_{i\\mid j}}{2N}$$`\n",
-    "\n",
-    "--\n",
-    "\n",
-    "`$$q_{ij} = \\frac{(1 + \\lVert \\mathbf{y}_i - \\mathbf{y}_j\\rVert^2)^{-1}}{\\sum_{k \\neq i} (1 + \\lVert \\mathbf{y}_i - \\mathbf{y}_k\\rVert^2)^{-1}}$$`\n",
+    "$$p_{ij} = \\frac{p_{j\\mid i} + p_{i\\mid j}}{2N}$$\n",
     "\n",
     "--\n",
     "\n",
-    "`$$KL(P||Q) = \\sum_{i \\neq j} p_{ij} \\log \\frac{p_{ij}}{q_{ij}}$$`\n",
+    "$$q_{ij} = \\frac{(1 + \\lVert \\mathbf{y}_i - \\mathbf{y}_j\\rVert^2)^{-1}}{\\sum_{k \\neq i} (1 + \\lVert \\mathbf{y}_i - \\mathbf{y}_k\\rVert^2)^{-1}}$$\n",
+    "\n",
+    "--\n",
+    "\n",
+    "$$KL(P||Q) = \\sum_{i \\neq j} p_{ij} \\log \\frac{p_{ij}}{q_{ij}}$$\n",
     "\n",
     "\n",
     "\n",
@@ -1245,7 +1245,7 @@
     "- t distribution heavy-tailed so no overcrowding.\n",
     "- (low perplexity: only close neighbors)\n",
     "+++\n",
-    "class:center\n",
+    
     "![:scale 63%](images/tsne-embeddings-digits.png)\n",
     "\n",
     "\n",
@@ -1278,7 +1278,7 @@
     "\n",
     "\n",
     "+++\n",
-    "class:split-40\n",
+    
     ".smaller[```python\n",
     "from sklearn.manifold import TSNE\n",
     "from sklearn.datasets import load_digits\n",
@@ -1313,7 +1313,7 @@
     "space and I could group the data. This 2D view can help me\n",
     "understand the data.\n",
     "+++\n",
-    "class: center, compact\n",
+    
     "## Showing algorithm progress\n",
     "\n",
     "![:scale 50%](images/digits_tsne_animation.gif)\n",
@@ -1321,7 +1321,7 @@
     ".smallest[https://github.com/oreillymedia/t-SNE-tutorial]\n",
     "\n",
     "+++\n",
-    "class:split-40\n",
+    
     "## Tuning t-SNE perplexity\n",
     ".left-column[\n",
     "![:scale 70%](images/tsne-tuning-2.png)\n",
@@ -1358,7 +1358,7 @@
     "- authors say 30 always works well.\n",
     "\n",
     "+++\n",
-    "class:spacious\n",
+    
     "![:scale 25%](images/tsne-moons.png) ![:scale 55%](images/tsne-perplexity.png)\n",
     "\n",
     "\n",
@@ -1366,7 +1366,7 @@
     "wanted to see how well t-SNE can separate these out. Again,\n",
     "perplexity equal to 30, probably looks the best to me.\n",
     "+++\n",
-    "class: center, middle, spacious\n",
+    
     "## Play around online\n",
     "\n",
     "http://distill.pub/2016/misread-tsne/\n",
@@ -1410,7 +1410,7 @@
     "![:scale 47%](images/largevis_mnist.png)\n",
     "![:scale 47%](images/largevis_wikidoc.png)\n",
     "+++\n",
-    "class: center, middle\n",
+    
     "\n",
     "## Questions ?"
    ]
@@ -1419,7 +1419,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "## NMF; Outlier detection\n",
     "\n",
@@ -1465,7 +1465,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "## Non-Negative Matrix Factorization\n",
     "\n",
@@ -1560,7 +1560,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
+    
     "## Other Matrix Factorizations\n",
     "\n",
     "- PCA: principal components orthogonal, minimize\n",
@@ -1620,16 +1620,16 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: compact\n",
+    
     "\n",
     "## NMF Loss and algorithm\n",
     "\n",
     "Frobenius loss / squared loss ($ Y = H W$):\n",
     "\n",
-    "`$$ l_{\\text{frob}}(X, Y) = \\sum_{i,j} (X_{ij} - Y_{ij})^ 2$$`\n",
+    "$$ l_{\\text{frob}}(X, Y) = \\sum_{i,j} (X_{ij} - Y_{ij})^ 2$$\n",
     "\n",
     "Kulback-Leibler (KL) divergence:\n",
-    "`$$ l_{\\text{KL}}(X, Y) = \\sum_{i,j} X_{ij} \\log\\left(\\frac{X_{ij}}{Y_{ij}}\\right) - X_{ij}  + Y_{ij}$$`\n",
+    "$$ l_{\\text{KL}}(X, Y) = \\sum_{i,j} X_{ij} \\log\\left(\\frac{X_{ij}}{Y_{ij}}\\right) - X_{ij}  + Y_{ij}$$\n",
     "\n",
     "--\n",
     "\n",
@@ -1652,7 +1652,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "\n",
     "## Why NMF?\n",
     "\n",
@@ -1914,7 +1914,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
+    
     "## Applications of NMF\n",
     "\n",
     "- Text analysis (next week)\n",

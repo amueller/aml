@@ -11,7 +11,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "\n",
     "## Clustering and Mixture Models\n",
@@ -36,7 +36,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "## Clustering"
    ]
@@ -100,7 +100,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "## Clustering\n",
     "\n",
     "- Partition data into groups (clusters)\n",
@@ -226,7 +226,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "## Clustering Algorithms\n",
     "\n",
@@ -240,7 +240,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "## K-Means\n",
     "\n",
@@ -260,7 +260,7 @@
     "\n",
     "\n",
     "\n",
-    "`$$\\Large \\min_{\\mathbf{c}_j \\in \\mathbf{R}^p, j=1,..,k} \\sum_i ||\\mathbf{x}_i - \\mathbf{c}_{x_i}||^2 $$`\n",
+    "$$\\Large \\min_{\\mathbf{c}_j \\in \\mathbf{R}^p, j=1,..,k} \\sum_i ||\\mathbf{x}_i - \\mathbf{c}_{x_i}||^2 $$\n",
     "$\\mathbf{c}_{x_i}$ is the cluster center $c_j$ closest to $x_i$\n",
     "\n",
     "\n",
@@ -516,7 +516,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "\n",
     "## Computational Properties\n",
     "\n",
@@ -691,7 +691,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "## Agglomerative Clustering\n",
     "\n",
@@ -735,7 +735,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "\n",
     "## Dendograms\n",
     "\n",
@@ -880,7 +880,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "## Pros and Cons\n",
     "\n",
     "- Can restrict to input “topology”  graph.\n",
@@ -952,7 +952,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "## DBSCAN\n",
     "\n",
@@ -1190,7 +1190,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "## (Gaussian) Mixture Models\n",
     "\n",
@@ -1237,9 +1237,9 @@
    "source": [
     "## Gaussian Mixture Models\n",
     "\n",
-    "`$$ p(\\mathbf{x}) = \\sum_{j=1}^k \\pi_k \\mathcal{N}(\\mathbf{x}, \\mu_k, \\Sigma_k) $$`\n",
+    "$$ p(\\mathbf{x}) = \\sum_{j=1}^k \\pi_k \\mathcal{N}(\\mathbf{x}, \\mu_k, \\Sigma_k) $$\n",
     "\n",
-    "`$$ k \\sim \\text{Mult}(\\pi), x \\sim \\mathcal{N}(\\mathbf{x}, \\mu_k, \\Sigma_k)$$`\n",
+    "$$ k \\sim \\text{Mult}(\\pi), x \\sim \\mathcal{N}(\\mathbf{x}, \\mu_k, \\Sigma_k)$$\n",
     "\n",
     "\n",
     "So for Gaussian mixture models, each of these distribution\n",
@@ -1319,7 +1319,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "`$$ p(\\mathbf{x}) = \\sum_{j=1}^k \\pi_k \\mathcal{N}(\\mathbf{x}, \\mu_k, \\Sigma_k) $$`\n",
+    "$$ p(\\mathbf{x}) = \\sum_{j=1}^k \\pi_k \\mathcal{N}(\\mathbf{x}, \\mu_k, \\Sigma_k) $$\n",
     "\n",
     ".center[\n",
     "![:scale 40%](images/gmm1.png)\n",
@@ -1347,7 +1347,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "## Why Mixture Models?\n",
     "\n",
     "\n",
@@ -1578,7 +1578,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:center\n",
+    
     "## GMM vs KMeans\n",
     "\n",
     "![:scale 47%](images/gmm_vs_kmeans_1.png)\n",
@@ -1610,7 +1610,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: some-space\n",
+    
     "## Summary\n",
     "\n",
     "- KMeans\n",
@@ -1705,7 +1705,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: middle\n",
+    
     "## Questions ?"
    ]
   },

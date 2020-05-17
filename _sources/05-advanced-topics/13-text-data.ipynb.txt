@@ -356,7 +356,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "\n",
     "## \"bag\"\n",
     "\n",
@@ -393,7 +393,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "## Text classification example:\n",
     "## IMDB Movie Reviews\n",
@@ -645,7 +645,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: middle\n",
+    
     "\n",
     ".center[\n",
     "![:scale 100%](images/coefficients.png)\n",
@@ -667,7 +667,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:spacious\n",
+    
     "## Soo many options!\n",
     "\n",
     "- How to tokenize?\n",
@@ -688,7 +688,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "\n",
     "## Tokenization\n",
     "- Scikit-learn (very simplistic):\n",
@@ -871,7 +871,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "## Restricting the Vocabulary\n",
     "\n",
@@ -1541,7 +1541,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: middle\n",
+    
     "\n",
     "## Character n-grams\n",
     "\n",
@@ -1644,7 +1644,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "#Applications\n",
     "\n",
     "- Be robust to misspelling / obfuscation\n",
@@ -1782,7 +1782,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: middle\n",
+    
     ".center[\n",
     "![:scale 100%](images/imdb_char_ngrams.png)\n",
     "]\n",
@@ -1805,7 +1805,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: middle\n",
+    
     "\n",
     "## Predicting Nationality from Name\n",
     "\n",
@@ -1968,7 +1968,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "## Other features\n",
     "- Length of text\n",
     "- Number of out-of-vocabularly words\n",
@@ -1997,7 +1997,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: middle\n",
+    
     "\n",
     "## Large Scale Text Vectorization\n",
     "\n",
@@ -2169,7 +2169,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "#### W4995 Applied Machine Learning\n",
     "\n",
@@ -2232,7 +2232,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "## Topic Models\n",
     "\n",
@@ -2264,7 +2264,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: spacious\n",
+    
     "\n",
     "## Motivation\n",
     "\n",
@@ -2661,16 +2661,16 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: compact\n",
+    
     "\n",
     "## NMF Loss and algorithm\n",
     "\n",
     "Frobenius loss / squared loss ($ Y = H W$):\n",
     "\n",
-    "`$$ l_{\\text{frob}}(X, Y) = \\sum_{i,j} (X_{ij} - Y_{ij})^ 2$$`\n",
+    "$$ l_{\\text{frob}}(X, Y) = \\sum_{i,j} (X_{ij} - Y_{ij})^ 2$$\n",
     "\n",
     "Kulback-Leibler (KL) divergence:\n",
-    "`$$ l_{\\text{KL}}(X, Y) = \\sum_{i,j} X_{ij} \\log\\left(\\frac{X_{ij}}{Y_{ij}}\\right) - X_{ij}  + Y_{ij}$$`\n",
+    "$$ l_{\\text{KL}}(X, Y) = \\sum_{i,j} X_{ij} \\log\\left(\\frac{X_{ij}}{Y_{ij}}\\right) - X_{ij}  + Y_{ij}$$\n",
     "\n",
     "s.t. H, W all entries positive\n",
     "--\n",
@@ -2800,7 +2800,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "## NMF components without scaling\n",
     "\n",
     "![:scale 70%](images/nmf_topics_no_scaling.png)\n",
@@ -2814,7 +2814,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "\n",
     "## NMF with tfidf\n",
     "\n",
@@ -2884,7 +2884,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "#Latent Dirichlet Allocation\n",
     "## (the other LDA)\n",
@@ -3071,7 +3071,7 @@
     "--\n",
     "\n",
     "### Dirichlet\n",
-    "`$$ P(x_1, \\dots, x_k | \\alpha_1, \\dots \\alpha_k)=\\frac{1}{B(\\alpha)} x_1^{\\alpha_1 - 1} \\dots x_k^{\\alpha_k - 1} $$`\n",
+    "$$ P(x_1, \\dots, x_k | \\alpha_1, \\dots \\alpha_k)=\\frac{1}{B(\\alpha)} x_1^{\\alpha_1 - 1} \\dots x_k^{\\alpha_k - 1} $$\n",
     "\n",
     "\n",
     "\n",
@@ -3425,7 +3425,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: middle\n",
+    
     "## Rough overview of MCMC and Gibbs sampling"
    ]
   },
@@ -3454,7 +3454,7 @@
     "\n",
     "**Goal**: Sample from complex distribution $p(X_1, ... X_n)$.\n",
     "\n",
-    "**Assumption**: Can sample from conditional `$p(X_i|X_{j\\neq i})$`\n",
+    "**Assumption**: Can sample from conditional $p(X_i|X_{j\\neq i})$\n",
     "--\n",
     "\n",
     "\n",
@@ -3464,9 +3464,9 @@
     "\n",
     "Construct $x^{k+1}$ from $x^k$:\n",
     "\n",
-    "`$$ x^{k+1}_0 \\propto  p(X_i| x^{k}_{1}, ..., x^{k}_{n})$$`\n",
+    "$$ x^{k+1}_0 \\propto  p(X_i| x^{k}_{1}, ..., x^{k}_{n})$$\n",
     "\n",
-    "`$$ x^{k+1}_i \\propto  p(X_i|x^{k+1}_0, ..., x^{k+1}_{i-1}, x^{k}_{i+1}, ..., x^{k}_{n})$$`"
+    "$$ x^{k+1}_i \\propto  p(X_i|x^{k+1}_0, ..., x^{k+1}_{i-1}, x^{k}_{i+1}, ..., x^{k}_{n})$$"
    ]
   },
   {
@@ -3526,11 +3526,11 @@
     "--\n",
     "Updates sampled from:\n",
     "\n",
-    "`$p(z_{iv} = k \\, \\vert \\, \\mathbf{\\theta}_i, \\phi_k) \\propto \\exp(\\log \\theta_{ik} + \\log \\phi_{k, y_{iv}})$`\n",
+    "$p(z_{iv} = k \\, \\vert \\, \\mathbf{\\theta}_i, \\phi_k) \\propto \\exp(\\log \\theta_{ik} + \\log \\phi_{k, y_{iv}})$\n",
     "\n",
-    "`$p(\\theta_i \\, \\vert \\, z_{iv} = k, \\phi_k) = \\text{Dir}(\\alpha + \\sum_l \\mathbb{I}(z_{il} = k))$`\n",
+    "$p(\\theta_i \\, \\vert \\, z_{iv} = k, \\phi_k) = \\text{Dir}(\\alpha + \\sum_l \\mathbb{I}(z_{il} = k))$\n",
     "\n",
-    "`$p(\\phi_k \\, \\vert \\, z_{iv} = k, \\mathbf{\\theta}_i) = \\text{Dir}(\\beta + \\sum_i \\sum_l \\mathbb{I}(y_{il} = v, z_{il} = k))$`\n",
+    "$p(\\phi_k \\, \\vert \\, z_{iv} = k, \\mathbf{\\theta}_i) = \\text{Dir}(\\beta + \\sum_i \\sum_l \\mathbb{I}(y_{il} = v, z_{il} = k))$\n",
     "\n",
     "\n",
     "\n",
@@ -3556,7 +3556,7 @@
     "![:scale 50%](images/lda_params.png)\n",
     "]\n",
     "\n",
-    "Sample only `$p(z_i=k|\\mathbf{z}_{-i})$`\n",
+    "Sample only $p(z_i=k|\\mathbf{z}_{-i})$\n",
     "\n",
     "Compute $\\theta$, $\\phi$ from $\\mathbf{z}$\n",
     "\n",

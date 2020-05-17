@@ -308,7 +308,6 @@ usually the inner one!</p>
 pro: more stable, more data</p>
 <p>con: slower
 ]</p>
-<p>class: center, some-space</p>
 </div>
 <div class="section" id="cross-validation-test-set">
 <h2>Cross-validation + test set<a class="headerlink" href="#cross-validation-test-set" title="Permalink to this headline">¶</a></h2>
@@ -355,8 +354,7 @@ them we do cross-validation.</p>
 <p>We had seven different values of n_neighbors, and we are running 10 fold
 cross-validation. How many models to we train in total?
 10 * 7 + 1 = 71 (the one is the final model)</p>
-<p>class: center, middle
-<img alt=":scale 80%" src="../_images/gridsearch_workflow.png" /></p>
+<p><img alt=":scale 80%" src="../_images/gridsearch_workflow.png" /></p>
 <p>Here is a conceptual overview of this way of tuning parameters, we start
 of with the dataset and a candidate set of parameters we want to try,
 labeled parameter grid, for example the number of neighbors.</p>
@@ -415,7 +413,6 @@ We can check out the best cross-validation score and the best parameter
 setting with the best_score_ and best_params_ attributes.
 And finally we can compute the accuracy on the test set, simply but
 using the score method! That will use the retrained model under the hood.</p>
-<p>class: compact</p>
 </div>
 <div class="section" id="gridsearchcv-results">
 <h2>GridSearchCV Results<a class="headerlink" href="#gridsearchcv-results" title="Permalink to this headline">¶</a></h2>
@@ -460,7 +457,6 @@ Here you can see the columns. Theres mean fit time, mean score time,
 mean test scores, mean training scores, standard deviations and scores
 for each individual split of the data.
 And there is one row for each setting of the parameters we tried out.</p>
-<p>class: center</p>
 </div>
 <div class="section" id="n-neighbors-search-results">
 <h2>n_neighbors Search Results<a class="headerlink" href="#n-neighbors-search-results" title="Permalink to this headline">¶</a></h2>
@@ -469,7 +465,6 @@ And there is one row for each setting of the parameters we tried out.</p>
 the different parameters.
 Here are the mean training score and mean test score together with one
 standard deviation.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="nested-cross-validation">
 <h2>Nested Cross-Validation<a class="headerlink" href="#nested-cross-validation" title="Permalink to this headline">¶</a></h2>
@@ -488,7 +483,6 @@ of the outer fold, which might have different settings of the parameters.
 Also, this takes a really long time to train, by an additional factor
 of 5 or 10, so this is not used very commonly in practice.</p>
 <p>But let’s dive into the cross-validation a bit more.</p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="cross-validation-strategies">
 <h2>Cross-Validation Strategies<a class="headerlink" href="#cross-validation-strategies" title="Permalink to this headline">¶</a></h2>
@@ -498,8 +492,7 @@ but there are many other strategies.</p>
 <p>.center[
 <img alt=":scale 90%" src="../_images/kfold_cv.png" />
 ]</p>
-<p>class: compact
-.center[
+<p>.center[
 <img alt=":scale 90%" src="../_images/stratified_cv.png" />
 ]
 .smallest[
@@ -551,7 +544,6 @@ present at all in a particular fold.</p>
 </pre></div>
 </div>
 <p>]</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="repeated-kfold-and-leaveoneout">
 <h2>Repeated KFold and LeaveOneOut<a class="headerlink" href="#repeated-kfold-and-leaveoneout" title="Permalink to this headline">¶</a></h2>
@@ -576,8 +568,7 @@ and the training sets all have very large overlap, this method has very
 high variance.
 A better way to get a robust estimate is to run 5-fold or 10-fold
 cross-validation multiple times, while shuffling the dataset.</p>
-<p>class: compact
-.center[
+<p>.center[
 <img alt=":scale 100%" src="../_images/shuffle_split_cv.png" />
 ]
 .smaller[Number of iterations and test set size independent]</p>
@@ -589,15 +580,13 @@ and the test set size. This also allows you to run many iterations with
 reasonably large test-sets.
 It’s also great if you have a very large training set and you want to
 subsample it to get quicker results.</p>
-<p>class: compact
-.center[
+<p>.center[
 <img alt=":scale 100%" src="../_images/repeated_stratified_kfold.png" />
 ]
 .smaller[
 Potentially less variance than StratifiedShuffleSplit.</p>
 <p>Five times five fold or at most ten times ten fold is sufficient.
 ]</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="defaults-in-scikit-learn">
 <h2>Defaults in scikit-learn<a class="headerlink" href="#defaults-in-scikit-learn" title="Permalink to this headline">¶</a></h2>
@@ -617,7 +606,6 @@ is always a good idea, you should use stratify=y
 Another thing that’s important to keep in mind is that by default
 scikit-learn doesn’t shuffle! So if you run cross-validation twice
 with the default parameters, it will yield exactly the same results.</p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="cross-validation-with-non-iid-data">
 <h2>Cross-Validation with non-iid data<a class="headerlink" href="#cross-validation-with-non-iid-data" title="Permalink to this headline">¶</a></h2>
@@ -658,7 +646,6 @@ In this example, there are four groups, and we want three folds. The
 data is divided such that each group is contained in exactly one fold.
 There are several other cross-validation methods in scikit-learn that
 use these groups.</p>
-<p>class: center</p>
 </div>
 </div>
 <div class="section" id="correlations-in-time-and-or-space">
@@ -666,14 +653,12 @@ use these groups.</p>
 <p><img alt=":scale 70%" src="../_images/time_series1.png" /></p>
 <p>Not necessarily obvious that there is a time component!
 Data collection usually happens over time!</p>
-<p>class: center</p>
 </div>
 <div class="section" id="id1">
 <h2>Correlations in time (and/or space)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p><img alt=":scale 70%" src="../_images/time_series2.png" /></p>
 <p>Not necessarily obvious that there is a time component!
 Data collection usually happens over time!</p>
-<p>class: center</p>
 </div>
 <div class="section" id="id2">
 <h2>Correlations in time (and/or space)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
@@ -771,7 +756,6 @@ like, or we can use Shuffle split.</p>
 </div>
 <p>]</p>
 <p>FIXME alignment</p>
-<p>class: middle</p>
 </div>
 <div class="section" id="questions">
 <h2>Questions ?<a class="headerlink" href="#questions" title="Permalink to this headline">¶</a></h2>

@@ -11,7 +11,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "## Linear models for Regression\n",
     "\n",
@@ -46,7 +46,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
+    
     "\n",
     "## Linear Models"
    ]
@@ -55,7 +55,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:center\n",
+
     "\n",
     "## Linear Models for Regression\n",
     "\n",
@@ -91,7 +91,7 @@
     "\n",
     "$$\\hat{y} = w^T \\mathbf{x} + b = \\sum_{i=1}^p w_i x_i +b $$\n",
     "\n",
-    "`$$\\min_{w \\in \\mathbb{R}^p, b\\in\\mathbb{R}} \\sum_{i=1}^n (w^T\\mathbf{x}_i + b - y_i)^2$$`\n",
+    "$$\\min_{w \\in \\mathbb{R}^p, b\\in\\mathbb{R}} \\sum_{i=1}^n (w^T\\mathbf{x}_i + b - y_i)^2$$\n",
     "\n",
     "Unique solution if $\\mathbf{X} = (\\mathbf{x}_1, ... \\mathbf{x}_n)^T$ has full column rank.\n",
     "\n",
@@ -124,7 +124,7 @@
    "source": [
     "## Ridge Regression\n",
     "\n",
-    "`$$ \\min_{w \\in \\mathbb{R}^p, b\\in\\mathbb{R}} \\sum_{i=1}^n (w^T\\mathbf{x}_i + b - y_i)^2 + \\alpha ||w||^2 $$`\n",
+    "$$ \\min_{w \\in \\mathbb{R}^p, b\\in\\mathbb{R}} \\sum_{i=1}^n (w^T\\mathbf{x}_i + b - y_i)^2 + \\alpha ||w||^2 $$\n",
     "\n",
     "Always has a unique solution.\n",
     "\n",
@@ -166,7 +166,7 @@
    "source": [
     "## (regularized) Empirical Risk Minimization\n",
     "\n",
-    "`$$ min_{f \\in F} \\sum_{i=1}^n L(f(\\mathbf{x}_i), y_i) + \\alpha R(f) $$`\n",
+    "$$ min_{f \\in F} \\sum_{i=1}^n L(f(\\mathbf{x}_i), y_i) + \\alpha R(f) $$\n",
     "\n",
     "\n",
     "\n",
@@ -301,9 +301,9 @@
    "source": [
     "## Coefficient of determination R^2\n",
     "\n",
-    "`$$ R^2(y, \\hat{y}) = 1 - \\frac{\\sum_{i=0}^{n - 1} (y_i - \\hat{y}_i)^2}{\\sum_{i=0}^{n - 1} (y_i - \\bar{y})^2} $$`\n",
+    "$$ R^2(y, \\hat{y}) = 1 - \\frac{\\sum_{i=0}^{n - 1} (y_i - \\hat{y}_i)^2}{\\sum_{i=0}^{n - 1} (y_i - \\bar{y})^2} $$\n",
     "\n",
-    "`$$ \\bar{y} =  \\frac{1}{n} \\sum_{i=0}^{n - 1} y_i$$`\n",
+    "$$ \\bar{y} =  \\frac{1}{n} \\sum_{i=0}^{n - 1} y_i$$\n",
     "\n",
     "Can be negative for biased estimators - or the test set!\n",
     "\n",
@@ -334,7 +334,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: smaller\n",
+    
     "## Preprocessing\n",
     "```python\n",
     "cat_preprocessing = make_pipeline(\n",
@@ -365,7 +365,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: smaller\n",
+    
     "## Skewed targets\n",
     ".left-column[\n",
     "```python\n",
@@ -387,7 +387,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: middle, spacious\n",
+    
     "```python\n",
     "cross_val_score(make_pipeline(preprocess, LinearRegression()),\n",
     "                X_train, y_train, cv=5)\n",
@@ -714,7 +714,7 @@
    "source": [
     "## Lasso Regression\n",
     "\n",
-    "`$$ \\min_{w \\in \\mathbb{R}^p, b\\in\\mathbb{R}} \\sum_{i=1}^n (w^T\\mathbf{x}_i + b - y_i)^2 + \\alpha ||w||_1 $$`\n",
+    "$$ \\min_{w \\in \\mathbb{R}^p, b\\in\\mathbb{R}} \\sum_{i=1}^n (w^T\\mathbf{x}_i + b - y_i)^2 + \\alpha ||w||_1 $$\n",
     "\n",
     "- Shrinks w towards zero like Ridge\n",
     "\n",
@@ -751,9 +751,9 @@
     "\n",
     ".narrow-right-column[\n",
     ".smaller[\n",
-    "`$$ \\ell_2(w) = \\sqrt{\\sum_i w_i ^ 2}$$`\n",
-    "`$$ \\ell_1(w) = \\sum_i |w_i|$$`\n",
-    "`$$ \\ell_0(w) = \\sum_i 1_{w_i != 0}$$`\n",
+    "$$ \\ell_2(w) = \\sqrt{\\sum_i w_i ^ 2}$$\n",
+    "$$ \\ell_1(w) = \\sum_i |w_i|$$\n",
+    "$$ \\ell_0(w) = \\sum_i 1_{w_i != 0}$$\n",
     "]]\n",
     "\n",
     "\n",
@@ -781,11 +781,11 @@
     ".narrow-right-column[\n",
     ".padding-top[\n",
     ".smaller[\n",
-    "`$ f(x) = (2 x - 1)^2 $`\n",
+    "$ f(x) = (2 x - 1)^2 $\n",
     "\n",
-    "`$ f(x) + L2 = (2 x - 1)^2 + \\alpha x^2$`\n",
+    "$ f(x) + L2 = (2 x - 1)^2 + \\alpha x^2$\n",
     "\n",
-    "`$ f(x) + L1= (2 x - 1)^2 + \\alpha |x|$`\n",
+    "$ f(x) + L1= (2 x - 1)^2 + \\alpha |x|$\n",
     "]]]\n",
     "\n",
     "\n",
@@ -812,7 +812,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "## Understanding L1 and L2 Penalties\n",
     "\n",
     "![:scale 70%](images/l1l2ball.png)\n",
@@ -832,7 +832,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "## Understanding L1 and L2 Penalties\n",
     "\n",
     "![:scale 70%](images/l1l2ball_intersect.png)\n",
@@ -939,7 +939,7 @@
     "- two parameters to tune.\n",
     "\n",
     "\n",
-    "`$$\\min_{w \\in \\mathbb{R}^p, b\\in\\mathbb{R}} \\sum_{i=1}^n ||w^T\\mathbf{x}_i + b - y_i||^2 + \\alpha_1 ||w||_1 +  \\alpha_2 ||w||^2_2 $$`\n",
+    "$$\\min_{w \\in \\mathbb{R}^p, b\\in\\mathbb{R}} \\sum_{i=1}^n ||w^T\\mathbf{x}_i + b - y_i||^2 + \\alpha_1 ||w||_1 +  \\alpha_2 ||w||^2_2 $$\n",
     "\n",
     "\n",
     "\n",
@@ -960,7 +960,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center\n",
+    
     "## Comparing unit balls\n",
     "\n",
     "![:scale 70%](images/l1l2_elasticnet.png)\n",
@@ -978,7 +978,7 @@
    "metadata": {},
    "source": [
     "## Parametrization in scikit-learn\n",
-    "`$$\\min_{w \\in \\mathbb{R}^p, b\\in\\mathbb{R}} \\sum_{i=1}^n (w^T\\mathbf{x}_i + b - y_i)^2 + \\alpha \\eta ||w||_1 +  \\alpha (1 - \\eta) ||w||^2_2 $$`\n",
+    "$$\\min_{w \\in \\mathbb{R}^p, b\\in\\mathbb{R}} \\sum_{i=1}^n (w^T\\mathbf{x}_i + b - y_i)^2 + \\alpha \\eta ||w||_1 +  \\alpha (1 - \\eta) ||w||^2_2 $$\n",
     "\n",
     "Where $\\eta$ is the relative amount of l1 penalty (`l1_ratio` in the code).\n",
     "\n",
@@ -1040,7 +1040,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: smaller\n",
+    
     "## Analyzing grid-search results\n",
     "```python\n",
     "import pandas as pd\n",
@@ -1102,7 +1102,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: middle\n",
+    
     "\n",
     "## Questions ?"
    ]

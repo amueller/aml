@@ -310,10 +310,8 @@
                 
   <div class="section" id="working-with-highly-imbalanced-data">
 <h1>Working with highly imbalanced data<a class="headerlink" href="#working-with-highly-imbalanced-data" title="Permalink to this headline">¶</a></h1>
-<p>class: center, middle</p>
 <div class="section" id="recap-on-imbalanced-data">
 <h2>Recap on imbalanced data<a class="headerlink" href="#recap-on-imbalanced-data" title="Permalink to this headline">¶</a></h2>
-<p>class: spacious</p>
 </div>
 <div class="section" id="two-sources-of-imbalance">
 <h2>Two sources of imbalance<a class="headerlink" href="#two-sources-of-imbalance" title="Permalink to this headline">¶</a></h2>
@@ -329,7 +327,6 @@ or any other kind of cost or benefit associated with making
 different kinds of mistakes. The second one is having
 asymmetrical data. Meaning that one class is much more
 common than the other class.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="why-do-we-care">
 <h2>Why do we care?<a class="headerlink" href="#why-do-we-care" title="Permalink to this headline">¶</a></h2>
@@ -415,7 +412,6 @@ mistake costs, you can optimize this threshold.</p>
 possible thresholds as you can apply. Either for
 probabilistic prediction, or for any sort of continuous
 uncertainty estimate.</p>
-<p>class: center, middle</p>
 <div class="section" id="remedies-for-the-model">
 <h3>Remedies for the model<a class="headerlink" href="#remedies-for-the-model" title="Permalink to this headline">¶</a></h3>
 <p>Today, I really want to talk about more, how we can change
@@ -525,7 +521,6 @@ model. The easier one is to change the data. We can either
 add samples to the data, we can remove samples to the data,
 or we can do both. Resampling is not possible in
 scikit-learn because of some API issues.</p>
-<p>class: center, spacious</p>
 </div>
 <div class="section" id="sckit-learn-vs-resampling">
 <h2>Sckit-learn vs resampling<a class="headerlink" href="#sckit-learn-vs-resampling" title="Permalink to this headline">¶</a></h2>
@@ -540,7 +535,6 @@ re-sample the data.</p>
 <li><p>Pipelines work by chaining transforms</p></li>
 <li><p>To resample the data, we need to also change y</p></li>
 </ul>
-<p>class: spacious</p>
 </div>
 <div class="section" id="imbalance-learn">
 <h2>Imbalance-Learn<a class="headerlink" href="#imbalance-learn" title="Permalink to this headline">¶</a></h2>
@@ -797,7 +791,6 @@ we hope that by taking into account the imbalance of the
 classes, we can optimize this cost better than just
 basically using the IID data set. But precision and false
 positive rate measure quite different things.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="class-weights">
 <h2>Class-weights<a class="headerlink" href="#class-weights" title="Permalink to this headline">¶</a></h2>
@@ -816,12 +809,13 @@ some of the samples. This works for most models and it’s
 pretty simple to do in scikit-learn. Basically, it’s the
 same as oversampling in a sense because you’re not throwing
 away any data.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="class-weights-in-linear-models">
 <h2>Class-weights in linear models<a class="headerlink" href="#class-weights-in-linear-models" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}-C</span> <span class="pre">\sum_{i=1}^n\log(\exp(-y_i(w^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">+</span> <span class="pre">b</span> <span class="pre">))</span> <span class="pre">+</span> <span class="pre">1)</span> <span class="pre">+</span> <span class="pre">||w||_2^2$$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$$\min_{w</span> <span class="pre">\in</span> <span class="pre">ℝ^{p},</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}}-C</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">c_{y_i}</span>&#160; <span class="pre">\log(\exp(-y_i(w^T</span> <span class="pre">\textbf{x}_i</span> <span class="pre">+</span> <span class="pre">b</span> <span class="pre">))</span> <span class="pre">+</span> <span class="pre">1)</span> <span class="pre">+</span> <span class="pre">||w||_2^2$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[\min_{w \in ℝ^{p}, b \in \mathbb{R}}-C \sum_{i=1}^n\log(\exp(-y_i(w^T \textbf{x}_i + b )) + 1) + ||w||_2^2\]</div>
+<div class="math notranslate nohighlight">
+\[\min_{w \in ℝ^{p}, b \in \mathbb{R}}-C \sum_{i=1}^n c_{y_i}  \log(\exp(-y_i(w^T \textbf{x}_i + b )) + 1) + ||w||_2^2\]</div>
 <p>Similar for linear and non-linear SVM</p>
 <p>So for the linear model, for example, let’s say we do
 logistic regression. Instead of minimizing this problem, for
@@ -841,8 +835,10 @@ loss.</p>
 <div class="section" id="class-weights-in-trees">
 <h2>Class weights in trees<a class="headerlink" href="#class-weights-in-trees" title="Permalink to this headline">¶</a></h2>
 <p>Gini Index:</p>
-<p><code class="docutils literal notranslate"><span class="pre">$$H_\text{gini}(X_m)</span> <span class="pre">=</span> <span class="pre">\sum_{k\in\mathcal{Y}}</span> <span class="pre">p_{mk}</span> <span class="pre">(1</span> <span class="pre">-</span> <span class="pre">p_{mk})$$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$$H_\text{gini}(X_m)</span> <span class="pre">=</span> <span class="pre">\sum_{k\in\mathcal{Y}}</span> <span class="pre">c_k</span> <span class="pre">p_{mk}</span> <span class="pre">(1</span> <span class="pre">-</span> <span class="pre">p_{mk})$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[H_\text{gini}(X_m) = \sum_{k\in\mathcal{Y}} p_{mk} (1 - p_{mk})\]</div>
+<div class="math notranslate nohighlight">
+\[H_\text{gini}(X_m) = \sum_{k\in\mathcal{Y}} c_k p_{mk} (1 - p_{mk})\]</div>
 <p>Prediction:</p>
 <p>Weighted vote</p>
 <p>For trees and all trees based models, you can just change
@@ -883,7 +879,6 @@ can see this has a somewhat similar effect to the
 oversampling for only half the computational price.</p>
 <p>This is a pretty simple way to try to change the model
 towards a positive class.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="ensemble-resampling">
 <h2>Ensemble Resampling<a class="headerlink" href="#ensemble-resampling" title="Permalink to this headline">¶</a></h2>
@@ -945,7 +940,6 @@ way. This has been shown to be like pretty competitive in a
 bunch of benchmarks.</p>
 <p>-As cheap as undersampling, but much better results than anything else!</p>
 <p>-Didn’t do anything for Logistic Regression.</p>
-<p>class: center, middle</p>
 <p><img alt=":scale 100%" src="../_images/roc_vs_pr.png" /></p>
 <p>Looking at the curves again, comparing the easy ensemble.
 You can see that in the higher recall area, it does quite
@@ -971,7 +965,6 @@ talk about. You can see that here, they make quite a big
 difference. Depending on where you want to be on this
 precision-recall curve, you would choose quite different
 methods.</p>
-<p>class: center, middle</p>
 <div class="section" id="synthetic-sample-generation">
 <h3>Synthetic Sample Generation<a class="headerlink" href="#synthetic-sample-generation" title="Permalink to this headline">¶</a></h3>
 <p>There are many methods, but the only method that your
@@ -1007,7 +1000,6 @@ two.</p>
 <li><p>Leads to very large datasets (oversampling)</p></li>
 <li><p>Can be combined with undersampling strategies</p></li>
 </ul>
-<p>class: center, middle</p>
 <p>.center[
 <img alt=":scale 100%" src="../_images/smote_mammography.png" />
 ]</p>
@@ -1065,11 +1057,9 @@ a big difference.</p>
 <p>.center[
 <img alt=":scale 100%" src="../_images/smote_k_neighbors.png" />
 ]</p>
-<p>class: center, middle</p>
 <p>.center[
 <img alt=":scale 100%" src="../_images/roc_vs_pr_smote.png" />
 ]</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="summary">
 <h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>

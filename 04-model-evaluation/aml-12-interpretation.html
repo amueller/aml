@@ -338,7 +338,6 @@ FIXME remove boston
 FIXME icebox do real simpsons paradox example
 FIXME unsupervised feature selection terrible?
 FIXME why is shap in the wrong direction? Why spurious importances?</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="model-interpretation-post-hoc">
 <h2>Model Interpretation (post-hoc)?<a class="headerlink" href="#model-interpretation-post-hoc" title="Permalink to this headline">¶</a></h2>
@@ -376,7 +375,6 @@ OR: derive a simpler explainable model from a non-explainable one (model compres
 <li><p>“What is the minimum change to classify it differently?”</p></li>
 </ul>
 <p>Marginals: how does the prediction change as function of a particular Features?</p>
-<p>class: spacious</p>
 </div>
 </div>
 <div class="section" id="explaning-the-model-neq-explaining-the-data">
@@ -406,7 +404,8 @@ OR: derive a simpler explainable model from a non-explainable one (model compres
 </div>
 <div class="section" id="drop-feature-importance">
 <h2>Drop Feature Importance<a class="headerlink" href="#drop-feature-importance" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">$$I_i^\text{drop}</span> <span class="pre">=</span> <span class="pre">\text{Acc}(f,</span> <span class="pre">X,</span> <span class="pre">y)</span> <span class="pre">-</span> <span class="pre">\text{Acc}(f',</span> <span class="pre">X_{-i},</span> <span class="pre">y)$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[I_i^\text{drop} = \text{Acc}(f, X, y) - \text{Acc}(f', X_{-i}, y)\]</div>
 <p>.smallest[</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>def drop_feature_importance(est, X, y):
     base_score = np.mean(cross_val_score(est, X, y))
@@ -433,7 +432,7 @@ rebuilds many models, not explaining this particular model!
 ## Permutation importance
 Idea: measure marginal influence of one feature
 
-`$$I_i^\text{perm} = \text{Acc}(f, X, y) - \mathbb{E}_{x_i}\left[\text{Acc}(f(x_i, X_{-i}), y)\right]$$`
+$$I_i^\text{perm} = \text{Acc}(f, X, y) - \mathbb{E}_{x_i}\left[\text{Acc}(f(x_i, X_{-i}), y)\right]$$
 
 ```python
 def permutation_importance(est, X, y, n_repeat=100):
@@ -476,7 +475,6 @@ def permutation_importance(est, X, y, n_repeat=100):
 <li><p>awesome vis and tools: https://github.com/slundberg/shap</p></li>
 <li><p>allows local / per sample explanations</p></li>
 </ul>
-<p>class: middle</p>
 </div>
 <div class="section" id="case-study">
 <h2>Case Study<a class="headerlink" href="#case-study" title="Permalink to this headline">¶</a></h2>
@@ -495,7 +493,6 @@ def permutation_importance(est, X, y, n_repeat=100):
 .narrow-right-column[
 <img alt=":scale 100%" src="../_images/covariance.png" /></p>
 <p>]</p>
-<p>class: compact</p>
 </div>
 <div class="section" id="models-on-lots-of-data">
 <h2>Models on lots of data<a class="headerlink" href="#models-on-lots-of-data" title="Permalink to this headline">¶</a></h2>
@@ -551,7 +548,6 @@ def permutation_importance(est, X, y, n_repeat=100):
 <img alt=":scale 50%" src="../_images/standard_importances.png" />
 <img alt=":scale 50%" src="../_images/shap_big.png" />
 ]</p>
-<p>class: middle</p>
 </div>
 <div class="section" id="more-model-inspection">
 <h2>More model inspection<a class="headerlink" href="#more-model-inspection" title="Permalink to this headline">¶</a></h2>
@@ -561,14 +557,14 @@ def permutation_importance(est, X, y, n_repeat=100):
 <ul class="simple">
 <li><p>Marginal dependence of prediction on one (or two features)</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">$$f_i^{\text{pdp}}(x_i)</span> <span class="pre">=</span> <span class="pre">\mathbb{E}_{X_{-i}}\left[f(x_i,</span> <span class="pre">x_{-i})\right]$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[f_i^{\text{pdp}}(x_i) = \mathbb{E}_{X_{-i}}\left[f(x_i, x_{-i})\right]\]</div>
 <ul class="simple">
 <li><p>Idea: Get marginal predictions given feature.</p></li>
 <li><p>How? “integrate out” other features using validation data</p></li>
 <li><p>Fast methods available for tree-based models (doesn’t require validation data)</p></li>
 <li><p>Nonsensical for linear models.</p></li>
 </ul>
-<p>class: compact</p>
 </div>
 <div class="section" id="partial-dependence">
 <h2>Partial Dependence<a class="headerlink" href="#partial-dependence" title="Permalink to this headline">¶</a></h2>
@@ -690,7 +686,6 @@ function and then normalized.</p>
 <p>.right-column[
 <img alt=":scale 100%" src="../_images/pdp_failure_data.png" />
 ]</p>
-<p>class:compact</p>
 </div>
 <div class="section" id="ice-box">
 <h2>Ice Box<a class="headerlink" href="#ice-box" title="Permalink to this headline">¶</a></h2>

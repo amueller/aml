@@ -343,7 +343,8 @@ real data distribution).</p></li>
 real data distribution).</p></li>
 </ul>
 <p>#Elliptic Envelope</p>
-<p><code class="docutils literal notranslate"><span class="pre">$$p(X)</span> <span class="pre">=</span> <span class="pre">\mathcal{N}(\mu,</span> <span class="pre">\Sigma)$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[p(X) = \mathcal{N}(\mu, \Sigma)\]</div>
 <p>.center[
 <img alt=":scale 60%" src="../_images/elliptic_envelope.png" />
 ]</p>
@@ -498,7 +499,6 @@ bandwidth.</p>
 <li><p>Gaussian blob on each data point</p></li>
 <li><p>Doesn’t work well in high dimensions</p></li>
 </ul>
-<p>class:center</p>
 </div>
 <div class="section" id="kernel-bandwidth">
 <h2>Kernel Bandwidth<a class="headerlink" href="#kernel-bandwidth" title="Permalink to this headline">¶</a></h2>
@@ -662,8 +662,7 @@ probably an outlier.</p>
 <ul class="simple">
 <li><p>Measure as Path length!</p></li>
 </ul>
-<p>class:center,middle
-.left-column[
+<p>.left-column[
 <img alt=":scale 100%" src="../_images/isolation_forests.png" />
 ]</p>
 <p>.right-column[
@@ -685,8 +684,10 @@ that you’re an outlier with respect to any of these
 features.</p>
 <p>#Normalizing the Path Length</p>
 <p>Average path length of unsuccessful search in Binary Search Tree:</p>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">c(n)</span> <span class="pre">=</span> <span class="pre">2H(n-1)</span> <span class="pre">-</span> <span class="pre">\left(\frac{2(n-1)}{n}\right)</span> <span class="pre">\text{</span>&#160; <span class="pre">(H</span> <span class="pre">=</span> <span class="pre">Harmonic</span> <span class="pre">number)}$$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">s(x,n)</span> <span class="pre">=</span> <span class="pre">2^{-\frac{E(h(x))}{c(n)}}</span> <span class="pre">\text{</span>&#160;&#160; <span class="pre">(h</span> <span class="pre">=</span> <span class="pre">depth</span> <span class="pre">in</span> <span class="pre">tree)}$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[ c(n) = 2H(n-1) - \left(\frac{2(n-1)}{n}\right) \text{  (H = Harmonic number)}\]</div>
+<div class="math notranslate nohighlight">
+\[ s(x,n) = 2^{-\frac{E(h(x))}{c(n)}} \text{   (h = depth in tree)}\]</div>
 <ul class="simple">
 <li><p>s &lt; 0.5 : definite inlier</p></li>
 <li><p>s close to 1: outlier</p></li>
@@ -756,7 +757,6 @@ anything and so that’s kind of nice.</p>
 outliers. This will not work very well for the homework. And
 you can think about why this does not work very well from
 your homework.</p>
-<p>class:spacious</p>
 </div>
 <div class="section" id="other-density-based-models">
 <h2>Other density based-models<a class="headerlink" href="#other-density-based-models" title="Permalink to this headline">¶</a></h2>

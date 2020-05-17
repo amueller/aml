@@ -958,7 +958,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: smaller\n",
+    
     "\n",
     "#Pandas Categorical Columns\n",
     "\n",
@@ -1149,7 +1149,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class:center, middle\n",
     "![:scale 100%](images/column_transformer_schematic.png)\n",
     "\n",
     "\n",
@@ -1168,7 +1167,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: some-space\n",
     "\n",
     "# Dummy variables and colinearity\n",
     "\n",
@@ -1188,7 +1186,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: some-space\n",
     "\n",
     "#Models Supporting Discrete Features\n",
     "\n",
@@ -1265,7 +1262,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: center, middle\n",
     "\n",
     " More encodings for categorical features:\n",
     "## http://contrib.scikit-learn.org/categorical-encoding/"
@@ -1295,7 +1291,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: compact\n",
     ".tiny[\n",
     "```python\n",
     "X_train.head()\n",
@@ -1541,7 +1536,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: smallest\n",
     "```python\n",
     "X = data.frame.drop(['date', 'price', 'zipcode'], axis=1)\n",
     "scores = cross_val_score(Ridge(), X, target)\n",

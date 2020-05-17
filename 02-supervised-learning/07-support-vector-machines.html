@@ -261,10 +261,8 @@
                 
   <div class="section" id="support-vector-machines">
 <h1>Support Vector Machines<a class="headerlink" href="#support-vector-machines" title="Permalink to this headline">¶</a></h1>
-<p>class: center, middle</p>
 <div class="section" id="kernel-svms">
 <h2>Kernel SVMs<a class="headerlink" href="#kernel-svms" title="Permalink to this headline">¶</a></h2>
-<p>class: spacious</p>
 </div>
 <div class="section" id="motivation">
 <h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
@@ -287,11 +285,11 @@ kernels relate to using polynomials explicitly in your
 feature engineering. Before we talk about kernels, I want to
 talk a little bit more about linear support vector machines,
 which we already discussed last week.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="reminder-on-linear-svm">
 <h2>Reminder on Linear SVM<a class="headerlink" href="#reminder-on-linear-svm" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\min_{w</span> <span class="pre">\in</span> <span class="pre">\mathbb{R}^p,</span> <span class="pre">b</span> <span class="pre">\in</span> <span class="pre">\mathbf{R}}</span> <span class="pre">C</span> <span class="pre">\sum_{i=1}^n</span> <span class="pre">\max(0,</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">y_i</span> <span class="pre">(w^T\mathbf{x}</span> <span class="pre">+b))</span> <span class="pre">+</span> <span class="pre">||w||^2_2</span> <span class="pre">$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[ \min_{w \in \mathbb{R}^p, b \in \mathbf{R}} C \sum_{i=1}^n \max(0, 1 - y_i (w^T\mathbf{x} +b)) + ||w||^2_2 \]</div>
 <div class="math notranslate nohighlight">
 \[ \hat{y} = \text{sign}(w^T \mathbf{x} + b)  \]</div>
 <p>The idea behind the linear support vector machine is it’s a
@@ -346,7 +344,6 @@ time that basically c limits the influence of each data
 point. So, if you have a smaller c the alpha i belong to
 each training data point can only be as big as this c, and
 so each of the data points has only limited influence.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="introducing-kernels">
 <h2>Introducing Kernels<a class="headerlink" href="#introducing-kernels" title="Permalink to this headline">¶</a></h2>
@@ -389,9 +386,10 @@ in this case, obviously, the kernel.</p>
 \[k_\text{rbf}(\mathbf{x}, \mathbf{x}') = \exp(-\gamma||\mathbf{x} -\mathbf{x}'||^2)\]</div>
 <div class="math notranslate nohighlight">
 \[k_\text{sigmoid}(\mathbf{x}, \mathbf{x}') = \tanh\left(\gamma \mathbf{x}^T\mathbf{x}'  + r\right)\]</div>
-<p><code class="docutils literal notranslate"><span class="pre">$$k_\cap(\mathbf{x},</span> <span class="pre">\mathbf{x}')=</span> <span class="pre">\sum_{i=1}^p</span> <span class="pre">\min(x_i,</span> <span class="pre">x'_i)$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[k_\cap(\mathbf{x}, \mathbf{x}')= \sum_{i=1}^p \min(x_i, x'_i)\]</div>
 <ul class="simple">
-<li><p>If <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(k'\)</span> are kernels, so are <code class="docutils literal notranslate"><span class="pre">$k</span> <span class="pre">+</span> <span class="pre">k',</span> <span class="pre">kk',</span> <span class="pre">ck',</span> <span class="pre">...$</span></code></p></li>
+<li><p>If <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(k'\)</span> are kernels, so are <span class="math notranslate nohighlight">\(k + k', kk', ck', ...\)</span></p></li>
 </ul>
 <p>There’s a couple of kernels that are commonly used. So the
 linear kernel just means I just use the inner product in the
@@ -490,7 +488,6 @@ would actually be resolved in infinite dimensional vector,
 so you couldn’t actually do this with a feature vector. Now
 I’m looking at this model here on the right-hand side where
 I’m using the polynomial features.</p>
-<p>class: smaller</p>
 </div>
 <div class="section" id="understanding-dual-coefficients">
 <h2>Understanding Dual Coefficients<a class="headerlink" href="#understanding-dual-coefficients" title="Permalink to this headline">¶</a></h2>
@@ -509,7 +506,7 @@ I’m using the polynomial features.</p>
 </pre></div>
 </div>
 <p>.smallest[
-<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">y</span> <span class="pre">=</span> <span class="pre">\text{sign}(-0.03</span> <span class="pre">\phi(\mathbf{x}_1)^T</span> <span class="pre">\phi(x)</span> <span class="pre">-</span> <span class="pre">0.003</span> <span class="pre">\phi(\mathbf{x}_{26})^T</span> <span class="pre">\phi(\mathbf{x})</span>&#160; <span class="pre">+0.003</span> <span class="pre">\phi(\mathbf{x}_{42})^T</span> <span class="pre">\phi(\mathbf{x})</span> <span class="pre">+</span> <span class="pre">0.03</span> <span class="pre">\phi(\mathbf{x}_{62})^T</span> <span class="pre">\phi(\mathbf{x}))</span> <span class="pre">$$</span></code>
+<span class="math notranslate nohighlight">\($ y = \text{sign}(-0.03 \phi(\mathbf{x}_1)^T \phi(x) - 0.003 \phi(\mathbf{x}_{26})^T \phi(\mathbf{x})  +0.003 \phi(\mathbf{x}_{42})^T \phi(\mathbf{x}) + 0.03 \phi(\mathbf{x}_{62})^T \phi(\mathbf{x})) $\)</span>
 ]</p>
 <p>FIXME formula goes over
 And so if I look at the linear SVM and I have five
@@ -534,14 +531,19 @@ how does this look like for kernel.</p>
 </div>
 <div class="section" id="with-kernel">
 <h2>With Kernel<a class="headerlink" href="#with-kernel" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">$$y</span> <span class="pre">=</span> <span class="pre">\text{sign}\left(\sum_i^{n}\alpha_i</span> <span class="pre">k(\mathbf{x}_i,</span>&#160; <span class="pre">\mathbf{x})\right)</span> <span class="pre">$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[y = \text{sign}\left(\sum_i^{n}\alpha_i k(\mathbf{x}_i,  \mathbf{x})\right) \]</div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">poly_svm</span><span class="o">.</span><span class="n">dual_coef_</span>
 <span class="c1">## array([[-0.057, -0. , -0.012, 0.008, 0.062]])</span>
 <span class="n">poly_svm</span><span class="o">.</span><span class="n">support_</span>
 <span class="c1">## array([1,26,41,42,62], dtype=int32)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">y</span> <span class="pre">=</span> <span class="pre">\text{sign}(-0.057</span> <span class="pre">(\mathbf{x}_1^T\mathbf{x}</span> <span class="pre">+</span> <span class="pre">1)^2</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-0.012</span> <span class="pre">(\mathbf{x}_{41}^T</span> <span class="pre">\mathbf{x}</span> <span class="pre">+</span> <span class="pre">1)^2</span> <span class="pre">\\</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">+0.008</span> <span class="pre">(\mathbf{x}_{42}^T</span> <span class="pre">\mathbf{x}</span> <span class="pre">+</span> <span class="pre">1)^2</span> <span class="pre">+</span> <span class="pre">0.062</span> <span class="pre">(\mathbf{x}_{62},</span> <span class="pre">\mathbf{x}</span> <span class="pre">+</span> <span class="pre">1)^2)</span> <span class="pre">$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[\begin{split} y = \text{sign}(-0.057 (\mathbf{x}_1^T\mathbf{x} + 1)^2
+         -0.012 (\mathbf{x}_{41}^T \mathbf{x} + 1)^2 \\
+         +0.008 (\mathbf{x}_{42}^T \mathbf{x} + 1)^2 + 0.062 (\mathbf{x}_{62}, \mathbf{x} + 1)^2)
+\end{split}\]</div>
 <p>So for kernel, the prediction is this. For kernel SVM there
 are no coefficients in the original space, there’s only dual
 coefficients. For each of support vectors, I compute the
@@ -576,7 +578,6 @@ But if I have a lot of features, then doing the explicit
 expansion is faster since the number of samples is large. In
 the case where we can do explicit feature expansion if we
 have a lot of samples, maybe that’s faster.</p>
-<p>class:spacious</p>
 </div>
 <div class="section" id="kernels-in-practice">
 <h2>Kernels in Practice<a class="headerlink" href="#kernels-in-practice" title="Permalink to this headline">¶</a></h2>
@@ -600,7 +601,6 @@ you can overfit any possible concept. Same is true for like
 neural networks and trees and nearest neighbors, for
 example, they can learn anything but linear models and even
 polynomial models of a fixed degree cannot learn everything.</p>
-<p>class:spacious</p>
 <p>#Preprocessing</p>
 <ul class="simple">
 <li><p>Kernel use inner products or distances.</p></li>
@@ -776,7 +776,6 @@ Cs, they don’t work at all, but maybe something better might
 be over here. A C of 100 is already like a very big C so if
 I want to use even less regularization, learning the model
 will be even slower.</p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="questions">
 <h2>Questions ?<a class="headerlink" href="#questions" title="Permalink to this headline">¶</a></h2>

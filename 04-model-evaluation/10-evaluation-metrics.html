@@ -419,21 +419,16 @@ FIXME Add log-loss to metrics, and show why I don’t like it (.4, .6, 0) is bet
 FIXME explain why ROC AUC doesn’t depend on class imbalance by calculating example
 FIXME write down example on slide about recall being zero and AUC being 1?
 FIXME show example of number nonzero for scorer API</p>
-<p>class: centre,middle</p>
 </div>
 <div class="section" id="metrics-for-binary-classification">
 <h2>Metrics for Binary Classification<a class="headerlink" href="#metrics-for-binary-classification" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="review-confusion-matrix">
 <h2>Review : confusion matrix<a class="headerlink" href="#review-confusion-matrix" title="Permalink to this headline">¶</a></h2>
-<p>.center[
-<img alt=":scale 55%" src="../_images/confusion_matrix.png" />
-]
-.larger[
-<span class="math notranslate nohighlight">\($\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}}\)</span>$
-]</p>
+<p><img alt=":scale 55%" src="../_images/confusion_matrix.png" /></p>
+<div class="math notranslate nohighlight">
+\[\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}}\]</div>
 <p>Diagonal divided by everything.</p>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="positive-negative-are-arbitrary">
 <h2>Positive &amp; Negative are arbitrary<a class="headerlink" href="#positive-negative-are-arbitrary" title="Permalink to this headline">¶</a></h2>
@@ -491,27 +486,24 @@ We might change that. We’ll talk a bit more about that interface later.</p>
 <ul class="simple">
 <li><p>Imbalanced classes lead to hard-to-interpret accuracy.</p></li>
 </ul>
-<p>class:split-40</p>
 </div>
 <div class="section" id="precision-recall-f-score">
 <h2>Precision, Recall, f-score<a class="headerlink" href="#precision-recall-f-score" title="Permalink to this headline">¶</a></h2>
-<p>.left-column[
-<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\large\text{Precision}</span> <span class="pre">=</span> <span class="pre">\frac{\text{TP}}{\text{TP}+\text{FP}}$$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$$\large\text{Recall}</span> <span class="pre">=</span> <span class="pre">\frac{\text{TP}}{\text{TP}+\text{FN}}$$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$$\large\text{F}</span> <span class="pre">=</span> <span class="pre">2</span> <span class="pre">\frac{\text{precision}</span> <span class="pre">\cdot\text{recall}}{\text{precision}+\text{recall}}$$</span></code>]
-.right-column[</p>
+<div class="math notranslate nohighlight">
+\[ \large\text{Precision} = \frac{\text{TP}}{\text{TP}+\text{FP}}\]</div>
+<div class="math notranslate nohighlight">
+\[\large\text{Recall} = \frac{\text{TP}}{\text{TP}+\text{FN}}\]</div>
+<div class="math notranslate nohighlight">
+\[\large\text{F} = 2 \frac{\text{precision} \cdot\text{recall}}{\text{precision}+\text{recall}}\]</div>
 <p>Positive Predicted Value (PPV)</p>
 <p>Sensitivity, coverage, true positive rate.</p>
-<p>Harmonic mean of precision and recall
-]</p>
+<p>Harmonic mean of precision and recall</p>
 <p>All depend on definition of positive and negative.</p>
-<p>class: center, spacious</p>
 </div>
 <div class="section" id="the-zoo">
 <h2>The Zoo<a class="headerlink" href="#the-zoo" title="Permalink to this headline">¶</a></h2>
 <p><img alt=":scale 100%" src="../_images/zoo.png" /></p>
 <p>https://en.wikipedia.org/wiki/Precision_and_recall</p>
-<p>class: compact</p>
 </div>
 <div class="section" id="normalizing-the-confusion-matrix">
 <h2>Normalizing the confusion matrix<a class="headerlink" href="#normalizing-the-confusion-matrix" title="Permalink to this headline">¶</a></h2>
@@ -539,8 +531,7 @@ We might change that. We’ll talk a bit more about that interface later.</p>
 <p><img alt=":scale 80%" src="../_images/confusion_matrix_norm_pred.png" />
 ]
 ]</p>
-<p>class:compact
-.smallest[</p>
+<p>.smallest[</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -583,9 +574,10 @@ We might change that. We’ll talk a bit more about that interface later.</p>
 </div>
 <div class="section" id="averaging-strategies">
 <h2>Averaging strategies<a class="headerlink" href="#averaging-strategies" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">$$\text{macro</span> <span class="pre">}\frac{1}{\left|L\right|}</span> <span class="pre">\sum_{l</span> <span class="pre">\in</span> <span class="pre">L}</span> <span class="pre">R(y_l,</span> <span class="pre">\hat{y}_l)$$</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">$$\text{weighted</span> <span class="pre">}</span> <span class="pre">\frac{1}{n}</span> <span class="pre">\sum_{l</span> <span class="pre">\in</span> <span class="pre">L}</span> <span class="pre">n_l</span> <span class="pre">R(y_l,</span> <span class="pre">\hat{y}_l)$$</span></code></p>
-<p>.smaller[</p>
+<div class="math notranslate nohighlight">
+\[\text{macro }\frac{1}{\left|L\right|} \sum_{l \in L} R(y_l, \hat{y}_l)\]</div>
+<div class="math notranslate nohighlight">
+\[\text{weighted } \frac{1}{n} \sum_{l \in L} n_l R(y_l, \hat{y}_l)\]</div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Weighted average: &quot;</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_1</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;weighted&quot;</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Macro average: &quot;</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_1</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;macro&quot;</span><span class="p">))</span>
 </pre></div>
@@ -594,7 +586,6 @@ We might change that. We’ll talk a bit more about that interface later.</p>
 <span class="n">Macro</span> <span class="n">average</span><span class="p">:</span> <span class="mf">0.50</span>
 </pre></div>
 </div>
-<p>]</p>
 <p>Two common ways to approach multitask is to look at averages
 over binary metrics. So you can do binary metrics for
 recall, precision f1 score. But in principle, you could do
@@ -644,17 +635,13 @@ one is the best really depends on your application?</p>
 each sample the same. I did this here on the digit data set,
 which is basically balanced and so there’s no difference.</p>
 <p>micro vs macro same for other metrics.</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="balanced-accuracy">
 <h2>Balanced Accuracy<a class="headerlink" href="#balanced-accuracy" title="Permalink to this headline">¶</a></h2>
-<p>.smaller[</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">balanced_accuracy_score</span><span class="p">(</span><span class="n">y_t</span><span class="p">,</span> <span class="n">y_p</span><span class="p">)</span> <span class="o">==</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_t</span><span class="p">,</span> <span class="n">y_p</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>]</p>
-<div class="math notranslate nohighlight">
-\[\text{balanced_accuracy} = \frac{1}{2}\left( \frac{TP}{TP + FN} + \frac{TN}{TN + FP}\right )\]</div>
+<p>\text{balanced_accuracy} = \frac{1}{2}\left( \frac{TP}{TP + FN} + \frac{TN}{TN + FP}\right )</p>
 <ul class="simple">
 <li><p>Always 0.5 for chance predictions</p></li>
 <li><p>Equal to accuracy for balanced datasets</p></li>
@@ -755,7 +742,6 @@ really a lot more of one class than the other.</p>
 </div>
 <p>]
 ]</p>
-<p>class:spacious</p>
 </div>
 <div class="section" id="goal-setting">
 <h2>Goal setting!<a class="headerlink" href="#goal-setting" title="Permalink to this headline">¶</a></h2>
@@ -803,7 +789,6 @@ really a lot more of one class than the other.</p>
 </pre></div>
 </div>
 <p>]</p>
-<p>class: compact</p>
 </div>
 <div class="section" id="precision-recall-curve">
 <h2>Precision-Recall curve<a class="headerlink" href="#precision-recall-curve" title="Permalink to this headline">¶</a></h2>
@@ -850,7 +835,6 @@ really a lot more of one class than the other.</p>
 </pre></div>
 </div>
 <p>]</p>
-<p>class: compact</p>
 </div>
 <div class="section" id="roc-curve">
 <h2>ROC Curve<a class="headerlink" href="#roc-curve" title="Permalink to this headline">¶</a></h2>
@@ -1076,7 +1060,6 @@ negative classes, then you might still get an area under the
 curve that’s very close to one. So this only looks at
 ranking.</p>
 <p>AP only considers ranking!</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="further-reading-on-evaluation-curves">
 <h2>Further reading on evaluation curves<a class="headerlink" href="#further-reading-on-evaluation-curves" title="Permalink to this headline">¶</a></h2>
@@ -1130,14 +1113,12 @@ sensible, but anything other than accuracy is okay.</p>
 a grid search for just precision, you will probably get
 garbage results.</p>
 <p>add log loss?</p>
-<p>class: centre,middle</p>
 </div>
 <div class="section" id="multi-class-classification">
 <h2>Multi-class classification<a class="headerlink" href="#multi-class-classification" title="Permalink to this headline">¶</a></h2>
 <p>The next thing I want to talk about is multiclass
 classification.</p>
-<p>class:split-40
-#Confusion Matrix
+<p>#Confusion Matrix
 .left-column[
 .tiny-code[</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_digits</span>
@@ -1208,9 +1189,9 @@ classes.</p>
 <h2>Multi-class ROC AUC<a class="headerlink" href="#multi-class-roc-auc" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Hand &amp; Till, 2001, one vs one
-<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\frac{1}{c(c-1)}\sum_{j=1}^{c}\sum_{k</span> <span class="pre">\neq</span> <span class="pre">j}^{c}</span> <span class="pre">AUC(j,k)$$</span></code></p></li>
+<span class="math notranslate nohighlight">\($ \frac{1}{c(c-1)}\sum_{j=1}^{c}\sum_{k \neq j}^{c} AUC(j,k)\)</span>$</p></li>
 <li><p>Provost &amp; Domingo, 2000, one vs rest
-<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\frac{1}{c}\sum_{j=1}^{c}p(j)</span> <span class="pre">AUC(j,\text{rest}_j)$$</span></code></p></li>
+<span class="math notranslate nohighlight">\($ \frac{1}{c}\sum_{j=1}^{c}p(j) AUC(j,\text{rest}_j)\)</span>$</p></li>
 </ul>
 <p>You can do that similar for ROC AUC. It will soon be
 available in scikit-learn. There are basically two versions
@@ -1268,11 +1249,9 @@ use the ranking metrics unless you have to be cursed,
 they’re sort of hard to interpret. And I would probably use
 something like macro average precision or macro average
 recall or macro average f1.</p>
-<p>class: centre,middle</p>
 </div>
 <div class="section" id="metrics-for-regression-models">
 <h2>Metrics for regression models<a class="headerlink" href="#metrics-for-regression-models" title="Permalink to this headline">¶</a></h2>
-<p>class:spacious</p>
 </div>
 <div class="section" id="build-in-standard-metrics">
 <h2>Build-in standard metrics<a class="headerlink" href="#build-in-standard-metrics" title="Permalink to this headline">¶</a></h2>
@@ -1299,11 +1278,11 @@ to have a neg before and if being high is good you won’t be
 needing to it be neg.</p>
 <p>I think these are actually the only metrics that are in
 scikit-learn.</p>
-<p>class:spacious</p>
 </div>
 <div class="section" id="absolute-vs-relative-mape">
 <h2>Absolute vs Relative: MAPE<a class="headerlink" href="#absolute-vs-relative-mape" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">\text{MAPE}</span> <span class="pre">=</span> <span class="pre">\frac{100}{n}</span> <span class="pre">\sum_{i=1}^{n}\left|\frac{y-\hat{y}}{y}\right|$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[ \text{MAPE} = \frac{100}{n} \sum_{i=1}^{n}\left|\frac{y-\hat{y}}{y}\right|\]</div>
 <p>.center[
 <img alt=":scale 50%" src="../_images/mape.png" />
 ]</p>
@@ -1370,7 +1349,6 @@ for low values, I’m predicting too high and for high values,
 I’m predicting too low.</p>
 <p>Looking at this you can see different trends and see if
 there are any trends or not.</p>
-<p>class:split-40</p>
 </div>
 <div class="section" id="residual-plots">
 <h2>Residual Plots<a class="headerlink" href="#residual-plots" title="Permalink to this headline">¶</a></h2>
@@ -1624,7 +1602,6 @@ you need to use the neg log loss one.</p>
 <span class="n">ba_rf</span> <span class="o">=</span> <span class="n">ab_scorer</span><span class="p">(</span><span class="n">rf</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>class:spacious</p>
 </div>
 <div class="section" id="providing-you-your-own-callable">
 <h2>Providing you your own callable<a class="headerlink" href="#providing-you-your-own-callable" title="Permalink to this headline">¶</a></h2>
@@ -1648,7 +1625,6 @@ you have to call predict on the test data, check whether
 it’s equal to y, and then compute the mean. This is actually
 a very powerful framework so you can do a lot of things with
 it.</p>
-<p>class: compact</p>
 </div>
 <div class="section" id="you-can-access-the-model">
 <h2>You can access the model!<a class="headerlink" href="#you-can-access-the-model" title="Permalink to this headline">¶</a></h2>

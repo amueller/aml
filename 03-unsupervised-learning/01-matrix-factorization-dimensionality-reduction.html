@@ -323,7 +323,6 @@ FIXME print output in PCA slides: I need to know the dimenionality (29?)
 FIXME trim tsne animation (why?)
 FIXME write down math for inverse transform? (and for pca transform?)
 FIXME show unwhitened vs whitened plot</p>
-<p>class: centre,middle</p>
 </div>
 </div>
 <div class="section" id="principal-component-analysis">
@@ -382,8 +381,9 @@ you still have a lot of information from this dataset.</p>
 </div>
 <div class="section" id="pca-objective-s">
 <h2>PCA objective(s)<a class="headerlink" href="#pca-objective-s" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">$$\large\min_{X',</span> <span class="pre">\text{rank}(X')</span> <span class="pre">=</span> <span class="pre">r}\|X-X'\|$$</span></code>
-.center[
+<div class="math notranslate nohighlight">
+\[\large\min_{X', \text{rank}(X') = r}\|X-X'\|\]</div>
+<p>.center[
 <img alt=":scale 45%" src="../_images/pca-intuition.png" />
 ]</p>
 <p>The maximum variance view can be formalized like this. So
@@ -406,13 +406,12 @@ depends on the direction of U1, not the sign. So whenever
 you look at principal components, the sign is completely
 meaningless.</p>
 <p>Restricted rank reconstruction</p>
-<p>class:split-40</p>
 </div>
 <div class="section" id="id1">
 <h2>PCA objective(s)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>.left-column[
-<code class="docutils literal notranslate"><span class="pre">$$\large\max\limits_{u_1</span> <span class="pre">\in</span> <span class="pre">R^p,</span> <span class="pre">\|</span> <span class="pre">u_1</span> <span class="pre">\|</span> <span class="pre">=</span> <span class="pre">1}</span> <span class="pre">\text{var}(Xu_1)$$</span></code>
-<code class="docutils literal notranslate"><span class="pre">$$\large\max\limits_{u_1</span> <span class="pre">\in</span> <span class="pre">R^p,</span> <span class="pre">\|</span> <span class="pre">u_1</span> <span class="pre">\|</span> <span class="pre">=</span> <span class="pre">1}</span> <span class="pre">u_1^T</span> <span class="pre">\text{cov}</span> <span class="pre">(X)</span> <span class="pre">u_1$$</span></code>
+<span class="math notranslate nohighlight">\($\large\max\limits_{u_1 \in R^p, \| u_1 \| = 1} \text{var}(Xu_1)\)</span>$
+<span class="math notranslate nohighlight">\($\large\max\limits_{u_1 \in R^p, \| u_1 \| = 1} u_1^T \text{cov} (X) u_1\)</span>$
 ]
 .smaller.right-column[
 .center[
@@ -466,7 +465,6 @@ is the most basic form of PCA. You can also use these
 entries of the diagonal to really scale the data in the
 rotated space so that the variance is the same across each
 of the new dimensions.</p>
-<p>class: center</p>
 </div>
 <div class="section" id="whitening">
 <h2>Whitening<a class="headerlink" href="#whitening" title="Permalink to this headline">¶</a></h2>
@@ -548,7 +546,6 @@ will basically be the first principle component because if I
 multiply a feature by 10,000, this feature will have the
 largest variance of everything. There will be no direction
 that has a larger variance than that.</p>
-<p>class:spacious</p>
 </div>
 <div class="section" id="scaling">
 <h2>Scaling!<a class="headerlink" href="#scaling" title="Permalink to this headline">¶</a></h2>
@@ -572,7 +569,6 @@ matrix, which I couldn’t comprehend. So we can look at the
 components again.</p>
 <p>Imagine one feature with very large scale. Without scaling,
 it’s guaranteed to be the first principal component!</p>
-<p>class:split-40</p>
 </div>
 <div class="section" id="inspecting-components">
 <h2>Inspecting components<a class="headerlink" href="#inspecting-components" title="Permalink to this headline">¶</a></h2>
@@ -703,7 +699,6 @@ is just the dot product with the weights and PCA is just a
 rotation. And so it can take the coefficients and rotate
 them back into the original space.</p>
 <p>Could obviously also do cross-validation + grid-search</p>
-<p>class:split-40</p>
 </div>
 <div class="section" id="interpreting-coefficients">
 <h2>Interpreting coefficients<a class="headerlink" href="#interpreting-coefficients" title="Permalink to this headline">¶</a></h2>
@@ -738,7 +733,6 @@ the model with PCA did better in this case. So clearly
 they’re different.</p>
 <p>Rotating coefficients back into input space. Makes sense
 because model is linear! Otherwise more tricky.</p>
-<p>class:split-40</p>
 </div>
 <div class="section" id="pca-is-unsupervised">
 <h2>PCA is Unsupervised!<a class="headerlink" href="#pca-is-unsupervised" title="Permalink to this headline">¶</a></h2>
@@ -920,7 +914,6 @@ that are reconstructed well versus those that are not
 reconstructed well. And so if they’re not reconstructed as
 well, that means they are quite different from most of the
 data.</p>
-<p>class:split-40</p>
 </div>
 <div class="section" id="pca-for-outlier-detection">
 <h2>PCA for outlier detection<a class="headerlink" href="#pca-for-outlier-detection" title="Permalink to this headline">¶</a></h2>
@@ -977,7 +970,6 @@ dimensionality.
 
 +++
 
-class: middle
 ## Discriminant Analysis
 
 
@@ -986,10 +978,9 @@ analysis. In particular, linear discriminate analysis. This
 is also a classifier, but it also can do dimensionality
 reduction.
 +++
-class: spacious
 ## Linear Discriminant Analysis aka Fisher Discriminant
 
-`$$    P(y=k | X) = \frac{P(X | y=k) P(y=k)}{P(X)} = \frac{P(X | y=k) P(y = k)}{ \sum_{l} P(X | y=l) \cdot P(y=l)}$$`
+$$    P(y=k | X) = \frac{P(X | y=k) P(y=k)}{P(X)} = \frac{P(X | y=k) P(y = k)}{ \sum_{l} P(X | y=l) \cdot P(y=l)}$$
 
 
 Linear Discriminant Analysis is also called LDA, but never
@@ -1030,12 +1021,11 @@ distribution, which is the Gaussian distribution.
 - Don’t confuse with Latent Dirichlet Allocation (LDA)
 
 +++
-class: spacious
 ## Linear Discriminant Analysis aka Fisher Discriminant
 
-`$$    P(y=k | X) = \frac{P(X | y=k) P(y=k)}{P(X)} = \frac{P(X | y=k) P(y = k)}{ \sum_{l} P(X | y=l) \cdot P(y=l)}$$`
+$$    P(y=k | X) = \frac{P(X | y=k) P(y=k)}{P(X)} = \frac{P(X | y=k) P(y = k)}{ \sum_{l} P(X | y=l) \cdot P(y=l)}$$
 
-`$$ p(X | y=k) = \frac{1}{(2\pi)^n |\Sigma|^{1/2}}\exp\left(-\frac{1}{2} (X-\mu_k)^t \Sigma^{-1} (X-\mu_k)\right) $$`
+$$ p(X | y=k) = \frac{1}{(2\pi)^n |\Sigma|^{1/2}}\exp\left(-\frac{1}{2} (X-\mu_k)^t \Sigma^{-1} (X-\mu_k)\right) $$
 
 
 So what we&#39;re doing is basically, we&#39;re fitting a Gaussian
@@ -1050,14 +1040,13 @@ have the same covariance matrix and then we can apply this
 rule. And this gives us a classifier.
 
 +++
-class: spacious
 ## Linear Discriminant Analysis aka Fisher Discriminant
 
-`$$    P(y=k | X) = \frac{P(X | y=k) P(y=k)}{P(X)} = \frac{P(X | y=k) P(y = k)}{ \sum_{l} P(X | y=l) \cdot P(y=l)}$$`
+$$    P(y=k | X) = \frac{P(X | y=k) P(y=k)}{P(X)} = \frac{P(X | y=k) P(y = k)}{ \sum_{l} P(X | y=l) \cdot P(y=l)}$$
 
-`$$ p(X | y=k) = \frac{1}{(2\pi)^n |\Sigma|^{1/2}}\exp\left(-\frac{1}{2} (X-\mu_k)^t \Sigma^{-1} (X-\mu_k)\right) $$`
+$$ p(X | y=k) = \frac{1}{(2\pi)^n |\Sigma|^{1/2}}\exp\left(-\frac{1}{2} (X-\mu_k)^t \Sigma^{-1} (X-\mu_k)\right) $$
 
-`$$    \log\left(\frac{P(y=k|X)}{P(y=l | X)}\right) = 0 \Leftrightarrow (\mu_k-\mu_l)\Sigma^{-1} X = \frac{1}{2} (\mu_k^t \Sigma^{-1} \mu_k - \mu_l^t \Sigma^{-1} \mu_l) $$`
+$$    \log\left(\frac{P(y=k|X)}{P(y=l | X)}\right) = 0 \Leftrightarrow (\mu_k-\mu_l)\Sigma^{-1} X = \frac{1}{2} (\mu_k^t \Sigma^{-1} \mu_k - \mu_l^t \Sigma^{-1} \mu_l) $$
 
 
 
@@ -1077,11 +1066,10 @@ I look at what&#39;s the closest mean and I adjust it based on
 the prior probabilities of the class.
 
 +++
-class: spacious
 ## Quadratic Discriminant Analysis
-LDA: `$$ p(X | y=k) = \frac{1}{(2\pi)^n |\Sigma|^{1/2}}\exp\left(-\frac{1}{2} (X-\mu_k)^t \Sigma^{-1} (X-\mu_k)\right) $$`
+LDA: $$ p(X | y=k) = \frac{1}{(2\pi)^n |\Sigma|^{1/2}}\exp\left(-\frac{1}{2} (X-\mu_k)^t \Sigma^{-1} (X-\mu_k)\right) $$
 
-QDA: `$$ p(X | y=k) = \frac{1}{(2\pi)^n |\Sigma_k|^{1/2}}\exp\left(-\frac{1}{2} (X-\mu_k)^t \Sigma_k^{-1} (X-\mu_k)\right) $$`
+QDA: $$ p(X | y=k) = \frac{1}{(2\pi)^n |\Sigma_k|^{1/2}}\exp\left(-\frac{1}{2} (X-\mu_k)^t \Sigma_k^{-1} (X-\mu_k)\right) $$
 
 
 
@@ -1098,7 +1086,6 @@ matrices. So you have many more parameters, which makes it a
 little bit harder to fit.
 
 +++
-class:center
 ![:scale 55%](images/linear-vs-quadratic-discriminant-analysis.png)
 
 
@@ -1144,7 +1131,6 @@ classes in the rotated space. So you rotate the space, and
 then you look at the space spend by the means.
 
 +++
-class:center
 ## PCA vs Linear Discriminants
 ![:scale 100%](images/pca-lda.png)
 
@@ -1165,7 +1151,6 @@ here will be the one that perfectly separates all the means.
 So it gets out the interesting dimensions that helped me
 classify.
 +++
-class:center
 ## Data where PCA failed
 ![:scale 100%](images/pca-fail.png)
 
@@ -1208,7 +1193,6 @@ alternative to PCA.
 
 LDA also  also yields a rotation of the input spacA
 +++
-class: centre,middle
 ## Manifold Learning
 
 
@@ -1222,7 +1206,6 @@ example is this Swiss roll.
 
 
 +++
-class: center, middle
 ![:scale 100%](images/manifold-learning-structure.png)
 
 
@@ -1302,18 +1285,18 @@ practice for inspecting datasets.
 +++
 ## t-SNE
 
-`$$p_{j\mid i} = \frac{\exp(-\lVert\mathbf{x}_i - \mathbf{x}_j\rVert^2 / 2\sigma_i^2)}{\sum_{k \neq i} \exp(-\lVert\mathbf{x}_i - \mathbf{x}_k\rVert^2 / 2\sigma_i^2)}$$`
+$$p_{j\mid i} = \frac{\exp(-\lVert\mathbf{x}_i - \mathbf{x}_j\rVert^2 / 2\sigma_i^2)}{\sum_{k \neq i} \exp(-\lVert\mathbf{x}_i - \mathbf{x}_k\rVert^2 / 2\sigma_i^2)}$$
 --
 
-`$$p_{ij} = \frac{p_{j\mid i} + p_{i\mid j}}{2N}$$`
-
---
-
-`$$q_{ij} = \frac{(1 + \lVert \mathbf{y}_i - \mathbf{y}_j\rVert^2)^{-1}}{\sum_{k \neq i} (1 + \lVert \mathbf{y}_i - \mathbf{y}_k\rVert^2)^{-1}}$$`
+$$p_{ij} = \frac{p_{j\mid i} + p_{i\mid j}}{2N}$$
 
 --
 
-`$$KL(P||Q) = \sum_{i \neq j} p_{ij} \log \frac{p_{ij}}{q_{ij}}$$`
+$$q_{ij} = \frac{(1 + \lVert \mathbf{y}_i - \mathbf{y}_j\rVert^2)^{-1}}{\sum_{k \neq i} (1 + \lVert \mathbf{y}_i - \mathbf{y}_k\rVert^2)^{-1}}$$
+
+--
+
+$$KL(P||Q) = \sum_{i \neq j} p_{ij} \log \frac{p_{ij}}{q_{ij}}$$
 
 
 
@@ -1379,7 +1362,6 @@ influence the sigma.
 - t distribution heavy-tailed so no overcrowding.
 - (low perplexity: only close neighbors)
 +++
-class:center
 ![:scale 63%](images/tsne-embeddings-digits.png)
 
 
@@ -1412,7 +1394,6 @@ interpretation for the axis.
 
 
 +++
-class:split-40
 .smaller[```python
 from sklearn.manifold import TSNE
 from sklearn.datasets import load_digits
@@ -1447,7 +1428,6 @@ boundaries by hand in 2D from the original 64-dimensional
 space and I could group the data. This 2D view can help me
 understand the data.
 +++
-class: center, compact
 ## Showing algorithm progress
 
 ![:scale 50%](images/digits_tsne_animation.gif)
@@ -1455,7 +1435,6 @@ class: center, compact
 .smallest[https://github.com/oreillymedia/t-SNE-tutorial]
 
 +++
-class:split-40
 ## Tuning t-SNE perplexity
 .left-column[
 ![:scale 70%](images/tsne-tuning-2.png)
@@ -1492,7 +1471,6 @@ at neighbors further away.
 - authors say 30 always works well.
 
 +++
-class:spacious
 ![:scale 25%](images/tsne-moons.png) ![:scale 55%](images/tsne-perplexity.png)
 
 
@@ -1500,7 +1478,6 @@ Here&#39;s the same for a very small two dimensional data set. I
 wanted to see how well t-SNE can separate these out. Again,
 perplexity equal to 30, probably looks the best to me.
 +++
-class: center, middle, spacious
 ## Play around online
 
 http://distill.pub/2016/misread-tsne/
@@ -1544,12 +1521,10 @@ https://github.com/elbamos/largeVis
 ![:scale 47%](images/largevis_mnist.png)
 ![:scale 47%](images/largevis_wikidoc.png)
 +++
-class: center, middle
 
 ## Questions ?
 </pre></div>
 </div>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="nmf-outlier-detection">
 <h2>NMF; Outlier detection<a class="headerlink" href="#nmf-outlier-detection" title="Permalink to this headline">¶</a></h2>
@@ -1578,7 +1553,6 @@ FIXME realistic data for both NMF and for outlier detection. maybe cool time ser
 <span class="n">data_clean</span> <span class="o">=</span> <span class="n">dapl</span><span class="o">.</span><span class="n">clean</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>class: center, middle</p>
 </div>
 <div class="section" id="non-negative-matrix-factorization">
 <h2>Non-Negative Matrix Factorization<a class="headerlink" href="#non-negative-matrix-factorization" title="Permalink to this headline">¶</a></h2>
@@ -1627,7 +1601,6 @@ components and we get PCA, if we restrict the columns of B
 to be orthogonal, then the product of matrixes A and B is
 most close to X in the least square sense is the principal
 component analysis.</p>
-<p>class:spacious</p>
 </div>
 <div class="section" id="other-matrix-factorizations">
 <h2>Other Matrix Factorizations<a class="headerlink" href="#other-matrix-factorizations" title="Permalink to this headline">¶</a></h2>
@@ -1663,14 +1636,14 @@ that is, each entry is a positive number.</p>
 weights, and H stands for hidden representation. We want to
 find W and H so that their product is as close as possible
 to X.</p>
-<p>class: compact</p>
 </div>
 <div class="section" id="nmf-loss-and-algorithm">
 <h2>NMF Loss and algorithm<a class="headerlink" href="#nmf-loss-and-algorithm" title="Permalink to this headline">¶</a></h2>
 <p>Frobenius loss / squared loss ($ Y = H W$):</p>
-<p><code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">l_{\text{frob}}(X,</span> <span class="pre">Y)</span> <span class="pre">=</span> <span class="pre">\sum_{i,j}</span> <span class="pre">(X_{ij}</span> <span class="pre">-</span> <span class="pre">Y_{ij})^</span> <span class="pre">2$$</span></code></p>
+<div class="math notranslate nohighlight">
+\[ l_{\text{frob}}(X, Y) = \sum_{i,j} (X_{ij} - Y_{ij})^ 2\]</div>
 <p>Kulback-Leibler (KL) divergence:
-<code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">l_{\text{KL}}(X,</span> <span class="pre">Y)</span> <span class="pre">=</span> <span class="pre">\sum_{i,j}</span> <span class="pre">X_{ij}</span> <span class="pre">\log\left(\frac{X_{ij}}{Y_{ij}}\right)</span> <span class="pre">-</span> <span class="pre">X_{ij}</span>&#160; <span class="pre">+</span> <span class="pre">Y_{ij}$$</span></code></p>
+<span class="math notranslate nohighlight">\($ l_{\text{KL}}(X, Y) = \sum_{i,j} X_{ij} \log\left(\frac{X_{ij}}{Y_{ij}}\right) - X_{ij}  + Y_{ij}\)</span>$</p>
 <p>–</p>
 <p>optimization :</p>
 <ul class="simple">
@@ -1684,7 +1657,6 @@ to X.</p>
 <li><p>Given new data <code class="docutils literal notranslate"><span class="pre">X_test</span></code>, fixed <code class="docutils literal notranslate"><span class="pre">W</span></code>, computing <code class="docutils literal notranslate"><span class="pre">H</span></code> requires optimization.</p></li>
 </ul>
 <p>In literature: often everything transposed</p>
-<p>class: spacious</p>
 </div>
 <div class="section" id="why-nmf">
 <h2>Why NMF?<a class="headerlink" href="#why-nmf" title="Permalink to this headline">¶</a></h2>
@@ -1881,7 +1853,6 @@ and be just like, sort of small pieces of strokes.</p>
 <p>With 5 components, you get something like digits out there
 and all of these together seems to sort of cover space
 somewhat.</p>
-<p>class:spacious</p>
 </div>
 <div class="section" id="applications-of-nmf">
 <h2>Applications of NMF<a class="headerlink" href="#applications-of-nmf" title="Permalink to this headline">¶</a></h2>
