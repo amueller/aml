@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Prerequisits and required libraries &#8212; Applied Machine Learning in Python</title>
+    <title>Prerequisits &#8212; Applied Machine Learning in Python</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -74,7 +74,7 @@
     <a href="00-introduction.html">2. Introduction</a>
   <ul class="nav sidenav_l2">
     <li class="active">
-      <a href="">2.1 Prerequisits and required libraries</a>
+      <a href="">2.1 Prerequisits</a>
     </li>
   </ul>
   </li>
@@ -152,9 +152,62 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#python-and-package-managers" class="nav-link">Python and package managers</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#jupyter-notebooks" class="nav-link">Jupyter Notebooks</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#managing-python-environments" class="nav-link">Managing Python environments</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#hosted-platforms" class="nav-link">Hosted platforms</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#packages" class="nav-link">Packages</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#numpy" class="nav-link">NumPy</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#scipy" class="nav-link">SciPy</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#matplotlib" class="nav-link">Matplotlib</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#pandas" class="nav-link">Pandas</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#seaborn" class="nav-link">Seaborn</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#scikit-learn" class="nav-link">Scikit-learn</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#versions-used" class="nav-link">Versions used</a>
+        </li>
+    
+            </ul>
+        </li>
     
     </ul>
 </nav>
@@ -167,14 +220,603 @@
         
               <div>
                 
-  <div class="section" id="prerequisits-and-required-libraries">
-<h1>Prerequisits and required libraries<a class="headerlink" href="#prerequisits-and-required-libraries" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><p>python vs R?</p></li>
-<li><p>anaconda / conda / pip</p></li>
-<li><p>local vs hosted?</p></li>
-<li><p>pain of package management</p></li>
-</ul>
+  <div class="section" id="prerequisits">
+<h1>Prerequisits<a class="headerlink" href="#prerequisits" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="python-and-package-managers">
+<h2>Python and package managers<a class="headerlink" href="#python-and-package-managers" title="Permalink to this headline">¶</a></h2>
+<p>As the title indicates, we will be doing all our work in Python. Python has become the de-facto standard language for machine learning and data science, with <span class="math notranslate nohighlight">\(R\)</span> being the other major community in the space.
+The book will assume that you’re at least somewhat familiar with Python, though we won’t be needing any advanced features of the language. If you’re new to Python, there are plenty of resources online.
+In particular for data science, I highly recommend the <a class="reference external" href="https://jakevdp.github.io/PythonDataScienceHandbook/">Python Data Science Handbook</a> by Jake VanderPlas, which discusses the environments and libraries described below in much more detail.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>If you don’t want to get the whole Anaconda package you which you can also get conda by installing <a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">miniconda</a>. You can also stick to <code class="docutils literal notranslate"><span class="pre">pip</span></code> if you don’t want to mess with two package managers, though using conda often makes things a bit easier.</p>
+</div>
+<p>If you don’t have a working installation of Python, the easiest way to get one is probably by downloading the free <a class="reference external" href="https://www.anaconda.com/products/individual">Anaconda Python distribution</a>, which is available for Windows, Linux and OS X.
+Make sure to get the latest version of Python (3.7 as of this writing, 3.6 is still fine, I wouldn’t use anything older) and the 64 bit version. Anaconda comes with the <code class="docutils literal notranslate"><span class="pre">conda</span></code> package manager which is a widely used alternative to the standard python package manager <code class="docutils literal notranslate"><span class="pre">pip</span></code>.
+Whether you use Anaconda or not, make sure you create a new virtual environment for your data science work. In particular, <strong>don’t use your system Python</strong>, i.e. the one that is installed by your operating system. Trying to install data science packages into your system Python is a great way to mess up the normal functioning of your computer.</p>
+</div>
+<div class="section" id="jupyter-notebooks">
+<h2>Jupyter Notebooks<a class="headerlink" href="#jupyter-notebooks" title="Permalink to this headline">¶</a></h2>
+<p>Jupyter is an interactive, browser-based coding environment that lends itself amazingly well for the iterative, exploratory process of data science.
+It also enables literate programming by mixing code with other media, like markdown text.
+In fact, this book has been written entirely in Jupyter notebook, and it’s available in it’s entirety at <a class="reference external" href="https://github.com/amueller/aml">github.com/amueller/aml</a>. While you can use an IDE such as Spyder, PyCharm or VSCode, which all have great Python support, I recommend using Jupyter, or the newer iteration of the interface, Jupyter Lab for working through the examples in this book and starting your machine learning journey.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>A great feature of Jupyter is to allow running code cells out of order.
+However, that can make it hard to reproduce some experiments. It’s a good idea to do a “restart kernel and run all cells” periodically to see that your code is complete and your experiments reproduce.</p>
+</div>
+<p>For more extensive projects, and for production use, using standard Python scripts is beneficial, as they are more easily managed with version control and more easily tested. At what point you should transition from notebooks to Python scripts, and which is better for what purpose, is the topic of a lively debate within the PyData community.</p>
+<p>If you are using Anaconda, you should be able to start Jupyter Lab from a console by executing <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">lab</span></code> (on any operating system), or via the Anaconda navigator (on OS X and Windows).</p>
+</div>
+<div class="section" id="managing-python-environments">
+<h2>Managing Python environments<a class="headerlink" href="#managing-python-environments" title="Permalink to this headline">¶</a></h2>
+<p>Whether you’re using Jupyter or an IDE and whether you’re using Anaconda or not, working with multiple Python environments is often a source of frustration for those that are new to Python (or even those that have been working with it for years).
+Whenever you install a package, it is installed into a particular <em>Python virtual environment</em> that corresponds to a particular version of Python together with a set of installed libraries. You can think of it as a light variant of a container or virtual machine.
+It’s very likely that your machine has more than one Python environment, and if you run a <code class="docutils literal notranslate"><span class="pre">pip</span></code> or <code class="docutils literal notranslate"><span class="pre">conda</span></code> command on the command line, it might run in a different environment than what is used in your Jupyter Notebooks, which again might be different from what is used in your IDE.
+The most common symptom of this is your IDE or Jupyter complaining <code class="docutils literal notranslate"><span class="pre">no</span> <span class="pre">package</span> <span class="pre">sklearn</span></code> when you just ran <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">sklearn</span></code> and it successfully installed.
+IDEs with good Python support, like the ones I mentioned above, allow you to configure easily which environment you want to run your code in. Jupyter has the concept of <em>kernels</em> which allow you to run code in different environments.
+A great overview of the topic is provided in the blogpost <a class="reference external" href="https://jakevdp.github.io/blog/2017/12/05/installing-python-packages-from-jupyter/">Installing Python packages for Jupyter</a> by Jake VanderPlas.</p>
+</div>
+<div class="section" id="hosted-platforms">
+<h2>Hosted platforms<a class="headerlink" href="#hosted-platforms" title="Permalink to this headline">¶</a></h2>
+<p>If you don’t want to (or can’t) setup a Python environment on your machine, there are many options for hosted environments, often with substantial computational power.
+Most cloud providers offer free hosted Jupyter notebooks, notably <a class="reference external" href="https://colab.research.google.com/">Google Colab</a> (which even allows free access to GPUs), <a class="reference external" href="https://notebooks.azure.com/">Azure Notebooks</a>, and <a class="reference external" href="https://aws.amazon.com/sagemaker/">Amazon SageMaker</a> (which only seems to have a very limited free offering). A more community driven effort is <a class="reference external" href="https://mybinder.org/">binder</a>, and there are countless other platforms that provide (sometimes free) access to hosted Jupyter notebooks. Worth mentioning here are <a class="reference external" href="https://www.kaggle.com/kernels">kaggle kernels</a>, which are an integration of Colab into the Kaggle machine learning community, where many interesting data science and machine learning applications are posted (with a wide spectrum of quality).
+As of this writing, both Google Colab and Azure notebooks provide ready-to-use solutions that require basically no effort to get started.</p>
+</div>
+<div class="section" id="packages">
+<h2>Packages<a class="headerlink" href="#packages" title="Permalink to this headline">¶</a></h2>
+<p>Now that you have your environment up and running and picked your interface of choice, I want to discuss the libraries we will be using. If you’re using anaconda or any of the hosted services, they will already be installed for you.``</p>
+<div class="section" id="numpy">
+<h3>NumPy<a class="headerlink" href="#numpy" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://numpy.org/doc/1.18/user/quickstart.html">NumPy</a> is the Python library that provides efficient implementation of multi-dimensional arrays. NumPy ndarrays are the internal data structure used for most of scikit-learn, and we will be using it extensively in this book.
+I will assume you are familiar with array creation and indexing, which you can read up on <a class="reference external" href="https://numpy.org/devdocs/user/basics.indexing.html">in the documentation</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="c1"># create a diagonal matrix with ones on the diagonal that&#39;s 5x5</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="c1"># show the result in Jupyter</span>
+<span class="n">X</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([[1., 0., 0., 0., 0., 0., 0.],
+       [0., 1., 0., 0., 0., 0., 0.],
+       [0., 0., 1., 0., 0., 0., 0.],
+       [0., 0., 0., 1., 0., 0., 0.],
+       [0., 0., 0., 0., 1., 0., 0.],
+       [0., 0., 0., 0., 0., 1., 0.],
+       [0., 0., 0., 0., 0., 0., 1.]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># show the class of X, and the shape of X</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;numpy.ndarray&#39;&gt; (7, 7)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="scipy">
+<h3>SciPy<a class="headerlink" href="#scipy" title="Permalink to this headline">¶</a></h3>
+<p>Another fundamental library that provides data structures and algorithm is <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/">SciPy</a>. SciPy is a bit of a hodge-pot of many different scientific algorithms, but we will mostly use it for its implementation of sparse matrices, i.e. two-dimensional arrays where most entries are zero.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
+<span class="c1"># If a matrix has many zeros, sparse matrices are an efficient representation.</span>
+<span class="c1"># Here, we&#39;re creating a matrix in the Compressed Sparse Row (CSR) format from the diagonal numpy array X</span>
+<span class="n">X_sp</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">X_sp</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;7x7 sparse matrix of type &#39;&lt;class &#39;numpy.float64&#39;&gt;&#39;
+	with 7 stored elements in Compressed Sparse Row format&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scipy sparse matrices can be converted to numpy arrays with the toarray method</span>
+<span class="c1"># This is usually a bad idea, as it requires much more memory than the sparse representation,</span>
+<span class="c1"># but can be useful for debugging.</span>
+<span class="n">X_sp</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([[1., 0., 0., 0., 0., 0., 0.],
+       [0., 1., 0., 0., 0., 0., 0.],
+       [0., 0., 1., 0., 0., 0., 0.],
+       [0., 0., 0., 1., 0., 0., 0.],
+       [0., 0., 0., 0., 1., 0., 0.],
+       [0., 0., 0., 0., 0., 1., 0.],
+       [0., 0., 0., 0., 0., 0., 1.]])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="matplotlib">
+<h3>Matplotlib<a class="headerlink" href="#matplotlib" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://matplotlib.org/index.html">Matplotlib</a> is the primary plotting library in Python, and we’ll use it extensively for most of our visualization needs. I’m a big fan of visual exploration of data and visual teaching, so the book might contain more matplotib code than scikit-learn code.
+Mtplotlib is the foundation of most plotting in Python, but sometimes it’s more convenient to use more specialized visualization tools build on top of matplotlib. Pandas and scikit-learn have built-in plotting functionality that used matplotlib under the hood.
+Understanding matplotlib is important to use these tools well.
+There are alternative plotting libraries for Python, in particular altair, plotly and bokeh. All three are much more recent than matplotlib, and altair and plotly are particularly designed for data science applications, while matplotlib was designed more broadly for scientific plotting. So you might find them more convenient to use. For this book, we’ll stick with matplotlib as it’s mature and widely used.
+It’s important to know that while pandas plotting builds on matplotlib, matplotlib knows nothing about pandas, and always operates on the underlying numpy arrays.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="c1"># show a heat map plot of the diagonal numpy array</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># add a color bar to the plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.colorbar.Colorbar at 0x1d8b9089948&gt;
+</pre></div>
+</div>
+<img alt="../_images/01-preliminaries_9_1.png" src="../_images/01-preliminaries_9_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># I love using subplots! It allows you to create regular grids of plots.</span>
+<span class="c1"># The whole thing is called the figure, while each subplot is called and axes (not axis)</span>
+<span class="n">figure</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="c1"># axes is a numpy array of shape 2 x 3:</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;axes.shape&quot;</span><span class="p">,</span> <span class="n">axes</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="c1"># instead of using plt.matshow, we can directly plot into one of the axes:</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>axes.shape (2, 3)
+</pre></div>
+</div>
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x1d8b8d26ac8&gt;
+</pre></div>
+</div>
+<img alt="../_images/01-preliminaries_10_2.png" src="../_images/01-preliminaries_10_2.png" />
+</div>
+</div>
+</div>
+<div class="section" id="pandas">
+<h3>Pandas<a class="headerlink" href="#pandas" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/">Pandas</a> is maybe the most widely use package in datascience in Python. It builds upon NumPy and provides the <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> datastructure, which is a convenient representation of a table, including column names and row indices.
+In contrast to NumPy ndarrays, which assume all entries have the same data type (aka <code class="docutils literal notranslate"><span class="pre">dtype</span></code>, such as float or int), pandas allows each column in the data to have a different <code class="docutils literal notranslate"><span class="pre">dtype</span></code>. Pandas also extends the handling of missing values and implements a categorical data type (which doesn’t exit in NumPy). Pandas also contains functionality for processing and merging tables, data visualization and reading and writing common data formats and databases.
+We will represent most of the data in the book using pandas.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># often you&#39;ll read your data from disk, but you can also create it in other ways</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="c1"># we can create a dataframe from a numpy ndarray</span>
+<span class="n">X_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># the resulting dataframe will have numbered rows and columns</span>
+<span class="n">X_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># often, giving names is nicer</span>
+<span class="n">X_df_named</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="s1">&#39;second&#39;</span><span class="p">,</span> <span class="s1">&#39;third&#39;</span><span class="p">,</span> <span class="s1">&#39;fourth&#39;</span><span class="p">,</span> <span class="s1">&#39;fifth&#39;</span><span class="p">,</span> <span class="s1">&#39;sixth&#39;</span><span class="p">,</span> <span class="s1">&#39;seventh&#39;</span><span class="p">])</span>
+<span class="c1"># If our dataset is big, we also might want to limit the number of rows shown</span>
+<span class="c1"># The easiest way for that is using the head method, which by default gives us the first 5 rows</span>
+<span class="n">X_df_named</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first</th>
+      <th>second</th>
+      <th>third</th>
+      <th>fourth</th>
+      <th>fifth</th>
+      <th>sixth</th>
+      <th>seventh</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Another favorite is creating dataframes from dictionaries of one-dimensional arrays.</span>
+<span class="c1"># We create two columns, with 1000 entries each, using two different random number distributions</span>
+<span class="n">X_dict2df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;uniform random numbers&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">),</span>
+                          <span class="s1">&#39;normally distributed random numbers&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)})</span>
+<span class="n">X_dict2df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>uniform random numbers</th>
+      <th>normally distributed random numbers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.313737</td>
+      <td>1.603174</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.919483</td>
+      <td>-1.199323</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.238195</td>
+      <td>0.991240</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.677885</td>
+      <td>-0.381042</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.691179</td>
+      <td>-1.871079</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>995</th>
+      <td>0.803233</td>
+      <td>0.160784</td>
+    </tr>
+    <tr>
+      <th>996</th>
+      <td>0.399651</td>
+      <td>-1.440656</td>
+    </tr>
+    <tr>
+      <th>997</th>
+      <td>0.006092</td>
+      <td>0.582749</td>
+    </tr>
+    <tr>
+      <th>998</th>
+      <td>0.953888</td>
+      <td>1.532094</td>
+    </tr>
+    <tr>
+      <th>999</th>
+      <td>0.443370</td>
+      <td>1.032746</td>
+    </tr>
+  </tbody>
+</table>
+<p>1000 rows × 2 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># pandas has some convenient built-in plotting which automatically labels everything.</span>
+<span class="c1"># Here we compute a histogram for each column.</span>
+<span class="c1"># By default, hist uses 10 bins, instead we pick them automagically</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">X_dict2df</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+
+<span class="c1"># pandas plotting returns the matplotlib axes that were created, and we can modify them afterwards</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;counts&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;counts&#39;)
+</pre></div>
+</div>
+<img alt="../_images/01-preliminaries_15_1.png" src="../_images/01-preliminaries_15_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="seaborn">
+<h3>Seaborn<a class="headerlink" href="#seaborn" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="http://seaborn.pydata.org/">Seaborn</a> is a plotting library that provides read-made statistical data visualizations, using matplotlib and pandas.
+In some ways, the package is quite opinionated, which makes some complex plots very easy, and generates beautiful plots.
+However, while seaborn is very powerful, it might sometimes be a bit tricky to arrive at exactly the plot you’re looking for sometimes. There are some <a class="reference external" href="http://seaborn.pydata.org/tutorial.html">great tutorials</a> to get you started, though.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># seaborn is traditionally imported as sns. Better not ask why.</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="c1"># we&#39;re loading the built-in diamonds dataset, a favorite of every visualization expert, into a pandas DataFrame</span>
+<span class="c1"># it contains prices and quality criteria for thousands of diamond sales. </span>
+<span class="n">diamonds</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;diamonds&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">diamonds</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">diamonds</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Index([&#39;carat&#39;, &#39;cut&#39;, &#39;color&#39;, &#39;clarity&#39;, &#39;depth&#39;, &#39;table&#39;, &#39;price&#39;, &#39;x&#39;, &#39;y&#39;,
+       &#39;z&#39;],
+      dtype=&#39;object&#39;)
+(53940, 10)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># creating a FacetGrid allows grouping the data</span>
+<span class="c1"># and mapping columns to rows, columns or hue</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">FacetGrid</span><span class="p">(</span><span class="n">diamonds</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;cut&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;color&quot;</span><span class="p">)</span>
+<span class="c1"># each entry then calls a plot command for the particular group</span>
+<span class="c1"># Here we&#39;re calling scatter, specify the columns for each axis.</span>
+<span class="c1"># We also pass parameters &#39;s&#39; for marker size and &#39;alpha&#39; for transparency</span>
+<span class="c1"># to reduce overplotting (somewhat).</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">,</span> <span class="s2">&quot;carat&quot;</span><span class="p">,</span> <span class="s2">&quot;price&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">6</span><span class="p">)</span>
+<span class="c1"># a legend is added elegantly only once per grid</span>
+<span class="n">g</span><span class="o">.</span><span class="n">add_legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01-preliminaries_18_0.png" src="../_images/01-preliminaries_18_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="scikit-learn">
+<h3>Scikit-learn<a class="headerlink" href="#scikit-learn" title="Permalink to this headline">¶</a></h3>
+<p>How to use <a class="reference external" href="http://scikit-learn.org/">scikit-learn</a> will be the main topic of this book, and we will run though most of the functionality in detail in later chapters.
+Scikit-learn provides machine learning algorithms in a simple, consistent interface. Scikit-learn focusses has both supervised and unsupervised learning, though no active learning or reinforcement learning is included. Scikit-learn mostly deals with tabular data, though it has some basic text processing capabilities, which we’ll discuss in chapter TODO. Apart from machine learning algorithms, scikit-learn also contains tools for data preprocessing, model evaluation and model selection.
+While scikit-learn has a wide varity of algorithms and tools, it does not include algorithms for time series, and neither does it provide modern deep learning algorithms.
+It’s important to note that while scikit-learn accepts pandas DataFrames as inputs, most of scikit-learn is not aware of the additional information that is represented in the dataframe, such a column names or row indices, and just operates on the underlying NumPy ndarray.</p>
+</div>
+<div class="section" id="versions-used">
+<h3>Versions used<a class="headerlink" href="#versions-used" title="Permalink to this headline">¶</a></h3>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>If you’re adventurous, I encourage you to try out the development version of scikit-learn, which often has more features. Your feedback on the development version will help scikit-learn to become better.
+You can find instructions on <a class="reference external" href="https://scikit-learn.org/dev/developers/advanced_installation.html#installing-nightly-builds">how to install the nightly build on the scikit-learn website</a>.
+The documentation for the development version is hosted at <a class="reference external" href="https://scikit-learn.org/dev">scikit-learn.org/dev</a>.</p>
+</div>
+<p>This book was run with the following versions:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">show_versions</span>
+<span class="n">show_versions</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
+System:
+    python: 3.7.6 (default, Jan  8 2020, 20:23:39) [MSC v.1916 64 bit (AMD64)]
+executable: C:\Users\t3kci\anaconda3\python.exe
+   machine: Windows-10-10.0.18362-SP0
+
+Python dependencies:
+       pip: 20.0.2
+setuptools: 46.2.0.post20200511
+   sklearn: 0.24.dev0
+     numpy: 1.18.1
+     scipy: 1.4.1
+    Cython: 0.29.17
+    pandas: 1.0.3
+matplotlib: 3.1.3
+    joblib: 0.14.1
+
+Built with OpenMP: True
+</pre></div>
+</div>
+</div>
+</div>
+<p>However, it is likely to run with many other configurations. The most important part is to make sure to use the most recent version of scikit-learn, which is 0.23 of this writing.</p>
+</div>
+</div>
 </div>
 
 
