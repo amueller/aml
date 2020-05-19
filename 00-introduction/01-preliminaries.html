@@ -313,7 +313,7 @@ I will assume you are familiar with array creation and indexing, which you can r
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
 <span class="c1"># If a matrix has many zeros, sparse matrices are an efficient representation.</span>
-<span class="c1"># Here, we&#39;re creating a matrix in the Compressed Sparse Row (CSR) format from the diagonal numpy array X</span>
+<span class="c1"># We&#39;re creating a matrix in the Compressed Sparse Row (CSR) format from the diagonal numpy array X</span>
 <span class="n">X_sp</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="n">X_sp</span>
 </pre></div>
@@ -517,7 +517,8 @@ We will represent most of the data in the book using pandas.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># often, giving names is nicer</span>
-<span class="n">X_df_named</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="s1">&#39;second&#39;</span><span class="p">,</span> <span class="s1">&#39;third&#39;</span><span class="p">,</span> <span class="s1">&#39;fourth&#39;</span><span class="p">,</span> <span class="s1">&#39;fifth&#39;</span><span class="p">,</span> <span class="s1">&#39;sixth&#39;</span><span class="p">,</span> <span class="s1">&#39;seventh&#39;</span><span class="p">])</span>
+<span class="n">X_df_named</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="s1">&#39;second&#39;</span><span class="p">,</span> <span class="s1">&#39;third&#39;</span><span class="p">,</span> <span class="s1">&#39;fourth&#39;</span><span class="p">,</span>
+                                      <span class="s1">&#39;fifth&#39;</span><span class="p">,</span> <span class="s1">&#39;sixth&#39;</span><span class="p">,</span> <span class="s1">&#39;seventh&#39;</span><span class="p">])</span>
 <span class="c1"># If our dataset is big, we also might want to limit the number of rows shown</span>
 <span class="c1"># The easiest way for that is using the head method, which by default gives us the first 5 rows</span>
 <span class="n">X_df_named</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -731,7 +732,7 @@ However, while seaborn is very powerful, it might sometimes be a bit tricky to a
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># seaborn is traditionally imported as sns. Better not ask why.</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
-<span class="c1"># we&#39;re loading the built-in diamonds dataset, a favorite of every visualization expert, into a pandas DataFrame</span>
+<span class="c1"># we&#39;re loading the built-in diamonds dataset into a pandas DataFrame</span>
 <span class="c1"># it contains prices and quality criteria for thousands of diamond sales. </span>
 <span class="n">diamonds</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;diamonds&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">diamonds</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
