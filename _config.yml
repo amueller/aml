@@ -14,3 +14,7 @@ html:
 latex:
   latex_documents:
     targetname: book.tex
+
+sphinx:
+  extra_extensions: ['sphinx.ext.todo']
+  todo_include_todos: True
