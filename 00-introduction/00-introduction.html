@@ -203,15 +203,19 @@
             <a href="#the-bigger-picture" class="nav-link">The bigger picture</a><ul class="nav section-nav flex-column">
                 
         <li class="nav-item toc-entry toc-h3">
+            <a href="#the-machine-learning-process" class="nav-link">The machine learning process</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
             <a href="#the-role-of-data" class="nav-link">The role of data</a>
         </li>
     
         <li class="nav-item toc-entry toc-h3">
-            <a href="#metrics-and-evaluation" class="nav-link">Metrics and evaluation</a>
+            <a href="#feedback-loops-in-data-collection" class="nav-link">Feedback loops in data collection</a>
         </li>
     
         <li class="nav-item toc-entry toc-h3">
-            <a href="#feedback-loops-in-data-collection" class="nav-link">Feedback loops in data collection</a>
+            <a href="#metrics-and-evaluation" class="nav-link">Metrics and evaluation</a>
         </li>
     
         <li class="nav-item toc-entry toc-h3">
@@ -224,10 +228,6 @@
     
         <li class="nav-item toc-entry toc-h3">
             <a href="#scaling-up" class="nav-link">Scaling up</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h3">
-            <a href="#the-machine-learning-process" class="nav-link">The machine learning process</a>
         </li>
     
             </ul>
@@ -406,9 +406,27 @@ The answer for the inference question would be either “yes” or “no”, and
 <div class="section" id="the-bigger-picture">
 <h2>The bigger picture<a class="headerlink" href="#the-bigger-picture" title="Permalink to this headline">¶</a></h2>
 <p>This book is mostly technical in nature, with an emphasis on practial programming techniques. However, there are some important guiding principles for developing machine learning solutions that are often forgotten by practitioners who find themselves deep in the technical aspects. In this section, I want to draw your attention to what I think are crucial aspects of using machine learning in applications. It might seem a bit dry for now, but I encourage you to keep these ideas in mind while working through the rest of the book, and maybe come back here in the end, once you’ve got your toes a bit wet.</p>
+<div class="section" id="the-machine-learning-process">
+<h3>The machine learning process<a class="headerlink" href="#the-machine-learning-process" title="Permalink to this headline">¶</a></h3>
+<p>Any data science process, like most knowledge seeking processes, interleaves collecting evidence, making hypothesis, and validating them, as process also known as Box’s loop TODO.
+I summarized how I think of this iterative process in Figure TODO.
+<img alt="ml-workflow" src="../_images/ml-workflow.svg" /></p>
+<p>Outside of the depicted process is the formulation of the problem, and the definition of measures, both of which are critical, but usually not part of the loop.
+The actual machine learning process itself starts with data collection, which might mean mining historical data, labeling data by hand, or running simulations or even performing actual physical experiments.
+Once the data is collected, it needs to be processed into a format suitable for machine learning, which we’ll discuss in more detail in Chapter TODO.
+Before building the model expoloratory data analysis and visualization are essential to form or confirm intuition on the structure of the data, to spot potential data quality issues, to select suitable candidate models, and potentially generate new features.
+The next step, model building, usually involves building several candidate models, tweaking them, and comparing them. Once a model is selected, it is usually evaluated first in an off-line manner, that is using already collected data.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">TODO</p>
+<p>Unclear, should we talk about shadow-running models?</p>
+</div>
+<p>Then, potentially it is further validated in a live setting with current data. Finally, the model is deployed into the production environment. For a web app, deployment might be deployment in the software sense: deploying a service that takes user data, runs the model, and renders some outcome on your website. For industrial applications, deployment could mean integrating your defect detection into an assembly line and discarding defect; if your model is for evaluating real-estate, deployment might mean buying highly valued properties.</p>
+<p>This process is depicted as a circle, as deployment usually generates new data, or informs future data collection, and restarts the process. While I drew a circle, actually this is more than one loop, in fact this is a fully connected graph, where after each step, you might decide to go back to previous steps and start over, improving your model or your process. At any point, you might find data quality issue, figure out new informative ways to represent the data, or find out that your model doesn’t perform as well as you thought. Each time, you might decide to improve any of the previously taken steps. Usually there are many iterations before reaching integration and deployment for the first time, as using an unsuitable model might represent substantial risk to your project.</p>
+<p>The rest of the book will focus on model building and evaluation, which are at the core of machine learning. However, for a successful project, all of the steps in the process are important. Formulating the problem, collecting data, and establishing success metrics are often at least as crucial as selecting the right model and tweaking it. Given the technical nature of the material presented in this book, it’s easy to lose sight of how critical all the steps of the process are. We will discuss some of these in a bit more detail now.</p>
+</div>
 <div class="section" id="the-role-of-data">
 <h3>The role of data<a class="headerlink" href="#the-role-of-data" title="Permalink to this headline">¶</a></h3>
-<p>Clearly the data used for building and evaluating a machine learning model are crucial ingredients. How crucial is something that is often overlooked. Much of the education on machine learning looks at fixed datasets, and the same is true for online competitions and platforms such as <a class="reference external" href="https://kaggle.com">kaggle</a>. However, in practice, data collection is usually part of building any machine learning application, and there is usually a choice to collect additional data, or to change the data collection.
+<p>Clearly the data used for building and evaluating a machine learning model are crucial ingredients. Data collection is often overlooked in machine learning education, where students usually look at fixed datasets, and the same is true for online competitions and platforms such as <a class="reference external" href="https://kaggle.com">kaggle</a>. However, in practice, data collection is usually part of building any machine learning application, and there is usually a choice to collect additional data, or to change the data collection.
 Having more data can be the difference between a model that’s not working, and a model that outperforms human judgement, in particular if you can collect data that covers the variablity that you will encounter in prediction.
 Sometimes it might be possible to collect additional features that make the task much easier, and selecting what data to collect is often as critical as selecting the right model. Usually it’s easier to throw away data later than to add new fields to the data collection. It’s common for data scientist to start working on a model only to discover that a critical aspect of the process was not logged, and a task that could have been easy becomes extremely hard.</p>
 <div class="margin sidebar">
@@ -429,6 +447,20 @@ As long as your post is similar to other posts on the platform, you can obtain a
 <p>say why machines are good at some things and bad at others? like medical imaging?</p>
 </div>
 </div>
+<div class="section" id="feedback-loops-in-data-collection">
+<h3>Feedback loops in data collection<a class="headerlink" href="#feedback-loops-in-data-collection" title="Permalink to this headline">¶</a></h3>
+<p>One particular aspect that is often neglected in data collection is that the effect of deploying a machine learning model might change the process generating the data.
+A simple example for this would be a spammer, who, once a model is able to flag their content, would change their strategy or content so as to be no longer detected. Clearly, the data here changed as a consequence of deploying the model, and the model that might have been able to accurately identify spam in an offline setting might not work in practice.
+In this example, there is an adverserial intent and the spammers intentionally try to defeat the model. However, similar changes might happen indicentally, but still invalidate a previous model.
+For example, when building systems for product recommentation, the model often relies on data that was collected using some other recommendation scheme, and the choice of this scheme clearly influences what data will be collected. If a streaming platform never suggests a particular movie, it’s unlikely to be seen by many users, and so it will not show up in user data that’s collected, and so a machine learning algorithm will not recommend it, creating a feedback loop that will lead to the movie being ignored.
+There is a whole subset of machine learning devoted to this kind of interactive data collection, called <em>active learning</em>, where the data that is collected is closely related to the model that’s being build. This area also has a close relation to reinforcement learning.</p>
+<p>Given the existence of these feedback loops, it’s important to ensure that your model performs well, not only in an offline test, but also in a production environment. Often this is hard to simulate, as you might not be able to anticipate the reaction of your users to deploying an algorithm. In this case, using A/B testing might be a way to evaluate your system more rigourously.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">TODO</p>
+<p>A/B testing</p>
+</div>
+<p>A particular nefarious example of this feedback loop has been observed (TODO citation) in what is known as <em>predictive policing</em>. The premise of predictive policing is to send police patrols to neighborhoods where they expect to observe crime, at times that they expect to observe crime. However, if police is sent to a neighborhood, they are likely to find criminal activity there (even if it might be minor); and clearly they will not find criminal activity in neighborhoods they did not patrol. Historically, police patrols in certain US cities have focused on non-white neighborhoods, and given this historical data, predictive policing methods steered patrols to these same neighborhoods. Which then lead them to observe more crime there, leading to more data showing crime in these neighborhoods, leading to more patrols being send there, and so on.</p>
+</div>
 <div class="section" id="metrics-and-evaluation">
 <h3>Metrics and evaluation<a class="headerlink" href="#metrics-and-evaluation" title="Permalink to this headline">¶</a></h3>
 <p>One of the most important parts of machine learning is defining the goal, and defining a way to measure that goal. The first part of this is having the right data for evaluating your model, data that will reflect the way the model will be used in production.
@@ -447,20 +479,6 @@ However, often we have to be satisfied with surrogate metrics on some level, as 
 What are your gains if you do? What if your replace your deep neural network with the simplest heuristic that you can come up with? How will it affect your users?
 There are cases in which the difference between 62% accuracy and 63% accuracy can have a big impact on the bottom line, but more often than not, small improvements in the model will not drastically alter the overall process and result.</p>
 <p>When developing any machine learning solution, always keep in mind how your model will fit in the overal process, what consequences your predictions have, and how to measure the overall impact of the decisions made by the model.</p>
-</div>
-<div class="section" id="feedback-loops-in-data-collection">
-<h3>Feedback loops in data collection<a class="headerlink" href="#feedback-loops-in-data-collection" title="Permalink to this headline">¶</a></h3>
-<p>One aspect that is often neglected in data collection is that the effect of deploying a machine learning model might change the process generating the data.
-A simple example for this would be spammers, who, once a model is able to flag their content, would change their strategy or content so as to be no longer detected. Clearly, the data here changed as a consequence of deploying the model, and the model that might have been able to accurately identify spam in an offline setting might not work in practice.
-In this example, there is an adverserial intent and the spammers intentionally try to defeat the model. However, similar changes might happen indicentally, but still invalidate a previous model.
-For example, when building systems for product recommentation, the model often relies on data that was collected using some other recommendation scheme, and the choice of this scheme clearly influences what data will be collected. If a streaming platform never suggests a particular movie, it’s unlikely to be seen by many users, and so it will not show up in user data that’s collected, and so a machine learning algorithm will not recommend it, creating a feedback loop that will lead to the movie being ignored.
-There is a whole subset of machine learning devoted to this kind of interactive data collection, called <em>active learning</em>, where the data that is collected is closely related to the model that’s being build. This area also has a close relation to reinforcement learning.</p>
-<p>Given the existence of these feedback loops, it’s important to ensure that your model performs well, not only in an offline test, but also in a production environment. Often this is hard to simulate, as you might not be able to anticipate the reaction of your users to deploying an algorithm. In this case, using A/B testing might be a way to evaluate your system more rigourously.</p>
-<div class="margin sidebar">
-<p class="sidebar-title">TODO</p>
-<p>A/B testing</p>
-</div>
-<p>A particular nefarious example of this feedback loop has been observed (TODO citation) in what is known as <em>predictive policing</em>. The premise of predictive policing is to send police patrols to neighborhoods where they expect to observe crime, at times that they expect to observe crime. However, if police is sent to a neighborhood, they are likely to find criminal activity there (even if it might be minor); and clearly they will not find criminal activity in neighborhoods they did not patrol. Historically, police patrols in certain US cities have focused on non-white neighborhoods, and given this historical data, predictive policing methods steered patrols to these same neighborhoods. Which then lead them to observe more crime there, leading to more data showing crime in these neighborhoods, leading to more patrols being send there, and so on.</p>
 </div>
 <div class="section" id="when-to-use-and-not-to-use-machine-learning">
 <h3>When to use and not to use machine learning<a class="headerlink" href="#when-to-use-and-not-to-use-machine-learning" title="Permalink to this headline">¶</a></h3>
@@ -482,14 +500,10 @@ While approaches to fair machine learning are beyond the scope of this book, I w
 </div>
 <div class="section" id="scaling-up">
 <h3>Scaling up<a class="headerlink" href="#scaling-up" title="Permalink to this headline">¶</a></h3>
-<p>This book focuses on using Python and scikit-learn for machine learning. One of the main limitations of scikit-learn that I’m often asked about is that it is usually restricted to using a single machine, not a cluster (though there are some ways around this in some cases). My standpoint on this is that for most applications, using a single machine is often enough, easier, and potentially even faster<a class="bibtex reference internal" href="#rowstron2012nobody" id="id6">[RND+12]</a>. Once your data is processed to a point where you can start your analysis, few applications require more than at most several gigabites of data, and many applications only require megabytes. These workloads are easily done on modern machines: even if your machine does not have enough memory, it’s easy to rent machines with hundreds of GB of RAM from a cloud provider, and do all your machine learning in memory on a single machine.
-If this is possible, I would encourage you to go with this solution. The interactivity and simplicity that comes from working on a single machine is hard to beat, and the amount of libraries available is far greater for local computations.</p>
-<p>There’s another aspect to data collection and dataset size. More data might be more expensive to collect, but it might also be more expensive and more complicated to work with. With the available cloud services, storage might not be that much of an issue any more. But runtime is. And I’m less concerned about buying a bigger cluster, I’m more concerned about your time, the data scientists time and the machine learning analysis. There’s a reason we’ll be using Python in this course. Python is easy to learn, has lots of tools and allows very close interactions with the data. If we would try to use SPARK instead, this would be whole other story. Working with distributed systems is hard, they are not responsive and the tooling is often not as good. So what I often do, no matter how big the dataset is, is to work with a subset of the data that fits into my RAM. Then I can use python, and everything is easy. And with AWS, I can easily get 512GB of RAM, if I really need to. Arguably I’m a bit biased because I work on scikit-learn. For some applications that subsampling might not make sense, or working on very large data is critical. But I don’t think that should ever be the first step.
-.</p>
-</div>
-<div class="section" id="the-machine-learning-process">
-<h3>The machine learning process<a class="headerlink" href="#the-machine-learning-process" title="Permalink to this headline">¶</a></h3>
-<p>the circle of life…</p>
+<p>This book focuses on using Python and scikit-learn for machine learning. One of the main limitations of scikit-learn that I’m often asked about is that it is usually restricted to using a single machine, not a cluster (though there are some ways around this in some cases). My standpoint on this is that for most applications, using a single machine is often enough, easier, and potentially even faster<a class="bibtex reference internal" href="#rowstron2012nobody" id="id6">[RND+12]</a>. Once your data is processed to a point where you can start your analysis, few applications require more than at most several gigabites of data, and many applications only require megabytes. These workloads are easily done on modern machines: even if your machine does not have enough memory, it’s quick and cheap to rent machines with hundreds of GB of RAM from a cloud provider, and do all your machine learning in memory on a single machine.
+If this is possible, I would encourage you to go with this solution. The interactivity and simplicity that comes from working on a single machine is hard to beat, and the amount of libraries available is far greater for local computations.
+If your raw data, say user logs, is many terrabytes, it might still be possible that after extracting the data needed for machine learning is only in the hundreds of megabytes, and so after preparing the data in a distributed environment such as Spark, you can then transition to a single machine for your machine learning workflow.
+Clearly there are situations when a single machine is not enough; large tech companies often use their own bespoke in-house systems to learn models on immense datastreams. However, most projects don’t operate on the scale of the facebook timeline or google searches, and even if your production environment requires truely large amounts of data, prototyping on a subset on a single machine can be helpful for a quick exploratory analysis or a prototype. Avoid premature optimization and start small–where small these days might mean hundreds of gigabytes.</p>
 <p id="bibtex-bibliography-00-introduction/00-introduction-0"><dl class="citation">
 <dt class="bibtex label" id="berk2018fairness"><span class="brackets"><a class="fn-backref" href="#id3">BHJ+18</a></span></dt>
 <dd><p>Richard Berk, Hoda Heidari, Shahin Jabbari, Michael Kearns, and Aaron Roth. Fairness in criminal justice risk assessments: the state of the art. <em>Sociological Methods &amp; Research</em>, pages 0049124118782533, 2018.</p>
