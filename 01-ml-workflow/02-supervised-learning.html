@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Supervised learning with scikit-learn &#8212; Applied Machine Learning in Python</title>
+    <title>Supervised learning &#8212; Applied Machine Learning in Python</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -32,7 +32,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Preprocessing and Scaling" href="03-preprocessing.html" />
-    <link rel="prev" title="Data Loading" href="01-data-loading.html" />
+    <link rel="prev" title="Data Loading and Basic Preprocessing" href="01-data-loading.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -77,10 +77,10 @@
     <a href="00-ml-workflow.html">3. The Machine Learning Workflow</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="01-data-loading.html">3.1 Data Loading</a>
+      <a href="01-data-loading.html">3.1 Data Loading and Basic Preprocessing</a>
     </li>
     <li class="active">
-      <a href="">3.2 Supervised learning with scikit-learn</a>
+      <a href="">3.2 Supervised learning</a>
     </li>
     <li class="">
       <a href="03-preprocessing.html">3.3 Preprocessing and Scaling</a>
@@ -116,7 +116,13 @@
   </li>
 </ul>
 </nav>
-<p class="navbar_footer">Powered by <a href="https://jupyterbook.org">Jupyter Book</a></p>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
 </div>
 
 
@@ -181,27 +187,17 @@
     <ul class="nav section-nav flex-column">
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#supervised-learning" class="nav-link">Supervised Learning</a>
+            <a href="#classification-with-scikit-learn" class="nav-link">Classification with scikit-learn</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#training-and-test-set" class="nav-link">Training and Test set</a>
+        </li>
+    
+            </ul>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#nearest-neighbors" class="nav-link">Nearest Neighbors</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#knn-with-scikit-learn" class="nav-link">KNN with scikit-learn</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#influence-of-number-of-neighbors" class="nav-link">Influence of Number of Neighbors</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#model-complexity" class="nav-link">Model complexity</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#overfitting-and-underfitting" class="nav-link">Overfitting and Underfitting</a>
+            <a href="#nearest-neighbors-classification" class="nav-link">Nearest Neighbors Classification</a>
         </li>
     
     </ul>
@@ -215,261 +211,388 @@
         
               <div>
                 
-  <div class="section" id="supervised-learning-with-scikit-learn">
-<h1>Supervised learning with scikit-learn<a class="headerlink" href="#supervised-learning-with-scikit-learn" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="supervised-learning">
-<h2>Supervised Learning<a class="headerlink" href="#supervised-learning" title="Permalink to this headline">¶</a></h2>
-<div class="math notranslate nohighlight">
-\[ (x_i, y_i) \propto p(x, y) \text{ i.i.d.}\]</div>
-<div class="math notranslate nohighlight">
-\[ x_i \in \mathbb{R}^p\]</div>
-<div class="math notranslate nohighlight">
-\[ y_i \in \mathbb{R}\]</div>
-<div class="math notranslate nohighlight">
-\[\text{learn }f(x_i) \approx y_i\]</div>
-<p>such that
-<span class="math notranslate nohighlight">\($f(x) \approx y \quad\)</span>$
-for new <span class="math notranslate nohighlight">\((x, y) \propto p(x, y)\)</span>.</p>
-<p>As a reminder, in supervised learning, the dataset we learn form is
-input-output pairs <span class="math notranslate nohighlight">\((x_i, y_i)\)</span>, where <span class="math notranslate nohighlight">\(x_i\)</span> is some n-dimensional input,
-or feature vector, and <span class="math notranslate nohighlight">\(y_i\)</span> is the desired output we want to learn to predict.
-We assume these samples are drawn from some unknown joint distribution
-<span class="math notranslate nohighlight">\(p(x, y)\)</span>.
-You can think of this as there being some (not necessarily deterministic)
-process that goes from <span class="math notranslate nohighlight">\(x_i\)</span> to <span class="math notranslate nohighlight">\(y_i\)</span>, but that we don’t know.
-We try to find a function that approximates the output <span class="math notranslate nohighlight">\(y_i\)</span> for each known
-input <span class="math notranslate nohighlight">\(x_i\)</span>. But we also demand that for new inputs <span class="math notranslate nohighlight">\(x\)</span> , and unobserved <span class="math notranslate nohighlight">\(y\)</span>,
-<span class="math notranslate nohighlight">\(f(x)\)</span> is approximately <span class="math notranslate nohighlight">\(y\)</span>.</p>
-<p>I want to go through a simple examples of supervised algorithms today,
-nearest neighbors</p>
+  <div class="section" id="supervised-learning">
+<h1>Supervised learning<a class="headerlink" href="#supervised-learning" title="Permalink to this headline">¶</a></h1>
+<p>Now that we loaded and explored the data, let’s start with building our first models.
+In this chapter, we’ll only look at a very simple model, the k-Nearest Neighbors classifier.
+It’s easy to understand and has all the ingredients you need to know for a machine learning workflow.
+In chapter TODO, we’ll discuss many other models.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>The interface of all the models is the same in scikit-learn,
+so you can easily switch out the code for another model now if you like.</p>
 </div>
-<div class="section" id="nearest-neighbors">
-<h2>Nearest Neighbors<a class="headerlink" href="#nearest-neighbors" title="Permalink to this headline">¶</a></h2>
-<div class="cell tag_remove-input docutils container">
+<div class="section" id="classification-with-scikit-learn">
+<h2>Classification with scikit-learn<a class="headerlink" href="#classification-with-scikit-learn" title="Permalink to this headline">¶</a></h2>
+<p>We will start with the simple and well-behaved breast cancer dataset:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_breast_cancer</span>
+<span class="c1"># specifying &quot;as_frame=True&quot; returns the data as a dataframe in addition to a numpy array</span>
+<span class="n">cancer</span> <span class="o">=</span> <span class="n">load_breast_cancer</span><span class="p">(</span><span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">cancer_df</span> <span class="o">=</span> <span class="n">cancer</span><span class="o">.</span><span class="n">frame</span>
+<span class="n">cancer_df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-supervised-learning_3_0.png" src="../_images/02-supervised-learning_3_0.png" />
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(569, 31)
+</pre></div>
 </div>
 </div>
-<div class="math notranslate nohighlight">
-\[f(x) = y_i, i = \text{argmin}_j || x_j - x||\]</div>
-<p>Let’s say we have this two-class classification dataset here, with
-two features, one on the x axis and one on the y axis.
-And we have three new points as marked by the stars here.
-If I make a prediction using a one nearest neighbor classifier, what
-will it predict?
-It will predict the label of the closest data point in the training set.
-That is basically the simplest machine learning algorithm I can come
-up with.</p>
-<p>Here’s the formula:
-the prediction for a new x is the y_i so that x_i is the closest point
-in the training set.
-Ok, so now how do we find out whether this model is any good?</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cancer_df</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Index([&#39;mean radius&#39;, &#39;mean texture&#39;, &#39;mean perimeter&#39;, &#39;mean area&#39;,
+       &#39;mean smoothness&#39;, &#39;mean compactness&#39;, &#39;mean concavity&#39;,
+       &#39;mean concave points&#39;, &#39;mean symmetry&#39;, &#39;mean fractal dimension&#39;,
+       &#39;radius error&#39;, &#39;texture error&#39;, &#39;perimeter error&#39;, &#39;area error&#39;,
+       &#39;smoothness error&#39;, &#39;compactness error&#39;, &#39;concavity error&#39;,
+       &#39;concave points error&#39;, &#39;symmetry error&#39;, &#39;fractal dimension error&#39;,
+       &#39;worst radius&#39;, &#39;worst texture&#39;, &#39;worst perimeter&#39;, &#39;worst area&#39;,
+       &#39;worst smoothness&#39;, &#39;worst compactness&#39;, &#39;worst concavity&#39;,
+       &#39;worst concave points&#39;, &#39;worst symmetry&#39;, &#39;worst fractal dimension&#39;,
+       &#39;target&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="training-and-test-set">
+<h3>Training and Test set<a class="headerlink" href="#training-and-test-set" title="Permalink to this headline">¶</a></h3>
+<p>First, we split our data into a training and a test set. TODO is this the first mention?
+This is a critical component of any supervised learning workflow. As you know, our goal is to build a model that generalizes well, i.e. that predicts well on data that is has not seen before.
+We could use all our data to built a model, but then we would have no way to know whether our model really works, i.e. how accurately it predicts on new data.
+The easiest way to measure the generalization capability of our model is to apply it to some hold-out data, that was not used to build the model, but for which we have the correct answer.
+Then we can make predictions on our hold-out set and compare them against the known answers, to measure how well the model performs.
+So we need disjoint datasets: one to build the model, usually called the training set, and another, to validate model accuracy, usually called the test set.</p>
 <p><img alt=":scale 60%" src="../_images/train_test_set_2d_classification.png" /></p>
-<p>The simplest way is to split the data into a training and a test set.
-So we take some part of the data set,  let’s say 75% and the
-corresponding output, and train the model, and then apply the model on
-the remaining 25% to compute the accuracy. This test-set accuracy
-will provide an unbiased estimate of future performance.
-So if our i.i.d. assumption is correct, and we get a 90% success
-rate on the test data, we expect about a 90% success rate on any future
-data, for which we don’t have labels.</p>
-<p>Let’s dive into how to build and evaluate this model with scikit-learn.</p>
-</div>
-<div class="section" id="knn-with-scikit-learn">
-<h2>KNN with scikit-learn<a class="headerlink" href="#knn-with-scikit-learn" title="Permalink to this headline">¶</a></h2>
+<p>A very common way to generate the test set is to split the data randomly, and there’s function in scikit-learn to help you with that, called <code class="docutils literal notranslate"><span class="pre">train_test_split</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-
-<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
-<span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;accuracy: &quot;</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>accuracy:  0.6153846153846154
+<span class="n">data_train</span><span class="p">,</span> <span class="n">data_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">cancer_df</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>We import train_test_split form model selection, which does a
-random split into 75%/25%.
-We provide it with the data X, which are our two features, and the
-labels y.</p>
-<p>As you might already know, all the models in scikit-learn are implemented
-in python classes, with a single object used to build and store the model.</p>
-<p>We start by importing our model, the KneighborsClassifier, and instantiate
-it with n_neighbors=1. Instantiating the object is when we set any hyper parameter,
-such as here saying that we only want to look at the neirest neighbor.</p>
-<p>Then we can call the fit method to build the model, here knn.fit(X_train,
-y_train)
-All models in scikit-learn have a fit-method, and all the supervised ones take
-the data X and the outcomes y. The fit method builds the model and stores any
-estimated quantities in the model object, here knn.  In the case of nearest
-neighbors, the <code class="docutils literal notranslate"><span class="pre">fit</span></code> methods simply remembers the whole training set.</p>
-<p>Then, we can use knn.score to make predictions on the test data, and
-compare them against the true labels y_test.</p>
-<p>For classification models, the score method will always compute
-accuracy.</p>
-<p>Just for illustration purposes, I also call the predict method here.
-The predict method is what’s used to make predictions on any dataset.
-If we use the score method, it calls predict internally and then
-compares the outcome to the ground truth that’s provided.</p>
-<p>Who here has not seen this before?</p>
+<p>This function splits off 25% of the rows randomly to use as test set:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data_train</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
 </div>
-<div class="section" id="influence-of-number-of-neighbors">
-<h2>Influence of Number of Neighbors<a class="headerlink" href="#influence-of-number-of-neighbors" title="Permalink to this headline">¶</a></h2>
-<p>So this was the predictions as made by one-nearest neighbor.
-But we can also consider more neighbors, for example three. Here is the
-three nearest neighbors for each of the points and the corresponding
-labels.
-We can then make a prediction by considering the majority among these
-three neighbors.
-And as you can see, in this case all the points changed their labels! (I
-was actually quite surprised when I saw that, I just picked some points
-at random).
-Clearly the number of neighbors that we consider matters a lot. But what
-is the right number?
-The is a problem you’ll encounter a lot in machine learning, the
-problem of tuning parameters of the model, also called hyper-parameters,
-which can not be learned directly from the data.</p>
-<p>So this was the predictions as made by one-nearest neighbor.
-But we can also consider more neighbors, for example three. Here is the
-three nearest neighbors for each of the points and the corresponding
-labels.
-We can then make a prediction by considering the majority among these
-three neighbors.
-And as you can see, in this case all the points changed their labels! (I
-was actually quite surprised when I saw that, I just picked some points
-at random).
-Clearly the number of neighbors that we consider matters a lot. But what
-is the right number?
-The is a problem you’ll encounter a lot in machine learning, the
-problem of tuning parameters of the model, also called hyper-parameters,
-which can not be learned directly from the data.</p>
-<div class="cell tag_remove-input docutils container">
+</div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-supervised-learning_11_0.png" src="../_images/02-supervised-learning_11_0.png" />
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(426, 31)
+</pre></div>
 </div>
 </div>
-<p>Here’s an overview of how the classification changes if we consider
-different numbers of neighbors.
-You can see as red and blue circles the training data. And the background
-is colored according to which class a datapoint would be assigned to
-for each location.
-For one neighbor, you can see that each point in the training set has
-a little area around it that would be classified according to it’s
-label. This means all the training points would be classified correctly,
-but it leads to a very complex shape of the decision boundary.
-If we increase the number of neighbors, the boundary between red and
-blue simplifies, and with 40 neighbors we mostly end up with a line.
-This also means that now many of the training data points would be
-labeled incorrectly.</p>
 </div>
-<div class="section" id="model-complexity">
-<h2>Model complexity<a class="headerlink" href="#model-complexity" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 75%" src="../_images/knn_model_complexity.png" /></p>
-<p>We can look at this in more detail by comparing training and test set
-scores for the different numbers of neighbors.
-Here, I did a random 75%/25% split again. This is a very noisy plot as
-the dataset is very small and I only did a random split, but you can
-see a trend here.
-You can see that for a single neighbor, the training score is 1 so perfect
-accuracy, but the test score is only 70%.  If we increase the number of
-neighbors we consider, the training score goes down, but the test score
-goes up, with an optimum at 19 and 21, but then both go down again.</p>
-<p>This is a very typical behavior, that I sketched in a schematic for you.</p>
-<p>here is a cartoon version of how this chart looks in general, though
-it’s horizontally flipped to the one with saw for knn.
-This chart has accuracy on the y axis, and the abstract concept of model
-complexity on the x axis.
-If we make our machine learning models more complex, we will get better
-training set accuracy, as the model will be able to capture more of the
-variations in the data.</p>
-<p>But if we look at the generalization performance, we get a different
-story. If the model complexity is too low, the model will not be able
-to capture the main trends, and a more complex model means better
-generalization.
-However, if we make the model too complex, generalization performance
-drops again, because we basically learn to memorize the dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data_test</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
 </div>
-<div class="section" id="overfitting-and-underfitting">
-<h2>Overfitting and Underfitting<a class="headerlink" href="#overfitting-and-underfitting" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 80%" src="../_images/overfitting_underfitting_cartoon_full.png" /></p>
-<p>If we use too simple a model, this is often called underfitting, while
-if we use to complex a model, this is called overfitting. And somewhere
-in the middle is a sweet spot.
-Most models have some way to tune model complexity, and we’ll see many
-of them in the next couple of weeks.
-So going back to nearest neighbors, what parameters correspond to high
-model complexity and what to low model complexity? high n_neighbors =
-low complexity!</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(143, 31)
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can controll the size of the test set by changing the <code class="docutils literal notranslate"><span class="pre">test_size</span></code> parameter to either a number of samples or a percentage of the training data. But 75% of the data is usually a good rule of thumb. As the process is random, you will get a different split of the data every time you run this line of code. For the purposes of this book, we’ll make the split deterministic by providing a fixed random seed, which can be an arbitrary integer:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data_train</span><span class="p">,</span> <span class="n">data_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">cancer_df</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This way, the results of our analysis later will be the same every time as when you run the code, and the won’t change if you run the code again.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">Setting random seeds</p>
+<p>In a real analysis, there are pros and cons to setting this seed. Generally, your results should be independent of how you split your data. If the quality of your model depends strongly of how you split your data, then your model is probably not very robust and you might not want to use it. If you keep the seed fixed the whole time, you might not know whether you got lucky (or unlucky) with your particular split, so it might be good to either not set the seed, or run with multiple different seeds. On the other hand, if you didn’t set the seed, and you get a surprising result, then it might be very hard for someone else (or even for yourself) to reproduce your results as you have no record of how the data was split.</p>
+</div>
+<p>There are actually quite some assumptions made when splitting the data randomly, and we will discuss them in more detail in chapter TODO.</p>
+<p>Now, we separate the features from the target, which is required for using scikit-learn.
+The easiest way to do that is to use the <code class="docutils literal notranslate"><span class="pre">drop</span></code> method of the DataFrame:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span> <span class="o">=</span> <span class="n">data_train</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">)</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">data_train</span><span class="o">.</span><span class="n">target</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">)</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">target</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here, we’re calling the features ‘X’ and the targets ‘y’, a common convention in scikit-learn and machine learning more broadly.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>The ‘X’ is capital because it refers to a matrix, a two-dimensional array, while ‘y’ is typically a column vector or one-dimensional array. Using capital letters for matrices and lower case letters for vectors is a common practice in linear algebra.</p>
+</div>
+<div class="alert alert-info">
+<p class="admonition-title">Note</p>
+<p>Alternatively, we could have first split off the target column and then separated the data into training and test set, like so:
+<code class="docutils literal notranslate"><span class="pre">{python}</span>&#160;&#160;&#160;&#160; <span class="pre">X</span> <span class="pre">=</span> <span class="pre">data.drop(columns='target')</span>&#160;&#160;&#160;&#160; <span class="pre">y</span> <span class="pre">=</span> <span class="pre">data.target</span>&#160;&#160;&#160;&#160; <span class="pre">X_train,</span> <span class="pre">X_test,</span> <span class="pre">y_train,</span> <span class="pre">y_test</span> <span class="pre">=</span> <span class="pre">train_test_split(X,</span> <span class="pre">y,</span> <span class="pre">random_state=0)</span>&#160;&#160;&#160;&#160; </code>
+This is one line shorter and the more common idiom, but maybe a bit harder to read and remember.</p>
+</div>
+<p>Now we’re all set and can get started building our first models with scikit-learn!</p>
+</div>
+</div>
+<div class="section" id="nearest-neighbors-classification">
+<h2>Nearest Neighbors Classification<a class="headerlink" href="#nearest-neighbors-classification" title="Permalink to this headline">¶</a></h2>
+<p>The first algorithm we’ll use is Nearest Neighbors classification. It’s not commonly used in practice as it doesn’t scale that well to datasets with many samples, but it’s often quite accurate and very easy to understand.
+For illustration purposes (as it is easier to draw in two dimensions), let us first consider just two features of the breast cancer dataset that we found informative before, ‘mean compactness’ and ‘worst concave points’:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">sklearn</span>
-<span class="n">sklearn</span><span class="o">.</span><span class="n">set_config</span><span class="p">(</span><span class="n">print_changed_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_openml</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="n">blood</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s1">&#39;blood-transfusion-service-center&#39;</span><span class="p">)</span>
-
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
-    <span class="n">blood</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">blood</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span>
+<span class="c1"># the return value is the axes that was created for the plot</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;mean compactness&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;worst concave points&#39;</span><span class="p">,</span>
+                     <span class="c1"># use the target to color points</span>
+                     <span class="c1"># use the blue-white-red colormap</span>
+                     <span class="n">c</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;bwr&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># TODO why is there no xlabel</span>
+<span class="c1"># We set the aspect ratio to equal to faithfully represent distances between points.</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(561, 4)
+<img alt="../_images/02-supervised-learning_20_0.png" src="../_images/02-supervised-learning_20_0.png" />
+</div>
+</div>
+<p>Now let’s look at some of the samples from the test set, drawn as black stars:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/02-supervised-learning_22_0.png" src="../_images/02-supervised-learning_22_0.png" />
+</div>
+</div>
+<p>Looking at this two dimensional scatter plot, we can probably make a reasonable guess that the most likely label for the top one is blue, as all the surrounding points are blue, while the most likely label for the bottom point is red, because all the surrounding points are read. It’s maybe a little bit less clear what label to assign to the point in the center.</p>
+<p>Nearest Neighbors, as the name suggest, formalizes this intuition and simply applies the label of the closest point in the training dataset, as illustrated in Figure TODO.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(0.06, 0.2)
+</pre></div>
+</div>
+<img alt="../_images/02-supervised-learning_24_1.png" src="../_images/02-supervised-learning_24_1.png" />
+</div>
+</div>
+<div class="admonition-mathematical-background alert alert-info">
+<p class="admonition-title">Mathematical Background</p>
+<p>Formally, you could define the prediction of nearest neighbors based on a dataset <span class="math notranslate nohighlight">\((x_i, y_i), i=1,..,n\)</span> as:
+<span class="math notranslate nohighlight">\($f(x) = y_i, i = \text{argmin}_j || x_j - x||\)</span>$</p>
+</div>
+<p>In a simple extension of Nearest neighbors, we could look at a number of neighbors, say 3 or 5, and determine the majority class among them.
+This is known as k-Nearest Neighbors, where the k stands for the number of neighbors to consider. What number to use is up to the user to decide.
+Here is an example using just the two features from a above of using the five nearest neighbors on the same three points:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(0.06, 0.2)
+</pre></div>
+</div>
+<img alt="../_images/02-supervised-learning_27_1.png" src="../_images/02-supervised-learning_27_1.png" />
+</div>
+</div>
+<p>We can see that for one of the datapoints, the predicted label switches from red to blue, as the closest neighbor in the training set is red, but out of the three closest neighbors, two are blue.</p>
+<p>Now let’s build a model using scikit-learn and evaluate it on the test set.
+All machine learning models in scikit-learn are implemented as Python classes, all with the same interface.
+The Python class encapsulates both the training and the prediction procedure and stores the model estimated from the data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># We start by importing the KNeighborsClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="c1"># Then we instantiate the class.</span>
+<span class="c1"># This is when we specify user-specified parameters like the number of neighbors</span>
+<span class="c1"># Here, we set the number of neighbors to one</span>
+<span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>All models in scikit-learn have a <code class="docutils literal notranslate"><span class="pre">fit</span></code> method that takes as arguments the training data <code class="docutils literal notranslate"><span class="pre">X_train</span></code> (which does not contain the target) and for supervised problems also the training target <code class="docutils literal notranslate"><span class="pre">y_train</span></code>, which is usually a single column:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>((426, 30), (426,))
+</pre></div>
+</div>
+</div>
+</div>
+<p>We could just use a subset of the features we looked at before, but now let’s use all of them, i.e. all 30 columns.
+The <code class="docutils literal notranslate"><span class="pre">fit</span></code> method does the actual learning and stores the result in the object itself (that we called knn here). The return value of the <code class="docutils literal notranslate"><span class="pre">fit</span></code> method is <code class="docutils literal notranslate"><span class="pre">self</span></code>, meaning it returns the knn object.
+In the case of k Nearest Neighbors, the <code class="docutils literal notranslate"><span class="pre">fit</span></code> method simply stores the training data.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>TODO pandas disclaimer again</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># because fit returns self, Jupyter renders a representation of the object</span>
+<span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>KNeighborsClassifier(n_neighbors=1)
+</pre></div>
+</div>
+</div>
+</div>
+<p>All done building your first model! That was easy, right?
+But no, the question is whether our model actually learned anything. We can measure that by looking at the predictions on the test set.
+All classification and regression models in scikit-learn have a <code class="docutils literal notranslate"><span class="pre">predict</span></code> method that takes the test data <code class="docutils literal notranslate"><span class="pre">X_test</span></code> and returns a prediction for each row:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(143, 30)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">y_pred</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>1    438
-2    123
-dtype: int64
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(143,)
 </pre></div>
 </div>
 </div>
 </div>
+<p>Now we can compare these predictions according to our model to the true outcomes that we have stored in <code class="docutils literal notranslate"><span class="pre">y_test</span></code>.
+For a classification problem, a common metric (more on this in chapter TODO) is accuracy, which is the fraction of correctly predicted samples.
+While there’s an <code class="docutils literal notranslate"><span class="pre">accuracy_score</span></code> function in scikit-learn, we can also easily compute it using pandas or numpy using equality:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">y_pred</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>1    0.780749
-2    0.219251
-dtype: float64
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.9230769230769231
 </pre></div>
 </div>
 </div>
+</div>
+<p>What this tells us is that the predictions made by your model are 93% accurate, i.e. for 93% of the samples, our simple one Nearest Neighbor, using all 30 features.
+Because computing evaluations is so common, there’s a shortcut in scikit-learn that makes the prediction and computes the accuracy for you, the <code class="docutils literal notranslate"><span class="pre">score</span></code> method:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;accuracy: &quot;</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>accuracy:  0.9230769230769231
+</pre></div>
+</div>
+</div>
+</div>
+<p>One thing to keep in mind is that accuracy can be very hard to interpret if one of the two classes is much more frequent than the other one.
+This dataset is somewhat unbalanced, as you might recall:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y_test</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>1    0.664336
+0    0.335664
+Name: target, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>That means that if a model predicted 1 (i.e. benign) for all samples, it would be 62.2% accurate. Clearly our model is doing much better than that.</p>
+<p>Now, let’s to the same again, this time with using five nearest neighbors:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;accuracy: &quot;</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>accuracy:  0.9300699300699301
+</pre></div>
+</div>
+</div>
+</div>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>Tuning options are known as hyper-parameters, as opposed to parameters, as in statistics, the part of the model that’s estimated from the data is usually known as parameters.
+The <em>hyper</em> parameters are those that have to be specified beyond these parameters. Outside of statistics, the usage of the words parameter vs hyper-parameter can sometimes
+be a bit ambiguous, and many people might call n_neighbors a <em>parameter</em> of KNeighborsClassifier (which is false in the statistical sense of the word parameter, but certainly true in the programming sense of the word).
+Luckily it’s usually clear from context which one is meant.</p>
+</div>
+<p>This time, we got 96% accuracy, a decent improvement. An obvious question now is how to select the number of neighbors. The number of neighbors is what’s called a <em>hyper-parameter</em> in machine learning, an option or tuning parameter that is not inferred from the data, but needs to be provided by the user. We will discuss how to adjust them in more detail in section TODO.</p>
+<p>For now, let’s try to get some intuition on what this parameter does. Let’s to back to using only two features, ‘mean compactness’ and ‘worst concave points’ so we can visualize what’s going on.
+In two dimensions, a way to visualize a classifier is to look at the decision boundary, that is look at which parts of the two-dimensional space would be classified as class 0, which points would be classified as class 1, and where the boundary between these is. That’s shown for <code class="docutils literal notranslate"><span class="pre">n_neighbors=1</span></code> in figure TODO.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(0.06, 0.2)
+</pre></div>
+</div>
+<img alt="../_images/02-supervised-learning_48_1.png" src="../_images/02-supervised-learning_48_1.png" />
+</div>
+</div>
+<p>Here, all the points in the plane shaded as red would be classified as belonging to the red class by the KNeighborsClassifier, while all the points shaded as blue would be classfied as belonging to the blue class.
+You can see that using a single nearest neighbor resultsin each point creating a small island of its class around itself, so even a red point among a lot of blue points will create a little area of red around itself where any test point would be classified as red.</p>
+<p>Now let’s see what happens if we change the number of neighbors:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">n_neighbors</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">33</span><span class="p">]):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;n_neighbors=</span><span class="si">{</span><span class="n">n_neighbors</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">clf</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">n_neighbors</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">[[</span><span class="s1">&#39;mean compactness&#39;</span><span class="p">,</span> <span class="s1">&#39;worst concave points&#39;</span><span class="p">]],</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="s1">&#39;mean compactness&#39;</span><span class="p">],</span> <span class="n">X_train</span><span class="p">[</span><span class="s1">&#39;worst concave points&#39;</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;bwr&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plot_2d_classification</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X_train</span><span class="p">[[</span><span class="s1">&#39;mean compactness&#39;</span><span class="p">,</span> <span class="s1">&#39;worst concave points&#39;</span><span class="p">]]),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">4</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;bwr&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.17</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02-supervised-learning_50_0.png" src="../_images/02-supervised-learning_50_0.png" />
+</div>
+</div>
+<p>You can see that as we increase the number of neighbors, some of the small ‘islands’ dissappear, and a smother, global picture emerges. While there is still a lot of zig-zagging in the decision boundary for three neighbors, it’s mostly gone for 33 neighbors, and by then is mostly a horizontal line.
+We can also see that for a low number of neighbors, most of the training samples are classified correctly, i.e. blue training samples are on a blue backdrop, while red training samples are on a red backdrop.
+However, that is no longer true for 11 or 33 neighbors.</p>
+<p>The number of neighbors here shows behavior that’s very typical for hyper-parameters in machine learning, in that it is a way to control the flexibility, or complexity of the model. For one or three neighbors, the model has a very complex ‘explanation’ for the data, containing lots of nooks and crannies, that explain the training data well, but might not accurately represent an overall pattern. Using a larger number of neighbors results in a more global picture, in a sense a simpler explanation, which explains less of the specific cases in the training set, but which we might expect will be more generalizable.</p>
+<div class="admonition-mathematical-background alert alert-info">
+<p class="admonition-title">Mathematical background</p>
+<p>There is various ways to define model complexity or model flexibility rigorously, and it’s one of the main ideas in theoretical machine learning.
+Using Rademacher complexity TODO really? we could show that one nearest neighbors is actually more flexible than 5 nearest neighbors, though complexity measures
+are much more a theoretical tool than a practical one.</p>
+<p>Another potential theoretical view of this is in terms of model bias and model variance. We will revisit these later.
+Both of these terms look at the model prediction as a function of the sample of the training data from the model distribution.
+That means that we look at the variance of the prediction over potential draws of the training data, i.e. how different would
+the model look if we had observed a different training set drawn from the same distribution.</p>
+<p>In short, model with high bias is one that is systematically wrong, perhaps because the model is too simple.
+A model with high variance is one where the prediction on a new datapoint depends strongly on which data was seen during training.
+If a model is very flexible, it might focus very closely on particular aspects of the training data and therefore have high variance.</p>
 </div>
 </div>
 </div>
@@ -483,7 +606,7 @@ dtype: float64
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="01-data-loading.html" title="previous page">Data Loading</a>
+    <a class='left-prev' id="prev-link" href="01-data-loading.html" title="previous page">Data Loading and Basic Preprocessing</a>
     <a class='right-next' id="next-link" href="03-preprocessing.html" title="next page">Preprocessing and Scaling</a>
 
     </div>

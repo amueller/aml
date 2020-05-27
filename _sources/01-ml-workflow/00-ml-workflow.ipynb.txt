@@ -6,7 +6,9 @@
    "source": [
     "# The Machine Learning Workflow\n",
     "\n",
-    "In this chapter, we will run through the basic structure of a machine learning problem, with a focus on supervised learning and preprocessing. This chapter will introduce the main concepts and ideas necessary for any machine learnign application, and we will dive more deeply into those in later chapters."
+    "In this chapter, we will run through the basic structure of a machine learning problem, with a focus on supervised learning and preprocessing. This chapter will introduce the main concepts and ideas necessary for any machine learning application, and we will dive more deeply into those in later chapters. We will use a supervised classification task, which is one of the most common ML applications as a running example, but much of the methodology applies to all machine learning problems.\n",
+    "\n",
+    "We will discuss both, general principles of approaching a machine learning problem, as well as how to work with the relevant Python libraries, in particular scikit-learn."
    ]
   },
   {

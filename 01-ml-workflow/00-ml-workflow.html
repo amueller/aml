@@ -31,7 +31,7 @@
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Data Loading" href="01-data-loading.html" />
+    <link rel="next" title="Data Loading and Basic Preprocessing" href="01-data-loading.html" />
     <link rel="prev" title="Prerequisits" href="../00-introduction/01-preliminaries.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -77,10 +77,10 @@
     <a href="">3. The Machine Learning Workflow</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="01-data-loading.html">3.1 Data Loading</a>
+      <a href="01-data-loading.html">3.1 Data Loading and Basic Preprocessing</a>
     </li>
     <li class="">
-      <a href="02-supervised-learning.html">3.2 Supervised learning with scikit-learn</a>
+      <a href="02-supervised-learning.html">3.2 Supervised learning</a>
     </li>
     <li class="">
       <a href="03-preprocessing.html">3.3 Preprocessing and Scaling</a>
@@ -116,7 +116,13 @@
   </li>
 </ul>
 </nav>
-<p class="navbar_footer">Powered by <a href="https://jupyterbook.org">Jupyter Book</a></p>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
 </div>
 
 
@@ -190,7 +196,8 @@
                 
   <div class="section" id="the-machine-learning-workflow">
 <h1>The Machine Learning Workflow<a class="headerlink" href="#the-machine-learning-workflow" title="Permalink to this headline">¶</a></h1>
-<p>In this chapter, we will run through the basic structure of a machine learning problem, with a focus on supervised learning and preprocessing. This chapter will introduce the main concepts and ideas necessary for any machine learnign application, and we will dive more deeply into those in later chapters.</p>
+<p>In this chapter, we will run through the basic structure of a machine learning problem, with a focus on supervised learning and preprocessing. This chapter will introduce the main concepts and ideas necessary for any machine learning application, and we will dive more deeply into those in later chapters. We will use a supervised classification task, which is one of the most common ML applications as a running example, but much of the methodology applies to all machine learning problems.</p>
+<p>We will discuss both, general principles of approaching a machine learning problem, as well as how to work with the relevant Python libraries, in particular scikit-learn.</p>
 <div class="toctree-wrapper compound">
 </div>
 </div>
@@ -205,7 +212,7 @@
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="../00-introduction/01-preliminaries.html" title="previous page">Prerequisits</a>
-    <a class='right-next' id="next-link" href="01-data-loading.html" title="next page">Data Loading</a>
+    <a class='right-next' id="next-link" href="01-data-loading.html" title="next page">Data Loading and Basic Preprocessing</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

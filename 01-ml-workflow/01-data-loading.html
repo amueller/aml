@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Data Loading &#8212; Applied Machine Learning in Python</title>
+    <title>Data Loading and Basic Preprocessing &#8212; Applied Machine Learning in Python</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -31,7 +31,7 @@
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Supervised learning with scikit-learn" href="02-supervised-learning.html" />
+    <link rel="next" title="Supervised learning" href="02-supervised-learning.html" />
     <link rel="prev" title="The Machine Learning Workflow" href="00-ml-workflow.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -77,10 +77,10 @@
     <a href="00-ml-workflow.html">3. The Machine Learning Workflow</a>
   <ul class="nav sidenav_l2">
     <li class="active">
-      <a href="">3.1 Data Loading</a>
+      <a href="">3.1 Data Loading and Basic Preprocessing</a>
     </li>
     <li class="">
-      <a href="02-supervised-learning.html">3.2 Supervised learning with scikit-learn</a>
+      <a href="02-supervised-learning.html">3.2 Supervised learning</a>
     </li>
     <li class="">
       <a href="03-preprocessing.html">3.3 Preprocessing and Scaling</a>
@@ -116,7 +116,13 @@
   </li>
 </ul>
 </nav>
-<p class="navbar_footer">Powered by <a href="https://jupyterbook.org">Jupyter Book</a></p>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
 </div>
 
 
@@ -173,9 +179,30 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#loading-the-breast-cancer-dataset" class="nav-link">Loading the ‘breast cancer’ dataset</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#basic-exploratory-data-analysis-eda-of-the-breast-cancer-dataset" class="nav-link">Basic exploratory data analysis (EDA) of the ‘breast cancer dataset’</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#loading-the-lending-club-dataset" class="nav-link">Loading the ‘lending club’ dataset</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#conclusion" class="nav-link">Conclusion</a>
+        </li>
+    
+            </ul>
+        </li>
     
     </ul>
 </nav>
@@ -188,229 +215,753 @@
         
               <div>
                 
-  <div class="section" id="data-loading">
-<h1>Data Loading<a class="headerlink" href="#data-loading" title="Permalink to this headline">¶</a></h1>
-<p>Get some data to play with</p>
+  <div class="section" id="data-loading-and-basic-preprocessing">
+<h1>Data Loading and Basic Preprocessing<a class="headerlink" href="#data-loading-and-basic-preprocessing" title="Permalink to this headline">¶</a></h1>
+<p>As mentioned, in the introduction, problem definition and data collection are critical aspects of data science. However, they are difficult to discuss in a generic way, and go beyond the scope of this book. Instead, we will assume you defined the problem, ensured it ammendable to a machine learning solution, and collected relevant data.</p>
+<p>One of the most common exchange formats for data is comma separated value (CSV) files, which, for better or worse, have become ubiquous. CSV files (or sometimes TSV files for tab separated values) do not follow a precise standard, and generally are lacking important information, such as meta-data about the types of columns or what they represent. However, they can be read on any system, by any spreadsheet application, or even with a simple text editor.
+Another common situation is reading from a database, which might contain more meta-information, for relational databases like SQL, or might have even less structure than a CSV file in the case of non-relational databases (aka no-SQL databases).
+In general, you can read your data in any way you like, as long as you can wrangle it into a tabular format within Python.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">The iris dataset</p>
+<p>I was tempted to use the iris dataset, a famous machine learning dataset collected in .. by the father of statistics, Fisher.
+Many of the lessons we’ll learn below about the breast cancer dataset are also true for the iris dataset, but I didn’t want to pick too easy a target.</p>
+</div>
+<p>We will be looking at two binary classification datasets, the ‘breast cancer’ dataset which is included in scikit-learn and was published 1993, and a subset of the lending club dataset, a popular peer-loan community.
+It is instructive to compare these two datasets and their characteristics, in particular since the breast cancer dataset is commonly used for educational purposes.</p>
+<div class="section" id="loading-the-breast-cancer-dataset">
+<h2>Loading the ‘breast cancer’ dataset<a class="headerlink" href="#loading-the-breast-cancer-dataset" title="Permalink to this headline">¶</a></h2>
+<p>First, let me give you a bit of background on the two datasets. The ‘breast cancer’ dataset contains measurements of breast tissue, obtained by a medical imaging technique. From that, several measurements of the cell nuclei are derived.
+The goal is to determine whether a tumor is benign (harmless) or melignant (that is dangerous, in other words cancer). As the data comes with scikit-learn, we can load it directly from the library by importing the <code class="docutils literal notranslate"><span class="pre">load_beast_cancer</span></code> function:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_openml</span>
-<span class="n">blood</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s1">&#39;blood-transfusion-service-center&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">blood</span><span class="o">.</span><span class="n">DESCR</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_breast_cancer</span>
+<span class="c1"># specifying &quot;as_frame=True&quot; returns the data as a dataframe in addition to a numpy array</span>
+<span class="n">cancer</span> <span class="o">=</span> <span class="n">load_breast_cancer</span><span class="p">(</span><span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>If you want more information about the dataset, you can show it by running <code class="docutils literal notranslate"><span class="pre">print(cancer.DESCR)</span></code> or by visiting the <a class="reference external" href="https://scikit-learn.org/stable/datasets/index.html#breast-cancer-dataset">documentation</a>.
+For brevity, we will not reproduce the description here.</p>
+</div>
+<p>Most of the datasets that come with scikit-learn are bundled in so-called ‘bunch’ objects which contain various information about the dataset. As we specified <code class="docutils literal notranslate"><span class="pre">as_frame=True</span></code>, the bunch that is returned by <code class="docutils literal notranslate"><span class="pre">load_breast_cancer</span></code> will in particular contain a dataframe object, which is what we will be working with:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cancer_df</span> <span class="o">=</span> <span class="n">cancer</span><span class="o">.</span><span class="n">frame</span>
+<span class="n">cancer_df</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>**Author**: Prof. I-Cheng Yeh  
-**Source**: [UCI](https://archive.ics.uci.edu/ml/datasets/Blood+Transfusion+Service+Center)  
-**Please cite**: Yeh, I-Cheng, Yang, King-Jang, and Ting, Tao-Ming, &quot;Knowledge discovery on RFM model using Bernoulli sequence&quot;, Expert Systems with Applications, 2008.   
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(569, 31)
+</pre></div>
+</div>
+</div>
+</div>
+<p>As you can see, the dataset contains 569 rows or samples, and 31 columns. Let’s have a closer look at it:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cancer_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-**Blood Transfusion Service Center Data Set**  
-Data taken from the Blood Transfusion Service Center in Hsin-Chu City in Taiwan -- this is a classification problem.
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-To demonstrate the RFMTC marketing model (a modified version of RFM), this study adopted the donor database of Blood Transfusion Service Center in Hsin-Chu City in Taiwan. The center passes their blood transfusion service bus to one university in Hsin-Chu City to gather blood donated about every three months. To build an FRMTC model, we selected 748 donors at random from the donor database. 
-
-### Attribute Information  
-* V1: Recency - months since last donation
-* V2: Frequency - total number of donation
-* V3: Monetary - total blood donated in c.c.
-* V4: Time - months since first donation), and a binary variable representing whether he/she donated blood in March 2007 (1 stand for donating blood; 0 stands for not donating blood).
-
-The target attribute is a binary variable representing whether he/she donated blood in March 2007 (2 stands for donating blood; 1 stands for not donating blood).
-
-Downloaded from openml.org.
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean radius</th>
+      <th>mean texture</th>
+      <th>mean perimeter</th>
+      <th>mean area</th>
+      <th>mean smoothness</th>
+      <th>mean compactness</th>
+      <th>mean concavity</th>
+      <th>mean concave points</th>
+      <th>mean symmetry</th>
+      <th>mean fractal dimension</th>
+      <th>...</th>
+      <th>worst texture</th>
+      <th>worst perimeter</th>
+      <th>worst area</th>
+      <th>worst smoothness</th>
+      <th>worst compactness</th>
+      <th>worst concavity</th>
+      <th>worst concave points</th>
+      <th>worst symmetry</th>
+      <th>worst fractal dimension</th>
+      <th>target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>17.99</td>
+      <td>10.38</td>
+      <td>122.80</td>
+      <td>1001.0</td>
+      <td>0.11840</td>
+      <td>0.27760</td>
+      <td>0.3001</td>
+      <td>0.14710</td>
+      <td>0.2419</td>
+      <td>0.07871</td>
+      <td>...</td>
+      <td>17.33</td>
+      <td>184.60</td>
+      <td>2019.0</td>
+      <td>0.1622</td>
+      <td>0.6656</td>
+      <td>0.7119</td>
+      <td>0.2654</td>
+      <td>0.4601</td>
+      <td>0.11890</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>20.57</td>
+      <td>17.77</td>
+      <td>132.90</td>
+      <td>1326.0</td>
+      <td>0.08474</td>
+      <td>0.07864</td>
+      <td>0.0869</td>
+      <td>0.07017</td>
+      <td>0.1812</td>
+      <td>0.05667</td>
+      <td>...</td>
+      <td>23.41</td>
+      <td>158.80</td>
+      <td>1956.0</td>
+      <td>0.1238</td>
+      <td>0.1866</td>
+      <td>0.2416</td>
+      <td>0.1860</td>
+      <td>0.2750</td>
+      <td>0.08902</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>19.69</td>
+      <td>21.25</td>
+      <td>130.00</td>
+      <td>1203.0</td>
+      <td>0.10960</td>
+      <td>0.15990</td>
+      <td>0.1974</td>
+      <td>0.12790</td>
+      <td>0.2069</td>
+      <td>0.05999</td>
+      <td>...</td>
+      <td>25.53</td>
+      <td>152.50</td>
+      <td>1709.0</td>
+      <td>0.1444</td>
+      <td>0.4245</td>
+      <td>0.4504</td>
+      <td>0.2430</td>
+      <td>0.3613</td>
+      <td>0.08758</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>11.42</td>
+      <td>20.38</td>
+      <td>77.58</td>
+      <td>386.1</td>
+      <td>0.14250</td>
+      <td>0.28390</td>
+      <td>0.2414</td>
+      <td>0.10520</td>
+      <td>0.2597</td>
+      <td>0.09744</td>
+      <td>...</td>
+      <td>26.50</td>
+      <td>98.87</td>
+      <td>567.7</td>
+      <td>0.2098</td>
+      <td>0.8663</td>
+      <td>0.6869</td>
+      <td>0.2575</td>
+      <td>0.6638</td>
+      <td>0.17300</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>20.29</td>
+      <td>14.34</td>
+      <td>135.10</td>
+      <td>1297.0</td>
+      <td>0.10030</td>
+      <td>0.13280</td>
+      <td>0.1980</td>
+      <td>0.10430</td>
+      <td>0.1809</td>
+      <td>0.05883</td>
+      <td>...</td>
+      <td>16.67</td>
+      <td>152.20</td>
+      <td>1575.0</td>
+      <td>0.1374</td>
+      <td>0.2050</td>
+      <td>0.4000</td>
+      <td>0.1625</td>
+      <td>0.2364</td>
+      <td>0.07678</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 31 columns</p>
+</div></div></div>
+</div>
+<p>We can see that the first 30 columns are the measurments or features, while the last column is the target.
+We can also see that all the features are floating point numbers of various scales, and the target is encoded as an integer.
+A dataset of 569 samples is quite small, and while 30 features are potentially hard to visualize, the amount is not overwhelming.</p>
+<p>One of the most important pieces of information in a classification task is the prevalence of the classes, which we can easily compute with pandas’ <code class="docutils literal notranslate"><span class="pre">value_count</span></code> method. We can get the absolute counts by just calling the method, or the frequencies by passing <code class="docutils literal notranslate"><span class="pre">normalize=True</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cancer_df</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>1    357
+0    212
+Name: target, dtype: int64
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">blood</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cancer_df</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(748, 4)
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>1    0.627417
+0    0.372583
+Name: target, dtype: float64
 </pre></div>
 </div>
 </div>
 </div>
+<p>We can see that about 63% of samples belong to class 1, which are the benign samples. It’s a good idea to visualize your data before you start to do any learning. We won’t go into the details of data visualization, but some aspects that are often useful to investigate are the distribution of individual features, and how they relate to the target variable. There’s many ways to visualize distributions, but given that we have 30 features, doing a scatter plot or histogram for all of them might be overly complicated.
+Instead, we start with a simple box plot. For some of the plotting and for the later processing it will be convenient to have a dataframe containing only the features, not the target. The easiest way to achieve that is to create a new dataframe with the target dropped:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">blood</span><span class="o">.</span><span class="n">data</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cancer_features</span> <span class="o">=</span> <span class="n">cancer_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">)</span>
+<span class="n">cancer_features</span><span class="o">.</span><span class="n">columns</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([[2.00e+00, 5.00e+01, 1.25e+04, 9.80e+01],
-       [0.00e+00, 1.30e+01, 3.25e+03, 2.80e+01],
-       [1.00e+00, 1.60e+01, 4.00e+03, 3.50e+01],
-       ...,
-       [2.30e+01, 3.00e+00, 7.50e+02, 6.20e+01],
-       [3.90e+01, 1.00e+00, 2.50e+02, 3.90e+01],
-       [7.20e+01, 1.00e+00, 2.50e+02, 7.20e+01]])
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Index([&#39;mean radius&#39;, &#39;mean texture&#39;, &#39;mean perimeter&#39;, &#39;mean area&#39;,
+       &#39;mean smoothness&#39;, &#39;mean compactness&#39;, &#39;mean concavity&#39;,
+       &#39;mean concave points&#39;, &#39;mean symmetry&#39;, &#39;mean fractal dimension&#39;,
+       &#39;radius error&#39;, &#39;texture error&#39;, &#39;perimeter error&#39;, &#39;area error&#39;,
+       &#39;smoothness error&#39;, &#39;compactness error&#39;, &#39;concavity error&#39;,
+       &#39;concave points error&#39;, &#39;symmetry error&#39;, &#39;fractal dimension error&#39;,
+       &#39;worst radius&#39;, &#39;worst texture&#39;, &#39;worst perimeter&#39;, &#39;worst area&#39;,
+       &#39;worst smoothness&#39;, &#39;worst compactness&#39;, &#39;worst concavity&#39;,
+       &#39;worst concave points&#39;, &#39;worst symmetry&#39;, &#39;worst fractal dimension&#39;],
+      dtype=&#39;object&#39;)
 </pre></div>
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="basic-exploratory-data-analysis-eda-of-the-breast-cancer-dataset">
+<h2>Basic exploratory data analysis (EDA) of the ‘breast cancer dataset’<a class="headerlink" href="#basic-exploratory-data-analysis-eda-of-the-breast-cancer-dataset" title="Permalink to this headline">¶</a></h2>
+<p>The ‘cancer_features’ dataframe now contains only the features, not the target. By default, the <code class="docutils literal notranslate"><span class="pre">drop</span></code> method is not an in-place operation, so the original <code class="docutils literal notranslate"><span class="pre">cancer_df</span></code> dataframe still has all the columns.
+Now let’s do a simple box plot:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># using vert=False makes the box plot horizontal, which makes it easier to read the column names without tilting your head.</span>
+<span class="n">cancer_features</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">vert</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># using seaborn this would be</span>
+<span class="c1"># sns.boxplot(data=cancer_features, orient=&#39;h&#39;)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x19de103bf88&gt;
+</pre></div>
+</div>
+<img alt="../_images/01-data-loading_13_1.png" src="../_images/01-data-loading_13_1.png" />
+</div>
+</div>
+<p>From the plot we can see that the features have very different orders of magnitude, with the area related features much larger than all the other features. It’s hard to see the distribution of the smaller features, but the area features seems to have a skewed distribution with a tail to the right.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>There are more elegant ways to create this plots using seaborn, feel free to give it a go using facetgrid.
+I think it’s a good idea to know the more general patterns as well, though.</p>
+</div>
+<p>A way to visualize how the features relate to the target is by looking at box-plots for each feature when grouping the data by the target.
+If the distributions for the two target classes are different for a given feature, this feature is likely to be informative for the classification task.
+There’s many ways to create such a plot, here is a relatively manual one, using a flexible pattern that I use quite frequently.
+I fist create a grid of plots using <code class="docutils literal notranslate"><span class="pre">plt.subplots</span></code> and then iterate over the features and create one plot per feature.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="c1"># create a grid of plots, with 5 rows and 6 columns</span>
+<span class="c1"># and place it on a canvas 18 (virtual) inches whide and 6 inches high</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="c1"># for each column (and with one axis after another)</span>
+<span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cancer_features</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()):</span>
+    <span class="c1"># create a box-plot grouped by the target variabel</span>
+    <span class="n">cancer_df</span><span class="p">[[</span><span class="n">c</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">vert</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="c1"># remove the x-axis label</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="c1"># remove the figure title</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="c1"># fit everything nicely on the plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01-data-loading_15_0.png" src="../_images/01-data-loading_15_0.png" />
+</div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">zip</span></code> allows us to iterate over columns in the data (i.e. features) together with the axes in the grid of plots. Using <code class="docutils literal notranslate"><span class="pre">.ravel</span></code> on the grid of plots flattens the 5x6 numpy array of axes so we can iterate over them as one flat array of 30 elements.
+One of the reasons I used this technique is that now each feature has it’s own x-axis, and so we can see all the distributions, even though they are on different scales.
+While we will see more automatic and rigorous techniques later, even a quick visual inspection can tell us a lot about the data. We can see that many features are higly informative, such as ‘mean radius’ and ‘worst perimiter’, while others are less so, such as ‘symmetry error’ or ‘texture error’. For a more detailed view, we might want to do a scatter plot matrix for some of the more informative features. I select ‘mean radius’, ‘mean perimeter’, ‘mean area’ and ‘worst concave points’ arbitrarily.</p>
+<p>TODO FIXME</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">blood</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;recency&#39;</span><span class="p">,</span> <span class="s1">&#39;frequency&#39;</span><span class="p">,</span> <span class="s1">&#39;total_amount&#39;</span><span class="p">,</span> <span class="s1">&#39;since_first&#39;</span><span class="p">])</span>
+<span class="c1"># we&#39;re using &#39;c&#39; to set the color of points according to the class.</span>
+<span class="c1"># unfortunately it&#39;s a bit tricky to get a legend using pandas, it would be easier with seaborn.</span>
+<span class="c1"># and we set figsize to get a square figure.</span>
+<span class="c1"># increasing the size in inches actually has the effect of decreasing the text size when rendering it in a jupyter notebook.</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">scatter_matrix</span><span class="p">(</span>
+    <span class="n">cancer_features</span><span class="p">[[</span><span class="s1">&#39;mean radius&#39;</span><span class="p">,</span> <span class="s1">&#39;mean perimeter&#39;</span><span class="p">,</span> <span class="s1">&#39;mean compactness&#39;</span><span class="p">,</span> <span class="s1">&#39;worst concave points&#39;</span><span class="p">]],</span>
+    <span class="n">c</span><span class="o">=</span><span class="n">cancer_df</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">));</span>
 </pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01-data-loading_17_0.png" src="../_images/01-data-loading_17_0.png" />
+</div>
+</div>
+<p>This scatterplot show many interesting aspects of the data. In particular, we can see that mean radius and mean perimeter are highly correlated (as one might expect if the nuclei are approximately round). There’s also a pronounced but smaller correlcation between ‘perimieter’ and ‘worst perimiter’. Finally, and maybe most interesting, combining ‘worst concave points’ with any of the other features (in particular with worst perimeter) seems to result in separating the classes very well. At this point I would be very optimistic in finding a simple model for this data. There are some outliers that do not follow the overall trend of the data, and these might be worth investigating, depending how how acurate a model is sought.</p>
+</div>
+<div class="section" id="loading-the-lending-club-dataset">
+<h2>Loading the ‘lending club’ dataset<a class="headerlink" href="#loading-the-lending-club-dataset" title="Permalink to this headline">¶</a></h2>
+<p>Next, we will look at the lending club data. This dataset is much larger than the ‘breast cancer’ dataset. You can download it from TODO and substitute the path to it below.
+Here, we’re using the pandas <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> function, which, as mentioned earlier, is one of the most common ways to getting your data into Python:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loans</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;C:/Users/t3kci/Downloads/loan.csv/loan.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="stderr docutils container">
+<pre class="stderr literal-block">C:\Users\t3kci\anaconda3\lib\site-packages\IPython\core\interactiveshell.py:3063: DtypeWarning: Columns (19,47,55,112,123,124,125,128,129,130,133,139,140,141) have mixed types.Specify dtype option on import or set low_memory=False.
+  interactivity=interactivity, compiler=compiler, result=result)
+</pre>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">blood</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loans</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(748,)
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(2260668, 145)
 </pre></div>
 </div>
 </div>
 </div>
+<p>As you can see, the dataset contains over 2.2 million rows, and 145 features. This dataset contains the status of loans made on the lending club peer lending platform. Each row corresponds to a loan, and contains information about the person requesting the loan and data about payments made. This data has not been prepared for a particular machine learning task yet. It’s just the data recorded in their system, just like you might find data relevant to your application in your system. Some work has already been done for us in that all the data is contained in a single table.</p>
+<p>There are 145 columns, which can be quite overwhelming, but is not atypical. Let’s at least list them. You can find a full data dictionary (i.e. an explanation of all column) at TODO.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">blood</span><span class="o">.</span><span class="n">target</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># using .tolist makes Python print all columns, instead of using ellipsis</span>
+<span class="c1"># We could also configure pandas to do the same.</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">loans</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([&#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;,
-       &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;,
-       &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;,
-       &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;,
-       &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;,
-       &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;,
-       &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;2&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;,
-       &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;], dtype=object)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;id&#39;, &#39;member_id&#39;, &#39;loan_amnt&#39;, &#39;funded_amnt&#39;, &#39;funded_amnt_inv&#39;, &#39;term&#39;, &#39;int_rate&#39;, &#39;installment&#39;, &#39;grade&#39;, &#39;sub_grade&#39;, &#39;emp_title&#39;, &#39;emp_length&#39;, &#39;home_ownership&#39;, &#39;annual_inc&#39;, &#39;verification_status&#39;, &#39;issue_d&#39;, &#39;loan_status&#39;, &#39;pymnt_plan&#39;, &#39;url&#39;, &#39;desc&#39;, &#39;purpose&#39;, &#39;title&#39;, &#39;zip_code&#39;, &#39;addr_state&#39;, &#39;dti&#39;, &#39;delinq_2yrs&#39;, &#39;earliest_cr_line&#39;, &#39;inq_last_6mths&#39;, &#39;mths_since_last_delinq&#39;, &#39;mths_since_last_record&#39;, &#39;open_acc&#39;, &#39;pub_rec&#39;, &#39;revol_bal&#39;, &#39;revol_util&#39;, &#39;total_acc&#39;, &#39;initial_list_status&#39;, &#39;out_prncp&#39;, &#39;out_prncp_inv&#39;, &#39;total_pymnt&#39;, &#39;total_pymnt_inv&#39;, &#39;total_rec_prncp&#39;, &#39;total_rec_int&#39;, &#39;total_rec_late_fee&#39;, &#39;recoveries&#39;, &#39;collection_recovery_fee&#39;, &#39;last_pymnt_d&#39;, &#39;last_pymnt_amnt&#39;, &#39;next_pymnt_d&#39;, &#39;last_credit_pull_d&#39;, &#39;collections_12_mths_ex_med&#39;, &#39;mths_since_last_major_derog&#39;, &#39;policy_code&#39;, &#39;application_type&#39;, &#39;annual_inc_joint&#39;, &#39;dti_joint&#39;, &#39;verification_status_joint&#39;, &#39;acc_now_delinq&#39;, &#39;tot_coll_amt&#39;, &#39;tot_cur_bal&#39;, &#39;open_acc_6m&#39;, &#39;open_act_il&#39;, &#39;open_il_12m&#39;, &#39;open_il_24m&#39;, &#39;mths_since_rcnt_il&#39;, &#39;total_bal_il&#39;, &#39;il_util&#39;, &#39;open_rv_12m&#39;, &#39;open_rv_24m&#39;, &#39;max_bal_bc&#39;, &#39;all_util&#39;, &#39;total_rev_hi_lim&#39;, &#39;inq_fi&#39;, &#39;total_cu_tl&#39;, &#39;inq_last_12m&#39;, &#39;acc_open_past_24mths&#39;, &#39;avg_cur_bal&#39;, &#39;bc_open_to_buy&#39;, &#39;bc_util&#39;, &#39;chargeoff_within_12_mths&#39;, &#39;delinq_amnt&#39;, &#39;mo_sin_old_il_acct&#39;, &#39;mo_sin_old_rev_tl_op&#39;, &#39;mo_sin_rcnt_rev_tl_op&#39;, &#39;mo_sin_rcnt_tl&#39;, &#39;mort_acc&#39;, &#39;mths_since_recent_bc&#39;, &#39;mths_since_recent_bc_dlq&#39;, &#39;mths_since_recent_inq&#39;, &#39;mths_since_recent_revol_delinq&#39;, &#39;num_accts_ever_120_pd&#39;, &#39;num_actv_bc_tl&#39;, &#39;num_actv_rev_tl&#39;, &#39;num_bc_sats&#39;, &#39;num_bc_tl&#39;, &#39;num_il_tl&#39;, &#39;num_op_rev_tl&#39;, &#39;num_rev_accts&#39;, &#39;num_rev_tl_bal_gt_0&#39;, &#39;num_sats&#39;, &#39;num_tl_120dpd_2m&#39;, &#39;num_tl_30dpd&#39;, &#39;num_tl_90g_dpd_24m&#39;, &#39;num_tl_op_past_12m&#39;, &#39;pct_tl_nvr_dlq&#39;, &#39;percent_bc_gt_75&#39;, &#39;pub_rec_bankruptcies&#39;, &#39;tax_liens&#39;, &#39;tot_hi_cred_lim&#39;, &#39;total_bal_ex_mort&#39;, &#39;total_bc_limit&#39;, &#39;total_il_high_credit_limit&#39;, &#39;revol_bal_joint&#39;, &#39;sec_app_earliest_cr_line&#39;, &#39;sec_app_inq_last_6mths&#39;, &#39;sec_app_mort_acc&#39;, &#39;sec_app_open_acc&#39;, &#39;sec_app_revol_util&#39;, &#39;sec_app_open_act_il&#39;, &#39;sec_app_num_rev_accts&#39;, &#39;sec_app_chargeoff_within_12_mths&#39;, &#39;sec_app_collections_12_mths_ex_med&#39;, &#39;sec_app_mths_since_last_major_derog&#39;, &#39;hardship_flag&#39;, &#39;hardship_type&#39;, &#39;hardship_reason&#39;, &#39;hardship_status&#39;, &#39;deferral_term&#39;, &#39;hardship_amount&#39;, &#39;hardship_start_date&#39;, &#39;hardship_end_date&#39;, &#39;payment_plan_start_date&#39;, &#39;hardship_length&#39;, &#39;hardship_dpd&#39;, &#39;hardship_loan_status&#39;, &#39;orig_projected_additional_accrued_interest&#39;, &#39;hardship_payoff_balance_amount&#39;, &#39;hardship_last_payment_amount&#39;, &#39;disbursement_method&#39;, &#39;debt_settlement_flag&#39;, &#39;debt_settlement_flag_date&#39;, &#39;settlement_status&#39;, &#39;settlement_date&#39;, &#39;settlement_amount&#39;, &#39;settlement_percentage&#39;, &#39;settlement_term&#39;]
 </pre></div>
 </div>
 </div>
 </div>
+<p>The question we want to investigate is how risky a loan is before it is taken. This is quite interesting for those wanting to make a loan on the platform. The platform associates a ‘grade’ or risk with each loan request, which is recorded in the data and based on a propretary (i.e. secred) risk model. There are several interesting questions we could ask, say, “How acurate it their risk model?”, “Can we what determine how their grade is assigned? (i.e. reverse engineer the model)”, “Can we built a more acurate model without relying on their grade?” and “Can we build a more accurate model when incorporating their grade?”.</p>
+<p>Given that this is the core business of the company, we might not be able to beat their algorithm, but these are at least interesting to investigate.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">Information leakage</p>
+<p>Information leakage is a broad concept in machine learning that refers to models ‘cheating’ in some way to achieve very good results.
+Often, a data scientist is not aware that a model is ‘cheating’ by accessing information it shouldn’t, and will assume the model performs well. When the model is put into production, the problem will become (hopefully) immediately apparent, as predictions are much worse than was assumed.
+Information leakage can come from causal or temporal issues in data collection, such as in the lending club example. It can also come from improperly splitting data into training and test set, which we will discuss soon.
+Roughtly, you can think of two kinds of information leakage: one, as in the lending club example, where the features will be fundamentally different during production than they are during training.
+The other is when the training and test set are not independent of each other, and/or the test set is not independent of the model. TODO didn’t introduce test set!</p>
+</div>
+<p>Keep in mind, though, that the data was not formulated to answer these questions. For example, if we want to predict how risky a loan is, the input features should not consider whether the borrower has been late on payments <em>for this loan</em>, as we wouldn’t have this information when first evaluating the request.
+The data as-is contains numerous instances of what is known as data leakage, where side-information is contained in the data that would not be available to the model in a predictive setting, and which might seem like the model is performing well, when really it is not. Some of these might be subtle differences in how the data is collected. Some versions of this dataset contain the fico score of the borrower, i.e. how credit-worthy they are. This is clearly a sensible and useful feature in include. However, the input that is relevant for building a predictive model of risk is the fico score <em>at the time the loan was requested</em>. There is a version of the dataset that also includes the fico score <em>at the time the data was collected</em>, which is quite different. If a borrower defaulted on a loan, this will decrease their credit scoe, and so the credit score at the time of data collection, i.e. after they defaulted on the loan, is much more informative., yielding a highly accurate model (on that data).  However, when using a model to predict the risk of a new loan, this model will be much less accurate, as the credit score can not have information about a loan that hasn’t happened yet.</p>
+<p>TODO make this more clearn
+TODO use data with fico score?</p>
+<p>Let’s have a closer look at the data:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">blood</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
-<span class="n">y</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loans</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>1    570
-2    178
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>member_id</th>
+      <th>loan_amnt</th>
+      <th>funded_amnt</th>
+      <th>funded_amnt_inv</th>
+      <th>term</th>
+      <th>int_rate</th>
+      <th>installment</th>
+      <th>grade</th>
+      <th>sub_grade</th>
+      <th>...</th>
+      <th>hardship_payoff_balance_amount</th>
+      <th>hardship_last_payment_amount</th>
+      <th>disbursement_method</th>
+      <th>debt_settlement_flag</th>
+      <th>debt_settlement_flag_date</th>
+      <th>settlement_status</th>
+      <th>settlement_date</th>
+      <th>settlement_amount</th>
+      <th>settlement_percentage</th>
+      <th>settlement_term</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2500</td>
+      <td>2500</td>
+      <td>2500.0</td>
+      <td>36 months</td>
+      <td>13.56</td>
+      <td>84.92</td>
+      <td>C</td>
+      <td>C1</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Cash</td>
+      <td>N</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>30000</td>
+      <td>30000</td>
+      <td>30000.0</td>
+      <td>60 months</td>
+      <td>18.94</td>
+      <td>777.23</td>
+      <td>D</td>
+      <td>D2</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Cash</td>
+      <td>N</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5000</td>
+      <td>5000</td>
+      <td>5000.0</td>
+      <td>36 months</td>
+      <td>17.97</td>
+      <td>180.69</td>
+      <td>D</td>
+      <td>D1</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Cash</td>
+      <td>N</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4000</td>
+      <td>4000</td>
+      <td>4000.0</td>
+      <td>36 months</td>
+      <td>18.94</td>
+      <td>146.51</td>
+      <td>D</td>
+      <td>D2</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Cash</td>
+      <td>N</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>30000</td>
+      <td>30000</td>
+      <td>30000.0</td>
+      <td>60 months</td>
+      <td>16.14</td>
+      <td>731.78</td>
+      <td>C</td>
+      <td>C4</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Cash</td>
+      <td>N</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 145 columns</p>
+</div></div></div>
+</div>
+<p>Apart from the fact that there are many more columns in this dataset than in the breast cancer dataset, the columns in this data are also much more varied in nature. We can see that some of them are numbers, such as the loan amount (‘loan_amnt’), others are letters such as ‘grade’, strings, such as ‘disbursement_method’ and many of them are NaN (standing for Not A Number), representing missing data in pandas. There’s also date columns, though none of them are visible here as only a subset of the columns is shown by default.</p>
+<p>What we are interested in is the outcome of a loan, which is encoded in <code class="docutils literal notranslate"><span class="pre">loan_status</span></code>. Let’s look at the different values and their counts:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loans</span><span class="o">.</span><span class="n">loan_status</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Fully Paid                                             1041952
+Current                                                 919695
+Charged Off                                             261655
+Late (31-120 days)                                       21897
+In Grace Period                                           8952
+Late (16-30 days)                                         3737
+Does not meet the credit policy. Status:Fully Paid        1988
+Does not meet the credit policy. Status:Charged Off        761
+Default                                                     31
+Name: loan_status, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the dataset, most of the loans are <code class="docutils literal notranslate"><span class="pre">'Fully</span> <span class="pre">Paid'</span></code>. Next, we have <code class="docutils literal notranslate"><span class="pre">'Current'</span></code> loans, i.e. those that haven’t ended yet. Then, there are <code class="docutils literal notranslate"><span class="pre">'Charged</span> <span class="pre">Off'</span></code> meaning it hasn’t been paid off and no further payment is expected, and several variants of lateness and special statuses. For a first analysis, we can make our life easier by restricting outcomes to those that are ‘Fully Paid’, which we’ll consider a good outcome, and ‘Charge Off’ which we’ll consider a bad outcome, so these will be the two target classes we consider. Doing so we’re discarding a lot of data; however, we will still have over a million loans to learn from. And the biggest part of the data is ‘Current’ loans for which we don’t know the outcome (we could look at late payments etc, but that would make the analysis much more complicated).</p>
+<p>So let’s restrict ourself to a subset of the data where <code class="docutils literal notranslate"><span class="pre">'loan_status'</span></code> is ‘<code class="docutils literal notranslate"><span class="pre">Fully</span> <span class="pre">Paid'</span></code> or <code class="docutils literal notranslate"><span class="pre">'Charged</span> <span class="pre">Off'</span></code>. Here, we’re using <code class="docutils literal notranslate"><span class="pre">isin</span></code> to create a boolean mask and then index the full dataframe with that mask.
+Another option would be to use the <code class="docutils literal notranslate"><span class="pre">filter</span></code> method of <code class="docutils literal notranslate"><span class="pre">loans</span></code> dataframe instead of indexing.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loans_ended</span> <span class="o">=</span> <span class="n">loans</span><span class="p">[</span><span class="n">loans</span><span class="o">.</span><span class="n">loan_status</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;Fully Paid&#39;</span><span class="p">,</span> <span class="s1">&#39;Charged Off&#39;</span><span class="p">])]</span>
+<span class="c1"># let&#39;s check that we got what we wanted</span>
+<span class="n">loans_ended</span><span class="o">.</span><span class="n">loan_status</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Fully Paid     1041952
+Charged Off     261655
+Name: loan_status, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>For now, we’ll try to wrestle this dataset so it looks a bit more like the one above, and only use some of the numeric columns.
+One very simple way to look at the types of columns is to look at the dtypes, and how often they appear:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loans_ended</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>float64    105
+object      36
+int64        4
 dtype: int64
 </pre></div>
 </div>
 </div>
 </div>
+<p>Here, we can see there’s 105 float columns and 4 integer columns, both of which are likely numeric (though the inter columns could also encode categories). There’s 36 object columns, which are strings in pandas. Some of these represent dates, but these are only parsed by pandas if we explicitly ask for it.
+Looking through the data dictionary, some columns that we could expect to be informative and that do not use post-hoc information are the interest rate and loan amount, the annual income of the borrower, and the total collateral amount. We also include the target ‘loan_status’ which now only includes two values:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="n">pd</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">scatter_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="o">==</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Paired&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">));</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loan_features</span> <span class="o">=</span> <span class="n">loans_ended</span><span class="p">[[</span><span class="s1">&#39;int_rate&#39;</span><span class="p">,</span> <span class="s1">&#39;annual_inc&#39;</span><span class="p">,</span> <span class="s1">&#39;loan_amnt&#39;</span><span class="p">,</span> <span class="s1">&#39;tot_coll_amt&#39;</span><span class="p">,</span> <span class="s1">&#39;loan_status&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s do a similar box plot as we did above for the breast cancer dataset for these four columns:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># create a grid of plots, with 5 rows and 6 columns</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="c1"># for each column (and with one axis after another)</span>
+<span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">loan_features</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()):</span>
+    <span class="c1"># create a box-plot grouped by the target variabel</span>
+    <span class="n">loan_features</span><span class="p">[[</span><span class="n">c</span><span class="p">,</span> <span class="s1">&#39;loan_status&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">vert</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;loan_status&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="c1"># remove the x-axis label</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="c1"># remove the figure title</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="c1"># fit everything nicely on the plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01-data-loading_9_0.png" src="../_images/01-data-loading_9_0.png" />
+<img alt="../_images/01-data-loading_37_0.png" src="../_images/01-data-loading_37_0.png" />
 </div>
 </div>
-<p><strong>Data is always a numpy array (or sparse matrix) of shape (n_samples, n_features)</strong></p>
-<p>Split the data to get going</p>
+<p>There’s several interesting observations here: None of the distriibutions overlap as little as for some of the informative features on the breast cancer dataset, so at least based on these four features, this is a more challenging classification task.
+Still, interest rate seems to be quite informative, and while the distributions for loan amount overlap, their medians are different.
+For anual income and total collateral, it’s much harder to see any trends, as the distributions are very skewed. We can see that whenever there was a high collateral amount, the loans were fully paid, but these are only a handful out of a million points.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">Skewed amounts</p>
+<p>It’s quite typical for income and prices to be heavily skewed and follow some exponential distribution. You probalby know this from arguments about social inequality: there is a some people that are poor, many people that are average, but then
+the top 20% make vastly more than the ones below, and the to 10% make again much more, and so on.
+A similar thing is true for prices: think of any product, say shoes. There’s cheap shoes, and most shoes are probably betweek $40 and $200, but then, there’s expensive shoes and there’s basically no limit on how expensive a shoe you can find. However, there’s probably very few shoes that are more than $10,000, and even less shoes that are more than $100,000 (but I’m sure you can find some).</p>
+</div>
+<p>We could look at a logarithmic scaling at the data, or histograms, but leave that for later. TODO maybe?
+Instead, we’ll look at the scatter matrix again:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># where&#39;re using seaborn here because it can deal better with the categorical value for hue</span>
+<span class="c1"># we could have also converted the loan status to an int or a color and used pandas</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span> <span class="c1"># the traditional import of seaborn, better not ask why</span>
+<span class="c1"># passing the full dataframe to pairplot, determining the color by passing &#39;hue&#39;</span>
+<span class="c1"># we also specify the diagonal to be a histogram, not a density estimate,</span>
+<span class="c1"># which is faster on large datasets.</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">loan_features</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;loan_status&#39;</span><span class="p">,</span> <span class="n">diag_kind</span><span class="o">=</span><span class="s1">&#39;hist&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(748, 4)
+<div class="stderr docutils container">
+<pre class="stderr literal-block">C:\Users\t3kci\anaconda3\lib\site-packages\seaborn\distributions.py:369: UserWarning: Default bandwidth for data is 0; skipping density estimation.
+  warnings.warn(msg, UserWarning)
+C:\Users\t3kci\anaconda3\lib\site-packages\seaborn\distributions.py:369: UserWarning: Default bandwidth for data is 0; skipping density estimation.
+  warnings.warn(msg, UserWarning)
+</pre>
+</div>
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.PairGrid at 0x19e34ea5e88&gt;
 </pre></div>
 </div>
+<img alt="../_images/01-data-loading_39_2.png" src="../_images/01-data-loading_39_2.png" />
 </div>
 </div>
+<p>Looking at the plot, it might look like most of the samples are ‘Charged off’, though we know the opposite is the case based on the value counts we computed above.
+What we see here is a typical case of overplotting, where much of the data is hidden behind other points. Overplotting is a very common problem
+in plotting large datasets such as this. There are some workarounds, like changing the size of the scatter points, changing their transparency ‘alpha’, or subsampling the data.
+We combine them below for a somewhat more informative plot. However, the amount of overplotting might suggest that another plot type, like a hexbin or a splatterplot might have been more appropriate. TODO</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># taking every 100s sample, i.e. subsampling by a factor of 100.</span>
+<span class="c1"># This is a quick and simple way, but might be dangerous if there&#39;s a pattern to the order in the data.</span>
+<span class="n">loan_features_sub</span> <span class="o">=</span> <span class="n">loan_features</span><span class="p">[::</span><span class="mi">100</span><span class="p">]</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">loan_features_sub</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;loan_status&#39;</span><span class="p">,</span> <span class="n">diag_kind</span><span class="o">=</span><span class="s1">&#39;hist&#39;</span><span class="p">,</span>
+             <span class="c1"># s sets marker size, alpha sets transparency,</span>
+             <span class="c1"># linewidth=0 removes the white boundary of points.</span>
+             <span class="n">plot_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;linewidth&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">})</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(561, 4)
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.PairGrid at 0x19e738f4d08&gt;
 </pre></div>
 </div>
+<img alt="../_images/01-data-loading_41_1.png" src="../_images/01-data-loading_41_1.png" />
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(187, 4)
-</pre></div>
-</div>
+<p>Even after changing the parameters, there’s still a large amount of overplotting. You can confirm that by changing the ‘hue_order’ in seaborn, which would have blue plotted on top of orange, hiding the smaller class.
+TODO legend in plot above.
+These plots are therefore still somewhat hard to read. There seems to be a relationship between anual income and loan amount. Again, trying logarithmic scaling might help.
+We can also see that the loan amount and the interest rate have a distinctive striped pattern. This is likely caused by people preferring round amounts, i.e. people are more likely to ask for a loan of $300,000 than for a loan of $293,912.
+Whether there is any interaction between the features with respect to the outcome of the loan seems unclear from the plot.</p>
+<div class="section" id="conclusion">
+<h3>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h3>
+<p>This concludes the data loading and exploratory analysis. We’ve seen some simple ways to explore the data, and we’ve also seen how ‘clean’ data can differ from more realistic real-world data. The breast cancer dataset had a small number of samples, all numeric, and we could easily insped the features visually. From a first exploration, the two classes of interest seem easy to separate. Those cases exist in the wild, but most time you won’t be as lucky.
+The lending club data comes with many features, which have complex causal dependencies. There is no pre-defined goal, and the data has various types, including strings and dates, as well as many missing entries. We need to be careful in selecting rows and column that are informative for our task without allowing our model to cheat by incorporating unobservable information.</p>
 </div>
 </div>
 </div>
@@ -425,7 +976,7 @@ dtype: int64
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="00-ml-workflow.html" title="previous page">The Machine Learning Workflow</a>
-    <a class='right-next' id="next-link" href="02-supervised-learning.html" title="next page">Supervised learning with scikit-learn</a>
+    <a class='right-next' id="next-link" href="02-supervised-learning.html" title="next page">Supervised learning</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

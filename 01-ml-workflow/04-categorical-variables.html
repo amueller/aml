@@ -77,10 +77,10 @@
     <a href="00-ml-workflow.html">3. The Machine Learning Workflow</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="01-data-loading.html">3.1 Data Loading</a>
+      <a href="01-data-loading.html">3.1 Data Loading and Basic Preprocessing</a>
     </li>
     <li class="">
-      <a href="02-supervised-learning.html">3.2 Supervised learning with scikit-learn</a>
+      <a href="02-supervised-learning.html">3.2 Supervised learning</a>
     </li>
     <li class="">
       <a href="03-preprocessing.html">3.3 Preprocessing and Scaling</a>
@@ -116,7 +116,13 @@
   </li>
 </ul>
 </nav>
-<p class="navbar_footer">Powered by <a href="https://jupyterbook.org">Jupyter Book</a></p>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
 </div>
 
 
@@ -181,11 +187,29 @@
     <ul class="nav section-nav flex-column">
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#ordinal-encoding" class="nav-link">Ordinal encoding</a>
+            <a href="#ordinal-or-integer-encoding" class="nav-link">Ordinal (or integer) encoding</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#one-hot-dummy-encoding" class="nav-link">One-Hot (Dummy) Encoding</a>
+            <a href="#one-hot-dummy-encoding" class="nav-link">One-Hot (Dummy) Encoding</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#aligning-dataframes-with-pandas" class="nav-link">Aligning dataframes with pandas</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#onehotencoder-dummies-with-sklearn" class="nav-link">OneHotEncoder - dummies with sklearn</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#determining-what-variables-are-categorical" class="nav-link">Determining what variables are categorical</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#dropping-one-category" class="nav-link">Dropping one category</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
@@ -209,14 +233,72 @@
                 
   <div class="section" id="categorical-variables">
 <h1>Categorical Variables<a class="headerlink" href="#categorical-variables" title="Permalink to this headline">¶</a></h1>
+<p>In the last section we talked about scaling for continuous features, which all the features in the cancer dataset were.
+In the lending club data, we also saw another type of feature, categorical or discrete features. Categorical or discrete features are those can take one of several distinct values that are usually not numerical, and often not even ordered. In the lending club data, examples were the grade, which could be a letter from ‘A’ to ‘G’, or home ownership, which could be ‘RENT’, ‘MORTGAGE’, ‘OWN’ or ‘ANY’.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-  <span class="s1">&#39;boro&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Manhattan&#39;</span><span class="p">,</span> <span class="s1">&#39;Queens&#39;</span><span class="p">,</span> <span class="s1">&#39;Manhattan&#39;</span><span class="p">,</span> <span class="s1">&#39;Brooklyn&#39;</span><span class="p">,</span> <span class="s1">&#39;Brooklyn&#39;</span><span class="p">,</span> <span class="s1">&#39;Bronx&#39;</span><span class="p">],</span>
-  <span class="s1">&#39;salary&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">103</span><span class="p">,</span> <span class="mi">89</span><span class="p">,</span> <span class="mi">142</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">219</span><span class="p">],</span>
-     <span class="s1">&#39;vegan&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;No&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">,</span><span class="s1">&#39;No&#39;</span><span class="p">,</span><span class="s1">&#39;Yes&#39;</span><span class="p">,</span> <span class="s1">&#39;Yes&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">]})</span>
-<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loans</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;C:/Users/t3kci/Downloads/loan.csv/loan.csv&quot;</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="stderr docutils container">
+<pre class="stderr literal-block">C:\Users\t3kci\anaconda3\lib\site-packages\IPython\core\interactiveshell.py:3063: DtypeWarning: Columns (123,124,125,128,129,130,133,139,140,141) have mixed types.Specify dtype option on import or set low_memory=False.
+  interactivity=interactivity, compiler=compiler, result=result)
+</pre>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loans</span><span class="o">.</span><span class="n">grade</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([&#39;C&#39;, &#39;D&#39;, &#39;B&#39;, &#39;A&#39;, &#39;E&#39;, &#39;F&#39;, &#39;G&#39;], dtype=object)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loans</span><span class="o">.</span><span class="n">home_ownership</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([&#39;RENT&#39;, &#39;MORTGAGE&#39;, &#39;OWN&#39;, &#39;ANY&#39;], dtype=object)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Most machine learning algorithms require that we preprocess these features into some numeric encoding before we can use them. For our old friend <code class="docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code>, we could in theory define a distance metric on these categorical features (which is certainly possible and many options exist), though the simpler and more common approach is to transform the data so we can use the standard euclidean distance on all the features.
+Let’s take a small subset of the data to investigate the possible preprocessing methods:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># look only at the two loan statuses we discussed in Chapter TODO</span>
+<span class="n">loans_paid</span> <span class="o">=</span> <span class="n">loans</span><span class="p">[</span><span class="n">loans</span><span class="o">.</span><span class="n">loan_status</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;Fully Paid&#39;</span><span class="p">,</span> <span class="s1">&#39;Charged Off&#39;</span><span class="p">])]</span>
+<span class="c1"># For this example, we want some paid and some charged off loans</span>
+<span class="c1"># we group them to make sure we get some of both. We then take the first 10 and remove the grouping index</span>
+<span class="n">some_loans</span> <span class="o">=</span> <span class="n">loans_paid</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;loan_status&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># we only consider three relatively well-behaved features and the loan status</span>
+<span class="n">small_data</span> <span class="o">=</span> <span class="n">some_loans</span><span class="p">[[</span><span class="s1">&#39;loan_amnt&#39;</span><span class="p">,</span> <span class="s1">&#39;home_ownership&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">,</span> <span class="s1">&#39;loan_status&#39;</span><span class="p">]]</span>
+<span class="n">small_data</span>
 </pre></div>
 </div>
 </div>
@@ -239,74 +321,241 @@
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>boro</th>
-      <th>salary</th>
-      <th>vegan</th>
+      <th>loan_amnt</th>
+      <th>home_ownership</th>
+      <th>grade</th>
+      <th>loan_status</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>Manhattan</td>
-      <td>103</td>
-      <td>No</td>
+      <td>8000</td>
+      <td>MORTGAGE</td>
+      <td>A</td>
+      <td>Charged Off</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Queens</td>
-      <td>89</td>
-      <td>No</td>
+      <td>6000</td>
+      <td>MORTGAGE</td>
+      <td>C</td>
+      <td>Charged Off</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Manhattan</td>
-      <td>142</td>
-      <td>No</td>
+      <td>10000</td>
+      <td>MORTGAGE</td>
+      <td>A</td>
+      <td>Charged Off</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Brooklyn</td>
-      <td>54</td>
-      <td>Yes</td>
+      <td>10000</td>
+      <td>RENT</td>
+      <td>E</td>
+      <td>Charged Off</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Brooklyn</td>
-      <td>63</td>
-      <td>Yes</td>
+      <td>35000</td>
+      <td>MORTGAGE</td>
+      <td>C</td>
+      <td>Charged Off</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>Bronx</td>
-      <td>219</td>
-      <td>No</td>
+      <td>4800</td>
+      <td>MORTGAGE</td>
+      <td>C</td>
+      <td>Charged Off</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>35000</td>
+      <td>RENT</td>
+      <td>C</td>
+      <td>Charged Off</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>15000</td>
+      <td>OWN</td>
+      <td>B</td>
+      <td>Charged Off</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>16000</td>
+      <td>RENT</td>
+      <td>B</td>
+      <td>Charged Off</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>25000</td>
+      <td>MORTGAGE</td>
+      <td>A</td>
+      <td>Charged Off</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>30000</td>
+      <td>MORTGAGE</td>
+      <td>D</td>
+      <td>Fully Paid</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>40000</td>
+      <td>MORTGAGE</td>
+      <td>C</td>
+      <td>Fully Paid</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>20000</td>
+      <td>MORTGAGE</td>
+      <td>A</td>
+      <td>Fully Paid</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>4500</td>
+      <td>RENT</td>
+      <td>B</td>
+      <td>Fully Paid</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>8425</td>
+      <td>MORTGAGE</td>
+      <td>E</td>
+      <td>Fully Paid</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>20000</td>
+      <td>RENT</td>
+      <td>D</td>
+      <td>Fully Paid</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>6600</td>
+      <td>RENT</td>
+      <td>B</td>
+      <td>Fully Paid</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2500</td>
+      <td>RENT</td>
+      <td>C</td>
+      <td>Fully Paid</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>4000</td>
+      <td>MORTGAGE</td>
+      <td>D</td>
+      <td>Fully Paid</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>2700</td>
+      <td>OWN</td>
+      <td>A</td>
+      <td>Fully Paid</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<p>Before we can apply a machine learning algorithm, we first
-need to think about how we represent our data.</p>
-<p>Earlier, I said x \in R^n. That’s not how you usually get
-data. Often data has units, possibly different units for
-different sensors, it has a mixture of continuous values and
-discrete values, and different measurements might be on
-totally different scales.</p>
-<p>First, let me explain how to deal with discrete input
-variables, also known as categorical features. They come up
-in nearly all applications.</p>
-<p>Scikit-learn requires you to explicitly handle these, and assumes
-in general that all your input is continuous numbers.
-This is different from how many libraries in R do it,
-which deal with categorical variables implicitly.</p>
-<div class="section" id="ordinal-encoding">
-<h2>Ordinal encoding<a class="headerlink" href="#ordinal-encoding" title="Permalink to this headline">¶</a></h2>
+<p>The loan amount is a continuous feature; it’s an integer amount, but grade and home ownership are categorical. The loan_status is our classification target (which means it’s also a discrete variable, but we don’t consider it a feature and won’t process it as such).
+Scikit-learn requires you to explicitly handle categorical features in most cases, which is unlike some other libraries and frameworks. However, that gives you more control over the processing, and a better idea of what happens to your data.</p>
+<p>The encoding that is most appropriate depends on the model you’re using, but there are some general encoding schemes that are frequently used.</p>
+<div class="section" id="ordinal-or-integer-encoding">
+<h2>Ordinal (or integer) encoding<a class="headerlink" href="#ordinal-or-integer-encoding" title="Permalink to this headline">¶</a></h2>
+<p>One of the simplest ways to encode categorical data is to assign an integer to each category. You could do this with the <code class="docutils literal notranslate"><span class="pre">OrdinalEncoder</span></code> in scikit-learn, or with pandas by using pandas categorical data:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;boro_ordinal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">boro</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span>
-<span class="n">df</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># extract a column and convert it to categorical data (it was represented as strings before)</span>
+<span class="n">home_ownership_cat</span> <span class="o">=</span> <span class="n">small_data</span><span class="o">.</span><span class="n">home_ownership</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+<span class="n">home_ownership_cat</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0     MORTGAGE
+1     MORTGAGE
+2     MORTGAGE
+3         RENT
+4     MORTGAGE
+5     MORTGAGE
+6         RENT
+7          OWN
+8         RENT
+9     MORTGAGE
+10    MORTGAGE
+11    MORTGAGE
+12    MORTGAGE
+13        RENT
+14    MORTGAGE
+15        RENT
+16        RENT
+17        RENT
+18    MORTGAGE
+19         OWN
+Name: home_ownership, dtype: category
+Categories (3, object): [MORTGAGE, OWN, RENT]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># get integer codes from the categorical data</span>
+<span class="c1"># all categorical operations are accessible through the cat attribute:</span>
+<span class="n">home_ownership_cat</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0     0
+1     0
+2     0
+3     2
+4     0
+5     0
+6     2
+7     1
+8     2
+9     0
+10    0
+11    0
+12    0
+13    2
+14    0
+15    2
+16    2
+17    2
+18    0
+19    1
+dtype: int8
+</pre></div>
+</div>
+</div>
+</div>
+<p>We could create a new dataframe using these integer codes, which now could be interpreted by a machine learning model. However, this is often problematic as this imposes an order and a distance between the different categories, that might not accurately reflect the semantics of the data. Both pandas and scikit-learn by default use the lexical ordering of categories, so MORTGAGE corresponds to 0, OWN to 1 and RENT to 2. This order makes little sense. We could specify our own ordering, say RENT, MORTGAGE, OWN (describing degrees of ownership) but this is also not entirely satisfactory: if we encode it using integers, we postulate that the difference between RENT and MORTGAGE is the same as the difference between MORTGAGE and OWN, and the difference between RENT and OWN is twice the distance between MORTGAGE and OWN. Making these assumption seems somewhat questionable, and in many cases, even ordering the categories might be hard - imagine working on a dataset of cars that includes the color, imposing any ordering there seems very arbitray.</p>
+<p>For the grades, using integer encodings might be reasonable, as there is a clear ordering and distance. Whether this is appropriate might depend on the model you are using. If there is very few categories, such as here, it’s probably a safer bet to forego the ordinal encoding and use a different scheme instead.</p>
+</div>
+<div class="section" id="one-hot-dummy-encoding">
+<h2>One-Hot (Dummy) Encoding<a class="headerlink" href="#one-hot-dummy-encoding" title="Permalink to this headline">¶</a></h2>
+<p>The most commonly used encoding scheme for categorical variables by far is the so-called one-hot encoding or dummy encoding. The idea behind one-hot encoding is to add a new column for each value of a categorical variable, and set the column to 1 for the category that applies to the row, and 0 for all the other categories. An easy way to compute this encoding is the <code class="docutils literal notranslate"><span class="pre">get_dummies</span></code> function in pandas:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">small_data</span><span class="p">[[</span><span class="s1">&#39;grade&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -329,362 +578,1094 @@ which deal with categorical variables implicitly.</p>
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>boro</th>
-      <th>salary</th>
-      <th>vegan</th>
-      <th>boro_ordinal</th>
+      <th>grade</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>Manhattan</td>
-      <td>103</td>
-      <td>No</td>
-      <td>2</td>
+      <td>A</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Queens</td>
-      <td>89</td>
-      <td>No</td>
-      <td>3</td>
+      <td>C</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Manhattan</td>
-      <td>142</td>
-      <td>No</td>
-      <td>2</td>
+      <td>A</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Brooklyn</td>
-      <td>54</td>
-      <td>Yes</td>
+      <td>E</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>C</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">small_data</span><span class="p">[[</span><span class="s1">&#39;grade&#39;</span><span class="p">]])</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>grade_A</th>
+      <th>grade_B</th>
+      <th>grade_C</th>
+      <th>grade_D</th>
+      <th>grade_E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
       <td>1</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Brooklyn</td>
-      <td>63</td>
-      <td>Yes</td>
+      <td>0</td>
+      <td>0</td>
       <td>1</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Bronx</td>
-      <td>219</td>
-      <td>No</td>
+      <td>0</td>
       <td>0</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<p>.right-column[
-<img alt=":scale 100%" src="../_images/boro_ordinal.png" />
-]</p>
-<p>If you encode all three values using the same feature, then
-you are imposing a linear relation between them, and in
-particular you define an order between the categories.
-Usually, there is no semantic ordering of the categories,
-and so we shouldn’t introduce one in our representation of
-the data.</p>
-<p>.right-column[
-<img alt=":scale 100%" src="../_images/boro_ordinal_classification.png" />
-]</p>
-</div>
-<div class="section" id="one-hot-dummy-encoding">
-<h2>One-Hot (Dummy) Encoding<a class="headerlink" href="#one-hot-dummy-encoding" title="Permalink to this headline">¶</a></h2>
-<p>.narrow-left-column[</p>
-<p>boro
-salary
-vegan</p>
-<p>0
-Manhattan
-103
-No</p>
-<p>1
-Queens
-89
-No</p>
-<p>2
-Manhattan
-142
-No</p>
-<p>3
-Brooklyn
-54
-Yes</p>
-<p>4
-Brooklyn
-63
-Yes</p>
-<p>5
-Bronx
-219
-No</p>
-<p>]</p>
-<p>.wide-right-column[
-.tiny[</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<p>As you can see, <code class="docutils literal notranslate"><span class="pre">get_dummies</span></code> replaced the one column <code class="docutils literal notranslate"><span class="pre">grade</span></code> by five columns, one for each possible value. The original value for the grade of first row was <code class="docutils literal notranslate"><span class="pre">A</span></code> so the new column <code class="docutils literal notranslate"><span class="pre">grade_A</span></code> has a 1, while all the other columns have a 0.
+We can also call <code class="docutils literal notranslate"><span class="pre">get_dummies</span></code> on the whole dataframe. In this case, it will apply dummy encoding to all the columns that have either categorical data or objects (including strings):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">small_data</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>salary
-boro_Bronx
-boro_Brooklyn
-boro_Manhattan
-boro_Queens
-vegan_No
-vegan_Yes</p>
-<p>0
-103
-0
-0
-1
-0
-1
-0</p>
-<p>1
-89
-0
-0
-0
-1
-1
-0</p>
-<p>2
-142
-0
-0
-1
-0
-1
-0</p>
-<p>3
-54
-0
-1
-0
-0
-0
-1</p>
-<p>4
-63
-0
-1
-0
-0
-0
-1</p>
-<p>5
-219
-1
-0
-0
-0
-1
-0</p>
-<p>]
-]</p>
-<p>Instead, we add one new feature for each category,</p>
-<p>And that feature encodes whether a sample belongs to this
-category or not.</p>
-<p>That’s called a one-hot encoding, because only one of the
-three features in this example is active at a time.</p>
-<p>You could actually get away with n-1 features, but in
-machine learning that usually doesn’t matter</p>
-<p>One way to do is with Pandas. Here I have an example of a
-data frame where I have the boroughs of New York as a
-categorical variable and variable saying whether they are vegan. One to get the
-dummies is to get dummies on this data frame. This will
-create new columns, it will actually replace borough column
-by four columns that correspond to the four different
-values. The get_dummies applies transformation to all
-columns that have a dtype that’s either object or
-categorical.</p>
-<p>In this case we didn’t actually want to transform the target variable vegan.</p>
-<p>.narrow-left-column[</p>
-<p>boro
-salary
-vegan</p>
-<p>0
-Manhattan
-103
-No</p>
-<p>1
-Queens
-89
-No</p>
-<p>2
-Manhattan
-142
-No</p>
-<p>3
-Brooklyn
-54
-Yes</p>
-<p>4
-Brooklyn
-63
-Yes</p>
-<p>5
-Bronx
-219
-No</p>
-<p>]</p>
-<p>.wide-right-column[
-.tiny[</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;boro&#39;</span><span class="p">])</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>loan_amnt</th>
+      <th>home_ownership_MORTGAGE</th>
+      <th>home_ownership_OWN</th>
+      <th>home_ownership_RENT</th>
+      <th>grade_A</th>
+      <th>grade_B</th>
+      <th>grade_C</th>
+      <th>grade_D</th>
+      <th>grade_E</th>
+      <th>loan_status_Charged Off</th>
+      <th>loan_status_Fully Paid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>8000</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>6000</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>10000</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>10000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>35000</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>As you can see, <code class="docutils literal notranslate"><span class="pre">loan_amnt</span></code> wasn’t changed, while the dummy encoding was applied to all the other columns, including the target <code class="docutils literal notranslate"><span class="pre">loan_status</span></code>. As we don’t want to encode this column, we can explicitly provide the columns that we want to encode:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">small_data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;home_ownership&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>salary
-vegan
-boro_Bronx
-boro_Brooklyn
-boro_Manhattan
-boro_Queens</p>
-<p>0
-103
-No
-0
-0
-1
-0</p>
-<p>1
-89
-No
-0
-0
-0
-1</p>
-<p>2
-142
-No
-0
-0
-1
-0</p>
-<p>3
-54
-Yes
-0
-1
-0
-0</p>
-<p>4
-63
-Yes
-0
-1
-0
-0</p>
-<p>5
-219
-No
-1
-0
-0
-0</p>
-<p>]
-]</p>
-<p>We can specify selectively which columns to apply the encoding to.</p>
-<p>.narrow-left-column[</p>
-<p>boro
-salary
-vegan</p>
-<p>0
-2
-103
-No</p>
-<p>1
-3
-89
-No</p>
-<p>2
-2
-142
-No</p>
-<p>3
-1
-54
-Yes</p>
-<p>4
-1
-63
-Yes</p>
-<p>5
-0
-219
-No</p>
-<p>]
-.wide-right-column[
-.tiny[</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df_ordinal</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;boro&#39;</span><span class="p">])</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>loan_amnt</th>
+      <th>loan_status</th>
+      <th>home_ownership_MORTGAGE</th>
+      <th>home_ownership_OWN</th>
+      <th>home_ownership_RENT</th>
+      <th>grade_A</th>
+      <th>grade_B</th>
+      <th>grade_C</th>
+      <th>grade_D</th>
+      <th>grade_E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>8000</td>
+      <td>Charged Off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>6000</td>
+      <td>Charged Off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>10000</td>
+      <td>Charged Off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>10000</td>
+      <td>Charged Off</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>35000</td>
+      <td>Charged Off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="alert alert-info">
+<p class="admonition-title">Note</p>
+<p>If a categorical variable was already represented as an integer you can force pandas to apply dummy encoding by passing the column name to the <code class="docutils literal notranslate"><span class="pre">columns</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">pd.get_dummies</span></code>.</p>
+</div>
+<div class="section" id="aligning-dataframes-with-pandas">
+<h3>Aligning dataframes with pandas<a class="headerlink" href="#aligning-dataframes-with-pandas" title="Permalink to this headline">¶</a></h3>
+<p>A common problem in using <code class="docutils literal notranslate"><span class="pre">get_dummies</span></code> is that if you have multiple datasets or files, and you call <code class="docutils literal notranslate"><span class="pre">get_dummies</span></code> on each of them, you might get inconsistent encodings.
+Let’s split our toy data into training and test set and apply <code class="docutils literal notranslate"><span class="pre">get_dummies</span></code> on them separately:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">small_train</span><span class="p">,</span> <span class="n">small_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">small_data</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">21</span><span class="p">)</span>
+<span class="c1"># To avoid setting with copy warnings we copy the data after splitting</span>
+<span class="c1"># this is probably not necessary</span>
+<span class="n">small_train</span> <span class="o">=</span> <span class="n">small_train</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">small_test</span> <span class="o">=</span> <span class="n">small_test</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">small_train</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;home_ownership&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>salary
-vegan
-boro_0
-boro_1
-boro_2
-boro_3</p>
-<p>0
-103
-No
-0
-0
-1
-0</p>
-<p>1
-89
-No
-0
-0
-0
-1</p>
-<p>2
-142
-No
-0
-0
-1
-0</p>
-<p>3
-54
-Yes
-0
-1
-0
-0</p>
-<p>4
-63
-Yes
-0
-1
-0
-0</p>
-<p>5
-219
-No
-1
-0
-0
-0</p>
-<p>]
-]</p>
-<p>This also helps if the variable was already encoded using integers.
-Sometimes, someone has already encoded the categorical
-variables to integers like here. So here this is exactly the
-same information only except instead of strings you have
-them numbered. If you call the get_dummies on this nothing
-happens because none of them are object data types or
-categorical data types. If you want to look at the One Hot
-Encoding, you can explicitly pass columns equal and this
-will transform into boro_1, boro_2, boro_3.
-In this case get_dummies usually wouldn’t do anything, but we can tell
-it which variables are categorical and it will dummy encode those for us.</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>loan_amnt</th>
+      <th>loan_status</th>
+      <th>home_ownership_MORTGAGE</th>
+      <th>home_ownership_RENT</th>
+      <th>grade_A</th>
+      <th>grade_B</th>
+      <th>grade_C</th>
+      <th>grade_D</th>
+      <th>grade_E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>17</th>
+      <td>2500</td>
+      <td>Fully Paid</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>4000</td>
+      <td>Fully Paid</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>40000</td>
+      <td>Fully Paid</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>35000</td>
+      <td>Charged Off</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>8425</td>
+      <td>Fully Paid</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>6000</td>
+      <td>Charged Off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>10000</td>
+      <td>Charged Off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>20000</td>
+      <td>Fully Paid</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>10000</td>
+      <td>Charged Off</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>16000</td>
+      <td>Charged Off</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>8000</td>
+      <td>Charged Off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>6600</td>
+      <td>Fully Paid</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>35000</td>
+      <td>Charged Off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>20000</td>
+      <td>Fully Paid</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>25000</td>
+      <td>Charged Off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">small_test</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;home_ownership&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>loan_amnt</th>
+      <th>loan_status</th>
+      <th>home_ownership_MORTGAGE</th>
+      <th>home_ownership_OWN</th>
+      <th>home_ownership_RENT</th>
+      <th>grade_A</th>
+      <th>grade_B</th>
+      <th>grade_C</th>
+      <th>grade_D</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7</th>
+      <td>15000</td>
+      <td>Charged Off</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>30000</td>
+      <td>Fully Paid</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>2700</td>
+      <td>Fully Paid</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>4500</td>
+      <td>Fully Paid</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>4800</td>
+      <td>Charged Off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Both of the dataframes have seven columns, but the meaning of the columns is quite different. The training set doesn’t have a column for <code class="docutils literal notranslate"><span class="pre">home_ownership=OWN</span></code> while the test set doesn’t have a column for <code class="docutils literal notranslate"><span class="pre">grade=E</span></code>.
+However, remember that scikit-learn doesn’t know about column names in dataframes, so if you’d passed this data directly into scikit-learn, you would get meaningless predictions without knowing it! TODO callout?</p>
+<p>There’s several ways to avoid this; the easiest is to use <code class="docutils literal notranslate"><span class="pre">get_dummies</span></code> before splitting the data, that might not be possible if new data arrives and you want to apply an existing model.
+Another way is to encode all categorical variables using the pandas categorical type, and specifying all the known categories:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ownership_cats</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MORTGAGE&#39;</span><span class="p">,</span> <span class="s1">&#39;OWN&#39;</span><span class="p">,</span> <span class="s1">&#39;RENT&#39;</span><span class="p">]</span>
+<span class="n">grade_cats</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">]</span>
+
+<span class="n">small_test_explicit_cats</span> <span class="o">=</span> <span class="n">small_test</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">small_test_explicit_cats</span><span class="p">[</span><span class="s1">&#39;home_ownership&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">small_test_explicit_cats</span><span class="p">[</span><span class="s1">&#39;home_ownership&#39;</span><span class="p">],</span> <span class="n">categories</span><span class="o">=</span><span class="n">ownership_cats</span><span class="p">)</span>
+<span class="n">small_test_explicit_cats</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">small_test_explicit_cats</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">],</span> <span class="n">categories</span><span class="o">=</span><span class="n">grade_cats</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now the columns are aware of all possible values, and all of them will receive a column, whether the value is present or not (not the all-zero column <code class="docutils literal notranslate"><span class="pre">grade_E</span></code>):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">small_test_explicit_cats</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;home_ownership&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>loan_amnt</th>
+      <th>loan_status</th>
+      <th>home_ownership_MORTGAGE</th>
+      <th>home_ownership_OWN</th>
+      <th>home_ownership_RENT</th>
+      <th>grade_A</th>
+      <th>grade_B</th>
+      <th>grade_C</th>
+      <th>grade_D</th>
+      <th>grade_E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7</th>
+      <td>15000</td>
+      <td>Charged Off</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>30000</td>
+      <td>Fully Paid</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>2700</td>
+      <td>Fully Paid</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>4500</td>
+      <td>Fully Paid</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>4800</td>
+      <td>Charged Off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>This method is very explicit and safe, but can be a bit cumbersome if there’s many categorical columns, or not all of the categories are known beforehand.
+A somewhat simpler and less explicit method is using <code class="docutils literal notranslate"><span class="pre">pd.align</span></code> after calling <code class="docutils literal notranslate"><span class="pre">get_dummies</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute dummy encoding (the columns will not match afterwards)</span>
+<span class="n">small_train_dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">small_train</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;home_ownership&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<span class="n">small_test_dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">small_test</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;home_ownership&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+
+<span class="c1"># align dataframes</span>
+<span class="c1"># join=&#39;right&#39; aligns test (left=self) to train (right=other) keeping only the columns in train</span>
+<span class="c1"># axis=1 means we align only the columns, and don&#39;t try joining the row indices</span>
+<span class="c1"># align returns two aligned frames; because we did a right join, train is unchanged</span>
+<span class="c1"># so we can discard the second return value (and assign it to _)</span>
+<span class="c1"># fill value specifies what to put into previously non-existing columns</span>
+<span class="n">test_aligned</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">small_test_dummies</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">small_train_dummies</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">test_aligned</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>loan_amnt</th>
+      <th>loan_status</th>
+      <th>home_ownership_MORTGAGE</th>
+      <th>home_ownership_RENT</th>
+      <th>grade_A</th>
+      <th>grade_B</th>
+      <th>grade_C</th>
+      <th>grade_D</th>
+      <th>grade_E</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7</th>
+      <td>15000</td>
+      <td>Charged Off</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>30000</td>
+      <td>Fully Paid</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>2700</td>
+      <td>Fully Paid</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>4500</td>
+      <td>Fully Paid</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>4800</td>
+      <td>Charged Off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The result is an aligned dataframe <code class="docutils literal notranslate"><span class="pre">test_aligned</span></code> that has the same columns as <code class="docutils literal notranslate"><span class="pre">small_train_dummies</span></code>, the dataframe it was aligned with.
+This ensures that the shapes are compatible between training and test set and we will get meaningful results from scikit-learn.
+Note that ‘OWN’ column that was previously present in the test set was dropped as it is not present in the training set.
+We could also perform an inner join when aligning the dataframes (which is the default in <code class="docutils literal notranslate"><span class="pre">pd.align</span></code> if you don’t specify <code class="docutils literal notranslate"><span class="pre">join</span></code>), so that the aligned dataframes contain all the columns present in either of the dataframes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># if we don&#39;t specify join, an inner join is performed and we retain all the columns</span>
+<span class="c1"># in this case we also want to store the new aligned training set</span>
+<span class="n">test_aligned</span><span class="p">,</span> <span class="n">train_aligned</span> <span class="o">=</span> <span class="n">small_test_dummies</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">small_train_dummies</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">test_aligned</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>grade_A</th>
+      <th>grade_B</th>
+      <th>grade_C</th>
+      <th>grade_D</th>
+      <th>grade_E</th>
+      <th>home_ownership_MORTGAGE</th>
+      <th>home_ownership_OWN</th>
+      <th>home_ownership_RENT</th>
+      <th>loan_amnt</th>
+      <th>loan_status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>15000</td>
+      <td>Charged Off</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>30000</td>
+      <td>Fully Paid</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2700</td>
+      <td>Fully Paid</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>4500</td>
+      <td>Fully Paid</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>4800</td>
+      <td>Charged Off</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>However, that’s not very useful if you already created a model using the original training dataset.</p>
+</div>
+</div>
+<div class="section" id="onehotencoder-dummies-with-sklearn">
+<h2>OneHotEncoder - dummies with sklearn<a class="headerlink" href="#onehotencoder-dummies-with-sklearn" title="Permalink to this headline">¶</a></h2>
+<p>Another option (and the one we will use for most of the book) is to do our encoding with scikit-learn. Because scikit-learn has a concept of training and test set, the issue of aligning the data is handled automatically.
+The dummy or one-hot encoding in scikit-learn is implemented in the <code class="docutils literal notranslate"><span class="pre">OneHotEncoder</span></code>, which is a transformer, just like other preprocessing methods.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+<span class="c1"># By default, OneHotEncoder errors if it sees unknown categories in the test data</span>
+<span class="c1"># we will overwrite this behavior by specifying handle_unknown=&#39;ignore&#39;</span>
+<span class="c1"># also OneHotEncoder by default outputs scipy sparse matrices, which are more efficient but cumbersome</span>
+<span class="c1"># we disable that with sparse=False</span>
+<span class="n">ohe</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">handle_unknown</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># fit on the training set; stores the categories for each column</span>
+<span class="n">ohe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">small_train</span><span class="p">)</span>
+<span class="c1"># apply one-hot encoding to both training and test set</span>
+<span class="n">X_train_ohe</span> <span class="o">=</span> <span class="n">ohe</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">small_train</span><span class="p">)</span>
+<span class="n">X_test_ohe</span> <span class="o">=</span> <span class="n">ohe</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">small_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_train_ohe</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([[1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0.,
+        1., 0., 0., 0., 1.],
+       [0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0.,
+        0., 1., 0., 0., 1.],
+       [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 1., 0., 0., 0.,
+        1., 0., 0., 0., 1.],
+       [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 1., 0., 0.,
+        1., 0., 0., 1., 0.],
+       [0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0.,
+        0., 0., 1., 0., 1.],
+       [0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0.,
+        1., 0., 0., 1., 0.],
+       [0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 1., 0., 1., 0.,
+        0., 0., 0., 1., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 1., 0., 1., 0.,
+        0., 0., 0., 0., 1.],
+       [0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 1., 0., 0.,
+        0., 0., 1., 1., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 1., 0., 1.,
+        0., 0., 0., 1., 0.],
+       [0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 1., 0., 1., 0.,
+        0., 0., 0., 1., 0.],
+       [0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 1.,
+        0., 0., 0., 0., 1.],
+       [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 1., 0., 0., 0.,
+        1., 0., 0., 1., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 1., 0., 0.,
+        0., 1., 0., 0., 1.],
+       [0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 1., 0., 1., 0.,
+        0., 0., 0., 1., 0.]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>There are two things you might notice in this output:</p>
+</div>
+<div class="section" id="determining-what-variables-are-categorical">
+<h2>Determining what variables are categorical<a class="headerlink" href="#determining-what-variables-are-categorical" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="dropping-one-category">
+<h2>Dropping one category<a class="headerlink" href="#dropping-one-category" title="Permalink to this headline">¶</a></h2>
 <p>.tiny[
 .left-column[</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
@@ -1418,7 +2399,7 @@ sqft_lot15</p>
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1aa0cec89c8&gt;
 </pre></div>
 </div>
-<img alt="../_images/04-categorical-variables_25_1.png" src="../_images/04-categorical-variables_25_1.png" />
+<img alt="../_images/04-categorical-variables_56_1.png" src="../_images/04-categorical-variables_56_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1483,7 +2464,7 @@ sqft_lot15</p>
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x1aa0d0c7b88&gt;
 </pre></div>
 </div>
-<img alt="../_images/04-categorical-variables_30_1.png" src="../_images/04-categorical-variables_30_1.png" />
+<img alt="../_images/04-categorical-variables_61_1.png" src="../_images/04-categorical-variables_61_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2343,7 +3324,7 @@ Name: zipcode, Length: 70, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/04-categorical-variables_45_0.png" src="../_images/04-categorical-variables_45_0.png" />
+<img alt="../_images/04-categorical-variables_76_0.png" src="../_images/04-categorical-variables_76_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
