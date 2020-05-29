@@ -9,7 +9,6 @@ sections:
   - file: 01-ml-workflow/02-supervised-learning
   - file: 01-ml-workflow/03-preprocessing
   - file: 01-ml-workflow/04-categorical-variables
-  - file: 01-ml-workflow/05-feature-engineering
   - file: 01-ml-workflow/08-imputation
   - file: 01-ml-workflow/09-pipeline
   - file: 01-ml-workflow/10-cross-validation-grid-search
@@ -37,6 +36,7 @@ sections:
   - file: 04-model-evaluation/parameter_tuning_automl
 - file: 05-advanced-topics/index
   sections:
+  - file: 05-advanced-topics/05-feature-engineering
   - file: 05-advanced-topics/11-imbalanced-datasets
   - file: 05-advanced-topics/12-feature-selection
   - file: 05-advanced-topics/13-text-data
