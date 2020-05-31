@@ -10,8 +10,9 @@ sections:
   - file: 01-ml-workflow/03-preprocessing
   - file: 01-ml-workflow/04-categorical-variables
   - file: 01-ml-workflow/08-imputation
-  - file: 01-ml-workflow/09-pipeline
-  - file: 01-ml-workflow/10-cross-validation-grid-search
+  - file: 01-ml-workflow/10-model-validation-and-tuning
+  - file: 01-ml-workflow/11-data-splitting-strategies
+  - file: 01-ml-workflow/12-pipelines-gridsearch
 - file: 02-supervised-learning/index
   sections:
   - file: 02-supervised-learning/05-linear-models-regression
