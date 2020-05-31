@@ -11,7 +11,6 @@ sections:
   - file: 01-ml-workflow/04-categorical-variables
   - file: 01-ml-workflow/08-imputation
   - file: 01-ml-workflow/10-model-validation-and-tuning
-  - file: 01-ml-workflow/11-data-splitting-strategies
   - file: 01-ml-workflow/12-pipelines-gridsearch
 - file: 02-supervised-learning/index
   sections:
@@ -30,10 +29,11 @@ sections:
   - file: 03-unsupervised-learning/03-outlier-detection
 - file: 04-model-evaluation/index
   sections:
+  - file: 04-model-evaluation/1-data-splitting-strategies
   - file: 04-model-evaluation/10-evaluation-metrics
-  - file: 04-model-evaluation/aml-11-calibration
-  - file: 04-model-evaluation/aml-12-interpretation
-  - file: 04-model-evaluation/aml-17-cluster-evaluation
+  - file: 04-model-evaluation/11-calibration
+  - file: 04-model-evaluation/12-interpretation
+  - file: 04-model-evaluation/17-cluster-evaluation
   - file: 04-model-evaluation/parameter_tuning_automl
 - file: 05-advanced-topics/index
   sections:
