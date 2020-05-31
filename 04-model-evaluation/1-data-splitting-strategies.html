@@ -288,10 +288,10 @@
 but there are many other strategies.</p>
 <p>One of the most commonly ones is stratified k-fold cross-validation.</p>
 <p>.center[
-<img alt=":scale 90%" src="04-model-evaluation/images/kfold_cv.png" />
+<img alt=":scale 90%" src="../_images/kfold_cv.png" />
 ]</p>
 <p>.center[
-<img alt=":scale 90%" src="04-model-evaluation/images/stratified_cv.png" />
+<img alt=":scale 90%" src="../_images/stratified_cv.png" />
 ]
 .smallest[
 Stratified:
@@ -367,7 +367,7 @@ high variance.
 A better way to get a robust estimate is to run 5-fold or 10-fold
 cross-validation multiple times, while shuffling the dataset.</p>
 <p>.center[
-<img alt=":scale 100%" src="04-model-evaluation/images/shuffle_split_cv.png" />
+<img alt=":scale 100%" src="../_images/shuffle_split_cv.png" />
 ]
 .smaller[Number of iterations and test set size independent]</p>
 <p>Another interesting variant is shuffle split and stratified shuffle
@@ -379,7 +379,7 @@ reasonably large test-sets.
 It’s also great if you have a very large training set and you want to
 subsample it to get quicker results.</p>
 <p>.center[
-<img alt=":scale 100%" src="04-model-evaluation/images/repeated_stratified_kfold.png" />
+<img alt=":scale 100%" src="../_images/repeated_stratified_kfold.png" />
 ]
 .smaller[
 Potentially less variance than StratifiedShuffleSplit.</p>
@@ -427,7 +427,7 @@ with the default parameters, it will yield exactly the same results.</p>
 States: you have all the states, no new state will start to exist</p>
 <p>Similar thing for multiple measurements per patient.
 Or geospacial data.</p>
-<p><img alt=":scale 100%" src="04-model-evaluation/images/group_kfold.png" /></p>
+<p><img alt=":scale 100%" src="../_images/group_kfold.png" /></p>
 <p>A somewhat more complicated approach is group k-fold.
 This is actually for data that doesn’t fulfill our IID assumption and
 has correlations between samples.
@@ -448,22 +448,22 @@ use these groups.</p>
 </div>
 <div class="section" id="correlations-in-time-and-or-space">
 <h2>Correlations in time (and/or space)<a class="headerlink" href="#correlations-in-time-and-or-space" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 70%" src="04-model-evaluation/images/time_series1.png" /></p>
+<p><img alt=":scale 70%" src="../_images/time_series1.png" /></p>
 <p>Not necessarily obvious that there is a time component!
 Data collection usually happens over time!</p>
 </div>
 <div class="section" id="id1">
 <h2>Correlations in time (and/or space)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 70%" src="04-model-evaluation/images/time_series2.png" /></p>
+<p><img alt=":scale 70%" src="../_images/time_series2.png" /></p>
 <p>Not necessarily obvious that there is a time component!
 Data collection usually happens over time!</p>
 </div>
 <div class="section" id="id2">
 <h2>Correlations in time (and/or space)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 70%" src="04-model-evaluation/images/time_series3.png" /></p>
+<p><img alt=":scale 70%" src="../_images/time_series3.png" /></p>
 <p>Not necessarily obvious that there is a time component!
 Data collection usually happens over time!</p>
-<p><img alt=":scale 100%" src="04-model-evaluation/images/time_series_walk_forward_cv.png" /></p>
+<p><img alt=":scale 100%" src="../_images/time_series_walk_forward_cv.png" /></p>
 <p>Another common case of data that’s not independent is time
 series. Usually todays stock price is correlated with yesterdays and
 tomorrows. If you randomly split time series, this makes predictions
@@ -475,7 +475,7 @@ chunks of data from the past and making predictions on the next
 chunk. This is quite different from the other was to do cross-validation,
 in that the training sets are all overlapping, but it’s more appropriate
 for time-series.</p>
-<p><img alt=":scale 100%" src="04-model-evaluation/images/time_series_cv.png" /></p>
+<p><img alt=":scale 100%" src="../_images/time_series_cv.png" /></p>
 <p>Another common case of data that’s not independent is time
 series. Usually todays stock price is correlated with yesterdays and
 tomorrows. If you randomly split time series, this makes predictions
@@ -719,7 +719,7 @@ like, or we can use Shuffle split.</p>
 </div>
 <div class="section" id="model-complexity">
 <h2>Model complexity<a class="headerlink" href="#model-complexity" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 75%" src="04-model-evaluation/images/knn_model_complexity.png" /></p>
+<p><img alt=":scale 75%" src="../_images/knn_model_complexity.png" /></p>
 <p>We can look at this in more detail by comparing training and test set
 scores for the different numbers of neighbors.
 Here, I did a random 75%/25% split again. This is a very noisy plot as
@@ -746,7 +746,7 @@ drops again, because we basically learn to memorize the dataset.</p>
 </div>
 <div class="section" id="overfitting-and-underfitting">
 <h2>Overfitting and Underfitting<a class="headerlink" href="#overfitting-and-underfitting" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 80%" src="04-model-evaluation/images/overfitting_underfitting_cartoon_full.png" /></p>
+<p><img alt=":scale 80%" src="../_images/overfitting_underfitting_cartoon_full1.png" /></p>
 <p>If we use too simple a model, this is often called underfitting, while
 if we use to complex a model, this is called overfitting. And somewhere
 in the middle is a sweet spot.
