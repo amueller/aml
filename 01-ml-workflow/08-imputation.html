@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Imputation &#8212; Applied Machine Learning in Python</title>
+    <title>Missing Values &#8212; Applied Machine Learning in Python</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -32,7 +32,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Algorithm Chains and Pipelines" href="09-pipeline.html" />
-    <link rel="prev" title="Feature Engineering" href="05-feature-engineering.html" />
+    <link rel="prev" title="Categorical Variables" href="04-categorical-variables.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -88,17 +88,11 @@
     <li class="">
       <a href="04-categorical-variables.html">3.4 Categorical Variables</a>
     </li>
-    <li class="">
-      <a href="05-feature-engineering.html">3.5 Feature Engineering</a>
-    </li>
     <li class="active">
-      <a href="">3.6 Imputation</a>
+      <a href="">3.5 Missing Values</a>
     </li>
     <li class="">
-      <a href="09-pipeline.html">3.7 Algorithm Chains and Pipelines</a>
-    </li>
-    <li class="">
-      <a href="10-cross-validation-grid-search.html">3.8 Cross-validation and Grid Search</a>
+      <a href="09-pipeline.html">3.6 Algorithm Chains and Pipelines</a>
     </li>
   </ul>
   </li>
@@ -187,31 +181,35 @@
     <ul class="nav section-nav flex-column">
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#dealing-with-missing-values" class="nav-link">Dealing with missing values</a>
+            <a href="#detecting-missing-values" class="nav-link">Detecting Missing Values</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#imputation-methods" class="nav-link">Imputation Methods</a>
+            <a href="#missing-categorical-vs-missing-continuous-data" class="nav-link">Missing categorical vs missing continuous data</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#baseline-dropping-columns" class="nav-link">Baseline: Dropping Columns</a>
+            <a href="#imputation-methods" class="nav-link">Imputation methods</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#mean-and-median" class="nav-link">Mean and Median</a>
+            <a href="#simpleimputer" class="nav-link">SimpleImputer</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#knn-imputation" class="nav-link">KNN Imputation</a>
+            <a href="#neighbors-based-imputation" class="nav-link">Neighbors based imputation</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#model-driven-imputation" class="nav-link">Model-Driven Imputation</a>
+            <a href="#iterative-imputation" class="nav-link">Iterative Imputation</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#comparision-of-imputation-methods" class="nav-link">Comparision of Imputation Methods</a>
+            <a href="#multiple-imputation" class="nav-link">Multiple imputation</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#summary" class="nav-link">Summary</a>
         </li>
     
     </ul>
@@ -225,830 +223,1501 @@
         
               <div>
                 
-  <div class="section" id="imputation">
-<h1>Imputation<a class="headerlink" href="#imputation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="dealing-with-missing-values">
-<h2>Dealing with missing values<a class="headerlink" href="#dealing-with-missing-values" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>Missing values can be encoded in many ways</p></li>
-<li><p>Numpy has no standard format for it (often np.NaN) - pandas does</p></li>
-<li><p>Sometimes: 999,
-, ?, np.inf, “N/A”, “Unknown“ …</p></li>
-<li><p>Not discussing “missing output” - that’s semi-supervised learning.</p></li>
-<li><p>Often missingness is informative (Use <code class="docutils literal notranslate"><span class="pre">MissingIndicator</span></code>)</p></li>
-</ul>
-<p>So first we’re going to talk about imputation, which means
-basically dealing with missing values. Before that, we’re
-going to talk about different methods to deal with missing
-values. The first thing about missing values is that you
-need to figure out whether your dataset has them and how
-they encode it. If you’re on Python, numpy has no standard
-way to represent missing values while Pandas does and it’s
-usually nan. But the problem is usually more in the data
-source. So depending on where your data comes from, missing
-values might be encoded as anything. They might be
-differently encoded for different parts of the data set. So
-if you see some question marks somewhere, it doesn’t mean
-that all missing values are encoded as question marks. There
-might be different reasons why data is missing. If you look
-into like theoretical analysis missingness, often there you
-can see something that’s called missing at random or missing
-completely at random, meaning that data was retracted
-randomly from the dataset. That’s not usually what happens.
-Usually, if the data is missing, it’s missing because
-something when differently in a process, like someone didn’t
-fill out the form correctly, or someone didn’t reply in a
-survey. And very often the fact that someone didn’t reply or
-that something was not measured is actually informative.
-Whenever you have missing values, it’s often a good idea to
-keep the information about whether the value was missing or
-not. If a feature was missing, while we’re going to do
-imputation and we’re going to try to fill in the missing
-values. It’s often really useful information that’s
-something was missing and you should record the fact and
-represent it in the dataset somehow. We’re only going to
-talk about missing input today. You can also have missing
-values in the outputs that are usually called
-semi-supervised learning where you have the true target or
-the true class only for some data points, but not for all of
-them. So there’s the first method which is very obvious.
-Let’s say your data looks like this. All my illustrations
-today we’ll be adding randomness to the iris data set.</p>
-<p>FIXME: Better digram for feature selection. What are the
-hypothesises for the tests</p>
-<p>.center[
-<img alt=":scale 80%" src="../_images/row_nan_col_nan.png" />
-]</p>
-<p>So if my dataset looks like something on the left-hand side
-here, then you can see that there are only missing values in
-the first feature and it’s mostly missing. One of the ways
-to deal with this is just completely dropped the first
-feature, and that might be a reasonable thing to do. If
-there are so few values here that you don’t think there’s
-any information in this just drop it I always like to
-compare everything to a baseline approach. So your baseline
-approach should be if there’s only missing values in some of
-the columns, just drop these columns, see what happens. You
-can always iterate and improve on that but that should be
-the baseline. A little bit trickier situation is that there
-might be some missing values only for a few rows, the rows
-are data points. You can kick out these data points and
-train the model on the rest and that might be fine. There’s
-a bit of a problem with this though, that if you want to
-make predictions on new data and the data that arrives has
-missing values you’ll not be able to make predictions
-because you don’t have a way to deal with missing values. If
-you’re guaranteed that any new test point that comes in will
-not have missing values then doing this might make sense.
-Another issue with dropping the rows with missing values is
-that if this was related to the actual outcome then it might
-be that you biased how well you think you’re doing. Maybe
-all the hard data points are the ones that have missing
-values. And so by excluding them from your training data,
-you’re also excluding them from the validation. So it means
-you think you’re doing very well because you discarded all
-the hard data points. Discarding data points is a little bit
-trickier and it depends on your situation.</p>
-<p>.center[
-<img alt=":scale 100%" src="../_images/imputation-schema.png" />
-]</p>
-<p>The other solution is to impute them. So the idea is that
-you have your training data set, you build some model of the
-training data set, and then you fill in the missing values
-using the information from the other rows and columns. And
-you built a model for this and then you can also apply the
-same imputation model on the test data set if you want to
-make predictions. Question is what if it has all missing
-values? Then you have no choice but drop that. If in the
-dataset that happens, you need to figure out what you are
-going to do. Like, if you have a production system, and
-something comes in with all missing values, you need to
-decide what you’re going to do. But you probably cannot use
-this data point for training model. You could like use the
-outputs and train to find the mean outcome of all the values
-that are missing.</p>
-</div>
-<div class="section" id="imputation-methods">
-<h2>Imputation Methods<a class="headerlink" href="#imputation-methods" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>Mean / Median</p></li>
-<li><p>kNN</p></li>
-<li><p>Regression models</p></li>
-<li><p>Matrix factorization (not in this lecture)</p></li>
-</ul>
-<p>So let’s talk about the general methods for data imputation.
-So these are the ones that we are going to talk through. The
-easiest one is me doing a constant value per column.
-Imputing the mean or the medium of the column that we’re
-trying to compute. kNN means taking the average of KNearest
-Neighbors. Regression means I build a regression model from
-some of the features trying to rip the missing future. And
-finally, elaborate probabilistic models. They try to build a
-probabilistic model of the dataset and complete the missing
-values based on this probabilistic model</p>
-</div>
-<div class="section" id="baseline-dropping-columns">
-<h2>Baseline: Dropping Columns<a class="headerlink" href="#baseline-dropping-columns" title="Permalink to this headline">¶</a></h2>
-<p>.smaller[</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegressionCV</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">cross_val_score</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
-
-<span class="n">nan_columns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">X_drop_columns</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[:,</span> <span class="o">~</span><span class="n">nan_columns</span><span class="p">]</span>
-<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">LogisticRegressionCV</span><span class="p">(</span><span class="n">v</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span> <span class="n">X_drop_columns</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>0.772
-]</p>
-<p>Here’s my baseline, which is dropping the columns. I used
-iris dataset where I had to put some missing values into the
-second and third column. Here, x_score has like some missing
-values, I split into test and training test data set and
-then I drop all columns that have missing values and then I
-can train logistic regression, which is sort of the model
-I’m going to use to tell me how well does this imputation
-work for classification. For my baseline, using a logistic
-regression model and 10 fold baseline, I get 77.2% accuracy.</p>
-</div>
-<div class="section" id="mean-and-median">
-<h2>Mean and Median<a class="headerlink" href="#mean-and-median" title="Permalink to this headline">¶</a></h2>
-<p>.center[
-<img alt=":scale 100%" src="../_images/imputation-median-schema.png" />
-]</p>
-<p>The simplest imputation is mean or medium. Unfortunately,
-only one is implemented in scikit-learn right now. If this
-is our dataset, the imputation will look like this. For a
-column, each missing value is replaced by the mean of the
-column. The imputer is the only transformer in scikit-learn
-that can handle missing data. Using the imputer you can
-specify the strategy, mean or median or constant and then
-you can call the method transform and that imputes missing
-values.</p>
-<p>.center[
-<img alt=":scale 90%" src="../_images/median_imputation.png" />
-]</p>
-<p>Here is a graphical illustration of what does this. So the
-iris dataset is four-dimensional, and I’m plotting it in two
-dimensions in which I added missing values. So, there are
-two other dimensions which had no missing values, which you
-can’t see. The original data set is basically blue points
-here, orange points here, green points here, and it’s
-relatively easy to separate. But here you can see that the
-green points they have a lot of missingness, so they were
-replaced by the mean of the whole dataset.</p>
-<p>So there are two things about this. One, I kind of lost the
-class information a lot. Two, the data is now in places
-where there was no data before, which is not so great. You
-could do smart things like doing the mean per class, but
-that’s actually not something that I’ve seen a lot.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScalar</span>
-
-<span class="n">nan_columns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">X_drop_columns</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[:,</span><span class="o">~</span><span class="n">nan_columns</span><span class="p">]</span>
-<span class="n">logreg</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScalar</span><span class="p">(),</span> <span class="n">LogisticRegression</span><span class="p">())</span>
-<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">logreg</span><span class="p">,</span> <span class="n">X_drop_columns</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>0.794</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mean_pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">),</span>
-                          <span class="n">StandardScalar</span><span class="p">(),</span>
-                          <span class="n">LogisticRegression</span><span class="p">())</span>
-<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">mean_pipe</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>0.729</p>
-<p>Here’s the comparison of dropping the columns versus doing
-the mean amputation. We actually see that the mean
-imputation is worse. In general, if you have very few
-missing values, it might actually not be so bad and putting
-in the mean might work.
-Here I basically designed the dataset so that mean imputation fails.
-This is not very realistic.</p>
-</div>
-<div class="section" id="knn-imputation">
-<h2>KNN Imputation<a class="headerlink" href="#knn-imputation" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>Find k nearest neighbors that have non-missing values.</p></li>
-<li><p>Fill in all missing values using the average of the
-neighbors.</p></li>
-</ul>
-<p>FIXME illustration</p>
-<p>In terms of complexity is using Nearest Neighbors. So the
-idea is for each data point, we find the kNearest neighbors
-and then fill in the missing values as the average of the
-features of these neighbors. The difficulty here is
-measuring distances if there are missing values. If there
-are missing values, I can’t just compute Euclidean
-distances.</p>
-<p>.smaller[</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
-<span class="n">knn_pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">KNNImputer</span><span class="p">(),</span> <span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LogisticRegression</span><span class="p">())</span>
-<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.849</span>
-</pre></div>
-</div>
-<p>]</p>
-<p>.center[
-<img alt=":scale 60%" src="../_images/knn_imputation.png" />
-]</p>
-</div>
-<div class="section" id="model-driven-imputation">
-<h2>Model-Driven Imputation<a class="headerlink" href="#model-driven-imputation" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>Train regression model for missing values</p></li>
-<li><p>Iterate: retrain after filling in</p></li>
-<li><p>IterativeImputer in next sklearn release</p></li>
-</ul>
-<p>.smaller[</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rf_imp</span> <span class="o">=</span> <span class="n">IterativeImputer</span><span class="p">(</span><span class="n">predictor</span><span class="o">=</span><span class="n">RandomForestRegressor</span><span class="p">())</span>
-<span class="n">rf_pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">rf_imp</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LogisticRegression</span><span class="p">())</span>
-
-<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">rf_pipe</span><span class="p">,</span> <span class="n">X_rf_imp</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.845</span>
-</pre></div>
-</div>
-<p>]</p>
-<p>The next step up in complexity is using an arbitrary
-regression model for imputation. I mean, arguably, the kNN
-is also a regression model, but there’s like some
-intricacies that make it a little bit different. So the idea
-with using a regression model is you do the first pass and
-impute data using the mean. And then you try to predict the
-missing features using a regression model trained on the
-non-missing features and then you iterate this until stuff
-doesn’t change anymore. You can use any model you like, and
-this is very flexible, and it can be fast if you have a fast
-model.</p>
-</div>
-<div class="section" id="comparision-of-imputation-methods">
-<h2>Comparision of Imputation Methods<a class="headerlink" href="#comparision-of-imputation-methods" title="Permalink to this headline">¶</a></h2>
-<p>.center[
-<img alt=":scale 100%" src="../_images/med_knn_rf_comparison.png" />
-]</p>
-<p>FIXME better illustration/ graph
-Here’s a comparison on the iris dataset again.
-This is a very artificial example and is only meant to illustrate the ideas.
-In practice, using the mean or median is actually quite decent.</p>
+  <div class="section" id="missing-values">
+<h1>Missing Values<a class="headerlink" href="#missing-values" title="Permalink to this headline">¶</a></h1>
+<p>Another aspect of data that often requires preprocessing is missing data. Missing data is that that was not measured or recorded for some reason.
+Sometimes, data is missing at random, for reasons unrelated to the task at hand. Other times (and more commonly) data is missing because of some structural aspect of the problem.
+todo reluctant users example</p>
+<div class="section" id="detecting-missing-values">
+<h2>Detecting Missing Values<a class="headerlink" href="#detecting-missing-values" title="Permalink to this headline">¶</a></h2>
+<p>The first question you should ask yourself is ‘do I have missing data’? Often, but not always, pandas might have been able to detect missing values when reading the data.
+Let’s look at the lending club data again:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;savefig.dpi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">300</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;savefig.bbox&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;tight&#39;</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="p">(</span><span class="ne">FutureWarning</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">loans</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;C:/Users/t3kci/Downloads/loan.csv/loan.csv&quot;</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="n">loans</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>member_id</th>
+      <th>loan_amnt</th>
+      <th>funded_amnt</th>
+      <th>funded_amnt_inv</th>
+      <th>term</th>
+      <th>int_rate</th>
+      <th>installment</th>
+      <th>grade</th>
+      <th>sub_grade</th>
+      <th>...</th>
+      <th>hardship_payoff_balance_amount</th>
+      <th>hardship_last_payment_amount</th>
+      <th>disbursement_method</th>
+      <th>debt_settlement_flag</th>
+      <th>debt_settlement_flag_date</th>
+      <th>settlement_status</th>
+      <th>settlement_date</th>
+      <th>settlement_amount</th>
+      <th>settlement_percentage</th>
+      <th>settlement_term</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2500</td>
+      <td>2500</td>
+      <td>2500</td>
+      <td>36 months</td>
+      <td>13.56</td>
+      <td>84.92</td>
+      <td>C</td>
+      <td>C1</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Cash</td>
+      <td>N</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>30000</td>
+      <td>30000</td>
+      <td>30000</td>
+      <td>60 months</td>
+      <td>18.94</td>
+      <td>777.23</td>
+      <td>D</td>
+      <td>D2</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Cash</td>
+      <td>N</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5000</td>
+      <td>5000</td>
+      <td>5000</td>
+      <td>36 months</td>
+      <td>17.97</td>
+      <td>180.69</td>
+      <td>D</td>
+      <td>D1</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Cash</td>
+      <td>N</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4000</td>
+      <td>4000</td>
+      <td>4000</td>
+      <td>36 months</td>
+      <td>18.94</td>
+      <td>146.51</td>
+      <td>D</td>
+      <td>D2</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Cash</td>
+      <td>N</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>30000</td>
+      <td>30000</td>
+      <td>30000</td>
+      <td>60 months</td>
+      <td>16.14</td>
+      <td>731.78</td>
+      <td>C</td>
+      <td>C4</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Cash</td>
+      <td>N</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 145 columns</p>
+</div></div></div>
+</div>
+<p>You can see that many of the values are shown as NaN, which is how missing values are usually displayed in pandas. We can also check whether a column has NaN values by using the <code class="docutils literal notranslate"><span class="pre">isna</span></code> method:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># are any NaNs in the loan amount column?</span>
+<span class="n">loans</span><span class="o">.</span><span class="n">loan_amnt</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>False
 </pre></div>
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># are any NaNs in the int_rate column?</span>
+<span class="n">loans</span><span class="o">.</span><span class="n">int_rate</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>False
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see that both the <code class="docutils literal notranslate"><span class="pre">loan_amnt</span></code> and <code class="docutils literal notranslate"><span class="pre">int_rate</span></code> column are always present. We can also check the same for all columns at once:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loans</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>id                      True
+member_id               True
+loan_amnt              False
+funded_amnt            False
+funded_amnt_inv        False
+term                   False
+int_rate               False
+installment            False
+grade                  False
+sub_grade              False
+emp_title               True
+emp_length              True
+home_ownership         False
+annual_inc             False
+verification_status    False
+issue_d                False
+loan_status            False
+pymnt_plan             False
+url                     True
+desc                    True
+dtype: bool
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can see that for example <code class="docutils literal notranslate"><span class="pre">emp_title</span></code> and <code class="docutils literal notranslate"><span class="pre">emp_length</span></code> and <code class="docutils literal notranslate"><span class="pre">url</span></code> are sometimes missing. Now, the next question is whether we can find out what this means. Does that mean the borrower was not employed? Or does that mean that the borrower didn’t provide any information? Often the easiest way to find this out is to look at the data description or data dictionaty. We might also check if there is another value that indicates ‘not employed’ .</p>
+<p>Unfortunately, missing values are not always encoded as clearly. Sometimes they might be encoded as <code class="docutils literal notranslate"><span class="pre">'?'</span></code> or <code class="docutils literal notranslate"><span class="pre">'missing'</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;Na&quot;</span></code> or similar strings. Sometimes they might also be encoded as numbers such as -1.
+Often you can tell whether one of these methods was used by the dtype of your columns. For example, in the often-used titanic dataset, missingness is encoded as <code class="docutils literal notranslate"><span class="pre">'?'</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">titanic</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/titanic.csv&quot;</span><span class="p">)</span>
+<span class="n">titanic</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pclass</th>
+      <th>survived</th>
+      <th>name</th>
+      <th>sex</th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>parch</th>
+      <th>ticket</th>
+      <th>fare</th>
+      <th>cabin</th>
+      <th>embarked</th>
+      <th>boat</th>
+      <th>body</th>
+      <th>home.dest</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>1</td>
+      <td>Allen, Miss. Elisabeth Walton</td>
+      <td>female</td>
+      <td>29</td>
+      <td>0</td>
+      <td>0</td>
+      <td>24160</td>
+      <td>211.3375</td>
+      <td>B5</td>
+      <td>S</td>
+      <td>2</td>
+      <td>?</td>
+      <td>St Louis, MO</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+      <td>Allison, Master. Hudson Trevor</td>
+      <td>male</td>
+      <td>0.9167</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.55</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>11</td>
+      <td>?</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>0</td>
+      <td>Allison, Miss. Helen Loraine</td>
+      <td>female</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.55</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>?</td>
+      <td>?</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>0</td>
+      <td>Allison, Mr. Hudson Joshua Creighton</td>
+      <td>male</td>
+      <td>30</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.55</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>?</td>
+      <td>135</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>0</td>
+      <td>Allison, Mrs. Hudson J C (Bessie Waldo Daniels)</td>
+      <td>female</td>
+      <td>25</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.55</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>?</td>
+      <td>?</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>If you looked as <code class="docutils literal notranslate"><span class="pre">isna</span></code> it would look like none of the values is missing:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">titanic</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>pclass       False
+survived     False
+name         False
+sex          False
+age          False
+sibsp        False
+parch        False
+ticket       False
+fare         False
+cabin        False
+embarked     False
+boat         False
+body         False
+home.dest    False
+dtype: bool
+</pre></div>
+</div>
+</div>
+</div>
+<p>However, we can clearly see the <code class="docutils literal notranslate"><span class="pre">&quot;?&quot;</span></code> in the listing above. Also, if you Look at the numeric columns, you’ll notice that some are encoded as object, which is a good give-away:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">titanic</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>pclass        int64
+survived      int64
+name         object
+sex          object
+age          object
+sibsp         int64
+parch         int64
+ticket       object
+fare         object
+cabin        object
+embarked     object
+boat         object
+body         object
+home.dest    object
+dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<p>For example we might expect <code class="docutils literal notranslate"><span class="pre">'age'</span></code> to be an integer or floating point number, but it is an object. We can confirm the presence of a missing value encoded as <code class="docutils literal notranslate"><span class="pre">'?'</span></code> by calling <code class="docutils literal notranslate"><span class="pre">value_counts</span></code> (though we might have already figured that out by looking at the other columns with question marks in them):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">titanic</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>?         263
+24         47
+22         43
+21         41
+30         40
+         ... 
+0.1667      1
+26.5        1
+60.5        1
+38.5        1
+22.5        1
+Name: age, Length: 99, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this relatively simple case, we can just fix this by passing <code class="docutils literal notranslate"><span class="pre">na_values</span></code> when calling <code class="docutils literal notranslate"><span class="pre">read_csv</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">titanic</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/titanic.csv&quot;</span><span class="p">,</span> <span class="n">na_values</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">)</span>
+<span class="n">titanic</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pclass</th>
+      <th>survived</th>
+      <th>name</th>
+      <th>sex</th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>parch</th>
+      <th>ticket</th>
+      <th>fare</th>
+      <th>cabin</th>
+      <th>embarked</th>
+      <th>boat</th>
+      <th>body</th>
+      <th>home.dest</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>1</td>
+      <td>Allen, Miss. Elisabeth Walton</td>
+      <td>female</td>
+      <td>29.0000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>24160</td>
+      <td>211.3375</td>
+      <td>B5</td>
+      <td>S</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>St Louis, MO</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+      <td>Allison, Master. Hudson Trevor</td>
+      <td>male</td>
+      <td>0.9167</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>11</td>
+      <td>NaN</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>0</td>
+      <td>Allison, Miss. Helen Loraine</td>
+      <td>female</td>
+      <td>2.0000</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>0</td>
+      <td>Allison, Mr. Hudson Joshua Creighton</td>
+      <td>male</td>
+      <td>30.0000</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>NaN</td>
+      <td>135.0</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>0</td>
+      <td>Allison, Mrs. Hudson J C (Bessie Waldo Daniels)</td>
+      <td>female</td>
+      <td>25.0000</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">titanic</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>pclass       False
+survived     False
+name         False
+sex          False
+age           True
+sibsp        False
+parch        False
+ticket       False
+fare          True
+cabin         True
+embarked      True
+boat          True
+body          True
+home.dest     True
+dtype: bool
+</pre></div>
+</div>
+</div>
+</div>
+<p>One of the more “interesting” cases that I have seen is as part of a census dataset made available by the City of New York (todo https://docs.google.com/document/d/1EHyWR-GZfwK5a9JJc_nFy3yvVofA11cMjvH7vXE6JH0/edit and https://ndownloader.figshare.com/files/7586326)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://ndownloader.figshare.com/files/7586326&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>recid</th>
+      <th>boro</th>
+      <th>uf1_1</th>
+      <th>uf1_2</th>
+      <th>uf1_3</th>
+      <th>uf1_4</th>
+      <th>uf1_5</th>
+      <th>uf1_6</th>
+      <th>uf1_7</th>
+      <th>uf1_8</th>
+      <th>...</th>
+      <th>hflag4</th>
+      <th>hflag18</th>
+      <th>uf52h_h</th>
+      <th>uf52h_a</th>
+      <th>uf52h_b</th>
+      <th>uf52h_c</th>
+      <th>uf52h_d</th>
+      <th>uf52h_e</th>
+      <th>uf52h_f</th>
+      <th>uf52h_g</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>1</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>1</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>1</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>1</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>1</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>1</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>1</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>1</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>1</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 197 columns</p>
+</div></div></div>
+</div>
+<p>In this dataset, a missing value is indicated by the digit <code class="docutils literal notranslate"><span class="pre">9</span></code>. However, the number of digits is dependent on the maximum value in that column. For example the column <code class="docutils literal notranslate"><span class="pre">sc134</span></code> is a year (like 2001), and so missingness is encoded as 9999, while in column ‘uf5’, missingness is indicated by <code class="docutils literal notranslate"><span class="pre">9999999</span></code>. Such cases are much more tricky to find and process correctly.</p>
+</div>
+<div class="section" id="missing-categorical-vs-missing-continuous-data">
+<h2>Missing categorical vs missing continuous data<a class="headerlink" href="#missing-categorical-vs-missing-continuous-data" title="Permalink to this headline">¶</a></h2>
+<p>For categorical features, in many cases, whether data is missing randomly or not, we can treat missing data as just another category, which we can call ‘missing’ or ‘unknown’ or something like that (assuming these values don’t already appear).
+If we correctly encoded the missing values with pandas, we can replace them all with <code class="docutils literal notranslate"><span class="pre">fillna</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># we can replace the missing values inplace, i.e. change the existing column</span>
+<span class="c1"># we could also create a new column and then drop or disregard the old one</span>
+<span class="n">loans</span><span class="o">.</span><span class="n">emp_title</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;missing&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">loans</span><span class="o">.</span><span class="n">emp_title</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>False
+</pre></div>
+</div>
+</div>
+</div>
+<p>Dealing with missing values in continuous data is more tricky, and will be the topic of the reset of this section.
+There are three basic options:</p>
+<ul class="simple">
+<li><p>Removing missing data</p></li>
+<li><p>Filling in missing data with a placeholder or a semantically meaningful value</p></li>
+<li><p>Filling in the missing data with best-guess values (imputation)</p></li>
+</ul>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>There is no clear rule when to drop a column because it has too many missing values. Anything with more than 50% missing might be a candidate, but then again, if the remaining values are very informative, you should keep them.
+As with many choices in machine learning, the best way is to try and evaluate the different possibilities.</p>
+</div>
+<div class="sidebar">
+<p class="sidebar-title">renderme</p>
+<p><img alt=":scale 80%" src="../_images/row_nan_col_nan.png" /></p>
+</div>
+<p>The simplest method if obviously just dropping the data; you can either drop rows containing missing values or columns containing missing values.
+When dropping columns, the main issue is that you might lose an informative feature. If a column is only missing sometimes, or even missing 50% of the time, you might discard critical information.</p>
+<p>When dropping rows, you might not only lose valuable training data, you might also run into another issue. If missing values appear in a model you deployed, usually you don’t have the choice of dropping the sample, you are forced to make a prediction. If you don’t have a way to deal with missing values, this might be a problem.</p>
+<p>Sometimes, if the data is missing for structural reasons, it might be possible to fill in a semantically meaningful value. For example, the ‘ames housing’ dataset for house price prediction has missing values for the square footage of the basement if the house has no basement. A reasonable value here might be 0, as there is no basement. Still, there might be value in knowing that there is no basement, and this might be good to represent explicitly.
+A common practice is to add a new feature that indicates whether a value was missing or not before filling it in.</p>
+<p>If there is no reasonable value to fill in, the last choice is to fill in the value with a best-guess estimate of what the value might have been if we observed it. This is known as imputation, and, as mentioned above, usually only applied to continuous features, while for categorical features a new category is created.</p>
+</div>
+<div class="section" id="imputation-methods">
+<h2>Imputation methods<a class="headerlink" href="#imputation-methods" title="Permalink to this headline">¶</a></h2>
+<div class="sidebar">
+<p class="sidebar-title">renderme</p>
+<p><img alt=":scale 100%" src="../_images/imputation-schema.png" /></p>
+</div>
+<p>Imputation means filling in missing values, and there is a wide variety of methods. Usually, these are unsupervised, so they only make use of the information of features on the training data.
+The simplest strategy is to fill in a feature with the mean or median of that features over the non-missing samples.
+That is implemented in the <code class="docutils literal notranslate"><span class="pre">SimpleImputer</span></code> in scikit-learn.
+To illustrate, we will look at the iris dataset, where we artificially introduced some missing values. The iris dataset is a relatively simple three-class classification dataset with four features (todo really iris? not breast cancer?):</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_iris</span>
-<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">shuffle</span>
-<span class="n">iris</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span>
+<span class="c1"># we pass as_frame to get a pandas dataframe,</span>
+<span class="c1"># passing return_X_y means we get features and targets already separated</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">(</span><span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;sepal length (cm)&#39;,
- &#39;sepal width (cm)&#39;,
- &#39;petal length (cm)&#39;,
- &#39;petal width (cm)&#39;]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span>
-<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">[:</span><span class="mi">30</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[7.7 3.8 6.7 2.2]
- [5.7 2.9 4.2 1.3]
- [4.8 3.  1.4 0.3]
- [5.4 3.7 1.5 0.2]
- [4.9 2.5 4.5 1.7]
- [5.5 2.3 4.  1.3]
- [6.4 2.7 5.3 1.9]
- [6.9 3.1 4.9 1.5]
- [5.1 3.4 1.5 0.2]
- [5.1 3.8 1.9 0.4]
- [7.1 3.  5.9 2.1]
- [5.  2.  3.5 1. ]
- [5.1 3.7 1.5 0.4]
- [5.8 2.6 4.  1.2]
- [6.  2.2 4.  1. ]
- [4.8 3.4 1.6 0.2]
- [6.2 3.4 5.4 2.3]
- [5.2 3.5 1.5 0.2]
- [5.2 4.1 1.5 0.1]
- [4.9 3.1 1.5 0.2]
- [5.5 4.2 1.4 0.2]
- [6.7 2.5 5.8 1.8]
- [6.4 2.8 5.6 2.1]
- [5.1 3.5 1.4 0.2]
- [6.7 3.1 4.4 1.4]
- [6.5 3.  5.8 2.2]
- [6.1 3.  4.9 1.8]
- [4.9 3.  1.4 0.2]
- [5.1 3.5 1.4 0.3]
- [6.1 2.9 4.7 1.4]]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># a column is mostly missing</span>
-<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">X_missing_column</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">mask</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">19</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">X_missing_column</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
-<span class="n">X_missing_column</span><span class="p">[</span><span class="mi">120</span><span class="p">:]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([[nan, 3. , 4.4, 1.4],
-       [nan, 2.4, 3.7, 1. ],
-       [nan, 2.9, 5.6, 1.8],
-       [nan, 3. , 4.5, 1.5],
-       [nan, 2.7, 4.9, 1.8],
-       [nan, 2.9, 4.3, 1.3],
-       [nan, 3.4, 1.6, 0.4],
-       [nan, 2.8, 5.1, 2.4],
-       [nan, 3.6, 1. , 0.2],
-       [nan, 2.8, 4.7, 1.2],
-       [7.7, 2.8, 6.7, 2. ],
-       [nan, 3. , 4.2, 1.2],
-       [nan, 2.7, 3.9, 1.2],
-       [nan, 2.6, 4.4, 1.2],
-       [nan, 2.5, 4.9, 1.5],
-       [nan, 3. , 5.2, 2.3],
-       [nan, 3.8, 6.4, 2. ],
-       [nan, 3.7, 1.5, 0.2],
-       [nan, 2.2, 5. , 1.5],
-       [nan, 2.8, 4.6, 1.5],
-       [nan, 3.5, 1.3, 0.3],
-       [nan, 3.2, 5.9, 2.3],
-       [nan, 2.8, 6.1, 1.9],
-       [nan, 3.4, 1.4, 0.3],
-       [nan, 3.4, 1.5, 0.2],
-       [nan, 3. , 1.4, 0.1],
-       [nan, 3.9, 1.7, 0.4],
-       [nan, 3.2, 4.5, 1.5],
-       [nan, 3.3, 1.7, 0.5],
-       [nan, 2.8, 4.8, 1.8]])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># only a few rows have missing data. but a lot of it</span>
-<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">X_missing_rows</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">5</span><span class="p">):</span>
-    <span class="n">X_missing_rows</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">&gt;</span> <span class="o">.</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
-<span class="n">X_missing_rows</span><span class="p">[:</span><span class="mi">30</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([[7.7, 3.8, 6.7, 2.2],
-       [nan, nan, 4.2, 1.3],
-       [4.8, 3. , 1.4, 0.3],
-       [5.4, 3.7, 1.5, 0.2],
-       [4.9, 2.5, 4.5, 1.7],
-       [nan, nan, nan, nan],
-       [6.4, 2.7, 5.3, 1.9],
-       [6.9, 3.1, 4.9, 1.5],
-       [5.1, 3.4, 1.5, 0.2],
-       [5.1, 3.8, 1.9, 0.4],
-       [7.1, 3. , 5.9, 2.1],
-       [5. , 2. , 3.5, 1. ],
-       [5.1, 3.7, 1.5, 0.4],
-       [5.8, 2.6, 4. , 1.2],
-       [nan, nan, nan, nan],
-       [4.8, 3.4, 1.6, 0.2],
-       [6.2, 3.4, 5.4, 2.3],
-       [5.2, 3.5, 1.5, 0.2],
-       [5.2, 4.1, 1.5, 0.1],
-       [4.9, 3.1, 1.5, 0.2],
-       [5.5, 4.2, 1.4, 0.2],
-       [6.7, 2.5, 5.8, 1.8],
-       [6.4, 2.8, 5.6, 2.1],
-       [5.1, nan, nan, nan],
-       [6.7, 3.1, 4.4, 1.4],
-       [6.5, 3. , 5.8, 2.2],
-       [nan, nan, nan, 1.8],
-       [4.9, 3. , 1.4, 0.2],
-       [5.1, 3.5, 1.4, 0.3],
-       [6.1, 2.9, 4.7, 1.4]])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([6.588, 2.974, 5.552, 2.026])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># some values missing only</span>
-<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">X_some_missing</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">5.5</span><span class="p">,</span> <span class="n">scale</span><span class="o">=.</span><span class="mi">7</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="o">&lt;</span> <span class="o">.</span><span class="mi">6</span>
-<span class="n">X_some_missing</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
-<span class="c1"># different random numbers</span>
-<span class="n">mask2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">5.5</span><span class="p">,</span> <span class="n">scale</span><span class="o">=.</span><span class="mi">7</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="o">&lt;</span> <span class="o">.</span><span class="mi">6</span>
-<span class="n">X_some_missing</span><span class="p">[</span><span class="n">mask2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
-<span class="n">X_some_missing</span><span class="p">[:</span><span class="mi">30</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([[7.7, 3.8, 6.7, nan],
-       [5.7, 2.9, 4.2, 1.3],
-       [4.8, 3. , 1.4, 0.3],
-       [5.4, 3.7, 1.5, 0.2],
-       [4.9, 2.5, 4.5, 1.7],
-       [5.5, 2.3, 4. , 1.3],
-       [6.4, 2.7, 5.3, 1.9],
-       [6.9, 3.1, nan, nan],
-       [5.1, 3.4, 1.5, 0.2],
-       [5.1, 3.8, 1.9, 0.4],
-       [7.1, 3. , 5.9, nan],
-       [5. , 2. , 3.5, 1. ],
-       [5.1, 3.7, 1.5, 0.4],
-       [5.8, 2.6, 4. , 1.2],
-       [6. , 2.2, 4. , 1. ],
-       [4.8, 3.4, 1.6, 0.2],
-       [6.2, 3.4, 5.4, 2.3],
-       [5.2, 3.5, 1.5, 0.2],
-       [5.2, 4.1, 1.5, 0.1],
-       [4.9, 3.1, 1.5, 0.2],
-       [5.5, 4.2, 1.4, 0.2],
-       [6.7, 2.5, nan, nan],
-       [6.4, 2.8, nan, nan],
-       [5.1, 3.5, 1.4, 0.2],
-       [6.7, 3.1, nan, 1.4],
-       [6.5, 3. , nan, 2.2],
-       [6.1, 3. , nan, 1.8],
-       [4.9, 3. , 1.4, 0.2],
-       [5.1, 3.5, 1.4, 0.3],
-       [6.1, 2.9, 4.7, 1.4]])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.25333333333333335
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="o">~</span><span class="n">mask2</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([50, 38, 23])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># from now on use X_ = X_some_missing</span>
-<span class="n">X_</span> <span class="o">=</span> <span class="n">X_some_missing</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">cross_val_score</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="n">nan_columns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">X_drop_columns</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[:,</span> <span class="o">~</span><span class="n">nan_columns</span><span class="p">]</span>
-<span class="n">logreg</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LogisticRegression</span><span class="p">())</span>
-<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">logreg</span><span class="p">,</span> <span class="n">X_drop_columns</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sepal length (cm)</th>
+      <th>sepal width (cm)</th>
+      <th>petal length (cm)</th>
+      <th>petal width (cm)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5.1</td>
+      <td>3.5</td>
+      <td>1.4</td>
+      <td>0.2</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4.9</td>
+      <td>3.0</td>
+      <td>1.4</td>
+      <td>0.2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4.7</td>
+      <td>3.2</td>
+      <td>1.3</td>
+      <td>0.2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4.6</td>
+      <td>3.1</td>
+      <td>1.5</td>
+      <td>0.2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5.0</td>
+      <td>3.6</td>
+      <td>1.4</td>
+      <td>0.2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.793939393939394
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.PairGrid at 0x1f67428ef08&gt;
+</pre></div>
+</div>
+<img alt="../_images/08-imputation_29_1.png" src="../_images/08-imputation_29_1.png" />
+</div>
+</div>
+<p>To get a baseline, let’s apply <code class="docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code> to the full original data (after scaling, of course):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+
+<span class="c1"># make a pipeline containing standard scaling and knn classification</span>
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">KNeighborsClassifier</span><span class="p">())</span>
+<span class="c1"># fit the pipeline on the training set</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="c1"># compute accuracy on the test set</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.9736842105263158
+</pre></div>
+</div>
+</div>
+</div>
+<p>The dataset is quite small, and depending on how you split the data (i.e. how you pick the random_state), the results can vary quite a bit. But usually they are in the high nineties.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="c1"># we introduce some missing values</span>
+<span class="c1"># we make the likelihood that a value is missing dependent on the feature values, i.e. they are not missing at random</span>
+<span class="n">X_missing</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="c1"># create missingness mask of same size as X</span>
+<span class="c1"># 8 seems good</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="n">p</span><span class="o">=</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s1">&#39;petal length (cm)&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">8</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+<span class="n">X_missing</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="o">-</span><span class="mi">30</span><span class="p">:])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_missing</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[6.7 3.1 nan 1.4]
- [7.7 2.8 6.7 2. ]
- [5.7 4.4 1.5 0.4]
- [5.1 3.3 1.7 0.5]
- [4.6 3.4 1.4 0.3]
- [4.8 3.4 1.6 0.2]
- [5.2 4.1 1.5 0.1]
- [5.7 3.  4.2 1.2]
- [7.7 3.  6.1 2.3]
- [7.4 2.8 6.1 nan]
- [7.2 3.6 nan nan]
- [5.1 3.8 1.6 0.2]
- [5.6 2.8 nan 2. ]
- [5.1 3.4 1.5 0.2]
- [6.2 3.4 5.4 2.3]
- [4.6 3.6 1.  0.2]
- [5.6 3.  4.5 1.5]
- [5.4 3.  4.5 1.5]
- [6.1 3.  nan 1.4]
- [6.7 3.  nan nan]
- [4.6 3.1 1.5 0.2]
- [7.9 3.8 6.4 nan]
- [6.5 3.  nan 1.8]
- [4.8 3.  1.4 0.1]
- [5.1 2.5 3.  1.1]
- [6.2 2.2 4.5 nan]
- [5.2 3.4 1.4 0.2]
- [5.7 2.5 nan nan]
- [6.3 2.7 nan nan]
- [6.4 3.2 nan nan]]
-</pre></div>
-</div>
-</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sepal length (cm)</th>
+      <th>sepal width (cm)</th>
+      <th>petal length (cm)</th>
+      <th>petal width (cm)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5.1</td>
+      <td>NaN</td>
+      <td>1.4</td>
+      <td>0.2</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4.9</td>
+      <td>3.0</td>
+      <td>1.4</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4.7</td>
+      <td>3.2</td>
+      <td>1.3</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NaN</td>
+      <td>3.1</td>
+      <td>1.5</td>
+      <td>0.2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5.0</td>
+      <td>3.6</td>
+      <td>1.4</td>
+      <td>0.2</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>145</th>
+      <td>NaN</td>
+      <td>3.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>146</th>
+      <td>6.3</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>147</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>148</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.4</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>5.9</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>150 rows × 4 columns</p>
+</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">df_missing</span> <span class="o">=</span> <span class="n">X_missing</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_missing</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">df_missing</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.PairGrid at 0x1f6755c4388&gt;
+</pre></div>
 </div>
+<img alt="../_images/08-imputation_35_1.png" src="../_images/08-imputation_35_1.png" />
+</div>
+</div>
+<p>You can see that now different panels in the pairplot show different amounts of data, as some of the features are sometimes missing. We mostly removed samples from the green and orange classes.
+In this synthetic example, the missingness is highly informative, maybe more so than common in practice, and the dataset is terribly easy. Keep that in mind when going over this example.</p>
+<p>We could drop all samples with missing values, though this is likely to give us bad results. Also, the evaluation would be harder as the data wouldn’t be balanced any more, and the blue class would dominate.</p>
+</div>
+<div class="section" id="simpleimputer">
+<h2>SimpleImputer<a class="headerlink" href="#simpleimputer" title="Permalink to this headline">¶</a></h2>
+<p>So let’s start by imputing the data using median imputation:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
-<span class="n">imp</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;median&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-<span class="n">X_median_imp</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-<span class="n">X_median_imp</span><span class="p">[</span><span class="o">-</span><span class="mi">30</span><span class="p">:]</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="c1"># split data into training and test set.</span>
+<span class="c1"># we only ever want to fit on the training part!</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_missing</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="c1"># instantiate simple imputer with median imputation</span>
+<span class="n">si</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">)</span>
+<span class="c1"># impute training data</span>
+<span class="n">X_train_median</span> <span class="o">=</span> <span class="n">si</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">df_missing_train</span> <span class="o">=</span> <span class="n">X_missing</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_missing_train</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_train</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">df_missing_train</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([[6.7, 3.1, 3.5, 1.4],
-       [7.7, 2.8, 6.7, 2. ],
-       [5.7, 4.4, 1.5, 0.4],
-       [5.1, 3.3, 1.7, 0.5],
-       [4.6, 3.4, 1.4, 0.3],
-       [4.8, 3.4, 1.6, 0.2],
-       [5.2, 4.1, 1.5, 0.1],
-       [5.7, 3. , 4.2, 1.2],
-       [7.7, 3. , 6.1, 2.3],
-       [7.4, 2.8, 6.1, 1.1],
-       [7.2, 3.6, 3.5, 1.1],
-       [5.1, 3.8, 1.6, 0.2],
-       [5.6, 2.8, 3.5, 2. ],
-       [5.1, 3.4, 1.5, 0.2],
-       [6.2, 3.4, 5.4, 2.3],
-       [4.6, 3.6, 1. , 0.2],
-       [5.6, 3. , 4.5, 1.5],
-       [5.4, 3. , 4.5, 1.5],
-       [6.1, 3. , 3.5, 1.4],
-       [6.7, 3. , 3.5, 1.1],
-       [4.6, 3.1, 1.5, 0.2],
-       [7.9, 3.8, 6.4, 1.1],
-       [6.5, 3. , 3.5, 1.8],
-       [4.8, 3. , 1.4, 0.1],
-       [5.1, 2.5, 3. , 1.1],
-       [6.2, 2.2, 4.5, 1.1],
-       [5.2, 3.4, 1.4, 0.2],
-       [5.7, 2.5, 3.5, 1.1],
-       [6.3, 2.7, 3.5, 1.1],
-       [6.4, 3.2, 3.5, 1.1]])
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.PairGrid at 0x1f675fb9ac8&gt;
 </pre></div>
 </div>
+<img alt="../_images/08-imputation_40_1.png" src="../_images/08-imputation_40_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_median_imp</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(112, 4)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">patches</span>
-<span class="n">imputed_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">plot_imputation</span><span class="p">(</span><span class="n">X_imp</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="c1"># helper function to plot imputed data points</span>
-    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_imp</span><span class="p">[</span><span class="n">imputed_mask</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">X_imp</span><span class="p">[</span><span class="n">imputed_mask</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">tab10</span><span class="p">(</span><span class="n">y_train</span><span class="p">[</span><span class="n">imputed_mask</span><span class="p">]),</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">6</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_imp</span><span class="p">[</span><span class="o">~</span><span class="n">imputed_mask</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">X_imp</span><span class="p">[</span><span class="o">~</span><span class="n">imputed_mask</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">tab10</span><span class="p">(</span><span class="n">y_train</span><span class="p">[</span><span class="o">~</span><span class="n">imputed_mask</span><span class="p">]),</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">6</span><span class="p">)</span>
-    <span class="c1"># this is for creating the legend...</span>
-    <span class="n">square</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Line2D</span><span class="p">((</span><span class="mi">0</span><span class="p">,),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,),</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">markeredgecolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Imputed data&#39;</span><span class="p">)</span>
-    <span class="n">circle</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Line2D</span><span class="p">((</span><span class="mi">0</span><span class="p">,),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,),</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">markeredgecolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Real data&#39;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
-
-    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">square</span><span class="p">,</span> <span class="n">circle</span><span class="p">],</span> <span class="n">numpoints</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">)</span>
-
-<span class="n">plot_imputation</span><span class="p">(</span><span class="n">X_median_imp</span><span class="p">,</span> <span class="s2">&quot;Median imputation&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;images/median_imputation.png&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/08-imputation_31_0.png" src="../_images/08-imputation_31_0.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># I designed the problem so that mean imputation wouldn&#39;t work</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">median_pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">),</span> <span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LogisticRegression</span><span class="p">())</span>
-<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">median_pipe</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.7772727272727271
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="model-driven-imputation-and-knn">
-<h1>Model-driven imputation and KNN<a class="headerlink" href="#model-driven-imputation-and-knn" title="Permalink to this headline">¶</a></h1>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">KNNImputer</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">knnimp</span> <span class="o">=</span> <span class="n">KNNImputer</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-<span class="n">X_train_knn</span> <span class="o">=</span> <span class="n">knnimp</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_imputation</span><span class="p">(</span><span class="n">X_train_knn</span><span class="p">,</span> <span class="s2">&quot;KNN imputation&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;images/knn_imputation.png&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/08-imputation_37_0.png" src="../_images/08-imputation_37_0.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">knn_pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">KNNImputer</span><span class="p">(),</span> <span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LogisticRegression</span><span class="p">())</span>
-
-<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">knn_pipe</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.8825757575757575
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
-<span class="kn">from</span> <span class="nn">sklearn.experimental</span> <span class="kn">import</span> <span class="n">enable_iterative_imputer</span>
-<span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">IterativeImputer</span>
-
-<span class="n">rfimp</span> <span class="o">=</span> <span class="n">IterativeImputer</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">RandomForestRegressor</span><span class="p">())</span>
-<span class="n">rfimp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-<span class="n">X_rf_imp</span> <span class="o">=</span> <span class="n">rfimp</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># create a new dataframe for plotting with seaborn</span>
+<span class="c1"># If we don&#39;t add the index, the alignment with y_train will be off</span>
+<span class="c1"># we could also strip the index of y_train instead, but they need to match.</span>
+<span class="n">df_median</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X_train_median</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">df_median</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_train</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">df_median</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="stderr docutils container">
-<pre class="stderr literal-block">/home/andy/checkout/scikit-learn/sklearn/impute/_iterative.py:608: ConvergenceWarning: [IterativeImputer] Early stopping criterion not reached.
+<pre class="stderr literal-block">C:\Users\t3kci\anaconda3\lib\site-packages\seaborn\distributions.py:369: UserWarning: Default bandwidth for data is 0; skipping density estimation.
+  warnings.warn(msg, UserWarning)
+</pre>
+</div>
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.PairGrid at 0x1f6791f78c8&gt;
+</pre></div>
+</div>
+<img alt="../_images/08-imputation_41_2.png" src="../_images/08-imputation_41_2.png" />
+</div>
+</div>
+<p>You can see that much of the data has been moved towards the center, and the distributions are much harder to distinguish.
+That’s to be expected as there are now many identical values. In the case of higher dimensional data or fewer missing values, this stragegy actually performs reasonably well, but here it doesn’t seem very good.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>Most of the methods in scikit-learn can not deal with missing values. However, most of the preprocessing methods such as scaling can!
+Therefore we can scale the data before imputation.</p>
+</div>
+<p>Let’s see how good or bad this will do with the <code class="docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code>. We can put the imputation directly in the pipeline to save us some work:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+
+<span class="n">pipe_median</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span>
+                            <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">),</span>
+                            <span class="n">KNeighborsClassifier</span><span class="p">())</span>
+<span class="n">pipe_median</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">pipe_median</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.8421052631578947
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is quite a bit worse than on the full dataset (as can be expected), but still much better than chance (which would be 33%).
+Instead of just filling in the median, we can also add an indicator</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_median_ind</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span>
+                                <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">,</span> <span class="n">add_indicator</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                                <span class="n">KNeighborsClassifier</span><span class="p">())</span>
+<span class="n">pipe_median_ind</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Pipeline(steps=[(&#39;standardscaler&#39;, StandardScaler()),
+                (&#39;simpleimputer&#39;,
+                 SimpleImputer(add_indicator=True, strategy=&#39;median&#39;)),
+                (&#39;kneighborsclassifier&#39;, KNeighborsClassifier())])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Before we evaluate the model, it’s a good idea to have a look at the data as it enters the model. We can do this by slicing the pipeline and taking all but the last step:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">pipe_median_ind</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)[::</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([[ 0.716, -2.373, -0.695,  0.157,  0.   ,  0.   ,  1.   ,  1.   ],
+       [ 0.593, -0.119, -0.695,  0.157,  0.   ,  1.   ,  1.   ,  1.   ],
+       [-0.147,  0.132, -0.695,  0.157,  1.   ,  0.   ,  1.   ,  1.   ],
+       [-0.764, -0.119,  0.321,  0.157,  0.   ,  1.   ,  0.   ,  0.   ],
+       [ 0.099, -0.119, -0.665, -0.83 ,  0.   ,  1.   ,  0.   ,  0.   ],
+       [-0.147, -0.119,  1.923,  1.991,  1.   ,  1.   ,  0.   ,  0.   ],
+       [-0.147,  0.132, -0.695, -0.971,  1.   ,  0.   ,  1.   ,  0.   ],
+       [-0.147,  0.382, -0.695,  2.274,  1.   ,  0.   ,  1.   ,  0.   ],
+       [ 0.839, -0.119, -0.695,  0.157,  0.   ,  1.   ,  1.   ,  1.   ],
+       [ 1.086, -0.119, -0.695,  1.286,  0.   ,  1.   ,  1.   ,  0.   ],
+       [-0.147, -0.119, -0.695,  0.157,  1.   ,  1.   ,  1.   ,  0.   ],
+       [-0.147,  0.632, -0.665, -0.971,  1.   ,  0.   ,  0.   ,  0.   ],
+       [-0.147, -0.119, -0.695,  0.157,  1.   ,  1.   ,  1.   ,  0.   ],
+       [-0.147, -0.119, -0.695,  0.157,  1.   ,  1.   ,  1.   ,  1.   ],
+       [-0.147, -0.87 , -0.695,  0.157,  1.   ,  0.   ,  1.   ,  1.   ],
+       [-0.147, -0.119, -0.695,  0.157,  1.   ,  1.   ,  1.   ,  1.   ],
+       [ 0.223, -1.371,  0.753,  0.439,  0.   ,  0.   ,  0.   ,  0.   ],
+       [-0.147, -0.119, -1.034,  0.157,  1.   ,  1.   ,  0.   ,  1.   ],
+       [-0.517, -1.121, -0.695,  0.722,  0.   ,  0.   ,  1.   ,  0.   ],
+       [ 1.333, -0.119, -0.695,  0.157,  0.   ,  1.   ,  1.   ,  1.   ],
+       [-0.147, -0.119, -0.695,  0.157,  0.   ,  1.   ,  1.   ,  1.   ],
+       [-0.64 , -0.119, -0.849, -0.971,  0.   ,  1.   ,  0.   ,  0.   ],
+       [-0.024, -0.119,  0.876,  0.157,  0.   ,  1.   ,  0.   ,  1.   ],
+       [-0.147, -0.369, -0.695,  0.863,  1.   ,  0.   ,  1.   ,  0.   ],
+       [-0.27 ,  1.384, -0.788,  0.157,  0.   ,  0.   ,  0.   ,  1.   ],
+       [-0.147, -0.119,  1.184,  0.157,  1.   ,  0.   ,  0.   ,  1.   ],
+       [-1.257,  0.632, -0.849, -0.83 ,  0.   ,  0.   ,  0.   ,  0.   ],
+       [-0.147, -0.87 ,  0.753,  0.157,  1.   ,  0.   ,  0.   ,  1.   ],
+       [-0.147, -0.119, -0.695,  0.157,  1.   ,  1.   ,  1.   ,  1.   ],
+       [-0.024, -0.119, -0.695,  0.581,  0.   ,  1.   ,  1.   ,  0.   ],
+       [-0.147, -0.119, -0.695,  0.157,  1.   ,  1.   ,  1.   ,  1.   ],
+       [-0.147,  1.133, -1.096, -0.971,  1.   ,  0.   ,  0.   ,  0.   ],
+       [-0.764,  0.883, -0.911, -0.83 ,  0.   ,  0.   ,  0.   ,  0.   ],
+       [-0.887, -0.369, -0.849,  0.157,  0.   ,  0.   ,  0.   ,  1.   ],
+       [-1.134,  0.132, -0.911,  0.157,  0.   ,  0.   ,  0.   ,  1.   ],
+       [ 0.593, -0.119, -0.695,  0.157,  0.   ,  1.   ,  1.   ,  1.   ],
+       [-0.64 , -0.119,  0.136,  0.157,  0.   ,  1.   ,  0.   ,  1.   ],
+       [ 0.223, -1.121,  0.691,  0.157,  0.   ,  0.   ,  0.   ,  1.   ]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can see that now instead of four features, we have eight features: each of the features is sometimes missing, and so for each of the features an indicator of missiness was added.
+Now let’s see if this helped:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_median_ind</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.8421052631578947
+</pre></div>
+</div>
+</div>
+</div>
+<p>TODO actually got better?
+Maybe somewhat surprisingly, the result got quite a bit worse. That might be because we added several redundant features, but it’s hard to say what caused it.</p>
+</div>
+<div class="section" id="neighbors-based-imputation">
+<h2>Neighbors based imputation<a class="headerlink" href="#neighbors-based-imputation" title="Permalink to this headline">¶</a></h2>
+<p>In practice, using SimpleImputer might often be enough, at least as a first try. But there are several more advanced methods that might also be relevant.
+One of the most classical ones is based on nearest neighbors and implemented in the <code class="docutils literal notranslate"><span class="pre">KNNImputer</span></code>. The <code class="docutils literal notranslate"><span class="pre">KNNImputer</span></code> imputes each missing value using a combination of it’s k nearest neighbors.
+TODO Figure
+This seems relatively straight-forward, apart from one issue: how do you compute distances in the presence of missing values? Let’s look at a toy example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span>           <span class="mi">1</span><span class="p">,</span>      <span class="mi">1</span><span class="p">],</span>
+          <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span>      <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">],</span>
+          <span class="p">[</span><span class="mi">1</span><span class="p">,</span>      <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">],</span>
+          <span class="p">[</span><span class="mi">0</span><span class="p">,</span>           <span class="mi">2</span><span class="p">,</span>       <span class="mi">1</span><span class="p">]</span>
+         <span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([[ 1.,  1.,  1.],
+       [nan,  0., nan],
+       [ 1., nan, nan],
+       [ 0.,  2.,  1.]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here, we have 4 rows, with different features missing for each. We can clearly not use normal euclidean distances here.
+If we want to compute the distance between the first row <code class="docutils literal notranslate"><span class="pre">X[0]</span></code> and the second row <code class="docutils literal notranslate"><span class="pre">X[1]</span></code>, we can only use the second feature, while if we want to compute the distance between the first and the third row, we can only use the first.
+A first idea could be to just use the distance on the features that two rows have in common, so the squared distance between <code class="docutils literal notranslate"><span class="pre">X[0]</span></code> and <code class="docutils literal notranslate"><span class="pre">X[1]</span></code> would be 1, the distance between <code class="docutils literal notranslate"><span class="pre">X[0]</span></code> and <code class="docutils literal notranslate"><span class="pre">X[2]</span></code> woudl be 0, and the distance between <code class="docutils literal notranslate"><span class="pre">X[0]</span></code> and <code class="docutils literal notranslate"><span class="pre">X[3]</span></code> would be 2.
+However, that might be considered strange, as <code class="docutils literal notranslate"><span class="pre">X[0]</span></code> and <code class="docutils literal notranslate"><span class="pre">X[3]</span></code> are quite similar. Because neigher has missing values, there are more feature over which the distance is added up, though, leading to a larger overall distance.
+To make up for this, the distances are multiplied by the number of features divided by the number of features two samples have in common. So the distance between <code class="docutils literal notranslate"><span class="pre">X[0]</span></code> and <code class="docutils literal notranslate"><span class="pre">X[1]</span></code> would be multiplied by <code class="docutils literal notranslate"><span class="pre">3</span></code> as there’s 3 features in total and they only have one in common, while the distance between <code class="docutils literal notranslate"><span class="pre">X[0]</span></code> and <code class="docutils literal notranslate"><span class="pre">X[3]</span></code> would be multiplied by 1, as they have all features in common. Using this adjustment, <code class="docutils literal notranslate"><span class="pre">X[3]</span></code> is actually the row most simliar to <code class="docutils literal notranslate"><span class="pre">X[0]</span></code>.</p>
+<p>This adjusted distance is the measure used to compute neighbors in KNNImputer. Let’s see the result of that on our modified iris dataset:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">KNNImputer</span>
+<span class="c1"># the default of 3 and 5 neighbors give similar results</span>
+<span class="c1"># given the small size of the dataset we pick 3</span>
+<span class="n">knni</span> <span class="o">=</span> <span class="n">KNNImputer</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> 
+<span class="n">X_train_knn</span> <span class="o">=</span> <span class="n">knni</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df_knn</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X_train_knn</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">df_knn</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">df_knn</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.PairGrid at 0x1f679e216c8&gt;
+</pre></div>
+</div>
+<img alt="../_images/08-imputation_54_1.png" src="../_images/08-imputation_54_1.png" />
+</div>
+</div>
+<p>We can see that compared to figure TODO, imputation with KNNImputer preserves the data distribution much more closely than imputing just with the median.
+Now let’s see how it changes classification results:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_knn</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span>
+                            <span class="n">KNNImputer</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+                            <span class="n">KNeighborsClassifier</span><span class="p">())</span>
+<span class="n">pipe_knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">pipe_knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.868421052631579
+</pre></div>
+</div>
+</div>
+</div>
+<p>The results ar somewhat better, and we might trust this model a bit more as it preserves more of the original data distribution. However, there is an additional hyper-parameter, the number of neighbors to use for imputation (in addition to selecting the number of neighbors for classification).
+We selected <code class="docutils literal notranslate"><span class="pre">n_neighbors=3</span></code> for imputation, though the default of 5 also works well. As mentioned before, we’ll discuss selection of hyper-parameters in more detail in section TODO.
+One of the main disadvantages of the KNNImputer, apart from the additional hyper-parameter, is the runtime complexity. To impute a new sample, we need to compute the distance to all samples in the training set. That can be quite expensive or even infeasible for large datasets, similar to the use of KNeighborsClassifier.</p>
+</div>
+<div class="section" id="iterative-imputation">
+<h2>Iterative Imputation<a class="headerlink" href="#iterative-imputation" title="Permalink to this headline">¶</a></h2>
+<p>The final method of imputation that we’ll discuss is iterative imputation based on a regression model.
+We haven’t really talked about regression models much, but for this part it’s fine to treat them as a black box.
+The idea of iterative imputation is to iterate over columns, and create a new modeling task: predict this column given all the other columns.
+As we’re only interested in imputing continuous variables, this is a standard regression task. So we can use any regression model to solve the task.
+Then, we can use the predictions of the regressor to fill in the missing values, as illustrated in figure TODO.</p>
+<p>To start the process, we ususally use a simple imputation model such as iterative imputer to ensure we have some candidate value for all features available.
+For training the regression model, we only use the rows where the current target column is observed, so not missing, and we only fill in those rows that are missing.
+This procedure is iterative, because once we filled in the first column, we will use the values we filled in the first column to train the model for the second column, and so on.
+As a matter of fact, usually multiple passes over the dataset are used: once we filled in all the columns, their values changed, and so if we train a model for the first column
+again, the predictions will be different, as the features for training the model have been changed by our other imputations.</p>
+<p>This scheme is implemented in scikit-learn in <code class="docutils literal notranslate"><span class="pre">IterativeImputer</span></code>. This model is still experimental, as some of its features might change.
+To use any experimental feature, we have to make an import to enable it, before we can import the <code class="docutils literal notranslate"><span class="pre">IterativeImputer</span></code> itself. TODO maybe into margin or note?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.experimental</span> <span class="kn">import</span> <span class="n">enable_iterative_imputer</span>
+<span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">IterativeImputer</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>A very common regression model for imputation is the Random Forest. We will talk about this model more in chapter TODO. For now, think of it just as a very flexible and powerful regression model.
+The <code class="docutils literal notranslate"><span class="pre">IterativeImputer</span></code> is a meta-estimator, as it constructs an imputation method for any given regression model.
+An important feature is the number of iterations, meaning the number of passes over the columns; after some experimentation, increasing it to 20 seems beneficial here.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+<span class="n">rf_imp</span> <span class="o">=</span> <span class="n">IterativeImputer</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">X_train_rf</span> <span class="o">=</span> <span class="n">rf_imp</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="stderr docutils container">
+<pre class="stderr literal-block">C:\Users\t3kci\anaconda3\lib\site-packages\sklearn\impute\_iterative.py:670: ConvergenceWarning: [IterativeImputer] Early stopping criterion not reached.
   &quot; reached.&quot;, ConvergenceWarning)
 </pre>
 </div>
 </div>
 </div>
+<p>We can see a convergence warning here: This is the main reason why <code class="docutils literal notranslate"><span class="pre">IterativeImputer</span></code> is still experimental in scikit-learn, it’s hard to establish convergence criteria that work for a variety of regression model. The current criterion works well for linear models, but not for Random Forest, and you will always get a ConvergenceWarning for Random Forests for now, which you can ignore. You can see the details in the orginal paper on random forest based imputation TODO missforest.</p>
+<p>Let’s have another look at the pairplot over the data, this time imputed with <code class="docutils literal notranslate"><span class="pre">IterativeImputer</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="n">plot_imputation</span><span class="p">(</span><span class="n">X_median_imp</span><span class="p">,</span> <span class="s2">&quot;Median&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">plot_imputation</span><span class="p">(</span><span class="n">X_train_knn</span><span class="p">,</span> <span class="s2">&quot;KNN&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">plot_imputation</span><span class="p">(</span><span class="n">X_rf_imp</span><span class="p">,</span> <span class="s2">&quot;Random Forest imputation&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;images/med_knn_rf_comparison.png&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df_rf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X_train_rf</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">df_rf</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">df_rf</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/08-imputation_40_0.png" src="../_images/08-imputation_40_0.png" />
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.PairGrid at 0x1f605b01b48&gt;
+</pre></div>
+</div>
+<img alt="../_images/08-imputation_63_1.png" src="../_images/08-imputation_63_1.png" />
 </div>
 </div>
+<p>This imputation seems to preserve the data even better than the <code class="docutils literal notranslate"><span class="pre">KNNImputer</span></code>, though there are still some points that seem to be moved to the wrong region of the input space.
+Let’s look at the original data and the different imputed versions next to each other for the petal length and petal width features, which are the most informative ones:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Iterative Imputation&#39;)
+</pre></div>
+</div>
+<img alt="../_images/08-imputation_65_1.png" src="../_images/08-imputation_65_1.png" />
+</div>
+</div>
+<p>It seams each more advanced imputation method improves over the previous one, though the data in the last plot seems too tightly clustered. However given how much of the data we set to missing, that’s likely unavoidable.
+Finally, let’s look at the scores of the iterative imputation:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rf_imp</span> <span class="o">=</span> <span class="n">IterativeImputer</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">RandomForestRegressor</span><span class="p">())</span>
-<span class="n">rf_pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">rf_imp</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LogisticRegression</span><span class="p">())</span>
-
-<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">rf_pipe</span><span class="p">,</span> <span class="n">X_rf_imp</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_rf</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">rf_imp</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">KNeighborsClassifier</span><span class="p">())</span>
+<span class="n">pipe_rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">pipe_rf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.8924242424242423
+<div class="stderr docutils container">
+<pre class="stderr literal-block">C:\Users\t3kci\anaconda3\lib\site-packages\sklearn\impute\_iterative.py:670: ConvergenceWarning: [IterativeImputer] Early stopping criterion not reached.
+  &quot; reached.&quot;, ConvergenceWarning)
+</pre>
+</div>
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.8947368421052632
 </pre></div>
 </div>
 </div>
+</div>
+<p>In this case, the IterativeImputer with the RandomForestRegressor provides the best results.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">IterativeImputer</span></code> also allows adding an indicator feature for whether a row was imputed. Again, it doesn’t seem to be beneficial on this dataset:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rf_imp_ind</span> <span class="o">=</span> <span class="n">IterativeImputer</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                              <span class="n">max_iter</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">add_indicator</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pipe_rf_ind</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">rf_imp_ind</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">KNeighborsClassifier</span><span class="p">())</span>
+<span class="n">pipe_rf_ind</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">pipe_rf_ind</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="stderr docutils container">
+<pre class="stderr literal-block">C:\Users\t3kci\anaconda3\lib\site-packages\sklearn\impute\_iterative.py:670: ConvergenceWarning: [IterativeImputer] Early stopping criterion not reached.
+  &quot; reached.&quot;, ConvergenceWarning)
+</pre>
+</div>
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.8421052631578947
+</pre></div>
+</div>
+</div>
+</div>
+<p>All of the above results are meant as illustrative examples, and they are not very stable with respect to the original splitting of the data (feel free to change the random state from 13 to another value and see how it plays out), and to the random state in the RandomForestRegressor. However, this synthetic example provides a case study for when more involved imputation methods might be beneficial. The computational cost of using <code class="docutils literal notranslate"><span class="pre">IterativeImputer</span></code> depends a lot on the regression algorithm used, and for this modified version of iris, the IterativeImputer actually takes the longest of all the methods we looked at. If the dataset was much bigger, though, <code class="docutils literal notranslate"><span class="pre">KNNImputer</span></code> is likely to take a longer time to perform the imputation (though the training time for <code class="docutils literal notranslate"><span class="pre">KNNImputer</span></code> is of course smaller, since it only memorizes the data).</p>
+</div>
+<div class="section" id="multiple-imputation">
+<h2>Multiple imputation<a class="headerlink" href="#multiple-imputation" title="Permalink to this headline">¶</a></h2>
+<p>There is a final approach which we’ll only discuss briefly: <em>multiple imputation</em>. Filling in any missing value means making (more or less educated) guesses about what observed values are likely. In particular in a more inference motivated setting, this can lead to underestimating the uncertainty in the data. To compensate for that, it’s possible to compute multiple new versions of the dataset, each with a slightly different imputation of the missing values. We can then build a model on each of these versions of the data, and aggregate the results. This can increase robustness of your model and of any inference. In cases that are more focused on prediction, as we are in this book, this seems to be rarely useful, though, and we’ll not investigate it further.</p>
+</div>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>In this section we’ve seen how to deal with missing values in our data, both during training and prediction time. For categorical features, often adding ‘missing’ as another category is sufficient, while for continuous features, we usually need to rely on imputation, i.e. filling in the values. When doing imputation, it might still be useful to record whether a feature was imputed or not, using a binary indicator, since the fact that a feature was not observed might be informative.
+For imputing values, often a simple approach such as using the mean or median is enough, and should be your baseline. If you want to use a more complex approach, the main contenders are <code class="docutils literal notranslate"><span class="pre">KNNImputer</span></code>, which works reasonably well without much tuning on smaller datasets, and <code class="docutils literal notranslate"><span class="pre">IterativeImputer</span></code>, which is quite flexible, but requires specifying a base model (often <code class="docutils literal notranslate"><span class="pre">RandomForestRegressor</span></code>) as well as potentially the number of iterations.</p>
+<p>As usual, there is no ultimate right answer, and apart from visualizations, as we did above, evaluating the final supervised learning method is the best way to access which method is best suited for your problem.
+If your supervised learning model is flexible enough, and you have enough data, often a simple imputation scheme is enough, as the supervised model can often infer all the necessary information from the data.</p>
 </div>
 </div>
 
@@ -1061,7 +1730,7 @@ In practice, using the mean or median is actually quite decent.</p>
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="05-feature-engineering.html" title="previous page">Feature Engineering</a>
+    <a class='left-prev' id="prev-link" href="04-categorical-variables.html" title="previous page">Categorical Variables</a>
     <a class='right-next' id="next-link" href="09-pipeline.html" title="next page">Algorithm Chains and Pipelines</a>
 
     </div>

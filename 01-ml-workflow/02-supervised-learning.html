@@ -89,16 +89,10 @@
       <a href="04-categorical-variables.html">3.4 Categorical Variables</a>
     </li>
     <li class="">
-      <a href="05-feature-engineering.html">3.5 Feature Engineering</a>
+      <a href="08-imputation.html">3.5 Missing Values</a>
     </li>
     <li class="">
-      <a href="08-imputation.html">3.6 Imputation</a>
-    </li>
-    <li class="">
-      <a href="09-pipeline.html">3.7 Algorithm Chains and Pipelines</a>
-    </li>
-    <li class="">
-      <a href="10-cross-validation-grid-search.html">3.8 Cross-validation and Grid Search</a>
+      <a href="09-pipeline.html">3.6 Algorithm Chains and Pipelines</a>
     </li>
   </ul>
   </li>
@@ -337,7 +331,7 @@ The easiest way to do that is to use the <code class="docutils literal notransla
 <p class="sidebar-title"></p>
 <p>The ‘X’ is capital because it refers to a matrix, a two-dimensional array, while ‘y’ is typically a column vector or one-dimensional array. Using capital letters for matrices and lower case letters for vectors is a common practice in linear algebra.</p>
 </div>
-<div class="alert alert-info">
+<div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Alternatively, we could have first split off the target column and then separated the data into training and test set, like so:
 <code class="docutils literal notranslate"><span class="pre">{python}</span>&#160;&#160;&#160;&#160; <span class="pre">X</span> <span class="pre">=</span> <span class="pre">data.drop(columns='target')</span>&#160;&#160;&#160;&#160; <span class="pre">y</span> <span class="pre">=</span> <span class="pre">data.target</span>&#160;&#160;&#160;&#160; <span class="pre">X_train,</span> <span class="pre">X_test,</span> <span class="pre">y_train,</span> <span class="pre">y_test</span> <span class="pre">=</span> <span class="pre">train_test_split(X,</span> <span class="pre">y,</span> <span class="pre">random_state=0)</span>&#160;&#160;&#160;&#160; </code>
@@ -384,7 +378,7 @@ For illustration purposes (as it is easier to draw in two dimensions), let us fi
 <img alt="../_images/02-supervised-learning_24_1.png" src="../_images/02-supervised-learning_24_1.png" />
 </div>
 </div>
-<div class="admonition-mathematical-background alert alert-info">
+<div class="admonition-mathematical-background admonition">
 <p class="admonition-title">Mathematical Background</p>
 <p>Formally, you could define the prediction of nearest neighbors based on a dataset <span class="math notranslate nohighlight">\((x_i, y_i), i=1,..,n\)</span> as:
 <span class="math notranslate nohighlight">\($f(x) = y_i, i = \text{argmin}_j || x_j - x||\)</span>$</p>
@@ -581,7 +575,7 @@ You can see that using a single nearest neighbor resultsin each point creating a
 We can also see that for a low number of neighbors, most of the training samples are classified correctly, i.e. blue training samples are on a blue backdrop, while red training samples are on a red backdrop.
 However, that is no longer true for 11 or 33 neighbors.</p>
 <p>The number of neighbors here shows behavior that’s very typical for hyper-parameters in machine learning, in that it is a way to control the flexibility, or complexity of the model. For one or three neighbors, the model has a very complex ‘explanation’ for the data, containing lots of nooks and crannies, that explain the training data well, but might not accurately represent an overall pattern. Using a larger number of neighbors results in a more global picture, in a sense a simpler explanation, which explains less of the specific cases in the training set, but which we might expect will be more generalizable.</p>
-<div class="admonition-mathematical-background alert alert-info">
+<div class="admonition-mathematical-background admonition">
 <p class="admonition-title">Mathematical background</p>
 <p>There is various ways to define model complexity or model flexibility rigorously, and it’s one of the main ideas in theoretical machine learning.
 Using Rademacher complexity TODO really? we could show that one nearest neighbors is actually more flexible than 5 nearest neighbors, though complexity measures

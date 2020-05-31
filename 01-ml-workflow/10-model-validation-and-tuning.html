@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Cross-validation and Grid Search &#8212; Applied Machine Learning in Python</title>
+    <title>Model evaluation &#8212; Applied Machine Learning in Python</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -31,8 +31,6 @@
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Supervised Learning Algorithms" href="../02-supervised-learning/index.html" />
-    <link rel="prev" title="Algorithm Chains and Pipelines" href="09-pipeline.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -73,34 +71,8 @@
   <li class="">
     <a href="../00-introduction/00-introduction.html">2. Introduction</a>
   </li>
-  <li class="active">
+  <li class="">
     <a href="00-ml-workflow.html">3. The Machine Learning Workflow</a>
-  <ul class="nav sidenav_l2">
-    <li class="">
-      <a href="01-data-loading.html">3.1 Data Loading and Basic Preprocessing</a>
-    </li>
-    <li class="">
-      <a href="02-supervised-learning.html">3.2 Supervised learning</a>
-    </li>
-    <li class="">
-      <a href="03-preprocessing.html">3.3 Preprocessing and Scaling</a>
-    </li>
-    <li class="">
-      <a href="04-categorical-variables.html">3.4 Categorical Variables</a>
-    </li>
-    <li class="">
-      <a href="05-feature-engineering.html">3.5 Feature Engineering</a>
-    </li>
-    <li class="">
-      <a href="08-imputation.html">3.6 Imputation</a>
-    </li>
-    <li class="">
-      <a href="09-pipeline.html">3.7 Algorithm Chains and Pipelines</a>
-    </li>
-    <li class="active">
-      <a href="">3.8 Cross-validation and Grid Search</a>
-    </li>
-  </ul>
   </li>
   <li class="">
     <a href="../02-supervised-learning/index.html">4. Supervised Learning Algorithms</a>
@@ -151,7 +123,7 @@
                 <!-- ipynb file if we had a myst markdown file -->
                 
                 <!-- Download raw file -->
-                <a class="dropdown-buttons" href="../_sources/01-ml-workflow/10-cross-validation-grid-search.ipynb.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+                <a class="dropdown-buttons" href="../_sources/01-ml-workflow/10-model-validation-and-tuning.ipynb.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
                 <!-- Download PDF via print -->
                 <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
             </div>
@@ -170,7 +142,7 @@
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
             <div class="dropdown-buttons">
                 
-                <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/01-ml-workflow/10-cross-validation-grid-search.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+                <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/01-ml-workflow/10-model-validation-and-tuning.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
                 
                 
                 
@@ -187,11 +159,36 @@
     <ul class="nav section-nav flex-column">
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#do-importance-of-pipelines-here" class="nav-link">Do importance of pipelines here?</a>
+            <a href="#the-threefold-split" class="nav-link">The Threefold-split</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#implementing-the-threefold-split" class="nav-link">Implementing the threefold split</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#k-fold-cross-validation" class="nav-link">K-Fold Cross-validation</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
             <a href="#cross-validation" class="nav-link">Cross-validation</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#the-answer-is-of-course-cross-validation-in-cross-validation-you-split-your-data-into-multiple-folds-usually-5-or-10-and-built-multiple-models-you-start-by-using-fold1-as-the-test-data-and-the-remaining-ones-as-the-training-data-you-build-your-model-on-the-training-data-and-evaluate-it-on-the-test-fold-for-each-of-the-splits-of-the-data-you-get-a-model-evaluation-and-a-score-in-the-end-you-can-aggregate-the-scores-for-example-by-taking-the-mean-what-are-the-pros-and-cons-of-this-each-data-point-is-in-the-test-set-exactly-once-takes-5-or-10-times-longer-better-data-use-larger-training-sets-does-that-solve-all-problems-no-it-replaces-only-one-of-the-splits-usually-the-inner-one" class="nav-link">The answer is of course cross-validation. In cross-validation, you split
+your data into multiple folds, usually 5 or 10, and built multiple models.
+You start by using fold1 as the test data, and the remaining ones as the
+training data. You build your model on the training data, and evaluate
+it on the test fold.
+For each of the splits of the data, you get a model evaluation and a
+score. In the end, you can aggregate the scores, for example by taking
+the mean.
+What are the pros and cons of this?
+Each data point is in the test-set exactly once!
+Takes 5 or 10 times longer!
+Better data use (larger training sets).
+Does that solve all problems? No, it replaces only one of the splits,
+usually the inner one!</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
@@ -216,6 +213,34 @@
     
         <li class="nav-item toc-entry toc-h2">
             <a href="#nested-cross-validation" class="nav-link">Nested Cross-Validation</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id1" class="nav-link">Cross-validation</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id2" class="nav-link">Cross-validation + test set</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id3" class="nav-link">Grid-Search with Cross-Validation</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id4" class="nav-link">GridSearchCV</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id5" class="nav-link">GridSearchCV Results</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id6" class="nav-link">n_neighbors Search Results</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#id7" class="nav-link">Nested Cross-Validation</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
@@ -257,11 +282,11 @@
         </li>
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#id1" class="nav-link">Correlations in time (and/or space)</a>
+            <a href="#id8" class="nav-link">Correlations in time (and/or space)</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#id2" class="nav-link">Correlations in time (and/or space)</a>
+            <a href="#id9" class="nav-link">Correlations in time (and/or space)</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
@@ -311,15 +336,127 @@
         
               <div>
                 
-  <div class="section" id="cross-validation-and-grid-search">
-<h1>Cross-validation and Grid Search<a class="headerlink" href="#cross-validation-and-grid-search" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="do-importance-of-pipelines-here">
-<h2>Do importance of pipelines here?<a class="headerlink" href="#do-importance-of-pipelines-here" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="model-evaluation">
+<h1>Model evaluation<a class="headerlink" href="#model-evaluation" title="Permalink to this headline">¶</a></h1>
+<p>So far our model evaluation was relatively simplistic, using a split into training and test data as shown in Figure TODO.</p>
+<p><img alt=":scale 100%" src="../_images/train_test_split_new.png" /></p>
+<p>This is a common scheme, but has several limitations that we’ll address now.
+The first issue is model selection. As we discussed before, many models have hyper-parameters that we need to specify, such as <code class="docutils literal notranslate"><span class="pre">k_neighbors</span></code> in the <code class="docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code>.
+We also might want to choose between different families of models or different algorithms. For simplicity, let’s focus on the case of a single hyper-parameter, but there’s no difference between that and selecting a different algorithm in principle.
+A natural way to find a good parameter to use would be to try different values, i.e. fit a model for each value of the hyper-parameter on the training set, and evaluate it on the test set.
+It seems that the hyper-parameters performing best on the test set should be a good choice. That’s true, however, with a caveat that’s illustrated in figure TODO.
+<img alt=":scale 80%" src="../_images/overfitting_validation_set_3.png" /></p>
+<p>todo explain figure more; should say test set in the figure?</p>
+<p>The figure assumes we know what the “real” generalization performance of each hyper-parameter setting would be, a quantity that’s only theoretically knowable, but the quantity that we’re actually interested. What we have is the performance on the test set, which can be understood as a noisy version of the true generalization ability of the model.
+Now if we pick the best performing hyper-parameters, as indicated by the red dot, it provides a good estimate of what the optimum hyper-parameter value should be, in other words on the x-axis, the red dot is close to the maximum of the idealized generalization performance (the orange line).
+However, because we took the maximum of a noisy value, the actual accuracy at this point, i.e. the y axis value of the red dot, is overly optimistic. While the test set accuracy is an unbiased estimate of generalization, i.e. it’s unbiased on average, taking the maximum over all hyper-parameters results in an optimistic bias.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Bias in validation and multiple testing
+The issue described above of using the test set both for finding the optimum hyper-parameters and for estimating the accuracy of these parameters can be linked to the concept of multiple testing errors in statistics.
+The underlying idea is that if I try out many different things (say many hypothesis or many hyper-parameters), then at some point, I’ll get a ‘good’ result by accident. In a process involving randomness and uncertainty, trying 100 times and getting a good result is not the same as trying once and getting a good result. Luckily the fix for our issue is much easier than the fix for multiple hypothesis testing.</p>
+</div>
+<p>So while we now know a good setting for our hyper-parmeter, we have no way of estimating how well the model with this hyper-parameter actually performs. If we want to use this model in production, that’s a pretty big issue.
+However, it has a pretty simple solution: using an additional hold-out set, as shown in Figure todo.</p>
+<div class="section" id="the-threefold-split">
+<h2>The Threefold-split<a class="headerlink" href="#the-threefold-split" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 100%" src="../_images/train_test_validation_split.png" /></p>
+<p>This use of three separate sets, a training set for model building, a validation set for model selection, and a test set for final model evaluation, is probably the most commonly used method for model selection and evaluation, and (apart from some modifications that we’ll discuss below), it’s a best practice that you should use whenever possible. The result is illustrated in Figure todo.
+<img alt=":scale 80%" src="../_images/overfitting_validation_set_4.png" /></p>
+<p>We now use the validation set to find the value (i.e. x-axis location) of the optimum hyper-parameter, and the test set to find the corresponding y-value. Because we haven’t used the test set for estimating the best hyper-parameter, the test set provides an unbiased estimate of generalization performance when following this method.
+One aspect of this is critically important, though: the test set only provides an unbiased result if we are using it once. We apply this selection procedure several times, compare several test-set results, and pick the best-performing model, we end up with the situation we started with, and our estimate will be biased. Therefore, <strong>you should be really careful in when to use the test set</strong>, and ideally set it aside and <strong>use it only once, after you decided on the final model you want to use</strong>.</p>
+<p><a class="reference external" href="20http://robotics.stanford.edu/~ang/papers/cv-final.pdf">Preventing Overfitting in cross-validation - Ng 1997</a>]</p>
+</div>
+<div class="section" id="implementing-the-threefold-split">
+<h2>Implementing the threefold split<a class="headerlink" href="#implementing-the-threefold-split" title="Permalink to this headline">¶</a></h2>
+<p>Before we go into more detail of tools for doing model-evaluation with scikit-learn, let’s do the procedure <em>by foot</em> first, to clarify the process.
+Here is a simple implementation of using the three-fold split strategy for selecting the number of <code class="docutils literal notranslate"><span class="pre">n_neighbors</span></code> in <code class="docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code> on the TODO iris dataset.
+We split our dataset into three parts, by first talking 25% as the test set, and then taking 25% of the remainder as validation set (so about 19% of the original data).
+Then we define the candidate values of the parameter we want to adjust. This often requires knowledge of the algorithm and potentially the dataset.
+Here, we’re using a range from 1 to 14 in steps of 2. For <code class="docutils literal notranslate"><span class="pre">n_neighbors</span></code>, often uneven numbers are used to avoid ties. The upper range is picked somewhat arbitrarily, but we certainly wouldn’t want to use more than 50, the number of samples in each class in this dataset.</p>
+<p>Then, we build a model for each value of <code class="docutils literal notranslate"><span class="pre">n_neighbors</span></code> in our list, evaluate it on the validation set, and store the result. Finally, we find the value that gave us the best result.
+Now we have basically made it to computing the red dot in figure TODO, and we only need to evaluate the purple dot.
+The easiest way to do this would be to just predict on the test set, which is certainly possible. In partice, we often prefer rebuilding the model using the training data together with the validation data.
+After we found the best value of <code class="docutils literal notranslate"><span class="pre">n_neighbors</span></code> the validation set is no longer useful, and so we can just use it as more data to build our model with. So we train a new model, using the best value of <code class="docutils literal notranslate"><span class="pre">n_neighbors</span></code> as determined by the validation set, use as training data both the original training set and the validation set, and evaluate the model on the test set.
+This provides us with an unbiased estimate of how well this final model will generalize.</p>
+<p>The step of retraining a model using both the training and validation set is optional, and if model training is very expensive, or we can assume the training dataset is large enough for our model, we might skip this step. Here, we have very little data, however, and we should use as much as we can get. We’ll also see more reasons to use this retraining technique later.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="c1"># Load the data and split it into three parts</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># first split off test set</span>
+<span class="n">X_trainval</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_trainval</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
+<span class="c1"># then split of validation set</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_val</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_val</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_trainval</span><span class="p">,</span> <span class="n">y_trainval</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
+
+<span class="c1"># create a list to hold validation scores for each</span>
+<span class="c1"># hyper-parameter setting</span>
+<span class="n">val_scores</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># Specify a list of values we want to try for n_neighbors</span>
+<span class="c1"># This might require some knowledge of the dataset and the model</span>
+<span class="c1"># or potentially some trial-and-error</span>
+<span class="n">neighbors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="c1"># for each potential value of n_neighbors</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">:</span>
+    <span class="c1"># build a model</span>
+    <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="c1"># score validation set accuracy</span>
+    <span class="n">val_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_val</span><span class="p">,</span> <span class="n">y_val</span><span class="p">))</span>
+<span class="c1"># using max tells us the best score</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;best validation score: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">val_scores</span><span class="p">)</span><span class="si">:</span><span class="s2">.3</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># with argmax we can find the best value of n_neighbors used</span>
+<span class="n">best_n_neighbors</span> <span class="o">=</span> <span class="n">neighbors</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">val_scores</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;best n_neighbors:&quot;</span><span class="p">,</span> <span class="n">best_n_neighbors</span><span class="p">)</span>
+<span class="c1"># Now,</span>
+<span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">best_n_neighbors</span><span class="p">)</span>
+<span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_trainval</span><span class="p">,</span> <span class="n">y_trainval</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;test-set score: </span><span class="si">{</span><span class="n">knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>best validation score: 1.0
+best n_neighbors: 3
+test-set score: 0.974
+</pre></div>
+</div>
+</div>
+</div>
+<p>Using a three-fold split into training, validation and test set is essential whenever you’re evaluating more than one model-which is always.
+However, there’s another aspect we might want to improve, which is the reliance on the particular splits.
+If we change the random state in the splitting (todo?) we might end up with different results. Ideally we want the parameters we pick and our assessment of generalization ability not to be impacted by
+the initial splitting of the data. In fact, having large variety between outcomes depending on the data split is probably a bad sign and means our model is not very robust.
+In some cases, when the data is particularly small, such as for the iris dataset that we’re using here, this can be hard to overcome, but there’s still one tool
+that’s invaluable to have in your toolbox to make model evaluation more robust: cross-validation.</p>
+</div>
+<div class="section" id="k-fold-cross-validation">
+<h2>K-Fold Cross-validation<a class="headerlink" href="#k-fold-cross-validation" title="Permalink to this headline">¶</a></h2>
+<p>Here is an implementation of the three-fold split for selecting the
+number of neighbors.
+For each number of neighbors that we want to try, we build a model on
+the training set, and evaluate it on the validation set.
+We then pick the best validation set score, here that’s 97.2%, achieved
+when using three neighbors.
+We then retrain the model with this parameter, and evaluate on the test set.
+The retraining step is somewhat optional. We could also just use the best
+model. But retraining allows us to make better use of all the data.</p>
+<p>Still, depending on the test-set size we might be using only 70% or 80%
+of the data, and our results depend on how exactly we split the datasets.
+So how can we make this more robust?</p>
 </div>
 <div class="section" id="cross-validation">
 <h2>Cross-validation<a class="headerlink" href="#cross-validation" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 80%" src="../_images/cross_validation_new.png" /></p>
-<p>The answer is of course cross-validation. In cross-validation, you split
+<p>.center[
+<img alt=":scale 80%" src="../_images/cross_validation_new.png" />
+]</p>
+</div>
+<div class="section" id="the-answer-is-of-course-cross-validation-in-cross-validation-you-split-your-data-into-multiple-folds-usually-5-or-10-and-built-multiple-models-you-start-by-using-fold1-as-the-test-data-and-the-remaining-ones-as-the-training-data-you-build-your-model-on-the-training-data-and-evaluate-it-on-the-test-fold-for-each-of-the-splits-of-the-data-you-get-a-model-evaluation-and-a-score-in-the-end-you-can-aggregate-the-scores-for-example-by-taking-the-mean-what-are-the-pros-and-cons-of-this-each-data-point-is-in-the-test-set-exactly-once-takes-5-or-10-times-longer-better-data-use-larger-training-sets-does-that-solve-all-problems-no-it-replaces-only-one-of-the-splits-usually-the-inner-one">
+<h2>The answer is of course cross-validation. In cross-validation, you split
 your data into multiple folds, usually 5 or 10, and built multiple models.
 You start by using fold1 as the test data, and the remaining ones as the
 training data. You build your model on the training data, and evaluate
@@ -332,11 +469,12 @@ Each data point is in the test-set exactly once!
 Takes 5 or 10 times longer!
 Better data use (larger training sets).
 Does that solve all problems? No, it replaces only one of the splits,
-usually the inner one!</p>
+usually the inner one!<a class="headerlink" href="#the-answer-is-of-course-cross-validation-in-cross-validation-you-split-your-data-into-multiple-folds-usually-5-or-10-and-built-multiple-models-you-start-by-using-fold1-as-the-test-data-and-the-remaining-ones-as-the-training-data-you-build-your-model-on-the-training-data-and-evaluate-it-on-the-test-fold-for-each-of-the-splits-of-the-data-you-get-a-model-evaluation-and-a-score-in-the-end-you-can-aggregate-the-scores-for-example-by-taking-the-mean-what-are-the-pros-and-cons-of-this-each-data-point-is-in-the-test-set-exactly-once-takes-5-or-10-times-longer-better-data-use-larger-training-sets-does-that-solve-all-problems-no-it-replaces-only-one-of-the-splits-usually-the-inner-one" title="Permalink to this headline">¶</a></h2>
 <p>.smaller[
 pro: more stable, more data</p>
 <p>con: slower
 ]</p>
+<p>class: center, some-space</p>
 </div>
 <div class="section" id="cross-validation-test-set">
 <h2>Cross-validation + test set<a class="headerlink" href="#cross-validation-test-set" title="Permalink to this headline">¶</a></h2>
@@ -383,7 +521,8 @@ them we do cross-validation.</p>
 <p>We had seven different values of n_neighbors, and we are running 10 fold
 cross-validation. How many models to we train in total?
 10 * 7 + 1 = 71 (the one is the final model)</p>
-<p><img alt=":scale 80%" src="../_images/gridsearch_workflow.png" /></p>
+<p>class: center, middle
+<img alt=":scale 80%" src="../_images/gridsearch_workflow.png" /></p>
 <p>Here is a conceptual overview of this way of tuning parameters, we start
 of with the dataset and a candidate set of parameters we want to try,
 labeled parameter grid, for example the number of neighbors.</p>
@@ -442,6 +581,7 @@ We can check out the best cross-validation score and the best parameter
 setting with the best_score_ and best_params_ attributes.
 And finally we can compute the accuracy on the test set, simply but
 using the score method! That will use the retrained model under the hood.</p>
+<p>class: compact</p>
 </div>
 <div class="section" id="gridsearchcv-results">
 <h2>GridSearchCV Results<a class="headerlink" href="#gridsearchcv-results" title="Permalink to this headline">¶</a></h2>
@@ -486,6 +626,7 @@ Here you can see the columns. Theres mean fit time, mean score time,
 mean test scores, mean training scores, standard deviations and scores
 for each individual split of the data.
 And there is one row for each setting of the parameters we tried out.</p>
+<p>class: center</p>
 </div>
 <div class="section" id="n-neighbors-search-results">
 <h2>n_neighbors Search Results<a class="headerlink" href="#n-neighbors-search-results" title="Permalink to this headline">¶</a></h2>
@@ -494,9 +635,207 @@ And there is one row for each setting of the parameters we tried out.</p>
 the different parameters.
 Here are the mean training score and mean test score together with one
 standard deviation.</p>
+<p>class: spacious</p>
 </div>
 <div class="section" id="nested-cross-validation">
 <h2>Nested Cross-Validation<a class="headerlink" href="#nested-cross-validation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Replace outer split by CV loop</p></li>
+<li><p>Doesn’t yield single model
+(inner loop might have different best parameter settings)</p></li>
+<li><p>Takes a long time, not that useful in practice</p></li>
+</ul>
+<p>We could additionally replace the outer split of the data by
+cross-validation. That would yield what’s known as nested
+cross-validation.
+This is sometimes interesting when comparing different models, but it will
+not actually yield one final model. It will yield one model for each loop
+of the outer fold, which might have different settings of the parameters.
+Also, this takes a really long time to train, by an additional factor
+of 5 or 10, so this is not used very commonly in practice.</p>
+<p>But let’s dive into the cross-validation a bit more.</p>
+</div>
+<div class="section" id="id1">
+<h2>Cross-validation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 80%" src="../_images/cross_validation_new.png" /></p>
+<p>The answer is of course cross-validation. In cross-validation, you split
+your data into multiple folds, usually 5 or 10, and built multiple models.
+You start by using fold1 as the test data, and the remaining ones as the
+training data. You build your model on the training data, and evaluate
+it on the test fold.
+For each of the splits of the data, you get a model evaluation and a
+score. In the end, you can aggregate the scores, for example by taking
+the mean.
+What are the pros and cons of this?
+Each data point is in the test-set exactly once!
+Takes 5 or 10 times longer!
+Better data use (larger training sets).
+Does that solve all problems? No, it replaces only one of the splits,
+usually the inner one!</p>
+<p>.smaller[
+pro: more stable, more data</p>
+<p>con: slower
+]</p>
+</div>
+<div class="section" id="id2">
+<h2>Cross-validation + test set<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 105%" src="../_images/grid_search_cross_validation_new.png" /></p>
+<p>Here is how the workflow looks like when we are using five-fold
+cross-validation together with a test-set split for adjusting parameters.
+We start out by splitting of the test data, and then we perform
+cross-validation on the training set.
+Once we found the right setting of the parameters, we retrain on the
+whole training set and evaluate on the test set.</p>
+</div>
+<div class="section" id="id3">
+<h2>Grid-Search with Cross-Validation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">cross_val_scores</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">:</span>
+    <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">knn</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">cross_val_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">))</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;best cross-validation score: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">cross_val_scores</span><span class="p">)</span><span class="si">:</span><span class="s2">.3</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">best_n_neighbors</span> <span class="o">=</span> <span class="n">neighbors</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">cross_val_scores</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;best n_neighbors: </span><span class="si">{</span><span class="n">best_n_neighbors</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">best_n_neighbors</span><span class="p">)</span>
+<span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;test-set score: </span><span class="si">{</span><span class="n">knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">best</span> <span class="n">cross</span><span class="o">-</span><span class="n">validation</span> <span class="n">score</span><span class="p">:</span> <span class="mf">0.967</span>
+<span class="n">best</span> <span class="n">n_neighbors</span><span class="p">:</span> <span class="mi">9</span>
+<span class="n">test</span><span class="o">-</span><span class="nb">set</span> <span class="n">score</span><span class="p">:</span> <span class="mf">0.965</span>
+</pre></div>
+</div>
+<p>]</p>
+<p>Here is an implementation of this  for k nearest neighbors.</p>
+<p>We split the data, then we iterate over all parameters and for each of
+them we do cross-validation.</p>
+<p>We had seven different values of n_neighbors, and we are running 10 fold
+cross-validation. How many models to we train in total?
+10 * 7 + 1 = 71 (the one is the final model)</p>
+<p><img alt=":scale 80%" src="../_images/gridsearch_workflow.png" /></p>
+<p>Here is a conceptual overview of this way of tuning parameters, we start
+of with the dataset and a candidate set of parameters we want to try,
+labeled parameter grid, for example the number of neighbors.</p>
+<p>We split the dataset in to training and test set. We use cross-validation
+and the parameter grid to find the best parameters.
+We use the best parameters and the training set to build a model with
+the best parameters,
+and finally evaluate it on the test set.</p>
+<p>Because this is such a common pattern, there is a helper class for this
+in scikit-learn, called GridSearch CV, which does most of these steps
+for you.</p>
+</div>
+<div class="section" id="id4">
+<h2>GridSearchCV<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>.smaller[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;n_neighbors&#39;</span><span class="p">:</span>  <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">2</span><span class="p">)}</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">KNeighborsClassifier</span><span class="p">(),</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                   <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;best mean cross-validation score: </span><span class="si">{</span><span class="n">grid</span><span class="o">.</span><span class="n">best_score_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;best parameters: </span><span class="si">{</span><span class="n">grid</span><span class="o">.</span><span class="n">best_params_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;test-set score: </span><span class="si">{</span><span class="n">grid</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">best</span> <span class="n">mean</span> <span class="n">cross</span><span class="o">-</span><span class="n">validation</span> <span class="n">score</span><span class="p">:</span> <span class="mf">0.967</span>
+<span class="n">best</span> <span class="n">parameters</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;n_neighbors&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">}</span>
+<span class="n">test</span><span class="o">-</span><span class="nb">set</span> <span class="n">score</span><span class="p">:</span> <span class="mf">0.993</span>
+</pre></div>
+</div>
+<p>]</p>
+<p>Here is an example.
+We still need to split our data into training and test set.
+We declare the parameters we want to search over as a dictionary. In
+this example the parameter is just n_neighbors and the values we want
+to try out are a range. The keys of the dictionary are the parameter
+names and the values are the parameter settings we want to try. If you
+specify multiple parameters, all possible combinations are tried. This
+is where the name grid-search comes from - it’s an exhaustive search
+over all possible parameter combinations that you specify.</p>
+<p>GridSearchCV is a class, and it behaves just like any other model in
+scikit-learn, with a fit, predict and score method.
+It’s what we call a meta-estimator, since you give it one estimator,
+here the KneighborsClassifier, and from that GridSearchCV constructs a
+new estimator that does the parameter search for you.
+You also specify the parameters you want to search, and the
+cross-validation strategy.
+Then GridSearchCV does all the other things we talked about, it does the
+cross-validation and parameter selection, and retrains a model with the
+best parameter settings that were found.
+We can check out the best cross-validation score and the best parameter
+setting with the best_score_ and best_params_ attributes.
+And finally we can compute the accuracy on the test set, simply but
+using the score method! That will use the retrained model under the hood.</p>
+</div>
+<div class="section" id="id5">
+<h2>GridSearchCV Results<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>.tiny[</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Index</span><span class="p">([</span><span class="s1">&#39;mean_fit_time&#39;</span><span class="p">,</span> <span class="s1">&#39;mean_score_time&#39;</span><span class="p">,</span> <span class="s1">&#39;mean_test_score&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;mean_train_score&#39;</span><span class="p">,</span> <span class="s1">&#39;param_n_neighbors&#39;</span><span class="p">,</span> <span class="s1">&#39;params&#39;</span><span class="p">,</span> <span class="s1">&#39;rank_test_score&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;split0_test_score&#39;</span><span class="p">,</span> <span class="s1">&#39;split0_train_score&#39;</span><span class="p">,</span> <span class="s1">&#39;split1_test_score&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;split1_train_score&#39;</span><span class="p">,</span> <span class="s1">&#39;split2_test_score&#39;</span><span class="p">,</span> <span class="s1">&#39;split2_train_score&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;split3_test_score&#39;</span><span class="p">,</span> <span class="s1">&#39;split3_train_score&#39;</span><span class="p">,</span> <span class="s1">&#39;split4_test_score&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;split4_train_score&#39;</span><span class="p">,</span> <span class="s1">&#39;split5_test_score&#39;</span><span class="p">,</span> <span class="s1">&#39;split5_train_score&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;split6_test_score&#39;</span><span class="p">,</span> <span class="s1">&#39;split6_train_score&#39;</span><span class="p">,</span> <span class="s1">&#39;split7_test_score&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;split7_train_score&#39;</span><span class="p">,</span> <span class="s1">&#39;split8_test_score&#39;</span><span class="p">,</span> <span class="s1">&#39;split8_train_score&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;split9_test_score&#39;</span><span class="p">,</span> <span class="s1">&#39;split9_train_score&#39;</span><span class="p">,</span> <span class="s1">&#39;std_fit_time&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;std_score_time&#39;</span><span class="p">,</span> <span class="s1">&#39;std_test_score&#39;</span><span class="p">,</span> <span class="s1">&#39;std_train_score&#39;</span><span class="p">],</span>
+      <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span><span class="o">.</span><span class="n">params</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span>     <span class="p">{</span><span class="s1">&#39;n_neighbors&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="mi">1</span>     <span class="p">{</span><span class="s1">&#39;n_neighbors&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="mi">2</span>     <span class="p">{</span><span class="s1">&#39;n_neighbors&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
+<span class="mi">3</span>     <span class="p">{</span><span class="s1">&#39;n_neighbors&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">}</span>
+<span class="mi">4</span>     <span class="p">{</span><span class="s1">&#39;n_neighbors&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">}</span>
+<span class="mi">5</span>    <span class="p">{</span><span class="s1">&#39;n_neighbors&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">}</span>
+<span class="mi">6</span>    <span class="p">{</span><span class="s1">&#39;n_neighbors&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">}</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">params</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">object</span>
+</pre></div>
+</div>
+<p>]</p>
+<p>FIXME text size
+GridSearchCV also computes a lot of interesting statistics for you, which
+are stored in the cv_results_ attribute. That attribute is a dictionary,
+but it’s easiest to convert it to a pandas dataframe to look at it.
+Here you can see the columns. Theres mean fit time, mean score time,
+mean test scores, mean training scores, standard deviations and scores
+for each individual split of the data.
+And there is one row for each setting of the parameters we tried out.</p>
+</div>
+<div class="section" id="id6">
+<h2>n_neighbors Search Results<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p><img alt=":scale 70%" src="../_images/grid_search_n_neighbors.png" /></p>
+<p>We can use this for example to plot the results of cross-validation over
+the different parameters.
+Here are the mean training score and mean test score together with one
+standard deviation.</p>
+</div>
+<div class="section" id="id7">
+<h2>Nested Cross-Validation<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Replace outer split by CV loop</p></li>
 <li><p>Doesn’t yield single model
@@ -683,14 +1022,14 @@ use these groups.</p>
 <p>Not necessarily obvious that there is a time component!
 Data collection usually happens over time!</p>
 </div>
-<div class="section" id="id1">
-<h2>Correlations in time (and/or space)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h2>Correlations in time (and/or space)<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <p><img alt=":scale 70%" src="../_images/time_series2.png" /></p>
 <p>Not necessarily obvious that there is a time component!
 Data collection usually happens over time!</p>
 </div>
-<div class="section" id="id2">
-<h2>Correlations in time (and/or space)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h2>Correlations in time (and/or space)<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <p><img alt=":scale 70%" src="../_images/time_series3.png" /></p>
 <p>Not necessarily obvious that there is a time component!
 Data collection usually happens over time!</p>
@@ -1204,8 +1543,6 @@ low complexity!</p>
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="09-pipeline.html" title="previous page">Algorithm Chains and Pipelines</a>
-    <a class='right-next' id="next-link" href="../02-supervised-learning/index.html" title="next page">Supervised Learning Algorithms</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

@@ -89,16 +89,10 @@
       <a href="04-categorical-variables.html">3.4 Categorical Variables</a>
     </li>
     <li class="">
-      <a href="05-feature-engineering.html">3.5 Feature Engineering</a>
+      <a href="08-imputation.html">3.5 Missing Values</a>
     </li>
     <li class="">
-      <a href="08-imputation.html">3.6 Imputation</a>
-    </li>
-    <li class="">
-      <a href="09-pipeline.html">3.7 Algorithm Chains and Pipelines</a>
-    </li>
-    <li class="">
-      <a href="10-cross-validation-grid-search.html">3.8 Cross-validation and Grid Search</a>
+      <a href="09-pipeline.html">3.6 Algorithm Chains and Pipelines</a>
     </li>
   </ul>
   </li>
@@ -348,7 +342,7 @@ One of the most common ways to scale data is to ensure the data has zero mean an
 </div>
 </div>
 </div>
-<div class="alert alert-info">
+<div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Attributes that are estimated from the training data are named with trailing underscores, such as <code class="docutils literal notranslate"><span class="pre">mean_</span></code> in scikit-learn. This is to distinguish them for parameter that are passed to the model at instantiation time, such as <code class="docutils literal notranslate"><span class="pre">n_neighbors</span></code> in <code class="docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code>.</p>
 </div>
@@ -408,7 +402,7 @@ So if we prefer to have a dataframe again, we could create one like this:</p>
 <img alt="../_images/03-preprocessing_26_1.png" src="../_images/03-preprocessing_26_1.png" />
 </div>
 </div>
-<div class="alert alert-info">
+<div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>For many preprocessing operations such as scaling, it’s very common to fit the model on the training dataset, and then transform the training datset.
 As this is such a common pattern, there is a shortcut to do both of these at once, which will save you some typing, but might also allow a more efficient computation, and is called <code class="docutils literal notranslate"><span class="pre">fit_transform</span></code>.
@@ -418,8 +412,8 @@ So we could equivalently write the above code as</p>
 </pre></div>
 </div>
 <p>Another common patter, which uses the fact that <code class="docutils literal notranslate"><span class="pre">fit</span></code> returns the object itself, is this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>scaler = StandardScaler().fit(X_train)
-X_train_scaled = scaler.transform(X_train)``
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_train_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>However, this doesn’t make use of potential computational shortcuts that are possible when computing <code class="docutils literal notranslate"><span class="pre">fit</span></code> and <code class="docutils literal notranslate"><span class="pre">transform</span></code> together in <code class="docutils literal notranslate"><span class="pre">fit_transform</span></code>.</p>
@@ -428,7 +422,7 @@ X_train_scaled = scaler.transform(X_train)``
 <p>Another very common wayto scale data is to specify a common minimum and maximum for all features, which is implemented in <code class="docutils literal notranslate"><span class="pre">MinMaxScaler</span></code>. The <code class="docutils literal notranslate"><span class="pre">MinMaxScaler</span></code> can scale to aribrary ranges, though the default of scaling to the range between 0 and 1 usually works just fine. Another common option is to scale between -1 and 1.
 Figure TODO shows two more scalers, the <code class="docutils literal notranslate"><span class="pre">RobustScaler</span></code> and the <code class="docutils literal notranslate"><span class="pre">Normalizer</span></code>. The <code class="docutils literal notranslate"><span class="pre">RobustScaler</span></code> works quite similar to the <code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code> in that it shifts and scales each feature.
 However, as opposed to using mean and variance like StandardScaler, the <code class="docutils literal notranslate"><span class="pre">RobustScaler</span></code> uses median and <a class="reference external" href="https://en.wikipedia.org/wiki/Interquartile_range">interquartile ranges</a>. In other words, <code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code> ensures that the median of the data is zero, and that 50% of the samples is between -0.5 and 0.5 for each feature.</p>
-<div class="alert alert-info">
+<div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>It is called ‘robust’ because these measures are known as ‘robust statistics’, in that they are robust against the presence of outliers.
 The mean and variance used in StandardScaler are not robust in that way: a single data point, if it’s far enough away from the rest of the data, can have unlimited impact on mean and variance.
@@ -530,7 +524,7 @@ Note how the minimum and maximum on the test set are not 0 and 1 in this figure.
 <p>Now, imagine we treated the test set in the same way we treated the training set, i.e. if we would call <code class="docutils literal notranslate"><span class="pre">fit_transform</span></code> on it and re-estimate the scale of the data.
 That would lead to the test data being scaled in a way that the minimum and maximum are 0 and 1 respectively for each feature, as shown in Figure TODO c). Not that now the figure looks different, and the position of the red points has changed when relating them to the blue points. A model trained on the blue data can now no longer be applied to the red data, as the red data was transformed in a different way.</p>
 <p>To summarize, <strong>only ever fit any model or transformation on the training data, never call <code class="docutils literal notranslate"><span class="pre">fit</span></code> or <code class="docutils literal notranslate"><span class="pre">fit_transform</span></code> on the  test data.</strong></p>
-<div class="alert alert-info">
+<div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Some people prefer to scale the data before splitting it into training and test set. While that might sometimes simplify the code, I would recommend against it.
 Your goal will be to apply the model in production to new data, and you want your test data to stand in for this new data that you haven’t observed yet. However, this new data will not be part of the set you use to compute your rescaling. If you included your test data in the scaling, that means that your new data is treated differently from the training set, which defeats the purpose of the training set.
@@ -809,12 +803,17 @@ I can equivalently create the same pipeline by directly using the <code class="d
 </div>
 </div>
 </div>
-<p>A pipeline can have arbitrary many steps which are executed in order. Each step is a scikit-learn <em>Estimator</em>, which is the base class and iterface for all the models and processing steps in scikit-learn. So far we’ve only seen the <code class="docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code> and the scalers, but soon we’ll meet many more.
-All steps except the last step need to be <em>transformers</em> meaning they need to have a <code class="docutils literal notranslate"><span class="pre">transform</span></code> method that can prduce a new version of the dataset, such as the scalers do. We can’t change the order to have the <code class="docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code> first, because it is not a <code class="docutils literal notranslate"><span class="pre">Transformer</span></code>:</p>
+<p>A pipeline can have arbitrary many steps which are executed in order. Each step is a scikit-learn <em>Estimator</em>, which is the base class and iterface for all the models and processing steps in scikit-learn. So far we’ve only seen the <code class="docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code> and the scalers, but soon we’ll meet many more.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">Meta-Estimators</p>
+<p>In scikit-learn, objects that are created by putting together one or more existing Estimator are called <em>meta-estimators</em>.
+The Pipeline is the first meta-estimator that we encountered, but we’ll see many more, as they are an essential part of scikit-learn.</p>
+</div>
+<p>All steps except the last step need to be <em>transformers</em> meaning they need to have a <code class="docutils literal notranslate"><span class="pre">transform</span></code> method that can produce a new version of the dataset, such as the scalers do. We can’t change the order to have the <code class="docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code> first, because it is not a <code class="docutils literal notranslate"><span class="pre">Transformer</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">KNeighborsClassifier</span><span class="p">(),</span> <span class="n">StandardScaler</span><span class="p">())</span>
 </pre></div>
 </div>
-<div class="highlight-pythontb notranslate"><div class="highlight"><pre><span></span>TypeError: All intermediate steps should be transformers and implement fit and transform or be the string &#39;passthrough&#39; &#39;KNeighborsClassifier()&#39; doesn&#39;t
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">TypeError</span><span class="p">:</span> <span class="n">All</span> <span class="n">intermediate</span> <span class="n">steps</span> <span class="n">should</span> <span class="n">be</span> <span class="n">transformers</span> <span class="ow">and</span> <span class="n">implement</span> <span class="n">fit</span> <span class="ow">and</span> <span class="n">transform</span> <span class="ow">or</span> <span class="n">be</span> <span class="n">the</span> <span class="n">string</span> <span class="s1">&#39;passthrough&#39;</span> <span class="s1">&#39;KNeighborsClassifier()&#39;</span> <span class="n">doesn</span><span class="s1">&#39;t</span>
 
 </pre></div>
 </div>
