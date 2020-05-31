@@ -75,7 +75,7 @@
     "Then we define the candidate values of the parameter we want to adjust. This often requires knowledge of the algorithm and potentially the dataset.\n",
     "Here, we're using a range from 1 to 14 in steps of 2. For ``n_neighbors``, often uneven numbers are used to avoid ties. The upper range is picked somewhat arbitrarily, but we certainly wouldn't want to use more than 50, the number of samples in each class in this dataset.\n",
     "\n",
-    "```{margin}Grid Search\n",
+    "```{margin} Grid Search\n",
     "The process of trying every value of interest is often called **grid search** in the machine learning context, and basically constitutes a brute-force search for the optimum value.\n",
     "The name grid search stems from the fact that when searching over multiple hyper-parameters, usually all possible combinations are tried, which corresponds to a grid of hyper-parameters.\n",
     "```\n",

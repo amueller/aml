@@ -31,6 +31,8 @@
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Evaluation Metrics and scoring" href="10-evaluation-metrics.html" />
+    <link rel="prev" title="Model Evaluation" href="index.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -72,7 +74,7 @@
     <a href="../00-introduction/00-introduction.html">2. Introduction</a>
   </li>
   <li class="">
-    <a href="00-ml-workflow.html">3. The Machine Learning Workflow</a>
+    <a href="../01-ml-workflow/00-ml-workflow.html">3. The Machine Learning Workflow</a>
   </li>
   <li class="">
     <a href="../02-supervised-learning/index.html">4. Supervised Learning Algorithms</a>
@@ -80,8 +82,28 @@
   <li class="">
     <a href="../03-unsupervised-learning/index.html">5. Unsupervised Learning Algorithms</a>
   </li>
-  <li class="">
-    <a href="../04-model-evaluation/index.html">6. Model Evaluation</a>
+  <li class="active">
+    <a href="index.html">6. Model Evaluation</a>
+  <ul class="nav sidenav_l2">
+    <li class="active">
+      <a href="">6.1 Data Splitting Strategies</a>
+    </li>
+    <li class="">
+      <a href="10-evaluation-metrics.html">6.2 Evaluation Metrics and scoring</a>
+    </li>
+    <li class="">
+      <a href="11-calibration.html">6.3 Calibration</a>
+    </li>
+    <li class="">
+      <a href="12-interpretation.html">6.4 Feature importances and Model interpretation</a>
+    </li>
+    <li class="">
+      <a href="17-cluster-evaluation.html">6.5 Cluster Stability</a>
+    </li>
+    <li class="">
+      <a href="parameter_tuning_automl.html">6.6 Parameter Tuning and AutoML</a>
+    </li>
+  </ul>
   </li>
   <li class="">
     <a href="../05-advanced-topics/index.html">7. Advanced Topics</a>
@@ -123,7 +145,7 @@
                 <!-- ipynb file if we had a myst markdown file -->
                 
                 <!-- Download raw file -->
-                <a class="dropdown-buttons" href="../_sources/01-ml-workflow/11-data-splitting-strategies.ipynb.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+                <a class="dropdown-buttons" href="../_sources/04-model-evaluation/1-data-splitting-strategies.ipynb.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
                 <!-- Download PDF via print -->
                 <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
             </div>
@@ -142,7 +164,7 @@
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
             <div class="dropdown-buttons">
                 
-                <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/01-ml-workflow/11-data-splitting-strategies.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+                <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/04-model-evaluation/1-data-splitting-strategies.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
                 
                 
                 
@@ -266,10 +288,10 @@
 but there are many other strategies.</p>
 <p>One of the most commonly ones is stratified k-fold cross-validation.</p>
 <p>.center[
-<img alt=":scale 90%" src="../_images/kfold_cv.png" />
+<img alt=":scale 90%" src="04-model-evaluation/images/kfold_cv.png" />
 ]</p>
 <p>.center[
-<img alt=":scale 90%" src="../_images/stratified_cv.png" />
+<img alt=":scale 90%" src="04-model-evaluation/images/stratified_cv.png" />
 ]
 .smallest[
 Stratified:
@@ -345,7 +367,7 @@ high variance.
 A better way to get a robust estimate is to run 5-fold or 10-fold
 cross-validation multiple times, while shuffling the dataset.</p>
 <p>.center[
-<img alt=":scale 100%" src="../_images/shuffle_split_cv.png" />
+<img alt=":scale 100%" src="04-model-evaluation/images/shuffle_split_cv.png" />
 ]
 .smaller[Number of iterations and test set size independent]</p>
 <p>Another interesting variant is shuffle split and stratified shuffle
@@ -357,7 +379,7 @@ reasonably large test-sets.
 It’s also great if you have a very large training set and you want to
 subsample it to get quicker results.</p>
 <p>.center[
-<img alt=":scale 100%" src="../_images/repeated_stratified_kfold.png" />
+<img alt=":scale 100%" src="04-model-evaluation/images/repeated_stratified_kfold.png" />
 ]
 .smaller[
 Potentially less variance than StratifiedShuffleSplit.</p>
@@ -405,7 +427,7 @@ with the default parameters, it will yield exactly the same results.</p>
 States: you have all the states, no new state will start to exist</p>
 <p>Similar thing for multiple measurements per patient.
 Or geospacial data.</p>
-<p><img alt=":scale 100%" src="../_images/group_kfold.png" /></p>
+<p><img alt=":scale 100%" src="04-model-evaluation/images/group_kfold.png" /></p>
 <p>A somewhat more complicated approach is group k-fold.
 This is actually for data that doesn’t fulfill our IID assumption and
 has correlations between samples.
@@ -426,22 +448,22 @@ use these groups.</p>
 </div>
 <div class="section" id="correlations-in-time-and-or-space">
 <h2>Correlations in time (and/or space)<a class="headerlink" href="#correlations-in-time-and-or-space" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 70%" src="../_images/time_series1.png" /></p>
+<p><img alt=":scale 70%" src="04-model-evaluation/images/time_series1.png" /></p>
 <p>Not necessarily obvious that there is a time component!
 Data collection usually happens over time!</p>
 </div>
 <div class="section" id="id1">
 <h2>Correlations in time (and/or space)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 70%" src="../_images/time_series2.png" /></p>
+<p><img alt=":scale 70%" src="04-model-evaluation/images/time_series2.png" /></p>
 <p>Not necessarily obvious that there is a time component!
 Data collection usually happens over time!</p>
 </div>
 <div class="section" id="id2">
 <h2>Correlations in time (and/or space)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 70%" src="../_images/time_series3.png" /></p>
+<p><img alt=":scale 70%" src="04-model-evaluation/images/time_series3.png" /></p>
 <p>Not necessarily obvious that there is a time component!
 Data collection usually happens over time!</p>
-<p><img alt=":scale 100%" src="../_images/time_series_walk_forward_cv.png" /></p>
+<p><img alt=":scale 100%" src="04-model-evaluation/images/time_series_walk_forward_cv.png" /></p>
 <p>Another common case of data that’s not independent is time
 series. Usually todays stock price is correlated with yesterdays and
 tomorrows. If you randomly split time series, this makes predictions
@@ -453,7 +475,7 @@ chunks of data from the past and making predictions on the next
 chunk. This is quite different from the other was to do cross-validation,
 in that the training sets are all overlapping, but it’s more appropriate
 for time-series.</p>
-<p><img alt=":scale 100%" src="../_images/time_series_cv.png" /></p>
+<p><img alt=":scale 100%" src="04-model-evaluation/images/time_series_cv.png" /></p>
 <p>Another common case of data that’s not independent is time
 series. Usually todays stock price is correlated with yesterdays and
 tomorrows. If you randomly split time series, this makes predictions
@@ -697,7 +719,7 @@ like, or we can use Shuffle split.</p>
 </div>
 <div class="section" id="model-complexity">
 <h2>Model complexity<a class="headerlink" href="#model-complexity" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 75%" src="../_images/knn_model_complexity.png" /></p>
+<p><img alt=":scale 75%" src="04-model-evaluation/images/knn_model_complexity.png" /></p>
 <p>We can look at this in more detail by comparing training and test set
 scores for the different numbers of neighbors.
 Here, I did a random 75%/25% split again. This is a very noisy plot as
@@ -724,7 +746,7 @@ drops again, because we basically learn to memorize the dataset.</p>
 </div>
 <div class="section" id="overfitting-and-underfitting">
 <h2>Overfitting and Underfitting<a class="headerlink" href="#overfitting-and-underfitting" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 80%" src="../_images/overfitting_underfitting_cartoon_full.png" /></p>
+<p><img alt=":scale 80%" src="04-model-evaluation/images/overfitting_underfitting_cartoon_full.png" /></p>
 <p>If we use too simple a model, this is often called underfitting, while
 if we use to complex a model, this is called overfitting. And somewhere
 in the middle is a sweet spot.
@@ -951,6 +973,8 @@ low complexity!</p>
     
     <div class='prev-next-bottom'>
         
+    <a class='left-prev' id="prev-link" href="index.html" title="previous page">Model Evaluation</a>
+    <a class='right-next' id="next-link" href="10-evaluation-metrics.html" title="next page">Evaluation Metrics and scoring</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

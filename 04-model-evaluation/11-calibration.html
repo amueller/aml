@@ -31,7 +31,7 @@
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Feature importances and Model interpretation" href="aml-12-interpretation.html" />
+    <link rel="next" title="Feature importances and Model interpretation" href="12-interpretation.html" />
     <link rel="prev" title="Evaluation Metrics and scoring" href="10-evaluation-metrics.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -86,19 +86,22 @@
     <a href="index.html">6. Model Evaluation</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="10-evaluation-metrics.html">6.1 Evaluation Metrics and scoring</a>
+      <a href="1-data-splitting-strategies.html">6.1 Data Splitting Strategies</a>
+    </li>
+    <li class="">
+      <a href="10-evaluation-metrics.html">6.2 Evaluation Metrics and scoring</a>
     </li>
     <li class="active">
-      <a href="">6.2 Calibration</a>
+      <a href="">6.3 Calibration</a>
     </li>
     <li class="">
-      <a href="aml-12-interpretation.html">6.3 Feature importances and Model interpretation</a>
+      <a href="12-interpretation.html">6.4 Feature importances and Model interpretation</a>
     </li>
     <li class="">
-      <a href="aml-17-cluster-evaluation.html">6.4 Cluster Stability</a>
+      <a href="17-cluster-evaluation.html">6.5 Cluster Stability</a>
     </li>
     <li class="">
-      <a href="parameter_tuning_automl.html">6.5 Parameter Tuning and AutoML</a>
+      <a href="parameter_tuning_automl.html">6.6 Parameter Tuning and AutoML</a>
     </li>
   </ul>
   </li>
@@ -142,7 +145,7 @@
                 <!-- ipynb file if we had a myst markdown file -->
                 
                 <!-- Download raw file -->
-                <a class="dropdown-buttons" href="../_sources/04-model-evaluation/aml-11-calibration.ipynb.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+                <a class="dropdown-buttons" href="../_sources/04-model-evaluation/11-calibration.ipynb.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
                 <!-- Download PDF via print -->
                 <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
             </div>
@@ -161,7 +164,7 @@
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
             <div class="dropdown-buttons">
                 
-                <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/04-model-evaluation/aml-11-calibration.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+                <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/04-model-evaluation/11-calibration.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
                 
                 
                 
@@ -725,7 +728,7 @@ pretty pictures.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-11-calibration_18_0.png" src="../_images/aml-11-calibration_18_0.png" />
+<img alt="../_images/11-calibration_18_0.png" src="../_images/11-calibration_18_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -740,7 +743,7 @@ pretty pictures.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-11-calibration_19_0.png" src="../_images/aml-11-calibration_19_0.png" />
+<img alt="../_images/11-calibration_19_0.png" src="../_images/11-calibration_19_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1136,7 +1139,7 @@ Please also refer to the documentation for alternative solver options:
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;n_bins=5&#39;)
 </pre></div>
 </div>
-<img alt="../_images/aml-11-calibration_25_1.png" src="../_images/aml-11-calibration_25_1.png" />
+<img alt="../_images/11-calibration_25_1.png" src="../_images/11-calibration_25_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1150,7 +1153,7 @@ Please also refer to the documentation for alternative solver options:
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-11-calibration_26_0.png" src="../_images/aml-11-calibration_26_0.png" />
+<img alt="../_images/11-calibration_26_0.png" src="../_images/11-calibration_26_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1423,7 +1426,7 @@ Please also refer to the documentation for alternative solver options:
   extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
 </pre>
 </div>
-<img alt="../_images/aml-11-calibration_27_1.png" src="../_images/aml-11-calibration_27_1.png" />
+<img alt="../_images/11-calibration_27_1.png" src="../_images/11-calibration_27_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1694,7 +1697,7 @@ Please also refer to the documentation for alternative solver options:
   extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
 </pre>
 </div>
-<img alt="../_images/aml-11-calibration_28_1.png" src="../_images/aml-11-calibration_28_1.png" />
+<img alt="../_images/11-calibration_28_1.png" src="../_images/11-calibration_28_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1725,7 +1728,7 @@ Please also refer to the documentation for alternative solver options:
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;RandomForestClassifier: 0.077&#39;)
 </pre></div>
 </div>
-<img alt="../_images/aml-11-calibration_31_1.png" src="../_images/aml-11-calibration_31_1.png" />
+<img alt="../_images/11-calibration_31_1.png" src="../_images/11-calibration_31_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1758,7 +1761,7 @@ Please also refer to the documentation for alternative solver options:
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-11-calibration_34_0.png" src="../_images/aml-11-calibration_34_0.png" />
+<img alt="../_images/11-calibration_34_0.png" src="../_images/11-calibration_34_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1792,7 +1795,7 @@ Please also refer to the documentation for alternative solver options:
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-11-calibration_37_0.png" src="../_images/aml-11-calibration_37_0.png" />
+<img alt="../_images/11-calibration_37_0.png" src="../_images/11-calibration_37_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1809,7 +1812,7 @@ Please also refer to the documentation for alternative solver options:
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-11-calibration_38_0.png" src="../_images/aml-11-calibration_38_0.png" />
+<img alt="../_images/11-calibration_38_0.png" src="../_images/11-calibration_38_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1835,7 +1838,7 @@ Please also refer to the documentation for alternative solver options:
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-11-calibration_41_0.png" src="../_images/aml-11-calibration_41_0.png" />
+<img alt="../_images/11-calibration_41_0.png" src="../_images/11-calibration_41_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1997,7 +2000,7 @@ Please also refer to the documentation for alternative solver options:
  * classifier trained on 600 datapoints and calibrated on 200 datapoint: 0.534
 </pre></div>
 </div>
-<img alt="../_images/aml-11-calibration_42_1.png" src="../_images/aml-11-calibration_42_1.png" />
+<img alt="../_images/11-calibration_42_1.png" src="../_images/11-calibration_42_1.png" />
 </div>
 </div>
 </div>
@@ -2013,7 +2016,7 @@ Please also refer to the documentation for alternative solver options:
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="10-evaluation-metrics.html" title="previous page">Evaluation Metrics and scoring</a>
-    <a class='right-next' id="next-link" href="aml-12-interpretation.html" title="next page">Feature importances and Model interpretation</a>
+    <a class='right-next' id="next-link" href="12-interpretation.html" title="next page">Feature importances and Model interpretation</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

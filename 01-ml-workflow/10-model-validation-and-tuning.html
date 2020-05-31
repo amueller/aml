@@ -31,6 +31,8 @@
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Combining Pipelines and Model Evaluation" href="12-pipelines-gridsearch.html" />
+    <link rel="prev" title="Missing Values" href="08-imputation.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -71,8 +73,31 @@
   <li class="">
     <a href="../00-introduction/00-introduction.html">2. Introduction</a>
   </li>
-  <li class="">
+  <li class="active">
     <a href="00-ml-workflow.html">3. The Machine Learning Workflow</a>
+  <ul class="nav sidenav_l2">
+    <li class="">
+      <a href="01-data-loading.html">3.1 Data Loading and Basic Preprocessing</a>
+    </li>
+    <li class="">
+      <a href="02-supervised-learning.html">3.2 Supervised learning</a>
+    </li>
+    <li class="">
+      <a href="03-preprocessing.html">3.3 Preprocessing and Scaling</a>
+    </li>
+    <li class="">
+      <a href="04-categorical-variables.html">3.4 Categorical Variables</a>
+    </li>
+    <li class="">
+      <a href="08-imputation.html">3.5 Missing Values</a>
+    </li>
+    <li class="active">
+      <a href="">3.6 Model evaluation</a>
+    </li>
+    <li class="">
+      <a href="12-pipelines-gridsearch.html">3.7 Combining Pipelines and Model Evaluation</a>
+    </li>
+  </ul>
   </li>
   <li class="">
     <a href="../02-supervised-learning/index.html">4. Supervised Learning Algorithms</a>
@@ -241,9 +266,10 @@ Here is a simple implementation of using the three-fold split strategy for selec
 We split our dataset into three parts, by first talking 25% as the test set, and then taking 25% of the remainder as validation set (so about 19% of the original data).
 Then we define the candidate values of the parameter we want to adjust. This often requires knowledge of the algorithm and potentially the dataset.
 Here, we’re using a range from 1 to 14 in steps of 2. For <code class="docutils literal notranslate"><span class="pre">n_neighbors</span></code>, often uneven numbers are used to avoid ties. The upper range is picked somewhat arbitrarily, but we certainly wouldn’t want to use more than 50, the number of samples in each class in this dataset.</p>
-<div class="highlight-{margin}Grid notranslate"><div class="highlight"><pre><span></span>The process of trying every value of interest is often called **grid search** in the machine learning context, and basically constitutes a brute-force search for the optimum value.
-The name grid search stems from the fact that when searching over multiple hyper-parameters, usually all possible combinations are tried, which corresponds to a grid of hyper-parameters.
-</pre></div>
+<div class="margin sidebar">
+<p class="sidebar-title">Grid Search</p>
+<p>The process of trying every value of interest is often called <strong>grid search</strong> in the machine learning context, and basically constitutes a brute-force search for the optimum value.
+The name grid search stems from the fact that when searching over multiple hyper-parameters, usually all possible combinations are tried, which corresponds to a grid of hyper-parameters.</p>
 </div>
 <p>Then, we build a model for each value of <code class="docutils literal notranslate"><span class="pre">n_neighbors</span></code> in our list, evaluate it on the validation set, and store the result. Finally, we find the value that gave us the best result.</p>
 <p>Now we have basically made it to computing the red dot in figure TODO, and we only need to evaluate the purple dot.
@@ -924,6 +950,8 @@ Cross-validation is often combined with the brute-force grid-search approach to 
     
     <div class='prev-next-bottom'>
         
+    <a class='left-prev' id="prev-link" href="08-imputation.html" title="previous page">Missing Values</a>
+    <a class='right-next' id="next-link" href="12-pipelines-gridsearch.html" title="next page">Combining Pipelines and Model Evaluation</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

@@ -32,7 +32,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Parameter Tuning and AutoML" href="parameter_tuning_automl.html" />
-    <link rel="prev" title="Feature importances and Model interpretation" href="aml-12-interpretation.html" />
+    <link rel="prev" title="Feature importances and Model interpretation" href="12-interpretation.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -86,19 +86,22 @@
     <a href="index.html">6. Model Evaluation</a>
   <ul class="nav sidenav_l2">
     <li class="">
-      <a href="10-evaluation-metrics.html">6.1 Evaluation Metrics and scoring</a>
+      <a href="1-data-splitting-strategies.html">6.1 Data Splitting Strategies</a>
     </li>
     <li class="">
-      <a href="aml-11-calibration.html">6.2 Calibration</a>
+      <a href="10-evaluation-metrics.html">6.2 Evaluation Metrics and scoring</a>
     </li>
     <li class="">
-      <a href="aml-12-interpretation.html">6.3 Feature importances and Model interpretation</a>
+      <a href="11-calibration.html">6.3 Calibration</a>
+    </li>
+    <li class="">
+      <a href="12-interpretation.html">6.4 Feature importances and Model interpretation</a>
     </li>
     <li class="active">
-      <a href="">6.4 Cluster Stability</a>
+      <a href="">6.5 Cluster Stability</a>
     </li>
     <li class="">
-      <a href="parameter_tuning_automl.html">6.5 Parameter Tuning and AutoML</a>
+      <a href="parameter_tuning_automl.html">6.6 Parameter Tuning and AutoML</a>
     </li>
   </ul>
   </li>
@@ -142,7 +145,7 @@
                 <!-- ipynb file if we had a myst markdown file -->
                 
                 <!-- Download raw file -->
-                <a class="dropdown-buttons" href="../_sources/04-model-evaluation/aml-17-cluster-evaluation.ipynb.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+                <a class="dropdown-buttons" href="../_sources/04-model-evaluation/17-cluster-evaluation.ipynb.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
                 <!-- Download PDF via print -->
                 <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
             </div>
@@ -161,7 +164,7 @@
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
             <div class="dropdown-buttons">
                 
-                <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/04-model-evaluation/aml-17-cluster-evaluation.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+                <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/04-model-evaluation/17-cluster-evaluation.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
                 
                 
                 
@@ -239,7 +242,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-17-cluster-evaluation_4_0.png" src="../_images/aml-17-cluster-evaluation_4_0.png" />
+<img alt="../_images/17-cluster-evaluation_4_0.png" src="../_images/17-cluster-evaluation_4_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -256,7 +259,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-17-cluster-evaluation_5_0.png" src="../_images/aml-17-cluster-evaluation_5_0.png" />
+<img alt="../_images/17-cluster-evaluation_5_0.png" src="../_images/17-cluster-evaluation_5_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -273,7 +276,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-17-cluster-evaluation_6_0.png" src="../_images/aml-17-cluster-evaluation_6_0.png" />
+<img alt="../_images/17-cluster-evaluation_6_0.png" src="../_images/17-cluster-evaluation_6_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -300,7 +303,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f712f805390&gt;
 </pre></div>
 </div>
-<img alt="../_images/aml-17-cluster-evaluation_7_1.png" src="../_images/aml-17-cluster-evaluation_7_1.png" />
+<img alt="../_images/17-cluster-evaluation_7_1.png" src="../_images/17-cluster-evaluation_7_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -317,7 +320,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5,0,&#39;n_clusters&#39;)
 </pre></div>
 </div>
-<img alt="../_images/aml-17-cluster-evaluation_8_1.png" src="../_images/aml-17-cluster-evaluation_8_1.png" />
+<img alt="../_images/17-cluster-evaluation_8_1.png" src="../_images/17-cluster-evaluation_8_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -336,7 +339,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-17-cluster-evaluation_9_0.png" src="../_images/aml-17-cluster-evaluation_9_0.png" />
+<img alt="../_images/17-cluster-evaluation_9_0.png" src="../_images/17-cluster-evaluation_9_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -355,7 +358,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-17-cluster-evaluation_10_0.png" src="../_images/aml-17-cluster-evaluation_10_0.png" />
+<img alt="../_images/17-cluster-evaluation_10_0.png" src="../_images/17-cluster-evaluation_10_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -409,7 +412,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x7f712d0e3208&gt;
 </pre></div>
 </div>
-<img alt="../_images/aml-17-cluster-evaluation_12_1.png" src="../_images/aml-17-cluster-evaluation_12_1.png" />
+<img alt="../_images/17-cluster-evaluation_12_1.png" src="../_images/17-cluster-evaluation_12_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -425,7 +428,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-17-cluster-evaluation_13_0.png" src="../_images/aml-17-cluster-evaluation_13_0.png" />
+<img alt="../_images/17-cluster-evaluation_13_0.png" src="../_images/17-cluster-evaluation_13_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -440,7 +443,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-17-cluster-evaluation_14_0.png" src="../_images/aml-17-cluster-evaluation_14_0.png" />
+<img alt="../_images/17-cluster-evaluation_14_0.png" src="../_images/17-cluster-evaluation_14_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -458,7 +461,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-17-cluster-evaluation_15_0.png" src="../_images/aml-17-cluster-evaluation_15_0.png" />
+<img alt="../_images/17-cluster-evaluation_15_0.png" src="../_images/17-cluster-evaluation_15_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -478,7 +481,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-17-cluster-evaluation_16_0.png" src="../_images/aml-17-cluster-evaluation_16_0.png" />
+<img alt="../_images/17-cluster-evaluation_16_0.png" src="../_images/17-cluster-evaluation_16_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -493,7 +496,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-17-cluster-evaluation_17_0.png" src="../_images/aml-17-cluster-evaluation_17_0.png" />
+<img alt="../_images/17-cluster-evaluation_17_0.png" src="../_images/17-cluster-evaluation_17_0.png" />
 </div>
 </div>
 <div class="section" id="cluster-stability">
@@ -545,7 +548,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-17-cluster-evaluation_20_0.png" src="../_images/aml-17-cluster-evaluation_20_0.png" />
+<img alt="../_images/17-cluster-evaluation_20_0.png" src="../_images/17-cluster-evaluation_20_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -563,7 +566,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-17-cluster-evaluation_21_0.png" src="../_images/aml-17-cluster-evaluation_21_0.png" />
+<img alt="../_images/17-cluster-evaluation_21_0.png" src="../_images/17-cluster-evaluation_21_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -602,7 +605,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5,1,&#39;Scanning n_clusters with different scores&#39;)
 </pre></div>
 </div>
-<img alt="../_images/aml-17-cluster-evaluation_23_1.png" src="../_images/aml-17-cluster-evaluation_23_1.png" />
+<img alt="../_images/17-cluster-evaluation_23_1.png" src="../_images/17-cluster-evaluation_23_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -627,7 +630,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5,1,&#39;Scanning n_clusters with different scores&#39;)
 </pre></div>
 </div>
-<img alt="../_images/aml-17-cluster-evaluation_24_1.png" src="../_images/aml-17-cluster-evaluation_24_1.png" />
+<img alt="../_images/17-cluster-evaluation_24_1.png" src="../_images/17-cluster-evaluation_24_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -724,7 +727,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0,0.5,&#39;stability&#39;)
 </pre></div>
 </div>
-<img alt="../_images/aml-17-cluster-evaluation_27_1.png" src="../_images/aml-17-cluster-evaluation_27_1.png" />
+<img alt="../_images/17-cluster-evaluation_27_1.png" src="../_images/17-cluster-evaluation_27_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -756,7 +759,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0,0.5,&#39;TSNE&#39;)
 </pre></div>
 </div>
-<img alt="../_images/aml-17-cluster-evaluation_29_1.png" src="../_images/aml-17-cluster-evaluation_29_1.png" />
+<img alt="../_images/17-cluster-evaluation_29_1.png" src="../_images/17-cluster-evaluation_29_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -772,7 +775,7 @@
         56,   7,   7,   7,  10,  24,   7,   4,   8,  13,  12,   3,  11,   5])
 </pre></div>
 </div>
-<img alt="../_images/aml-17-cluster-evaluation_30_1.png" src="../_images/aml-17-cluster-evaluation_30_1.png" />
+<img alt="../_images/17-cluster-evaluation_30_1.png" src="../_images/17-cluster-evaluation_30_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -789,7 +792,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5,0.98,&#39;K-Means cluster centers&#39;)
 </pre></div>
 </div>
-<img alt="../_images/aml-17-cluster-evaluation_31_1.png" src="../_images/aml-17-cluster-evaluation_31_1.png" />
+<img alt="../_images/17-cluster-evaluation_31_1.png" src="../_images/17-cluster-evaluation_31_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -810,7 +813,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-17-cluster-evaluation_33_0.png" src="../_images/aml-17-cluster-evaluation_33_0.png" />
+<img alt="../_images/17-cluster-evaluation_33_0.png" src="../_images/17-cluster-evaluation_33_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -838,7 +841,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-17-cluster-evaluation_35_0.png" src="../_images/aml-17-cluster-evaluation_35_0.png" />
+<img alt="../_images/17-cluster-evaluation_35_0.png" src="../_images/17-cluster-evaluation_35_0.png" />
 </div>
 </div>
 </div>
@@ -1061,7 +1064,7 @@
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x7f71253fc0b8&gt;
 </pre></div>
 </div>
-<img alt="../_images/aml-17-cluster-evaluation_44_1.png" src="../_images/aml-17-cluster-evaluation_44_1.png" />
+<img alt="../_images/17-cluster-evaluation_44_1.png" src="../_images/17-cluster-evaluation_44_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1161,7 +1164,7 @@ FIXME?! crashes?
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.text.Text at 0x7f848fcc4908&gt;
 </pre></div>
 </div>
-<img alt="../_images/aml-17-cluster-evaluation_46_1.png" src="../_images/aml-17-cluster-evaluation_46_1.png" />
+<img alt="../_images/17-cluster-evaluation_46_1.png" src="../_images/17-cluster-evaluation_46_1.png" />
 </div>
 </div>
 </div>
@@ -1233,7 +1236,7 @@ FIXME?! crashes?
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5,1,&#39;Scanning n_clusters with different scores&#39;)
 </pre></div>
 </div>
-<img alt="../_images/aml-17-cluster-evaluation_50_1.png" src="../_images/aml-17-cluster-evaluation_50_1.png" />
+<img alt="../_images/17-cluster-evaluation_50_1.png" src="../_images/17-cluster-evaluation_50_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1249,7 +1252,7 @@ FIXME?! crashes?
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aml-17-cluster-evaluation_51_0.png" src="../_images/aml-17-cluster-evaluation_51_0.png" />
+<img alt="../_images/17-cluster-evaluation_51_0.png" src="../_images/17-cluster-evaluation_51_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1325,7 +1328,7 @@ FIXME?! crashes?
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5,1,&#39;Scanning n_clusters with different scores&#39;)
 </pre></div>
 </div>
-<img alt="../_images/aml-17-cluster-evaluation_54_1.png" src="../_images/aml-17-cluster-evaluation_54_1.png" />
+<img alt="../_images/17-cluster-evaluation_54_1.png" src="../_images/17-cluster-evaluation_54_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1377,7 +1380,7 @@ FIXME?! crashes?
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f1ca3e8d390&gt;
 </pre></div>
 </div>
-<img alt="../_images/aml-17-cluster-evaluation_56_1.png" src="../_images/aml-17-cluster-evaluation_56_1.png" />
+<img alt="../_images/17-cluster-evaluation_56_1.png" src="../_images/17-cluster-evaluation_56_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1424,7 +1427,7 @@ FIXME?! crashes?
         &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f7126f303c8&gt;]], dtype=object)
 </pre></div>
 </div>
-<img alt="../_images/aml-17-cluster-evaluation_59_2.png" src="../_images/aml-17-cluster-evaluation_59_2.png" />
+<img alt="../_images/17-cluster-evaluation_59_2.png" src="../_images/17-cluster-evaluation_59_2.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1444,7 +1447,7 @@ FIXME?! crashes?
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x7f712cbd3240&gt;
 </pre></div>
 </div>
-<img alt="../_images/aml-17-cluster-evaluation_61_1.png" src="../_images/aml-17-cluster-evaluation_61_1.png" />
+<img alt="../_images/17-cluster-evaluation_61_1.png" src="../_images/17-cluster-evaluation_61_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1464,7 +1467,7 @@ FIXME?! crashes?
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x7f712ccbe7f0&gt;
 </pre></div>
 </div>
-<img alt="../_images/aml-17-cluster-evaluation_63_1.png" src="../_images/aml-17-cluster-evaluation_63_1.png" />
+<img alt="../_images/17-cluster-evaluation_63_1.png" src="../_images/17-cluster-evaluation_63_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1507,7 +1510,7 @@ FIXME?! crashes?
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5,1,&#39;Scanning n_clusters with different scores&#39;)
 </pre></div>
 </div>
-<img alt="../_images/aml-17-cluster-evaluation_65_1.png" src="../_images/aml-17-cluster-evaluation_65_1.png" />
+<img alt="../_images/17-cluster-evaluation_65_1.png" src="../_images/17-cluster-evaluation_65_1.png" />
 </div>
 </div>
 </div>
@@ -1521,7 +1524,7 @@ FIXME?! crashes?
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="aml-12-interpretation.html" title="previous page">Feature importances and Model interpretation</a>
+    <a class='left-prev' id="prev-link" href="12-interpretation.html" title="previous page">Feature importances and Model interpretation</a>
     <a class='right-next' id="next-link" href="parameter_tuning_automl.html" title="next page">Parameter Tuning and AutoML</a>
 
     </div>
