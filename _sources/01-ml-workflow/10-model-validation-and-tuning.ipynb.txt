@@ -620,19 +620,8 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Here is a conceptual overview of this way of tuning parameters, we start\n",
-    "of with the dataset and a candidate set of parameters we want to try,\n",
-    "labeled parameter grid, for example the number of neighbors.\n",
-    "\n",
-    "We split the dataset in to training and test set. We use cross-validation\n",
-    "and the parameter grid to find the best parameters.\n",
-    "We use the best parameters and the training set to build a model with\n",
-    "the best parameters,\n",
-    "and finally evaluate it on the test set.\n",
-    "\n",
-    "\n",
     "Because this is such a common pattern, there is a helper class for this\n",
-    "in scikit-learn, called GridSearch CV, which does most of these steps\n",
+    "in scikit-learn, called GridSearchCV, which does most of these steps\n",
     "for you."
    ]
   },
@@ -641,1377 +630,408 @@
    "metadata": {},
    "source": [
     "## GridSearchCV\n",
-    ".smaller[\n",
-    "```python\n",
+    "The ``GridSearchCV`` class is another meta-estimator, that can take any scikit-learn model and tune hyper-parameters for you using cross-validation.\n",
+    "Here is the example from todo using GridSearchCV. The hyper-parameter grid is specified as a dictionary, where the keys are the names of the parameters in the estimator (here the single hyper-parameter ``n_neighbors``) and the values are all the candidate values of the hyper-parameter that we want to evaluate. The ``GridSearchCV`` class is then estimated with the estimator we want to tune and the hyper-parameter dictionary. We can also specify how to perform cross-validation (``cv=10``) and we will compute the training scores for evaluation purposes."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "best mean cross-validation score: 0.9643939393939392\n",
+      "best parameters: {'n_neighbors': 5}\n",
+      "test-set score: 0.895\n"
+     ]
+    }
+   ],
+   "source": [
     "from sklearn.model_selection import GridSearchCV\n",
-    "\n",
-    "X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y)\n",
-    "\n",
-    "\n",
-    "param_grid = {'n_neighbors':  np.arange(1, 30, 2)}\n",
+    "# split the data as before\n",
+    "X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=13)\n",
+    "# define the parameter grid, key must be exactly the same as name of the parameter\n",
+    "param_grid = {'n_neighbors':  np.arange(1, 15, 2)}\n",
+    "# Instantiate GridSearchCV - this sets up the grid-search\n",
     "grid = GridSearchCV(KNeighborsClassifier(), param_grid=param_grid, cv=10,\n",
     "                   return_train_score=True)\n",
+    "# Calling fit executes the search and retrains the final model\n",
     "grid.fit(X_train, y_train)\n",
+    "# show some information on the search:\n",
     "print(f\"best mean cross-validation score: {grid.best_score_}\")\n",
     "print(f\"best parameters: {grid.best_params_}\")\n",
-    "print(f\"test-set score: {grid.score(X_test, y_test):.3f}\")\n",
-    "```\n",
-    "\n",
-    "```\n",
-    "best mean cross-validation score: 0.967\n",
-    "best parameters: {'n_neighbors': 9}\n",
-    "test-set score: 0.993\n",
-    "```\n",
-    "]\n",
-    "\n",
-    "\n",
-    "Here is an example.\n",
-    "We still need to split our data into training and test set.\n",
-    "We declare the parameters we want to search over as a dictionary. In\n",
-    "this example the parameter is just n_neighbors and the values we want\n",
-    "to try out are a range. The keys of the dictionary are the parameter\n",
-    "names and the values are the parameter settings we want to try. If you\n",
-    "specify multiple parameters, all possible combinations are tried. This\n",
-    "is where the name grid-search comes from - it’s an exhaustive search\n",
-    "over all possible parameter combinations that you specify.\n",
-    "\n",
-    "GridSearchCV is a class, and it behaves just like any other model in\n",
-    "scikit-learn, with a fit, predict and score method.\n",
-    "It’s what we call a meta-estimator, since you give it one estimator,\n",
-    "here the KneighborsClassifier, and from that GridSearchCV constructs a\n",
-    "new estimator that does the parameter search for you.\n",
-    "You also specify the parameters you want to search, and the\n",
-    "cross-validation strategy.\n",
-    "Then GridSearchCV does all the other things we talked about, it does the\n",
-    "cross-validation and parameter selection, and retrains a model with the\n",
-    "best parameter settings that were found.\n",
-    "We can check out the best cross-validation score and the best parameter\n",
-    "setting with the best_score_ and best_params_ attributes.\n",
-    "And finally we can compute the accuracy on the test set, simply but\n",
-    "using the score method! That will use the retrained model under the hood."
+    "# do the final evaluation\n",
+    "print(f\"test-set score: {grid.score(X_test, y_test):.3f}\")"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "class: compact\n",
-    "\n",
-    "## GridSearchCV Results\n",
-    ".tiny[\n",
-    "```python\n",
-    "import pandas as pd\n",
-    "results = pd.DataFrame(grid.cv_results_)\n",
-    "results.columns\n",
-    "```\n",
-    "```\n",
-    "Index(['mean_fit_time', 'mean_score_time', 'mean_test_score',\n",
-    "       'mean_train_score', 'param_n_neighbors', 'params', 'rank_test_score',\n",
-    "       'split0_test_score', 'split0_train_score', 'split1_test_score',\n",
-    "       'split1_train_score', 'split2_test_score', 'split2_train_score',\n",
-    "       'split3_test_score', 'split3_train_score', 'split4_test_score',\n",
-    "       'split4_train_score', 'split5_test_score', 'split5_train_score',\n",
-    "       'split6_test_score', 'split6_train_score', 'split7_test_score',\n",
-    "       'split7_train_score', 'split8_test_score', 'split8_train_score',\n",
-    "       'split9_test_score', 'split9_train_score', 'std_fit_time',\n",
-    "       'std_score_time', 'std_test_score', 'std_train_score'],\n",
-    "      dtype='object')\n",
-    "```\n",
-    "\n",
-    "```python\n",
-    "results.params\n",
-    "```\n",
-    "```\n",
-    "0     {'n_neighbors': 1}\n",
-    "1     {'n_neighbors': 3}\n",
-    "2     {'n_neighbors': 5}\n",
-    "3     {'n_neighbors': 7}\n",
-    "4     {'n_neighbors': 9}\n",
-    "5    {'n_neighbors': 11}\n",
-    "6    {'n_neighbors': 13}\n",
-    "Name: params, dtype: object\n",
-    "```\n",
-    "]\n",
-    "\n",
-    "\n",
-    "\n",
-    "FIXME text size\n",
-    "GridSearchCV also computes a lot of interesting statistics for you, which\n",
-    "are stored in the cv_results_ attribute. That attribute is a dictionary,\n",
-    "but it’s easiest to convert it to a pandas dataframe to look at it.\n",
-    "Here you can see the columns. Theres mean fit time, mean score time,\n",
-    "mean test scores, mean training scores, standard deviations and scores\n",
-    "for each individual split of the data.\n",
-    "And there is one row for each setting of the parameters we tried out."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "class: center\n",
-    "## n_neighbors Search Results\n",
-    "\n",
-    "![:scale 70%](images/grid_search_n_neighbors.png)\n",
-    "\n",
-    "\n",
-    "We can use this for example to plot the results of cross-validation over\n",
-    "the different parameters.\n",
-    "Here are the mean training score and mean test score together with one\n",
-    "standard deviation."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "class: spacious\n",
-    "## Nested Cross-Validation\n",
-    "\n",
-    "- Replace outer split by CV loop\n",
-    "- Doesn’t yield single model\n",
-    "(inner loop might have different best parameter settings)\n",
-    "- Takes a long time, not that useful in practice\n",
-    "\n",
-    "\n",
-    "\n",
-    "We could additionally replace the outer split of the data by\n",
-    "cross-validation. That would yield what’s known as nested\n",
-    "cross-validation.\n",
-    "This is sometimes interesting when comparing different models, but it will\n",
-    "not actually yield one final model. It will yield one model for each loop\n",
-    "of the outer fold, which might have different settings of the parameters.\n",
-    "Also, this takes a really long time to train, by an additional factor\n",
-    "of 5 or 10, so this is not used very commonly in practice.\n",
-    "\n",
-    "But let’s dive into the cross-validation a bit more."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Cross-validation\n",
-    "\n",
-    "![:scale 80%](images/cross_validation_new.png)\n",
-    "\n",
-    "\n",
-    "\n",
-    "The answer is of course cross-validation. In cross-validation, you split\n",
-    "your data into multiple folds, usually 5 or 10, and built multiple models.\n",
-    "You start by using fold1 as the test data, and the remaining ones as the\n",
-    "training data. You build your model on the training data, and evaluate\n",
-    "it on the test fold.\n",
-    "For each of the splits of the data, you get a model evaluation and a\n",
-    "score. In the end, you can aggregate the scores, for example by taking\n",
-    "the mean.\n",
-    "What are the pros and cons of this?\n",
-    "Each data point is in the test-set exactly once!\n",
-    "Takes 5 or 10 times longer!\n",
-    "Better data use (larger training sets).\n",
-    "Does that solve all problems? No, it replaces only one of the splits,\n",
-    "usually the inner one!\n",
-    "\n",
-    ".smaller[\n",
-    "pro: more stable, more data\n",
-    "\n",
-    "con: slower\n",
-    "]"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Cross-validation + test set\n",
-    "\n",
-    "![:scale 105%](images/grid_search_cross_validation_new.png)\n",
-    "\n",
-    "\n",
-    "\n",
-    "Here is how the workflow looks like when we are using five-fold\n",
-    "cross-validation together with a test-set split for adjusting parameters.\n",
-    "We start out by splitting of the test data, and then we perform\n",
-    "cross-validation on the training set.\n",
-    "Once we found the right setting of the parameters, we retrain on the\n",
-    "whole training set and evaluate on the test set."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Grid-Search with Cross-Validation\n",
-    "\n",
-    ".smaller[\n",
-    "```python\n",
-    "from sklearn.model_selection import cross_val_score\n",
-    "\n",
-    "X_train, X_test, y_train, y_test = train_test_split(X, y)\n",
-    "\n",
-    "cross_val_scores = []\n",
-    "\n",
-    "for i in neighbors:\n",
-    "    knn = KNeighborsClassifier(n_neighbors=i)\n",
-    "    scores = cross_val_score(knn, X_train, y_train, cv=10)\n",
-    "    cross_val_scores.append(np.mean(scores))\n",
-    "    \n",
-    "print(f\"best cross-validation score: {np.max(cross_val_scores):.3}\")\n",
-    "best_n_neighbors = neighbors[np.argmax(cross_val_scores)]\n",
-    "print(f\"best n_neighbors: {best_n_neighbors}\")\n",
-    "\n",
-    "knn = KNeighborsClassifier(n_neighbors=best_n_neighbors)\n",
-    "knn.fit(X_train, y_train)\n",
-    "print(f\"test-set score: {knn.score(X_test, y_test):.3f}\")\n",
-    "```\n",
-    "\n",
-    "```\n",
-    "best cross-validation score: 0.967\n",
-    "best n_neighbors: 9\n",
-    "test-set score: 0.965\n",
-    "```\n",
-    "]\n",
-    "\n",
-    "\n",
-    "\n",
-    "Here is an implementation of this  for k nearest neighbors.\n",
-    "\n",
-    "We split the data, then we iterate over all parameters and for each of\n",
-    "them we do cross-validation.\n",
-    "\n",
-    "We had seven different values of n_neighbors, and we are running 10 fold\n",
-    "cross-validation. How many models to we train in total?\n",
-    "10 * 7 + 1 = 71 (the one is the final model)"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "![:scale 80%](images/gridsearch_workflow.png)\n",
-    "\n",
-    "\n",
-    "\n",
-    "Here is a conceptual overview of this way of tuning parameters, we start\n",
-    "of with the dataset and a candidate set of parameters we want to try,\n",
-    "labeled parameter grid, for example the number of neighbors.\n",
-    "\n",
-    "We split the dataset in to training and test set. We use cross-validation\n",
-    "and the parameter grid to find the best parameters.\n",
-    "We use the best parameters and the training set to build a model with\n",
-    "the best parameters,\n",
-    "and finally evaluate it on the test set.\n",
-    "\n",
-    "\n",
-    "Because this is such a common pattern, there is a helper class for this\n",
-    "in scikit-learn, called GridSearch CV, which does most of these steps\n",
-    "for you."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## GridSearchCV\n",
-    ".smaller[\n",
-    "```python\n",
-    "from sklearn.model_selection import GridSearchCV\n",
-    "\n",
-    "X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y)\n",
-    "\n",
-    "\n",
-    "param_grid = {'n_neighbors':  np.arange(1, 30, 2)}\n",
-    "grid = GridSearchCV(KNeighborsClassifier(), param_grid=param_grid, cv=10,\n",
-    "                   return_train_score=True)\n",
-    "grid.fit(X_train, y_train)\n",
-    "print(f\"best mean cross-validation score: {grid.best_score_}\")\n",
-    "print(f\"best parameters: {grid.best_params_}\")\n",
-    "print(f\"test-set score: {grid.score(X_test, y_test):.3f}\")\n",
-    "```\n",
-    "\n",
-    "```\n",
-    "best mean cross-validation score: 0.967\n",
-    "best parameters: {'n_neighbors': 9}\n",
-    "test-set score: 0.993\n",
-    "```\n",
-    "]\n",
-    "\n",
-    "\n",
-    "Here is an example.\n",
-    "We still need to split our data into training and test set.\n",
-    "We declare the parameters we want to search over as a dictionary. In\n",
-    "this example the parameter is just n_neighbors and the values we want\n",
-    "to try out are a range. The keys of the dictionary are the parameter\n",
-    "names and the values are the parameter settings we want to try. If you\n",
-    "specify multiple parameters, all possible combinations are tried. This\n",
-    "is where the name grid-search comes from - it’s an exhaustive search\n",
-    "over all possible parameter combinations that you specify.\n",
-    "\n",
-    "GridSearchCV is a class, and it behaves just like any other model in\n",
-    "scikit-learn, with a fit, predict and score method.\n",
-    "It’s what we call a meta-estimator, since you give it one estimator,\n",
-    "here the KneighborsClassifier, and from that GridSearchCV constructs a\n",
-    "new estimator that does the parameter search for you.\n",
-    "You also specify the parameters you want to search, and the\n",
-    "cross-validation strategy.\n",
-    "Then GridSearchCV does all the other things we talked about, it does the\n",
-    "cross-validation and parameter selection, and retrains a model with the\n",
-    "best parameter settings that were found.\n",
-    "We can check out the best cross-validation score and the best parameter\n",
-    "setting with the best_score_ and best_params_ attributes.\n",
-    "And finally we can compute the accuracy on the test set, simply but\n",
-    "using the score method! That will use the retrained model under the hood."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "\n",
-    "## GridSearchCV Results\n",
-    ".tiny[\n",
-    "```python\n",
-    "import pandas as pd\n",
-    "results = pd.DataFrame(grid.cv_results_)\n",
-    "results.columns\n",
-    "```\n",
-    "```\n",
-    "Index(['mean_fit_time', 'mean_score_time', 'mean_test_score',\n",
-    "       'mean_train_score', 'param_n_neighbors', 'params', 'rank_test_score',\n",
-    "       'split0_test_score', 'split0_train_score', 'split1_test_score',\n",
-    "       'split1_train_score', 'split2_test_score', 'split2_train_score',\n",
-    "       'split3_test_score', 'split3_train_score', 'split4_test_score',\n",
-    "       'split4_train_score', 'split5_test_score', 'split5_train_score',\n",
-    "       'split6_test_score', 'split6_train_score', 'split7_test_score',\n",
-    "       'split7_train_score', 'split8_test_score', 'split8_train_score',\n",
-    "       'split9_test_score', 'split9_train_score', 'std_fit_time',\n",
-    "       'std_score_time', 'std_test_score', 'std_train_score'],\n",
-    "      dtype='object')\n",
-    "```\n",
-    "\n",
-    "```python\n",
-    "results.params\n",
-    "```\n",
-    "```\n",
-    "0     {'n_neighbors': 1}\n",
-    "1     {'n_neighbors': 3}\n",
-    "2     {'n_neighbors': 5}\n",
-    "3     {'n_neighbors': 7}\n",
-    "4     {'n_neighbors': 9}\n",
-    "5    {'n_neighbors': 11}\n",
-    "6    {'n_neighbors': 13}\n",
-    "Name: params, dtype: object\n",
-    "```\n",
-    "]\n",
-    "\n",
-    "\n",
-    "\n",
-    "FIXME text size\n",
-    "GridSearchCV also computes a lot of interesting statistics for you, which\n",
-    "are stored in the cv_results_ attribute. That attribute is a dictionary,\n",
-    "but it’s easiest to convert it to a pandas dataframe to look at it.\n",
-    "Here you can see the columns. Theres mean fit time, mean score time,\n",
-    "mean test scores, mean training scores, standard deviations and scores\n",
-    "for each individual split of the data.\n",
-    "And there is one row for each setting of the parameters we tried out."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## n_neighbors Search Results\n",
-    "\n",
-    "![:scale 70%](images/grid_search_n_neighbors.png)\n",
-    "\n",
-    "\n",
-    "We can use this for example to plot the results of cross-validation over\n",
-    "the different parameters.\n",
-    "Here are the mean training score and mean test score together with one\n",
-    "standard deviation."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Nested Cross-Validation\n",
-    "\n",
-    "- Replace outer split by CV loop\n",
-    "- Doesn’t yield single model\n",
-    "(inner loop might have different best parameter settings)\n",
-    "- Takes a long time, not that useful in practice\n",
-    "\n",
-    "\n",
-    "\n",
-    "We could additionally replace the outer split of the data by\n",
-    "cross-validation. That would yield what’s known as nested\n",
-    "cross-validation.\n",
-    "This is sometimes interesting when comparing different models, but it will\n",
-    "not actually yield one final model. It will yield one model for each loop\n",
-    "of the outer fold, which might have different settings of the parameters.\n",
-    "Also, this takes a really long time to train, by an additional factor\n",
-    "of 5 or 10, so this is not used very commonly in practice.\n",
-    "\n",
-    "But let’s dive into the cross-validation a bit more."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Cross-Validation Strategies\n",
-    "\n",
-    "\n",
-    "\n",
-    "So I mentioned k-fold cross validation, where k is usually 5 or ten,\n",
-    "but there are many other strategies.\n",
-    "\n",
-    "One of the most commonly ones is stratified k-fold cross-validation."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    ".center[\n",
-    "![:scale 90%](images/kfold_cv.png)\n",
-    "]"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    ".center[\n",
-    "![:scale 90%](images/stratified_cv.png)\n",
-    "]\n",
-    ".smallest[\n",
-    "Stratified:\n",
-    "Ensure relative class frequencies in each fold reflect relative class\n",
-    "frequencies on the whole dataset.]\n",
-    "\n",
-    "\n",
-    "\n",
-    "The idea behind stratified k-fold cross-validation is that you want the\n",
-    "test set to be as representative of the dataset as possible.\n",
-    "StratifiedKFold preserves the class frequencies in each fold to be the\n",
-    "same as of the overall dataset.\n",
-    "Here is and example of a dataset with three classes that are ordered. If\n",
-    "you apply standard three-fold to this, the first third of the data would\n",
-    "be in the first fold, the second in the second fold and the third in\n",
-    "the third fold. Because this data is sorted, that would be particularly\n",
-    "bad. If you use stratified cross-validation it would make sure that each\n",
-    "fold has exactly 1/3 of the data from each class.\n",
-    "\n",
-    "This is also helpful if your data is very imbalanced. If some of the\n",
-    "classes are very rare, it could otherwise happen that a class is not\n",
-    "present at all in a particular fold."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Importance of Stratification\n",
-    ".smaller[\n",
-    "```python\n",
-    "y.value_counts()\n",
-    "```\n",
-    "```\n",
-    "0    60\n",
-    "1    40\n",
-    "```\n",
-    "```python\n",
-    "from sklearn.model_selection import cross_val_score, KFold, StratifiedKFold\n",
-    "from sklearn.dummy import DummyClassifier\n",
-    "\n",
-    "dc = DummyClassifier('most_frequent')\n",
-    "skf = StratifiedKFold(n_splits=5, shuffle=True)\n",
-    "res = cross_val_score(dc, X, y, cv=skf)\n",
-    "np.mean(res), res.std()\n",
-    "```\n",
-    "```\n",
-    "(0.6, 0.0)\n",
-    "```\n",
-    "```python\n",
-    "kf = KFold(n_splits=5, shuffle=True)\n",
-    "res = cross_val_score(dc, X, y, cv=kf)\n",
-    "np.mean(res), res.std()\n",
-    "```\n",
-    "```\n",
-    "(0.6, 0.063)\n",
-    "```\n",
-    "]"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Repeated KFold and LeaveOneOut\n",
-    "\n",
-    "- LeaveOneOut : KFold(n_folds=n_samples) \n",
-    "\n",
-    "High variance, takes a long time \n",
-    "\n",
-    ".tiny[(see [Raschka](https://arxiv.org/pdf/1811.12808.pdf) for a review and [Varoquaux](https://hal.inria.fr/hal-01545002/file/paper.pdf) for empirical evaluation)]\n",
-    "\n",
-    "- Better: ShuffleSplit (aka Monte Carlo) \n",
-    "\n",
-    "Repeatedly sample a test set with replacement\n",
-    "\n",
-    "- Even Better: RepeatedKFold. \n",
-    "\n",
-    "Apply KFold or StratifiedKFold multiple times with shuffled data.\n",
-    "\n",
-    "\n",
-    "\n",
-    "If you want even better estimates of the generalization performance,\n",
-    "you could try to increase the number of folds, with the extreme\n",
-    "of creating one fold per sample. That’s called “LeaveOneOut\n",
-    "cross-validation”. However, because the test-set is so small every time,\n",
-    "and the training sets all have very large overlap, this method has very\n",
-    "high variance.\n",
-    "A better way to get a robust estimate is to run 5-fold or 10-fold\n",
-    "cross-validation multiple times, while shuffling the dataset."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    ".center[\n",
-    "![:scale 100%](images/shuffle_split_cv.png)\n",
-    "]\n",
-    ".smaller[Number of iterations and test set size independent]\n",
-    "\n",
-    "\n",
-    "Another interesting variant is shuffle split and stratified shuffle\n",
-    "split. In shuffle split, we repeatedly sample disjoint training and test\n",
-    "sets randomly.\n",
-    "You only have to specify the number of iterations, the training set size\n",
-    "and the test set size. This also allows you to run many iterations with\n",
-    "reasonably large test-sets.\n",
-    "It’s also great if you have a very large training set and you want to\n",
-    "subsample it to get quicker results."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    ".center[\n",
-    "![:scale 100%](images/repeated_stratified_kfold.png)\n",
-    "]\n",
-    ".smaller[\n",
-    "Potentially less variance than StratifiedShuffleSplit.\n",
-    "\n",
-    "Five times five fold or at most ten times ten fold is sufficient.\n",
-    "]"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Defaults in scikit-learn\n",
-    "\n",
-    "- 5-fold in 0.22 (used to be 3 fold)\n",
-    "- For classification cross-validation is stratified\n",
-    "- train_test_split has stratify option:\n",
-    "train_test_split(X, y, stratify=y)\n",
-    "\n",
-    "- No shuffle by default!\n",
-    "\n",
-    "\n",
-    "\n",
-    "By default, all cross-validation strategies are five fold.\n",
-    "If you do cross-validation for classification, it will be stratified\n",
-    "by default.\n",
-    "Because of how the interface is done, that’s not true for\n",
-    "train_test_split and if you want a stratified train_test_split, which\n",
-    "is always a good idea, you should use stratify=y\n",
-    "Another thing that’s important to keep in mind is that by default\n",
-    "scikit-learn doesn’t shuffle! So if you run cross-validation twice\n",
-    "with the default parameters, it will yield exactly the same results."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Cross-Validation with non-iid data"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Grouped Data\n",
-    "### Assume have data (medical, product, user...) from 5 cities\n",
-    "- New York, San Francisco, Los Angeles, Chicago, Houston.\n",
-    "\n",
-    "We can assume data within a city is more correlated then between cities.\n",
-    "\n",
-    "### Usage Scenarios\n",
-    "- Assume all future users will be in one of these cities: i.i.d.\n",
-    "- Assume we want to generalize to predict for a new city: not i.i.d.\n",
-    "\n",
-    "\n",
-    "\n",
-    "Shipped product in 4 cities. Might ship in another one?\n",
-    "States: you have all the states, no new state will start to exist\n",
-    "\n",
-    "Similar thing for multiple measurements per patient.\n",
-    "Or geospacial data."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "![:scale 100%](images/group_kfold.png)\n",
-    "\n",
-    "\n",
-    "\n",
-    "A somewhat more complicated approach is group k-fold.\n",
-    "This is actually for data that doesn’t fulfill our IID assumption and\n",
-    "has correlations between samples.\n",
-    "The idea is that there are several groups in the data that each contain\n",
-    "highly correlated samples.\n",
-    "You could think about patient data where you have multiple samples for\n",
-    "each patient, then the groups would be which patient a measurement was\n",
-    "taken from.\n",
-    "If you want to know how well your model generalizes to new patients,\n",
-    "you need to ensure that the measurements from each patient are either\n",
-    "all in the training set, or all in the test set.\n",
-    "And that’s what GroupKFold does.\n",
-    "In this example, there are four groups, and we want three folds. The\n",
-    "data is divided such that each group is contained in exactly one fold.\n",
-    "There are several other cross-validation methods in scikit-learn that\n",
-    "use these groups."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Correlations in time (and/or space)\n",
-    "\n",
-    "![:scale 70%](images/time_series1.png)\n",
-    "\n",
-    "\n",
-    "\n",
-    "Not necessarily obvious that there is a time component!\n",
-    "Data collection usually happens over time!"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Correlations in time (and/or space)\n",
-    "\n",
-    "![:scale 70%](images/time_series2.png)\n",
-    "\n",
-    "\n",
-    "\n",
-    "Not necessarily obvious that there is a time component!\n",
-    "Data collection usually happens over time!"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Correlations in time (and/or space)\n",
-    "\n",
-    "![:scale 70%](images/time_series3.png)\n",
-    "\n",
-    "\n",
-    "\n",
-    "Not necessarily obvious that there is a time component!\n",
-    "Data collection usually happens over time!"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "![:scale 100%](images/time_series_walk_forward_cv.png)\n",
-    "\n",
-    "\n",
-    "Another common case of data that’s not independent is time\n",
-    "series. Usually todays stock price is correlated with yesterdays and\n",
-    "tomorrows. If you randomly split time series, this makes predictions\n",
-    "deceivingly simple. In applications, you usually have data up to some\n",
-    "point, and then try to make predictions for the future, in other words,\n",
-    "you’re trying to make a forecast.\n",
-    "The TimeSeriesSplit in scikit-learn simulates that, by taking increasing\n",
-    "chunks of data from the past and making predictions on the next\n",
-    "chunk. This is quite different from the other was to do cross-validation,\n",
-    "in that the training sets are all overlapping, but it’s more appropriate\n",
-    "for time-series."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "![:scale 100%](images/time_series_cv.png)\n",
-    "\n",
-    "\n",
-    "\n",
-    "Another common case of data that’s not independent is time\n",
-    "series. Usually todays stock price is correlated with yesterdays and\n",
-    "tomorrows. If you randomly split time series, this makes predictions\n",
-    "deceivingly simple. In applications, you usually have data up to some\n",
-    "point, and then try to make predictions for the future, in other words,\n",
-    "you’re trying to make a forecast.\n",
-    "The TimeSeriesSplit in scikit-learn simulates that, by taking increasing\n",
-    "chunks of data from the past and making predictions on the next\n",
-    "chunk. This is quite different from the other was to do cross-validation,\n",
-    "in that the training sets are all overlapping, but it’s more appropriate\n",
-    "for time-series."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Using Cross-Validation Generators\n",
-    "\n",
-    ".tiny[\n",
-    "```python\n",
-    "from sklearn.model_selection import KFold, StratifiedKFold, ShuffleSplit, RepeatedStratifiedKFold\n",
-    "kfold = KFold(n_splits=5)\n",
-    "skfold = StratifiedKFold(n_splits=5, shuffle=True)\n",
-    "ss = ShuffleSplit(n_splits=20, train_size=.4, test_size=.3)\n",
-    "rs = RepeatedStratifiedKFold(n_splits=5, n_repeats=10)\n",
-    "\n",
-    "print(\"KFold:\")\n",
-    "print(cross_val_score(KNeighborsClassifier(), X, y, cv=kfold))\n",
-    "\n",
-    "print(\"StratifiedKFold:\")\n",
-    "print(cross_val_score(KNeighborsClassifier(), X, y, cv=skfold))\n",
-    "\n",
-    "print(\"ShuffleSplit:\")\n",
-    "print(cross_val_score(KNeighborsClassifier(), X, y, cv=ss))\n",
-    "\n",
-    "print(\"RepeatedStratifiedKFold:\")\n",
-    "print(cross_val_score(KNeighborsClassifier(), X, y, cv=rs))\n",
-    "```\n",
-    "\n",
-    "```\n",
-    "\n",
-    "KFold:\n",
-    "[0.93 0.96 0.96 0.98 0.96]\n",
-    "StratifiedKFold:\n",
-    "[0.98 0.96 0.96 0.97 0.96]\n",
-    "ShuffleSplit:\n",
-    "[0.98 0.96 0.96 0.98 0.94 0.96 0.95 0.98 0.97 0.92 0.94 0.97 0.95 0.92\n",
-    " 0.98 0.98 0.97 0.94 0.97 0.95]\n",
-    "RepeatedStratifiedKFold:\n",
-    "[0.99 0.96 0.97 0.97 0.95 0.98 0.97 0.98 0.97 0.96 0.97 0.99 0.94 0.96\n",
-    " 0.96 0.98 0.97 0.96 0.96 0.97 0.97 0.96 0.96 0.96 0.98 0.96 0.97 0.97\n",
-    " 0.97 0.96 0.96 0.95 0.96 0.99 0.98 0.93 0.96 0.98 0.98 0.96 0.96 0.95\n",
-    " 0.97 0.97 0.96 0.97 0.97 0.97 0.96 0.96]\n",
-    "```\n",
-    "]\n",
-    "\n",
-    "\n",
-    "Ok, so how do we use these cross-validation generators? We can simply\n",
-    "pass the object to the cv parameter of the cross_val_score function,\n",
-    "instead of passing a number. Then that generator will be used.\n",
-    "Here are some examples for k-neighbors classifier.\n",
-    "We instantiate a Kfold object with the number of splits equal to 5,\n",
-    "and then pass it to cross_val_score.\n",
-    "We can do the same with StratifiedKFold, and we can also shuffle if we\n",
-    "like, or we can use Shuffle split."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## cross_validate function\n",
-    ".smaller[\n",
-    "```python\n",
-    "from sklearn.model_selection import cross_validate\n",
-    "res = cross_validate(KNeighborsClassifier(), X, y, return_train_score=True,\n",
-    "                     scoring=[\"accuracy\", \"roc_auc\"])\n",
-    "res_df = pd.DataFrame(res)\n",
-    "```\n",
-    "\n",
-    "```\n",
-    "fit_time\tscore_time\ttest_accuracy\ttest_roc_auc\ttrain_accuracy\ttrain_roc_auc\n",
-    "0.000839\t0.010204    0.965217\t    0.996609\t    0.980176\t    0.997654\n",
-    "0.000870\t0.014424    0.956522\t    0.983689\t    0.975771\t    0.998650\n",
-    "0.000603\t0.009298    0.982301\t    0.999329\t    0.971491\t    0.996977\n",
-    "0.000698\t0.006670    0.955752\t    0.984071\t    0.978070\t    0.997820\n",
-    "0.000611\t0.006559    0.964602\t    0.994634\t    0.978070\t    0.998026\n",
-    "```\n",
-    "]\n",
-    "\n",
-    "\n",
-    "FIXME alignment"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "\n",
-    "## Questions ?"
+    "You can see that the whole process is quite simple using ``GridSearchCV``. The great thing about grid search being implemented as a meta-estimator is that after you instantiated the ``GridSearchCV`` object, you can use it like any other scikit-learn model: it has the standard interface of ``fit``, ``predict`` and ``score`` which will use the model that was retrained using the best hyper-parameter setting. St this point you don't need to worry about the fact that it is tuning parameters internally.\n",
+    "However, given that we should only reserve the test-set for a final evaluation, it can be a good idea to look at the search results before using the test set. The attribute ``best_score_`` contains the mean validation score over all splits of the best hyper-parameter setting, and the best hyper-parameter is stored in ``best_params_``.\n",
+    "If the ``best_score_`` is lower than what you expected or what you need for your application, there is no point in using the test set, as the mean score will be an optimistic estimate, as discussed above todo.\n",
+    "One aspect you might want to look into for the best parameter is whether it is on the boundary of the search space you specified. If the best value found is at the edge of the values I tried, maybe the true optimum is outside the range and I should extend the range.\n",
+    "We can look into the results in even more detail using the ``cv_results_`` attribute, which is a dictionary with a structure somewhat similar to the result of ``cross_validate``. However, in ``cv_results_``, each row corresponds to a hyper-parameter setting, and contains the scores for all the splits:"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "import matplotlib.pyplot as plt\n",
-    "import numpy as np\n",
-    "import sklearn\n",
-    "sklearn.set_config(print_changed_only=True)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "from sklearn.datasets import load_digits\n",
-    "from sklearn.model_selection import train_test_split\n",
-    "\n",
-    "digits = load_digits()\n",
-    "X_train, X_test, y_train, y_test = train_test_split(\n",
-    "    digits.data, digits.target)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "from sklearn.model_selection import cross_val_score\n",
-    "from sklearn.neighbors import KNeighborsClassifier"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "cross_val_score(KNeighborsClassifier(),\n",
-    "                X_train, y_train, cv=5)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "from sklearn.model_selection import KFold, RepeatedStratifiedKFold"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "cross_val_score(KNeighborsClassifier(),\n",
-    "                X_train, y_train, cv=KFold(n_splits=10, shuffle=True, random_state=42))"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "cross_val_score(KNeighborsClassifier(),\n",
-    "                X_train, y_train,\n",
-    "                cv=RepeatedStratifiedKFold(n_splits=10, n_repeats=10, random_state=42))"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Grid Searches\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "Grid-Search with build-in cross validation"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "from sklearn.model_selection import GridSearchCV\n",
-    "from sklearn.svm import SVC"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "Define parameter grid:"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "import numpy as np\n",
-    "\n",
-    "param_grid = {'C': 10. ** np.arange(-3, 3),\n",
-    "              'gamma' : 10. ** np.arange(-5, 0)}\n",
-    "\n",
-    "np.set_printoptions(suppress=True)\n",
-    "print(param_grid)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "grid_search = GridSearchCV(SVC(), param_grid, verbose=3)"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "A GridSearchCV object behaves just like a normal classifier."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "grid_search.fit(X_train, y_train)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "grid_search.predict(X_test)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "grid_search.score(X_test, y_test)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "grid_search.best_params_"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "grid_search.best_score_"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "grid_search.best_estimator_"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "# We extract just the scores\n",
-    "\n",
-    "scores = grid_search.cv_results_['mean_test_score']\n",
-    "scores = np.array(scores).reshape(6, 5)\n",
-    "\n",
-    "plt.matshow(scores)\n",
-    "plt.xlabel('gamma')\n",
-    "plt.ylabel('C')\n",
-    "plt.colorbar()\n",
-    "plt.xticks(np.arange(5), param_grid['gamma'])\n",
-    "plt.yticks(np.arange(6), param_grid['C']);"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Exercises\n",
-    "Use GridSearchCV to adjust n_neighbors of KNeighborsClassifier."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "\n",
-    "\n",
-    "## Model complexity\n",
-    "\n",
-    "![:scale 75%](images/knn_model_complexity.png)\n",
-    "\n",
-    "\n",
-    "We can look at this in more detail by comparing training and test set\n",
-    "scores for the different numbers of neighbors.\n",
-    "Here, I did a random 75%/25% split again. This is a very noisy plot as\n",
-    "the dataset is very small and I only did a random split, but you can\n",
-    "see a trend here.\n",
-    "You can see that for a single neighbor, the training score is 1 so perfect\n",
-    "accuracy, but the test score is only 70%.  If we increase the number of\n",
-    "neighbors we consider, the training score goes down, but the test score\n",
-    "goes up, with an optimum at 19 and 21, but then both go down again.\n",
-    "\n",
-    "This is a very typical behavior, that I sketched in a schematic for you.\n",
-    "\n",
-    "\n",
-    "here is a cartoon version of how this chart looks in general, though\n",
-    "it's horizontally flipped to the one with saw for knn.\n",
-    "This chart has accuracy on the y axis, and the abstract concept of model\n",
-    "complexity on the x axis.\n",
-    "If we make our machine learning models more complex, we will get better\n",
-    "training set accuracy, as the model will be able to capture more of the\n",
-    "variations in the data.\n",
-    "\n",
-    "\n",
-    "But if we look at the generalization performance, we get a different\n",
-    "story. If the model complexity is too low, the model will not be able\n",
-    "to capture the main trends, and a more complex model means better\n",
-    "generalization.\n",
-    "However, if we make the model too complex, generalization performance\n",
-    "drops again, because we basically learn to memorize the dataset.\n",
-    "\n",
-    "\n",
-    "\n",
-    "## Overfitting and Underfitting\n",
-    "\n",
-    "![:scale 80%](images/overfitting_underfitting_cartoon_full.png)\n",
-    "\n",
-    "\n",
-    "If we use too simple a model, this is often called underfitting, while\n",
-    "if we use to complex a model, this is called overfitting. And somewhere\n",
-    "in the middle is a sweet spot.\n",
-    "Most models have some way to tune model complexity, and we’ll see many\n",
-    "of them in the next couple of weeks.\n",
-    "So going back to nearest neighbors, what parameters correspond to high\n",
-    "model complexity and what to low model complexity? high n_neighbors =\n",
-    "low complexity!"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "# %load solutions/grid_search_k_neighbors.py"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Not using Pipelines vs feature selection"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "rnd = np.random.RandomState(seed=0)\n",
-    "X = rnd.normal(size=(100, 10000))\n",
-    "X_test = rnd.normal(size=(100, 10000))\n",
-    "y = rnd.normal(size=(100,))\n",
-    "y_test = rnd.normal(size=(100,))"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "from sklearn.feature_selection import SelectPercentile, f_regression\n",
-    "\n",
-    "select = SelectPercentile(score_func=f_regression,\n",
-    "                          percentile=5)\n",
-    "select.fit(X, y)\n",
-    "X_selected = select.transform(X)\n",
-    "print(X_selected.shape)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "from sklearn.model_selection import cross_val_score\n",
-    "from sklearn.linear_model import Ridge\n",
-    "np.mean(cross_val_score(Ridge(), X_selected, y))"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "ridge = Ridge().fit(X_selected, y)\n",
-    "X_test_selected = select.transform(X_test)\n",
-    "ridge.score(X_test_selected, y_test)"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Back to house price?"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {
-    "collapsed": false,
-    "jupyter": {
-     "outputs_hidden": false
-    }
-   },
-   "outputs": [],
-   "source": [
-    "from sklearn.linear_model import Ridge\n",
-    "X, y = df, target\n",
-    "X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)\n",
-    "\n",
-    "scaler = StandardScaler()\n",
-    "scaler.fit(X_train)\n",
-    "X_train_scaled = scaler.transform(X_train)\n",
-    "ridge = Ridge().fit(X_train_scaled, y_train)\n",
-    "\n",
-    "X_test_scaled = scaler.transform(X_test)\n",
-    "ridge.score(X_test_scaled, y_test)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {
-    "collapsed": false,
-    "jupyter": {
-     "outputs_hidden": false
-    }
-   },
-   "outputs": [],
-   "source": [
-    "from sklearn.pipeline import make_pipeline\n",
-    "pipe = make_pipeline(StandardScaler(), Ridge())\n",
-    "pipe.fit(X_train, y_train)\n",
-    "pipe.score(X_test, y_test)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "rnd = np.random.RandomState(seed=0)\n",
-    "X = rnd.normal(size=(100, 10000))\n",
-    "X_test = rnd.normal(size=(100, 10000))\n",
-    "y = rnd.normal(size=(100,))\n",
-    "y_test = rnd.normal(size=(100,))"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {
-    "collapsed": false,
-    "jupyter": {
-     "outputs_hidden": false
-    }
-   },
-   "outputs": [],
-   "source": [
-    "from sklearn.pipeline import Pipeline\n",
-    "\n",
-    "pipe = Pipeline([(\"select\", select),\n",
-    "                 (\"ridge\", Ridge())])\n",
-    "np.mean(cross_val_score(pipe, X, y))"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "from sklearn.linear_model import Ridge\n",
-    "X, y = df, target\n",
-    "X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "from sklearn.pipeline import Pipeline\n",
-    "pipe = Pipeline(((\"scaler\", StandardScaler()),\n",
-    "                 (\"regressor\", KNeighborsRegressor)))"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {
-    "collapsed": false,
-    "jupyter": {
-     "outputs_hidden": false
-    }
-   },
-   "outputs": [],
-   "source": [
-    "from sklearn.model_selection import GridSearchCV\n",
-    "\n",
-    "knn_pipe = make_pipeline(StandardScaler(), KNeighborsRegressor())\n",
-    "param_grid = {'kneighborsregressor__n_neighbors': range(1, 10)}\n",
-    "grid = GridSearchCV(knn_pipe, param_grid, cv=10)\n",
-    "grid.fit(X_train, y_train)\n",
-    "print(grid.best_params_)\n",
-    "print(grid.score(X_test, y_test))"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "from sklearn.datasets import load_diabetes\n",
-    "diabetes = load_diabetes()\n",
-    "X_train, X_test, y_train, y_test = train_test_split(\n",
-    "    diabetes.data, diabetes.target, random_state=0)\n",
-    "\n",
-    "from sklearn.preprocessing import PolynomialFeatures\n",
-    "pipe = make_pipeline(\n",
-    "    StandardScaler(),\n",
-    "    PolynomialFeatures(),\n",
-    "    Ridge())"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "param_grid = {'polynomialfeatures__degree': [1, 2, 3],\n",
-    "              'ridge__alpha': [0.001, 0.01, 0.1, 1, 10, 100]}\n",
-    "grid = GridSearchCV(pipe, param_grid=param_grid,\n",
-    "                    n_jobs=-1, return_train_score=True)\n",
-    "grid.fit(X_train, y_train)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "from sklearn.linear_model import Lasso\n",
-    "\n",
-    "pipe = Pipeline([('scaler', StandardScaler()), ('regressor', Ridge())])\n",
-    "\n",
-    "param_grid = {'scaler': [StandardScaler(), MinMaxScaler(), 'passthrough'],\n",
-    "              'regressor': [Ridge(), Lasso()],\n",
-    "              'regressor__alpha': np.logspace(-3, 3, 7)}\n",
-    "\n",
-    "\n",
-    "grid = GridSearchCV(pipe, param_grid)\n",
-    "grid.fit(X_train, y_train)\n",
-    "grid.score(X_test, y_test)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 35,
+   "execution_count": 25,
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/plain": [
-       "0.36901969445308325"
+       "Index(['mean_fit_time', 'std_fit_time', 'mean_score_time', 'std_score_time',\n",
+       "       'param_n_neighbors', 'params', 'split0_test_score', 'split1_test_score',\n",
+       "       'split2_test_score', 'split3_test_score', 'split4_test_score',\n",
+       "       'split5_test_score', 'split6_test_score', 'split7_test_score',\n",
+       "       'split8_test_score', 'split9_test_score', 'mean_test_score',\n",
+       "       'std_test_score', 'rank_test_score', 'split0_train_score',\n",
+       "       'split1_train_score', 'split2_train_score', 'split3_train_score',\n",
+       "       'split4_train_score', 'split5_train_score', 'split6_train_score',\n",
+       "       'split7_train_score', 'split8_train_score', 'split9_train_score',\n",
+       "       'mean_train_score', 'std_train_score'],\n",
+       "      dtype='object')"
       ]
      },
-     "execution_count": 35,
+     "execution_count": 25,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
+    "# cv_results_ is a dict, but DataFrames are nicer\n",
+    "results = pd.DataFrame(grid.cv_results_)\n",
+    "results.columns"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0     {'n_neighbors': 1}\n",
+       "1     {'n_neighbors': 3}\n",
+       "2     {'n_neighbors': 5}\n",
+       "3     {'n_neighbors': 7}\n",
+       "4     {'n_neighbors': 9}\n",
+       "5    {'n_neighbors': 11}\n",
+       "6    {'n_neighbors': 13}\n",
+       "Name: params, dtype: object"
+      ]
+     },
+     "execution_count": 28,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "results.params"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "```{margin} TODO\n",
+    "Should we use cv=5 to print less ehere?\n",
+    "```"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Each column has the mean accuracy scores for the test set and training set (as we specified ``return_train_score=True``), as well as the individual score for each split.\n",
+    "If we have a single hyper-parameter, the result can be nicely visualized using a line-plot. One way is to show the mean and standard deviation:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 37,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<matplotlib.legend.Legend at 0x1e6d7204988>"
+      ]
+     },
+     "execution_count": 37,
+     "metadata": {},
+     "output_type": "execute_result"
+    },
+    {
+     "data": {
+      "image/png": "iVBORw0KGgoAAAANSUhEUgAAAXoAAAEHCAYAAACgHI2PAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAADh0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uMy4yLjEsIGh0dHA6Ly9tYXRwbG90bGliLm9yZy+j8jraAAAgAElEQVR4nO3deXwV9b3/8dcnG2FTlrCDBpWCAcIiIohepVYFl0JRqxSXola9imBtXWprtffeuttiq7+qt+5a8YpYUVEURBGLCsgim4qCkgoS9h2yfH5/zCQeQkhO1pMM7+fjcR45Z+Y7c77D8p7Jd77z/Zq7IyIi0ZWU6AqIiEjNUtCLiEScgl5EJOIU9CIiEaegFxGJuJREV6A0GRkZnpmZmehqiIjUG/PmzVvv7q1KW1cngz4zM5O5c+cmuhoiIvWGmX19oHVquhERiTgFvYhIxCnoRUQirk620YtIxeTl5ZGTk8Pu3bsTXRWpYenp6XTs2JHU1NS4t1HQi0RATk4OTZs2JTMzEzNLdHWkhrg7GzZsICcnh86dO8e9nZpuRCJg9+7dtGzZUiEfcWZGy5YtK/ybm4JeJCIU8geHyvw9K+hFDlLnPzKb8x+ZnehqSC1Q0ItIvfVl7na+zN1e/Hn8+PHs3LmzUvv65z//ydKlS6uranWKgl5EIqO+BX1BQUGtfI+CXkSqxapVq+jWrRuXX345PXr0YNSoUUybNo1BgwbRpUsXPv74Y3bs2MGll17KscceS58+fXjllVeKtz3xxBPp27cvffv25V//+hcA7777LieffDLnnnsu3bp1Y9SoURxoVry//OUvfPvttwwePJjBgwcD8NZbbzFw4ED69u3Leeedx/btwdX/zTffTFZWFtnZ2fz617/mX//6F5MnT+aGG26gd+/efPnllwf8jqLtLrjgAgC2b9/O6NGj6dmzJ9nZ2bz00ksAPP/88/Ts2ZMePXpw0003Fe+jSZMm/P73v+e4445j9uzZPPvss/Tv35/evXtz5ZVX1kj4W12cSrBfv36usW5E4rds2TKOPvpoAP7w6hKWfru13G2WrgnKZLU7pNyyWe0P4bazu5dZZtWqVRx11FHMnz+f7t27c+yxx9KrVy8ee+wxJk+ezBNPPEFWVhZZWVlceOGFbN68mf79+zN//nzMjKSkJNLT0/niiy8YOXIkc+fO5d1332XYsGEsWbKE9u3bM2jQIO69915OOOEEgOJmmyNbNQG+HycrIyOD9evXM2LECN544w0aN27M3XffzZ49exgzZgwDBw5k+fLlmBmbN2+mWbNm/PznP+ess87i3HPPPeAxtm/fnpUrV9KgQYPi7W666Sb27NnD+PHjAdi0aRO7du1iwIABzJs3j+bNm3PaaacxduxYhg8fjpnxwgsv8NOf/pRly5Zx4403MmnSJFJTU7n66qsZMGAAF198cZl/1rF/30XMbJ679yutfLn96M3sceAsYJ279yhlvQEPAGcAO4Gfu/snZtYJeBpoCxQCj7r7A+V9n4jUX507d6Znz54AdO/enVNOOQUzo2fPnqxatYqcnBwmT57MfffdBwTdQr/55hvat2/PmDFjWLBgAcnJyXz++efF++zfvz8dO3YEoHfv3qxatao46Mvy4YcfsnTpUgYNGgTA3r17GThwIIcccgjp6elcfvnlnHnmmZx11llxH192djajRo1i+PDhDB8+HIBp06YxYcKE4jLNmzdn5syZnHzyybRqFQwmOWrUKGbOnMnw4cNJTk7mnHPOAWD69OnMmzePY489FoBdu3bRunXruOsTr3gemHoSeJAgtEszFOgSvo4D/hb+zAd+FYZ+U2Cemb3t7tG82yFSR5R35V2kqMfNC1cOrLbvbtCgQfH7pKSk4s9JSUnk5+eTnJzMSy+9RNeuXffZ7vbbb6dNmzYsXLiQwsJC0tPTS91ncnIy+fn5cdXF3Tn11FN5/vnn91v38ccfM336dCZMmMCDDz7IO++8E9c+X3/9dWbOnMnkyZP57//+b5YsWYK779flsayWkvT0dJKTk4vLXXLJJdx5551xfX9lldtG7+4zgY1lFBkGPO2BD4FmZtbO3de4+yfhPrYBy4AO1VFpEamfTj/9dP76178WB+H8+fMB2LJlC+3atSMpKYlnnnmm0u3UTZs2Zdu2bQAMGDCADz74gBUrVgCwc+dOPv/8c7Zv386WLVs444wzGD9+PAsWLNhv29IUFhayevVqBg8ezD333MPmzZvZvn07p512Gg8++GBxuU2bNnHcccfx3nvvsX79egoKCnj++ec56aST9tvnKaecwsSJE1m3bh0AGzdu5OuvDzjacKVVx83YDsDqmM85lAh0M8sE+gAfHWgnZnaFmc01s7m5ubnVUC0R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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "import matplotlib.pyplot as plt\n",
+    "# we use std for error bars.\n",
+    "# Some people might perfer the 95% confidence interval or the standard error of the mean\n",
+    "ax = results.plot('param_n_neighbors', 'mean_test_score', yerr='std_test_score')\n",
+    "# reuse the axes from the first plot (ax=ax)\n",
+    "results.plot('param_n_neighbors', 'mean_train_score', yerr='std_train_score', ax=ax)\n",
+    "plt.legend()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "As you can see, there is quite a wide standard deviation on the validation sets in the different splits, which is somewhat unsuprising given the small size of the dataset.\n",
+    "We can also visualize each split as an individual curve, which might make trends easier to spot (though you shouldn't read too much into these results - this is the iris dataset after all):"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 71,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<matplotlib.legend.Legend at 0x1e6dad0ccc8>"
+      ]
+     },
+     "execution_count": 71,
+     "metadata": {},
+     "output_type": "execute_result"
+    },
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# list all the columns for train scores and test scores respectively\n",
+    "# easier to just generate them instead of trying to slice them or match them\n",
+    "test_score_cols = [f\"split{i}_test_score\" for i in range(10)]\n",
+    "train_score_cols = [f\"split{i}_train_score\" for i in range(10)]\n",
     "\n",
-    "from sklearn.tree import DecisionTreeRegressor\n",
-    "pipe = Pipeline([('scaler', StandardScaler()), ('regressor', Ridge())])\n",
+    "ax = results.plot(x='param_n_neighbors', y=train_score_cols, c='tab:orange', alpha=.3) \n",
+    "results.plot(x='param_n_neighbors', y=test_score_cols, c='tab:blue', alpha=.3, ax=ax) \n",
     "\n",
-    "param_grid = [{'regressor': [DecisionTreeRegressor()],\n",
-    "               'regressor__max_depth': [2, 3, 4],\n",
-    "               'scaler': ['passthrough']},\n",
-    "              {'regressor': [Ridge()],\n",
-    "               'regressor__alpha': [0.1, 1],\n",
-    "               'scaler': [StandardScaler(), MinMaxScaler(), 'passthrough']}\n",
-    "             ]\n",
-    "grid = GridSearchCV(pipe, param_grid)\n",
-    "grid.fit(X_train, y_train)\n",
-    "grid.score(X_test, y_test)"
+    "# Get lines for the legend. This is a bit hacky\n",
+    "# but better than having 20 entries in the legend\n",
+    "train_line = ax.get_children()[0]\n",
+    "test_line = ax.get_children()[10]\n",
+    "\n",
+    "plt.legend([train_line, test_line], [\"train set\", \"test set\"])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Nested Cross-Validation\n",
+    "As mentioned above, it's most common to use cross-validation for the training/validation part of the training/validation/test split.\n",
+    "However, we can also use it for both splits, which results in what is known as *nested cross-validation*.\n",
+    "Nested cross-validation is easy to implement with scikit-learn, but not commonly used, for three reasons:\n",
+    "- It's computationally expensive as it adds another for-loop to the grid-search process.\n",
+    "- It doesn't result in a single model, as cross-validation doesn't produce a single model, and so it's hard to productionize.\n",
+    "- It's conceptually somewhat hard to understand what it computes.\n",
+    "\n",
+    "The first of these should be quite clear: imagine we add an outer cross-validation loop to the example of todo. This would be expressed with scikit-learn like this:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 76,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# note that we don't call train_test_split\n",
+    "param_grid = {'n_neighbors':  np.arange(1, 15, 2)}\n",
+    "# instantiate grid search\n",
+    "grid = GridSearchCV(KNeighborsClassifier(), param_grid=param_grid, cv=10,\n",
+    "                   return_train_score=True)\n",
+    "# perform cross-validation on the grid-search estimator\n",
+    "# where each individual fit will internally perform cross-validation\n",
+    "res = cross_validate(grid, X, y, cv=5, return_train_score=True, return_estimator=True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 77,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>fit_time</th>\n",
+       "      <th>score_time</th>\n",
+       "      <th>estimator</th>\n",
+       "      <th>test_score</th>\n",
+       "      <th>train_score</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>0.262298</td>\n",
+       "      <td>0.000998</td>\n",
+       "      <td>GridSearchCV(cv=10, estimator=KNeighborsClassi...</td>\n",
+       "      <td>0.966667</td>\n",
+       "      <td>0.975000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>0.255318</td>\n",
+       "      <td>0.001002</td>\n",
+       "      <td>GridSearchCV(cv=10, estimator=KNeighborsClassi...</td>\n",
+       "      <td>1.000000</td>\n",
+       "      <td>0.966667</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>0.256428</td>\n",
+       "      <td>0.000997</td>\n",
+       "      <td>GridSearchCV(cv=10, estimator=KNeighborsClassi...</td>\n",
+       "      <td>0.933333</td>\n",
+       "      <td>0.966667</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>0.254881</td>\n",
+       "      <td>0.000993</td>\n",
+       "      <td>GridSearchCV(cv=10, estimator=KNeighborsClassi...</td>\n",
+       "      <td>0.966667</td>\n",
+       "      <td>0.983333</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>0.250332</td>\n",
+       "      <td>0.000997</td>\n",
+       "      <td>GridSearchCV(cv=10, estimator=KNeighborsClassi...</td>\n",
+       "      <td>1.000000</td>\n",
+       "      <td>0.966667</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   fit_time  score_time                                          estimator  \\\n",
+       "0  0.262298    0.000998  GridSearchCV(cv=10, estimator=KNeighborsClassi...   \n",
+       "1  0.255318    0.001002  GridSearchCV(cv=10, estimator=KNeighborsClassi...   \n",
+       "2  0.256428    0.000997  GridSearchCV(cv=10, estimator=KNeighborsClassi...   \n",
+       "3  0.254881    0.000993  GridSearchCV(cv=10, estimator=KNeighborsClassi...   \n",
+       "4  0.250332    0.000997  GridSearchCV(cv=10, estimator=KNeighborsClassi...   \n",
+       "\n",
+       "   test_score  train_score  \n",
+       "0    0.966667     0.975000  \n",
+       "1    1.000000     0.966667  \n",
+       "2    0.933333     0.966667  \n",
+       "3    0.966667     0.983333  \n",
+       "4    1.000000     0.966667  "
+      ]
+     },
+     "execution_count": 77,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "pd.DataFrame(res)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Before, we had 7 hyper-parameter settings, and 10 cross-validation folds, plus a final evaluation, leading to 71 models being build.\n",
+    "If we use five-fold cross-validation on this whole process, this will mean we're building 355 models, which will clearly take much longer.\n",
+    "\n",
+    "Also, the outcome is now five different scores, one for each split. However, these don't correspond to a particular model, as within this outter loop, grid-search led to different optimum parameters:\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 79,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[{'n_neighbors': 9},\n",
+       " {'n_neighbors': 7},\n",
+       " {'n_neighbors': 3},\n",
+       " {'n_neighbors': 7},\n",
+       " {'n_neighbors': 11}]"
+      ]
+     },
+     "execution_count": 79,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "[x.best_params_ for x in res['estimator']]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "So we don't end up with a model we can immediately use on new data. One way to get around this is to make predictions from each individual GridSearchCV model, and average the results TODO is this good here?, but that results in a somewhat complicated and hard-to-understand model.\n",
+    "\n",
+    "Finally, it's a bit hard to grasp what the result of the grid-search represents. It is an estimate of how well a given model generalizes if the hyper-parameters are adjusted with grid search. This can be interesting when comparing algorithms while taking into account hyper-parameter tuning: \"Is algorithm A better than algorithm B on this dataset if both are properly tuned?\". It can also be useful for seeing if there is signal in the data at all in settings where the dataset is very small todo cite Gael?\n",
+    "\n",
+    "However, for most every-day data science use-cases, the workflow illustrated in figures todo and todo is likely better suited for your needs."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Summary\n",
+    "Selecting hyper-parameters and selecting between different models is a cruicial component of building successful machine learning models. However, comparing models naively on the test set can lead to overly optimistic expectations about the generalization ability of a model. Therefore, it's critical to use a three-step process of training, validation and testing on separate subsets of the data. This can be achieved either by splitting the data into disjoint training, validation and test set, which is quite efficient but dependant on the particular split of the data, or by using cross-validation instead of a single split for the training/validation split.\n",
+    "Cross-validation is more robust but also more time-consuming than using single splits.\n",
+    "Cross-validation is often combined with the brute-force grid-search approach to tuning hyper-parmeters, which can be easily implemented in scikit-learn using ``GridSearchCV``."
    ]
   }
  ],

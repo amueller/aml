@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Algorithm Chains and Pipelines &#8212; Applied Machine Learning in Python</title>
+    <title>Combining Pipelines and Model Evaluation &#8212; Applied Machine Learning in Python</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -31,8 +31,6 @@
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Supervised Learning Algorithms" href="../02-supervised-learning/index.html" />
-    <link rel="prev" title="Missing Values" href="08-imputation.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -73,28 +71,8 @@
   <li class="">
     <a href="../00-introduction/00-introduction.html">2. Introduction</a>
   </li>
-  <li class="active">
+  <li class="">
     <a href="00-ml-workflow.html">3. The Machine Learning Workflow</a>
-  <ul class="nav sidenav_l2">
-    <li class="">
-      <a href="01-data-loading.html">3.1 Data Loading and Basic Preprocessing</a>
-    </li>
-    <li class="">
-      <a href="02-supervised-learning.html">3.2 Supervised learning</a>
-    </li>
-    <li class="">
-      <a href="03-preprocessing.html">3.3 Preprocessing and Scaling</a>
-    </li>
-    <li class="">
-      <a href="04-categorical-variables.html">3.4 Categorical Variables</a>
-    </li>
-    <li class="">
-      <a href="08-imputation.html">3.5 Missing Values</a>
-    </li>
-    <li class="active">
-      <a href="">3.6 Algorithm Chains and Pipelines</a>
-    </li>
-  </ul>
   </li>
   <li class="">
     <a href="../02-supervised-learning/index.html">4. Supervised Learning Algorithms</a>
@@ -145,7 +123,7 @@
                 <!-- ipynb file if we had a myst markdown file -->
                 
                 <!-- Download raw file -->
-                <a class="dropdown-buttons" href="../_sources/01-ml-workflow/09-pipeline.ipynb.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+                <a class="dropdown-buttons" href="../_sources/01-ml-workflow/12-pipelines-gridsearch.ipynb.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
                 <!-- Download PDF via print -->
                 <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
             </div>
@@ -164,7 +142,7 @@
             <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
             <div class="dropdown-buttons">
                 
-                <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/01-ml-workflow/09-pipeline.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+                <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/01-ml-workflow/12-pipelines-gridsearch.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
                 
                 
                 
@@ -173,9 +151,16 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#a-common-errror" class="nav-link">A common errror</a>
+        </li>
     
     </ul>
 </nav>
@@ -188,19 +173,10 @@
         
               <div>
                 
-  <div class="section" id="algorithm-chains-and-pipelines">
-<h1>Algorithm Chains and Pipelines<a class="headerlink" href="#algorithm-chains-and-pipelines" title="Permalink to this headline">¶</a></h1>
-</div>
-<div class="section" id="a-note-on-preprocessing">
-<h1>A note on preprocessing<a class="headerlink" href="#a-note-on-preprocessing" title="Permalink to this headline">¶</a></h1>
-</div>
-<div class="section" id="and-pipelines">
-<h1>(and pipelines)<a class="headerlink" href="#and-pipelines" title="Permalink to this headline">¶</a></h1>
-<p>I want to talk a bit more about preprocessing and
-cross-validation here, and introduce pipelines.</p>
-</div>
+  <div class="section" id="combining-pipelines-and-model-evaluation">
+<h1>Combining Pipelines and Model Evaluation<a class="headerlink" href="#combining-pipelines-and-model-evaluation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="a-common-errror">
-<h1>A common errror<a class="headerlink" href="#a-common-errror" title="Permalink to this headline">¶</a></h1>
+<h2>A common errror<a class="headerlink" href="#a-common-errror" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -348,6 +324,7 @@ to transform X’1 into X’2, and call the predict method of
 the classifier on X’2. This sounds a bit complicated, but
 it’s really just doing “the right thing”to apply multiple
 transformation steps.</p>
+</div>
 </div>
 <div class="section" id="undoing-our-feature-selection-mistake">
 <h1>Undoing our feature selection mistake<a class="headerlink" href="#undoing-our-feature-selection-mistake" title="Permalink to this headline">¶</a></h1>
@@ -2006,7 +1983,7 @@ dtype: object
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x2140ab105c8&gt;
 </pre></div>
 </div>
-<img alt="../_images/09-pipeline_79_1.png" src="../_images/09-pipeline_79_1.png" />
+<img alt="../_images/12-pipelines-gridsearch_78_1.png" src="../_images/12-pipelines-gridsearch_78_1.png" />
 </div>
 </div>
 </div>
@@ -2164,8 +2141,6 @@ dtype: object
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="08-imputation.html" title="previous page">Missing Values</a>
-    <a class='right-next' id="next-link" href="../02-supervised-learning/index.html" title="next page">Supervised Learning Algorithms</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
