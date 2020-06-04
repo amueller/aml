@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Combining Pipelines and Model Evaluation &#8212; Applied Machine Learning in Python</title>
+    <title>More on Pipelines &#8212; Applied Machine Learning in Python</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -95,7 +95,7 @@
       <a href="10-model-validation-and-tuning.html">3.6 Model evaluation</a>
     </li>
     <li class="active">
-      <a href="">3.7 Combining Pipelines and Model Evaluation</a>
+      <a href="">3.7 More on Pipelines</a>
     </li>
   </ul>
   </li>
@@ -202,6 +202,52 @@
             </ul>
         </li>
     
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#pipeline-and-gridsearchcv" class="nav-link">Pipeline and GridSearchCV</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#going-wild-with-pipelines" class="nav-link">Going wild with Pipelines</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#going-wilder-with-pipelines" class="nav-link">Going wilder with Pipelines</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#going-wildest-with-pipelines" class="nav-link">Going wildest with Pipelines</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#using-pipelines-in-grid-searches" class="nav-link">Using Pipelines in Grid-searches</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#not-using-pipelines-vs-feature-selection" class="nav-link">Not using Pipelines vs feature selection</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#the-general-pipeline-interface" class="nav-link">The General Pipeline Interface</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#convenient-pipeline-creation-with-make-pipeline" class="nav-link">Convenient Pipeline creation with make_pipeline</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#accessing-step-attributes" class="nav-link">Accessing step attributes</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#accessing-attributes-in-grid-searched-pipeline" class="nav-link">Accessing attributes in grid-searched pipeline.</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#grid-searching-preprocessing-steps-and-model-parameters" class="nav-link">Grid-searching preprocessing steps and model parameters</a>
+        </li>
+    
+            </ul>
+        </li>
+    
     </ul>
 </nav>
 
@@ -213,8 +259,8 @@
         
               <div>
                 
-  <div class="section" id="combining-pipelines-and-model-evaluation">
-<h1>Combining Pipelines and Model Evaluation<a class="headerlink" href="#combining-pipelines-and-model-evaluation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="more-on-pipelines">
+<h1>More on Pipelines<a class="headerlink" href="#more-on-pipelines" title="Permalink to this headline">¶</a></h1>
 <p>We already saw how pipelines can make our live easier in chapter todo. However, when using model evaluation tools such as cross_validate and GridSearchCV, using pipelines becomes essential for obtaining valid results.
 Also, the use of pipelines in GridSearchCV allows for a variety of powerful use-cases. We’ll explore both of these in this chapter.</p>
 <div class="section" id="data-leakage-a-common-error">
@@ -228,239 +274,221 @@ While we haven’t seen the details of feature selection yet, it provides and ex
 <p>When working with high dimensional datasets, it can be beneficial to work with only a subset of the features. This will reduce the computational burden, increase interpretability, and in some cases can even improve generalization performance.
 There are several methods for automating this process, which we will discuss in depth in chapter todo. One of the simplest methods of automatic feature selection is using univariate statistics to rank features.
 Univariate means we are looking only at one feature at a time, and evaluate its relationship with the target, often with a simple statistical measure such as an F test or t-test.
-We can then rank all the features by the strength of their response (or alternatively by how significant their association with the target was).</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+We can then rank all the features by the strength of their response (or alternatively by how significant their association with the target was) and select the ones deemed most important.
+A version of this is implemented in the <code class="docutils literal notranslate"><span class="pre">SelectPercentile</span></code> transformer in scikit-learn, which allows you to keep a fixed percentage of the existing features.
+This can be a quick and easy way to subselect features from a very wide dataset and is commonly used. Here is a quick example on the breast cancer dataset:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_breast_cancer</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">SelectPercentile</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
+
+<span class="c1"># load the dataset and split it into training and test set</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span>  <span class="o">=</span> <span class="n">load_breast_cancer</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(426, 30)
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># select most informative 5% of features</span>
-<span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">SelectPercentile</span><span class="p">,</span> <span class="n">f_regression</span>
-<span class="n">select</span> <span class="o">=</span> <span class="n">SelectPercentile</span><span class="p">(</span><span class="n">score_func</span><span class="o">=</span><span class="n">f_regression</span><span class="p">,</span> <span class="n">percentile</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a standard pipeline out of scaler and classifier</span>
+<span class="n">pipe_knn</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">KNeighborsClassifier</span><span class="p">())</span>
+<span class="c1"># Fit and evaluate as a baseline</span>
+<span class="n">pipe_knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">pipe_knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.958041958041958
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># create a pipeline subselecting 20% of the features according to univariate statistics</span>
+<span class="c1"># Order of scaling and selection does not matter in this case</span>
+<span class="n">pipe_select</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">SelectPercentile</span><span class="p">(</span><span class="n">percentile</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span> <span class="n">KNeighborsClassifier</span><span class="p">())</span>
+<span class="c1"># Fit the pipeline</span>
+<span class="n">pipe_select</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="c1"># slice off the classifier, look at shape of transformed data:</span>
+<span class="n">pipe_select</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(426, 6)
+</pre></div>
+</div>
+</div>
+</div>
+<p>As expected, of the 30 original features, <code class="docutils literal notranslate"><span class="pre">SelectPercentile</span></code> only kept 20%, meaning 6. Now let’s evaluate the whole pipeline:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_select</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.958041958041958
+</pre></div>
+</div>
+</div>
+</div>
+<p>The performance using only 20% of the features is actually identical to the performance when using all the features, but might be much more interpretable.
+We can see which features were selected by TODO.</p>
+<p>Now, that we have familiarized ourselves with how SelectPercentile works (at least in general terms), let’s look at the example mentioned above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO hide</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10000</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,))</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Say someone gave you a binary classification dataset like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="c1"># count appearances of 0 and 1 in y</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(100, 10000) (100,)
+[53 47]
+</pre></div>
+</div>
+</div>
+</div>
+<p>It’s very wide, meaning it has many features, compared to the number of samples. This is quite common in sensor networks or in biomedical data for example.
+Given the small size of the dataset, we might want to use cross-validation to assess performance, instead of using a single train-test split.
+One might start like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># select most informative 5% of features</span>
+<span class="n">select</span> <span class="o">=</span> <span class="n">SelectPercentile</span><span class="p">(</span><span class="n">percentile</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">select</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 <span class="n">X_selected</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">X_selected</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(100, 500)
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
-<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">Ridge</span><span class="p">(),</span> <span class="n">X_selected</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+</div>
+</div>
+<p>Now the dataset seems much more managable at 500 features (which are arguably still a lot), and we can evaluate our model with <code class="docutils literal notranslate"><span class="pre">cross_val_score</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+<span class="c1"># run cross-validation with the subselected features</span>
+<span class="n">cross_val_score</span><span class="p">(</span><span class="n">KNeighborsClassifier</span><span class="p">(),</span> <span class="n">X_selected</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.90</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([1., 1., 1., 1., 1.])
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ridge</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_selected</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="n">X_test_selected</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-<span class="n">ridge</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test_selected</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</div>
+</div>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>If a model looks too good to be true, an experienced data scientist ususally looks for the mistake. Often it’s a case of information leakage,
+so if you ever observe very high accuracy, you might do well to be skeptical at first.</p>
+</div>
+<p>It looks like it’s our lucky day: we created a model that classifies our dataset perfectly across all folds. From this evaluation, we might be quite certain we found a good model.
+However, we made a mistake: we applied the feature selection procedure outside of the cross-validation. We should apply it inside the cross-validation instead.
+In scikit-learn, we can easily do that using a pipeline (as we did above).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">SelectPercentile</span><span class="p">(</span><span class="n">percentile</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span> <span class="n">KNeighborsClassifier</span><span class="p">())</span>
+<span class="c1"># run cross-validation on the original dataset using the pipeline</span>
+<span class="n">cross_val_score</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="mf">0.18</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([0.45, 0.5 , 0.5 , 0.5 , 0.7 ])
 </pre></div>
 </div>
-<p>#Leaking Information</p>
-<p>.left-column[</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># BAD!</span>
+</div>
+</div>
+<p>If we use the proper evaluation technique, our results change drastically: our model is around chance performance for a balanced dataset as this, in other words, we might conclude that the model didn’t learn anything.
+Where does this dramatic difference come from? When we called <code class="docutils literal notranslate"><span class="pre">fit</span></code> on <code class="docutils literal notranslate"><span class="pre">SelectPercentile</span></code> before the cross-validation, it had access to the full dataset, which includes the training and test parts for each of the splits. This means it could extract information from all parts of the data, even those that we meant to use as validation set during cross-validation. This is a classical example of information leakage, and a good reason to always use pipelines!</p>
+<p>To make the difference in the computation a bit more apparent, I wrote down a more explicit version of the same computation, not using <code class="docutils literal notranslate"><span class="pre">cross_val_score</span></code> or <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> (we’re using <code class="docutils literal notranslate"><span class="pre">KFold</span></code> here which is a way to get the indices to perform K-fold cross-validation, we’ll see this in more detail in TODO):</p>
+<table class="table">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>preprocessing before cross validation</p></th>
+<th class="head"><p>preprocessing within cross validation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># BAD!</span>
+<span class="n">select</span> <span class="o">=</span> <span class="n">SelectPercentile</span><span class="p">(</span><span class="n">percentile</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">select</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># includes the cv test parts!</span>
 <span class="n">X_sel</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-    <span class="n">ridge</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_sel</span><span class="p">[</span><span class="n">train</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">train</span><span class="p">])</span>
-    <span class="n">score</span> <span class="o">=</span> <span class="n">ridge</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_sel</span><span class="p">[</span><span class="n">test</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">test</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">KFold</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_sel</span><span class="p">[</span><span class="n">train</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">train</span><span class="p">])</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_sel</span><span class="p">[</span><span class="n">test</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">test</span><span class="p">])</span>
     <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>]
-.right-column[</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GOOD!</span>
+</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GOOD!</span>
 <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="n">select</span> <span class="o">=</span> <span class="n">SelectPercentile</span><span class="p">(</span><span class="n">percentile</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">KFold</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
     <span class="n">select</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">train</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">train</span><span class="p">])</span>
     <span class="n">X_sel_train</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">train</span><span class="p">])</span>
-    <span class="n">ridge</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_sel_train</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">train</span><span class="p">])</span>
+    <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_sel_train</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">train</span><span class="p">])</span>
     <span class="n">X_sel_test</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">test</span><span class="p">])</span>
-    <span class="n">score</span> <span class="o">=</span> <span class="n">ridge</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_sel_test</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">test</span><span class="p">])</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_sel_test</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">test</span><span class="p">])</span>
     <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>]</p>
-<p>.reset-column[
-Need to include preprocessing in cross-validation !
-]</p>
-<p>What we did was we trained the scaler on the training data,
-and then applied cross-validation to the scaled data. Tha’s
-what’s show on the left. The problem is that we use the
-information of all of the training data for scaling, so in
-particular the information in the test fold. This is also
-known as information leakage. If we apply our model to new
-data, this data will not have been used to do the scaling,
-so our cross-validation will give us a biased result that
-might be too optimistic.</p>
-<p>On the right you can see how we should do it: we should only
-use the training part of the data to find the mean and
-standard deviation, even in cross-validation. That means
-that for each split in the cross-validation, we need to
-scale the data a bit differently. This basically means the
-scaling should happen inside the cross-validation loop, not
-outside.</p>
-<p>In practice, estimating mean and standard deviation is quite
-robust and you will not see a big difference between the two
-methods. But for other preprocessing steps that we’ll see
-later, this might make a huge difference. So we should get
-it right from the start.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Housing data example</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
-<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span> <span class="n">target</span>
-
-<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
-<span class="n">scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-<span class="n">X_train_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-<span class="n">ridge</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-
-<span class="n">X_test_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-<span class="n">ridge</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</td>
+</tr>
+<tr class="row-odd"><td><p>equivalent to:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">select</span> <span class="o">=</span> <span class="n">SelectPercentile</span><span class="p">(</span><span class="n">percentile</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">X_selected</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">KNeighborsClassifier</span><span class="p">(),</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.684</span>
+</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">SelectPercentile</span><span class="p">(</span><span class="n">percentile</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+                     <span class="n">KNeighborsClassifier</span><span class="p">()</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
-<span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">Ridge</span><span class="p">())</span>
-<span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="n">pipe</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-</pre></div>
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.684</span>
-</pre></div>
-</div>
-<p>Now I want to show you how to do preprocessing and
-crossvalidation right with scikit-learn.</p>
-<p>At the top here you see the workflow for scaling the data
-and then applying ridge again. Fit the scaler on the
-training set, transform on the training set, fit ridge on
-the training set, transform the test set, and evaluate the
-model.</p>
-<p>Because this is such a common pattern, scikit-learn has a
-tool to make this easier, the pipeline. The pipeline is an
-estimator that allows you to chain multiple transformations
-of the data before you apply a final model.</p>
-<p>You can build a pipeline using the make_pipeline function.
-Just provide as parameters all the estimators. All but the
-last one need to have a transform method. Here we only have
-two steps: the standard scaler and ridge.</p>
-<p>make_pipeline returns an estimator that does both steps at
-once. We can call fit on it to fit first the scaler and then
-ridge on the scaled data, and when we call score, it
-transforms the data and then evaluates the model.</p>
-<p>The code below is exactly equivalent to the code above, only
-shorter.</p>
-<p>.center[
-<img alt=":scale 70%" src="../_images/pipeline.png" />
-]</p>
-<p>Let’s dive a bit more into the pipeline. Here is an
-illustration of what happens with three steps, T1, T2 and
-Classifier. Imagine T1 to be a scaler and T2 to be any other
-transformation of the data.</p>
-<p>If we call fit on this pipeline, it will first call fit on
-the first step with the input X. Then it will transform the
-input X to X1, and use X1 to fit the second step, T2. Then
-it will use T2 to transform the data from X1 to X2. Then it
-will fit the classifier on X2.</p>
-<p>If we call predict on some data X’, say the test set, it
-will call transform on T1, creating X’1. Then it will use T2
-to transform X’1 into X’2, and call the predict method of
-the classifier on X’2. This sounds a bit complicated, but
-it’s really just doing “the right thing”to apply multiple
-transformation steps.</p>
-</div>
-</div>
-</div>
-<div class="section" id="undoing-our-feature-selection-mistake">
-<h1>Undoing our feature selection mistake<a class="headerlink" href="#undoing-our-feature-selection-mistake" title="Permalink to this headline">¶</a></h1>
-<p>.left-column[</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># BAD!</span>
-<span class="n">select</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># includes the cv test parts!</span>
-<span class="n">X_sel</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-    <span class="n">ridge</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_sel</span><span class="p">[</span><span class="n">train</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">train</span><span class="p">])</span>
-    <span class="n">score</span> <span class="o">=</span> <span class="n">ridge</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_sel</span><span class="p">[</span><span class="n">test</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">test</span><span class="p">])</span>
-    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Same as:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">select</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="n">X_selected</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">Ridge</span><span class="p">(),</span> <span class="n">X_selected</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.90</span>
-</pre></div>
-</div>
-<p>]
-.right-column[</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GOOD!</span>
-<span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-    <span class="n">select</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">train</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">train</span><span class="p">])</span>
-    <span class="n">X_sel_train</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">train</span><span class="p">])</span>
-    <span class="n">ridge</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_sel_train</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">train</span><span class="p">])</span>
-    <span class="n">X_sel_test</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">test</span><span class="p">])</span>
-    <span class="n">score</span> <span class="o">=</span> <span class="n">ridge</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_sel_test</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">test</span><span class="p">])</span>
-    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Same as:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">select</span><span class="p">,</span> <span class="n">Ridge</span><span class="p">())</span>
-<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="mf">0.079</span>
-</pre></div>
-</div>
-<p>]</p>
-<p>How does that help with the cross-validation problem?
-Because now all steps are contain in pipeline, we can simply
-pass the whole pipeline to crossvalidation, and all
-processing will happen inside the cross-validation loop.
-That solve the data leakage problem.</p>
-<p>Here you can see how we can build a pipeline using a
-standard scaler and kneighborsregressor and pass it to
-cross-validation.</p>
-<div class="section" id="naming-steps">
-<h2>Naming Steps<a class="headerlink" href="#naming-steps" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
-<span class="n">knn_pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">KNeighborsRegressor</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">knn_pipe</span><span class="o">.</span><span class="n">steps</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[(</span><span class="s1">&#39;standardscaler&#39;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),</span>
- <span class="p">(</span><span class="s1">&#39;kneighborsregressor&#39;</span><span class="p">,</span> <span class="n">KNeighborsRegressor</span><span class="p">())]</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="n">pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s2">&quot;scaler&quot;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),</span>
-                 <span class="p">(</span><span class="s2">&quot;regressor&quot;</span><span class="p">,</span> <span class="n">KNeighborsRegressor</span><span class="p">())])</span>
-</pre></div>
-</div>
-<p>But let’s talk a bit more about pipelines, because they are
-great. The pipeline has an attribute called steps, which +++
-contains its steps. Steps is a list of tuples, where the
-first entry is a string and the second is an estimator
-(model). The string is the “name” that is assigned to this
-step in the pipeline. You can see here that our first step
-is called “standardscaler” in all lower case letters, and
-the second is called kneighborsregressor, also all lower
-case letters.</p>
-<p>By default, step names are just lowercased classnames. You
-can also name the steps yourself using the Pipeline class
-directly. Then you can specify the steps as tuples of name
-and estimator. make_pipeline is just a shortcut to generate
-the names automatically.</p>
 </div>
 <div class="section" id="pipeline-and-gridsearchcv">
 <h2>Pipeline and GridSearchCV<a class="headerlink" href="#pipeline-and-gridsearchcv" title="Permalink to this headline">¶</a></h2>
@@ -593,41 +621,6 @@ that you have bugs.</p>
 <span class="c1"># scale test data and score the scaled data</span>
 <span class="n">X_test_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 <span class="n">svm</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.972027972027972
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="building-pipelines">
-<h2>Building Pipelines<a class="headerlink" href="#building-pipelines" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="n">pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s2">&quot;scaler&quot;</span><span class="p">,</span> <span class="n">MinMaxScaler</span><span class="p">()),</span> <span class="p">(</span><span class="s2">&quot;svm&quot;</span><span class="p">,</span> <span class="n">SVC</span><span class="p">())])</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Pipeline(steps=[(&#39;scaler&#39;, MinMaxScaler()), (&#39;svm&#39;, SVC())])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pipe</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1443,742 +1436,6 @@ LogisticRegression(C=1, max_iter=1000)
              <span class="p">]</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="more-on-columntransformer">
-<h2>More on ColumnTransformer<a class="headerlink" href="#more-on-columntransformer" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.compose</span> <span class="kn">import</span> <span class="n">make_column_transformer</span><span class="p">,</span> <span class="n">ColumnTransformer</span>
-<span class="n">bike</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/bike_day_raw.csv&quot;</span><span class="p">)</span>
-<span class="n">bike</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>season</th>
-      <th>mnth</th>
-      <th>holiday</th>
-      <th>weekday</th>
-      <th>workingday</th>
-      <th>weathersit</th>
-      <th>temp</th>
-      <th>atemp</th>
-      <th>hum</th>
-      <th>windspeed</th>
-      <th>cnt</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>6</td>
-      <td>0</td>
-      <td>2</td>
-      <td>0.344167</td>
-      <td>0.363625</td>
-      <td>0.805833</td>
-      <td>0.160446</td>
-      <td>985</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2</td>
-      <td>0.363478</td>
-      <td>0.353739</td>
-      <td>0.696087</td>
-      <td>0.248539</td>
-      <td>801</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0.196364</td>
-      <td>0.189405</td>
-      <td>0.437273</td>
-      <td>0.248309</td>
-      <td>1349</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>2</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0.200000</td>
-      <td>0.212122</td>
-      <td>0.590435</td>
-      <td>0.160296</td>
-      <td>1562</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>3</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0.226957</td>
-      <td>0.229270</td>
-      <td>0.436957</td>
-      <td>0.186900</td>
-      <td>1600</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bike</span><span class="o">.</span><span class="n">dtypes</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>season          int64
-mnth            int64
-holiday         int64
-weekday         int64
-workingday      int64
-weathersit      int64
-temp          float64
-atemp         float64
-hum           float64
-windspeed     float64
-cnt             int64
-dtype: object
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bike_data</span> <span class="o">=</span> <span class="n">bike</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;cnt&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">cat_features</span> <span class="o">=</span> <span class="n">bike</span><span class="o">.</span><span class="n">columns</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span>
-<span class="n">cat_features</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Index([&#39;season&#39;, &#39;mnth&#39;, &#39;holiday&#39;, &#39;weekday&#39;, &#39;workingday&#39;, &#39;weathersit&#39;], dtype=&#39;object&#39;)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
-<span class="n">ct</span> <span class="o">=</span> <span class="n">make_column_transformer</span><span class="p">((</span><span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">cat_features</span><span class="p">),</span>
-                             <span class="n">remainder</span><span class="o">=</span><span class="n">StandardScaler</span><span class="p">())</span>
-<span class="n">ct</span><span class="o">.</span><span class="n">transformers</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[(&#39;onehotencoder&#39;,
-  OneHotEncoder(sparse=False),
-  Index([&#39;season&#39;, &#39;mnth&#39;, &#39;holiday&#39;, &#39;weekday&#39;, &#39;workingday&#39;, &#39;weathersit&#39;], dtype=&#39;object&#39;))]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ColumnTransformer</span><span class="p">([(</span><span class="s1">&#39;ohe&#39;</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">cat_features</span><span class="p">)],</span>
-                  <span class="n">remainder</span><span class="o">=</span><span class="n">StandardScaler</span><span class="p">())</span>
-
-<span class="n">ColumnTransformer</span><span class="p">([(</span><span class="s1">&#39;ohe&#39;</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">cat_features</span><span class="p">),</span>
-                   <span class="p">(</span><span class="s1">&#39;scaler&#39;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">(),</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">])])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>ColumnTransformer(transformers=[(&#39;ohe&#39;, OneHotEncoder(sparse=False),
-                                 Index([&#39;season&#39;, &#39;mnth&#39;, &#39;holiday&#39;, &#39;weekday&#39;, &#39;workingday&#39;, &#39;weathersit&#39;], dtype=&#39;object&#39;)),
-                                (&#39;scaler&#39;, StandardScaler(), [6, 7, 8, 9])])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ct</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">bike_data</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>ColumnTransformer(remainder=StandardScaler(),
-                  transformers=[(&#39;onehotencoder&#39;, OneHotEncoder(sparse=False),
-                                 Index([&#39;season&#39;, &#39;mnth&#39;, &#39;holiday&#39;, &#39;weekday&#39;, &#39;workingday&#39;, &#39;weathersit&#39;], dtype=&#39;object&#39;))])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bike_data</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(731, 10)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ct</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">bike_data</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(731, 34)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ct</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">bike_data</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([[ 1.        ,  0.        ,  0.        , ..., -0.67994602,
-         1.25017133, -0.38789169],
-       [ 1.        ,  0.        ,  0.        , ..., -0.74065231,
-         0.47911298,  0.74960172],
-       [ 1.        ,  0.        ,  0.        , ..., -1.749767  ,
-        -1.33927398,  0.74663186],
-       ...,
-       [ 1.        ,  0.        ,  0.        , ..., -1.42434419,
-         0.87839173, -0.85355213],
-       [ 1.        ,  0.        ,  0.        , ..., -1.49004895,
-        -1.01566357,  2.06944426],
-       [ 1.        ,  0.        ,  0.        , ..., -1.54048197,
-        -0.35406086, -0.46020122]])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ct</span> <span class="o">=</span> <span class="n">make_column_transformer</span><span class="p">((</span><span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">cat_features</span><span class="p">),</span>
-                             <span class="n">remainder</span><span class="o">=</span><span class="n">StandardScaler</span><span class="p">())</span>
-<span class="n">ohe_pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">Ridge</span><span class="p">())</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">bike_data</span><span class="p">,</span> <span class="n">bike</span><span class="o">.</span><span class="n">cnt</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">ohe_pipe</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([0.52406232, 0.5348351 , 0.60879866, 0.40745233, 0.55003895])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">PowerTransformer</span>
-
-<span class="n">ct</span> <span class="o">=</span> <span class="n">make_column_transformer</span><span class="p">((</span><span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">cat_features</span><span class="p">))</span>
-<span class="n">ohe_pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">Ridge</span><span class="p">())</span>
-
-<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;columntransformer__remainder&#39;</span><span class="p">:</span>
-              <span class="p">[</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">PowerTransformer</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;yeo-johnson&#39;</span><span class="p">)],</span>
-              <span class="s1">&#39;ridge__alpha&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">)}</span>
-<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">ohe_pipe</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">)</span>
-<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="n">grid</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.5446847016583232
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span><span class="o">.</span><span class="n">best_params_</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;columntransformer__remainder&#39;: StandardScaler(), &#39;ridge__alpha&#39;: 10.0}
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">)</span>
-<span class="n">res</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>mean_fit_time</th>
-      <th>std_fit_time</th>
-      <th>mean_score_time</th>
-      <th>std_score_time</th>
-      <th>param_columntransformer__remainder</th>
-      <th>param_ridge__alpha</th>
-      <th>params</th>
-      <th>split0_test_score</th>
-      <th>split1_test_score</th>
-      <th>split2_test_score</th>
-      <th>split3_test_score</th>
-      <th>split4_test_score</th>
-      <th>mean_test_score</th>
-      <th>std_test_score</th>
-      <th>rank_test_score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0.006383</td>
-      <td>0.000489</td>
-      <td>0.003590</td>
-      <td>4.888307e-04</td>
-      <td>StandardScaler()</td>
-      <td>0.001</td>
-      <td>{'columntransformer__remainder': StandardScale...</td>
-      <td>0.523292</td>
-      <td>0.530999</td>
-      <td>0.610672</td>
-      <td>0.401703</td>
-      <td>0.546912</td>
-      <td>0.522716</td>
-      <td>0.067874</td>
-      <td>6</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>0.005585</td>
-      <td>0.000489</td>
-      <td>0.003191</td>
-      <td>3.990174e-04</td>
-      <td>StandardScaler()</td>
-      <td>0.01</td>
-      <td>{'columntransformer__remainder': StandardScale...</td>
-      <td>0.523306</td>
-      <td>0.531043</td>
-      <td>0.610661</td>
-      <td>0.401770</td>
-      <td>0.546942</td>
-      <td>0.522744</td>
-      <td>0.067851</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>0.005585</td>
-      <td>0.000489</td>
-      <td>0.003191</td>
-      <td>3.989221e-04</td>
-      <td>StandardScaler()</td>
-      <td>0.1</td>
-      <td>{'columntransformer__remainder': StandardScale...</td>
-      <td>0.523435</td>
-      <td>0.531467</td>
-      <td>0.610539</td>
-      <td>0.402414</td>
-      <td>0.547236</td>
-      <td>0.523018</td>
-      <td>0.067621</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0.005784</td>
-      <td>0.000399</td>
-      <td>0.003192</td>
-      <td>3.990173e-04</td>
-      <td>StandardScaler()</td>
-      <td>1</td>
-      <td>{'columntransformer__remainder': StandardScale...</td>
-      <td>0.524062</td>
-      <td>0.534835</td>
-      <td>0.608799</td>
-      <td>0.407452</td>
-      <td>0.550039</td>
-      <td>0.525037</td>
-      <td>0.065672</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>0.005789</td>
-      <td>0.000402</td>
-      <td>0.002987</td>
-      <td>9.968748e-06</td>
-      <td>StandardScaler()</td>
-      <td>10</td>
-      <td>{'columntransformer__remainder': StandardScale...</td>
-      <td>0.515989</td>
-      <td>0.550924</td>
-      <td>0.594814</td>
-      <td>0.423947</td>
-      <td>0.566987</td>
-      <td>0.530532</td>
-      <td>0.059074</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>0.005549</td>
-      <td>0.000514</td>
-      <td>0.003002</td>
-      <td>1.240638e-05</td>
-      <td>StandardScaler()</td>
-      <td>100</td>
-      <td>{'columntransformer__remainder': StandardScale...</td>
-      <td>0.451963</td>
-      <td>0.547740</td>
-      <td>0.538225</td>
-      <td>0.421852</td>
-      <td>0.553704</td>
-      <td>0.502697</td>
-      <td>0.054777</td>
-      <td>11</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>0.010572</td>
-      <td>0.000798</td>
-      <td>0.003590</td>
-      <td>4.884220e-04</td>
-      <td>PowerTransformer()</td>
-      <td>0.001</td>
-      <td>{'columntransformer__remainder': PowerTransfor...</td>
-      <td>0.516199</td>
-      <td>0.532617</td>
-      <td>0.595314</td>
-      <td>0.393089</td>
-      <td>0.541294</td>
-      <td>0.515703</td>
-      <td>0.066803</td>
-      <td>10</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>0.010372</td>
-      <td>0.000798</td>
-      <td>0.002992</td>
-      <td>2.780415e-07</td>
-      <td>PowerTransformer()</td>
-      <td>0.01</td>
-      <td>{'columntransformer__remainder': PowerTransfor...</td>
-      <td>0.516204</td>
-      <td>0.532670</td>
-      <td>0.595368</td>
-      <td>0.393087</td>
-      <td>0.541340</td>
-      <td>0.515734</td>
-      <td>0.066823</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>0.009774</td>
-      <td>0.000747</td>
-      <td>0.003590</td>
-      <td>4.888308e-04</td>
-      <td>PowerTransformer()</td>
-      <td>0.1</td>
-      <td>{'columntransformer__remainder': PowerTransfor...</td>
-      <td>0.516240</td>
-      <td>0.533174</td>
-      <td>0.595828</td>
-      <td>0.393100</td>
-      <td>0.541763</td>
-      <td>0.516021</td>
-      <td>0.066986</td>
-      <td>8</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>0.011968</td>
-      <td>0.000631</td>
-      <td>0.003391</td>
-      <td>4.887335e-04</td>
-      <td>PowerTransformer()</td>
-      <td>1</td>
-      <td>{'columntransformer__remainder': PowerTransfor...</td>
-      <td>0.516252</td>
-      <td>0.536836</td>
-      <td>0.596867</td>
-      <td>0.394672</td>
-      <td>0.544733</td>
-      <td>0.517872</td>
-      <td>0.067085</td>
-      <td>7</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>0.009774</td>
-      <td>0.000399</td>
-      <td>0.003191</td>
-      <td>3.990174e-04</td>
-      <td>PowerTransformer()</td>
-      <td>10</td>
-      <td>{'columntransformer__remainder': PowerTransfor...</td>
-      <td>0.508169</td>
-      <td>0.552921</td>
-      <td>0.585454</td>
-      <td>0.407621</td>
-      <td>0.561836</td>
-      <td>0.523200</td>
-      <td>0.062986</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>0.010173</td>
-      <td>0.000399</td>
-      <td>0.002992</td>
-      <td>2.431402e-07</td>
-      <td>PowerTransformer()</td>
-      <td>100</td>
-      <td>{'columntransformer__remainder': PowerTransfor...</td>
-      <td>0.442441</td>
-      <td>0.545727</td>
-      <td>0.528838</td>
-      <td>0.408548</td>
-      <td>0.547744</td>
-      <td>0.494660</td>
-      <td>0.057855</td>
-      <td>12</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">mean_test_score</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;StandardScaler&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">mean_test_score</span><span class="p">[</span><span class="mi">6</span><span class="p">:]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;PowerTransformer&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x2140ab105c8&gt;
-</pre></div>
-</div>
-<img alt="../_images/12-pipelines-gridsearch_79_1.png" src="../_images/12-pipelines-gridsearch_79_1.png" />
-</div>
-</div>
-</div>
-<div class="section" id="exercise">
-<h2>Exercise<a class="headerlink" href="#exercise" title="Permalink to this headline">¶</a></h2>
-<p>Load the adult dataset. Create a pipline using the ColumnTransformer, OneHotEncoder, Scaling, and polynomial features and a linear classifier.</p>
-<p>Search over the best options for the polynomial features together with the regularization of a linear model.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/adult.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>age</th>
-      <th>workclass</th>
-      <th>education</th>
-      <th>education-num</th>
-      <th>marital-status</th>
-      <th>occupation</th>
-      <th>relationship</th>
-      <th>race</th>
-      <th>gender</th>
-      <th>capital-gain</th>
-      <th>capital-loss</th>
-      <th>hours-per-week</th>
-      <th>native-country</th>
-      <th>income</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>39</td>
-      <td>State-gov</td>
-      <td>Bachelors</td>
-      <td>13</td>
-      <td>Never-married</td>
-      <td>Adm-clerical</td>
-      <td>Not-in-family</td>
-      <td>White</td>
-      <td>Male</td>
-      <td>2174</td>
-      <td>0</td>
-      <td>40</td>
-      <td>United-States</td>
-      <td>&lt;=50K</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>50</td>
-      <td>Self-emp-not-inc</td>
-      <td>Bachelors</td>
-      <td>13</td>
-      <td>Married-civ-spouse</td>
-      <td>Exec-managerial</td>
-      <td>Husband</td>
-      <td>White</td>
-      <td>Male</td>
-      <td>0</td>
-      <td>0</td>
-      <td>13</td>
-      <td>United-States</td>
-      <td>&lt;=50K</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>38</td>
-      <td>Private</td>
-      <td>HS-grad</td>
-      <td>9</td>
-      <td>Divorced</td>
-      <td>Handlers-cleaners</td>
-      <td>Not-in-family</td>
-      <td>White</td>
-      <td>Male</td>
-      <td>0</td>
-      <td>0</td>
-      <td>40</td>
-      <td>United-States</td>
-      <td>&lt;=50K</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>53</td>
-      <td>Private</td>
-      <td>11th</td>
-      <td>7</td>
-      <td>Married-civ-spouse</td>
-      <td>Handlers-cleaners</td>
-      <td>Husband</td>
-      <td>Black</td>
-      <td>Male</td>
-      <td>0</td>
-      <td>0</td>
-      <td>40</td>
-      <td>United-States</td>
-      <td>&lt;=50K</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>28</td>
-      <td>Private</td>
-      <td>Bachelors</td>
-      <td>13</td>
-      <td>Married-civ-spouse</td>
-      <td>Prof-specialty</td>
-      <td>Wife</td>
-      <td>Black</td>
-      <td>Female</td>
-      <td>0</td>
-      <td>0</td>
-      <td>40</td>
-      <td>Cuba</td>
-      <td>&lt;=50K</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># use OneHotEncoder(handle_unknown=&#39;ignore&#39;) to ignore new categories in test set.</span>
-</pre></div>
 </div>
 </div>
 </div>
