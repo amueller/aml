@@ -215,7 +215,13 @@
         </li>
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#gridsearchcv" class="nav-link">GridSearchCV</a>
+            <a href="#gridsearchcv" class="nav-link">GridSearchCV</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#the-best-estimator" class="nav-link">The best_estimator_</a>
+        </li>
+    
+            </ul>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
@@ -715,6 +721,10 @@ test-set score: 0.895
 </div>
 </div>
 </div>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>The distinction between the test set score and the <code class="docutils literal notranslate"><span class="pre">best_score_</span></code> attribute is a bit subtle but important: The <code class="docutils literal notranslate"><span class="pre">best_score_</span></code> is an average cross-validation score, and it is optimistic, as illustrated in Figure todo. The test-set score is an unbiased estimate, but only as long as you don’t use it to select a model.</p>
+</div>
 <p>You can see that the whole process is quite simple using <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code>. The great thing about grid search being implemented as a meta-estimator is that after you instantiated the <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> object, you can use it like any other scikit-learn model: it has the standard interface of <code class="docutils literal notranslate"><span class="pre">fit</span></code>, <code class="docutils literal notranslate"><span class="pre">predict</span></code> and <code class="docutils literal notranslate"><span class="pre">score</span></code> which will use the model that was retrained using the best hyper-parameter setting. St this point you don’t need to worry about the fact that it is tuning parameters internally.
 However, given that we should only reserve the test-set for a final evaluation, it can be a good idea to look at the search results before using the test set. The attribute <code class="docutils literal notranslate"><span class="pre">best_score_</span></code> contains the mean validation score over all splits of the best hyper-parameter setting, and the best hyper-parameter is stored in <code class="docutils literal notranslate"><span class="pre">best_params_</span></code>.
 If the <code class="docutils literal notranslate"><span class="pre">best_score_</span></code> is lower than what you expected or what you need for your application, there is no point in using the test set, as the mean score will be an optimistic estimate, as discussed above todo.
@@ -815,6 +825,31 @@ We can also visualize each split as an individual curve, which might make trends
 </div>
 <img alt="../_images/10-model-validation-and-tuning_32_1.png" src="../_images/10-model-validation-and-tuning_32_1.png" />
 </div>
+</div>
+<div class="margin sidebar">
+<p class="sidebar-title">CAVEAT TODO Move to model evaluation chapter</p>
+<p>The result of</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>is always identical.
+However, the result of</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>is not, as the first uses the metric used in GridSearchCV, while the second uses the score method of the best estimator (i.e. accuracy or R^2).</p>
+</div>
+<div class="section" id="the-best-estimator">
+<h3>The <code class="docutils literal notranslate"><span class="pre">best_estimator_</span></code><a class="headerlink" href="#the-best-estimator" title="Permalink to this headline">¶</a></h3>
+<p>There is another attribute of <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> that is commonly used, though maybe used too much, which is called <code class="docutils literal notranslate"><span class="pre">best_estimator_</span></code>. This attribute stores the model that was refit on the whole training data, and is the model that is used when calling <code class="docutils literal notranslate"><span class="pre">predict</span></code> and <code class="docutils literal notranslate"><span class="pre">score</span></code>. For most use-cases, you can just call <code class="docutils literal notranslate"><span class="pre">predict</span></code> and <code class="docutils literal notranslate"><span class="pre">score</span></code> on the <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> object directly, and there is no need to use the <code class="docutils literal notranslate"><span class="pre">best_estimator_</span></code> attribute. However, if you want to access specific attributes of the models, say coefficients in a linear model, you can do that using <code class="docutils literal notranslate"><span class="pre">best_estimator_</span></code>.</p>
 </div>
 </div>
 <div class="section" id="nested-cross-validation">
