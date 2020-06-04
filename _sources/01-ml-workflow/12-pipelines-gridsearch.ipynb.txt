@@ -4,14 +4,33 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Combining Pipelines and Model Evaluation"
+    "# Combining Pipelines and Model Evaluation\n",
+    "\n",
+    "We already saw how pipelines can make our live easier in chapter todo. However, when using model evaluation tools such as cross_validate and GridSearchCV, using pipelines becomes essential for obtaining valid results.\n",
+    "Also, the use of pipelines in GridSearchCV allows for a variety of powerful use-cases. We'll explore both of these in this chapter."
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## A common errror\n",
+    "## Data leakage: a common error\n",
+    "Let's start with an error that's commonly made when using cross-validation, which is to leak information from the validation parts of the data.\n",
+    "This is an error that has been made, not only countless times by beginning data scientists, but in several published scientific research articles.\n",
+    "When doing any preprocessing, it is essential that the preprocessing happens within cross-validation, not outside of it.\n",
+    "While we haven't seen the details of feature selection yet, it provides and excellent example, and so we'll quickly go over it.\n",
+    "\n",
+    "### Automatic univariate feature selection\n",
+    "When working with high dimensional datasets, it can be beneficial to work with only a subset of the features. This will reduce the computational burden, increase interpretability, and in some cases can even improve generalization performance.\n",
+    "There are several methods for automating this process, which we will discuss in depth in chapter todo. One of the simplest methods of automatic feature selection is using univariate statistics to rank features.\n",
+    "Univariate means we are looking only at one feature at a time, and evaluate its relationship with the target, often with a simple statistical measure such as an F test or t-test.\n",
+    "We can then rank all the features by the strength of their response (or alternatively by how significant their association with the target was)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
     "```python\n",
     "print(X.shape)\n",
     "```\n",
