@@ -16,5 +16,7 @@ latex:
     targetname: book.tex
 
 sphinx:
-  extra_extensions: ['sphinx.ext.todo']
-  todo_include_todos: True
+  extra_extensions: 
+    - sphinx.ext.todo
+  todo_include_todos: true
+  todo_emit_warnings: true
