@@ -4,7 +4,21 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Supervised Learning Algorithms\n"
+    "# Supervised Learning Algorithms\n",
+    "\n",
+    "In this chapter, we'll dive into supervised machine learning models for classification and regression.\n",
+    "There are two families of models we'll pay particular close attention to, linear models and tree-based ensembles.\n",
+    "These two classes of algorithms are used nearly everywhere, and for good reason. Linear models are fast and easy to train,\n",
+    "easy to store and easy to understand and interpret. They are better understood theoretically than any other model family.\n",
+    "Tree-based ensembles are more complex, and often lead to larger and hard-to-inspect models. However, they often provide state-of-the-art performance on many tasks and are a staple of industry applications.\n",
+    "\n",
+    "We will also discuss related methods, such as kernel support vector machines, and finally neural networks.\n",
+    "Neural networks have become increasingly popular, and there is many books dedicated just to these algorithms TODO references. We will discuss them only relatively briefly here, and I encourage you to look into these other resources for more details. Neural networks provide high-end results in some applications, in particular in computer vision, audio and text. They are also a good alternative to tree ensembles when looking for well-performing models on some large datasets. However, training a neural network is often more time consuming and requires more expertise than running these models, and many practitioners would agree that you should try simpler models, such as linear models and tree ensembles first, before developing complex neural network solutions.\n",
+    "\n",
+    "There are many more machine learning models that we do not discuss at all, some of which are implemented in scikit-learn, and some which are not. In fact, given the size of scientific machine learning literature, it's fair to say that the number of algorithms and models is basically unlimited. Having a big toolbox is useful, however, the choice of model is only a small part of the overall machine learning and data science workflow.\n",
+    "While you could learn about every model under the sun, it might be a better use of your time to iterate on the particular application you are working on, ensure your evaluation is appropriate, and improve feature creation and data collection. TODO cite data cleaning statistics TODO cite do we need 100 models.\n",
+    "\n",
+    "The algorithms discussed in this chapter are likely to be appropriate for most cases you'll encounter."
    ]
   },
   {

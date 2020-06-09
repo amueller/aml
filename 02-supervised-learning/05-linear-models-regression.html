@@ -196,18 +196,6 @@
     <ul class="nav section-nav flex-column">
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#id1" class="nav-link">Linear models for Regression</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#linear-models" class="nav-link">Linear Models</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#id2" class="nav-link">Linear Models for Regression</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
             <a href="#ordinary-least-squares" class="nav-link">Ordinary Least Squares</a>
         </li>
     
@@ -216,47 +204,21 @@
         </li>
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#regularized-empirical-risk-minimization" class="nav-link">(regularized) Empirical Risk Minimization</a>
+            <a href="#regularized-empirical-risk-minimization" class="nav-link">(regularized) Empirical Risk Minimization</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#coefficient-of-determination" class="nav-link">Coefficient of determination</a>
+        </li>
+    
+            </ul>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#reminder-on-model-complexity" class="nav-link">Reminder on model complexity</a>
+            <a href="#linear-regression-on-the-diabetes-dataset" class="nav-link">Linear regression on the diabetes dataset</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#ames-housing-dataset" class="nav-link">Ames Housing Dataset</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#coefficient-of-determination-r-2" class="nav-link">Coefficient of determination R^2</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#preprocessing" class="nav-link">Preprocessing</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#skewed-targets" class="nav-link">Skewed targets</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#linear-regression-vs-ridge" class="nav-link">Linear Regression vs Ridge</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#triazine-dataset" class="nav-link">Triazine Dataset</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#plotting-coefficient-values-lr" class="nav-link">Plotting coefficient values (LR)</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#ridge-coefficients" class="nav-link">Ridge Coefficients</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#learning-curves" class="nav-link">Learning Curves</a>
+            <a href="#linear-regression-on-the-triazine-dataset" class="nav-link">Linear regression on the Triazine Dataset</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
@@ -264,31 +226,7 @@
         </li>
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#understanding-l1-and-l2-penalties" class="nav-link">Understanding L1 and L2 Penalties</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#id3" class="nav-link">Understanding L1 and L2 Penalties</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#id4" class="nav-link">Understanding L1 and L2 Penalties</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#id5" class="nav-link">Understanding L1 and L2 Penalties</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#grid-search-for-lasso" class="nav-link">Grid-Search for Lasso</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
             <a href="#elastic-net" class="nav-link">Elastic Net</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#comparing-unit-balls" class="nav-link">Comparing unit balls</a>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
@@ -301,10 +239,6 @@
     
         <li class="nav-item toc-entry toc-h2">
             <a href="#analyzing-grid-search-results" class="nav-link">Analyzing grid-search results</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#questions" class="nav-link">Questions ?</a>
         </li>
     
     </ul>
@@ -320,671 +254,1357 @@
                 
   <div class="section" id="linear-models-for-regression">
 <h1>Linear Models for Regression<a class="headerlink" href="#linear-models-for-regression" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2>Linear models for Regression<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>02/10/20</p>
-<p>Andreas C. Müller</p>
-<p>So today we’ll talk about linear models for regression.
-You’re probably familiar with some of the basics, and that’s
-where we’ll start. But we’ll also look into how to tune
-these models, what the trade-offs are, and some more complex
-techniques.
-But first we’ll start with some more preprocessing that we didn’t get
-to last week, in particular dealing with missing values, which you’ll need for the homework.</p>
-<p>FIXME show how to get feature names out of complex pipelines
-FIXME remove isocontour slides
-FIXME sync with workshop
-FIXME imputation for categorical data
-FIXME notebook needs sorting
-FIXME better motivation for log
-FIXME add missing value indicator
-FIXME better explanations for imputation, in particular iterative! too short, this fixes it
-FIXME L1 explanation unclear
-FIXME adding features: use pipeline</p>
+<p>One of the oldest and most widely used models are linear regression models. Linear models for regression have been a staple in statistics and engineering long before the invention of the terms Computer Science and Machine Learning TODO cite. In fact, one of the most commonly used approaches goes back to Gauss himself, and you might have seen some variant of it in high school. Linear models for regression also serve as the basis for the linear models for classification that we will see in section TODO.</p>
+<p>The principle of linear models is illustrated in Figure TODO which shows a linear regression in one dimension, in our terminology we have one feature, shown on the x-axis, and our target is shown on the y-axis.
+We now try to find a linear relationship between the two, in other words, we want to find a straight line that is as close as possible to all of the points.
+For a single feature, you can write the prediction given by the line as
+<span class="math notranslate nohighlight">\($ \hat{y} = a x + b $\)</span>
+where <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> are fixed numbers, and <span class="math notranslate nohighlight">\(x\)</span> is the value of our input feature. Here, <span class="math notranslate nohighlight">\(a\)</span> is the slope of the line, and <span class="math notranslate nohighlight">\(b\)</span> is known as the intercept or offset. It is the place where the fitted line crossed the y-axis.
+For more than one feature, the prediction takes the form
+<span class="math notranslate nohighlight">\($ \hat{y} = w_1  x_1 + w_2  x_2 + ...  + w_p x_p + b $\)</span>
+where <span class="math notranslate nohighlight">\(x_1\)</span> to <span class="math notranslate nohighlight">\(x_p\)</span> are the features (i.e. we have p features) and <span class="math notranslate nohighlight">\(w_1\)</span> to <span class="math notranslate nohighlight">\(w_p\)</span> are the coefficients or slope for each of these features.
+For more than one features, visualizing the prediction is much trickier, so we’ll skip that for now.</p>
+<div class="admonition-mathematical-details admonition">
+<p class="admonition-title">Mathematical details</p>
+<p>Often the above equation is written as as an inner product between two vectors <span class="math notranslate nohighlight">\(w \in \mathbb{R}^p\)</span> and <span class="math notranslate nohighlight">\(x\in \mathbb{R}^p\)</span>:
+<span class="math notranslate nohighlight">\($\hat{y} = w^T \mathbf{x} + b = \sum_{i=1}^p w_i x_i +b\)</span>$
+As a side note, linear models are named such because they are linear in <span class="math notranslate nohighlight">\(w\)</span>, not because they are linear in <span class="math notranslate nohighlight">\(x\)</span>. In fact, we can replace any <span class="math notranslate nohighlight">\(x_i\)</span> by an arbitrary fixed function of <span class="math notranslate nohighlight">\(x\)</span>, say <span class="math notranslate nohighlight">\(sin(x_i)\)</span> or <span class="math notranslate nohighlight">\(x_i * x_j\)</span>, and it would still be considered a linear model. This is one of the powers of this kind of model, and we’ll discuss it in more depth in chapter TODO feature engineering.</p>
 </div>
-<div class="section" id="linear-models">
-<h2>Linear Models<a class="headerlink" href="#linear-models" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="id2">
-<h2>Linear Models for Regression<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 50%" src="../_images/linear_regression_1d.png" /></p>
-<div class="math notranslate nohighlight">
-\[\hat{y} = w^T \mathbf{x} + b = \sum_{i=1}^p w_i x_i +b\]</div>
-<p>Predictions in all linear models for regression are of the
-form shown here: It’s an inner product of the features with
-some coefficient or weight vector w, and some bias or
-intercept b. In other words, the output is a weighted sum of
-the inputs, possibly with a shift. here i runs over the
-features and x_i is one feature of the data point x. These
-models are called linear models because they are linear in
-the parameters w. The way I wrote it down here they are also
-linear in the features x_i. However, you can replace the
-features by any non-linear function of the inputs, and it’ll
-still be a linear model.</p>
-<p>There are many differnt linear models for regression, and
-they all share this formula for making predictions. The
-difference between them is in how they find w and b based on
-the training data.</p>
-</div>
+<p>All linear models for regression share the same formular for prediction shown in TODO. However, how they differ is in how they learn the coefficients <span class="math notranslate nohighlight">\(w\)</span> and <span class="math notranslate nohighlight">\(b\)</span> from the training data. Here, <span class="math notranslate nohighlight">\(w\)</span> and <span class="math notranslate nohighlight">\(b\)</span> are <em>parameters</em> of the model (in the statistical sense), i.e. they are the parts of the model that are estimated from the training data. Nearly all of the methods for learning linear models are formulated as an optimization problem, where the goal is to find the optimum of some mathematical formula, which is known as objective function. We will provide the objective functions (and therefore the optimizatio problem) that give rise to all the models we will discuss. If you are not familiar with optimization, you can skip these parts as we will also provide some more intuitive explanation of each method.</p>
 <div class="section" id="ordinary-least-squares">
 <h2>Ordinary Least Squares<a class="headerlink" href="#ordinary-least-squares" title="Permalink to this headline">¶</a></h2>
-<div class="math notranslate nohighlight">
-\[\hat{y} = w^T \mathbf{x} + b = \sum_{i=1}^p w_i x_i +b \]</div>
-<div class="math notranslate nohighlight">
-\[\min_{w \in \mathbb{R}^p, b\in\mathbb{R}} \sum_{i=1}^n (w^T\mathbf{x}_i + b - y_i)^2\]</div>
-<p>Unique solution if <span class="math notranslate nohighlight">\(\mathbf{X} = (\mathbf{x}_1, ... \mathbf{x}_n)^T\)</span> has full column rank.</p>
-<p>The most straight-forward solution that goes back to Gauss
-is ordinary least squares. In ordinary least squares, find w
-and b such that the predictions on the training set are as
-accurate as possible according the the squared error. That
-intuitively makes sense: we want the predictions to be good
-on the training set. If there is more samples than features
-(and the samples span the whole feature space), then there
-is a unique solution. The problem is what’s called a least
-squares problem, which is particularly easy to optimize and
-get the unique solution to.</p>
-<p>However, if there are more features than samples, there are
-usually many perfect solutions that lead to 0 error on the
-training set. Then it’s not clear which solution to pick.
-Even if there are more samples than features, if there are
-strong correlations among features the results might be
-unstable, and we’ll see some examples of that soon.</p>
-<p>Before we look at examples, I want to introduce a popular
-alternative.</p>
+<p>The oldest and probably the most widely use method to learn the parameters <span class="math notranslate nohighlight">\(w\)</span> and <span class="math notranslate nohighlight">\(b\)</span> is ordinary least squares (OLS). This is what people usually refer to when they say “linear regression” and it’s what’s implemented in scikit-learn’s <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> class. The idea behind OLS is to compute the <em>least squares</em> solution, which means find the parameters <span class="math notranslate nohighlight">\(w\)</span> and <span class="math notranslate nohighlight">\(b\)</span> so that the prediction error on the training set has the smallest possible squared norm.
+This is a classical and well-understood method. However, it requires the training data to be somewhat well-behaved. If there are more features than there are samples, or if there is a linear relationship between the features, then the method can be unstable and will often reduce non-sensical results.
+TODO image</p>
+<div class="admonition-mathematical-details admonition">
+<p class="admonition-title">Mathematical details</p>
+<p>The objective function of ordinary least squares for linear regression is given by
+<span class="math notranslate nohighlight">\($\min_{w \in \mathbb{R}^p, b\in\mathbb{R}} \sum_{i=1}^n (w^T\mathbf{x}_i + b - y_i)^2\)</span>$
+Here, $x_i, i=1,…,n $ are the training vectors and <span class="math notranslate nohighlight">\(y_i i=1,...,n\)</span> TODO indexing unlike above?! are the corresponding targets.
+The formula on the right computes the prediction error for each training sample, squares it, and then sums over all the samples.
+The outcome is a number that measures the euclidean length (aka squared norm) of the error <span class="math notranslate nohighlight">\(\hat{y}_i - y_i\)</span>. We want to find a vector <span class="math notranslate nohighlight">\(w\)</span> and a number <span class="math notranslate nohighlight">\(b\)</span> such that this error is minimized.
+If the data matrix X has full column rank, then this is a convex optimization problem, and we can easily compute the optimum with a number of standard techniques.
+If the data matrix X does not have full column rank, for example if there is more feature than samples, then there is no unique optimum; in fact there will be infinitely many solutions that lead to zero error on the training set.
+In this case, the optimization problem is called <em>ill conditioned</em> as no unique solution exists. In this case we can add additional criteria that guarantee a well-behaved solution TODO ref, though
+they are not always implemented in statistical software.</p>
+</div>
+<p>Before we look at examples of using <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> let’s look at an alternative that is particularly popular for predictive modelling, <em>Ridge Regression</em></p>
 </div>
 <div class="section" id="ridge-regression">
 <h2>Ridge Regression<a class="headerlink" href="#ridge-regression" title="Permalink to this headline">¶</a></h2>
-<div class="math notranslate nohighlight">
-\[ \min_{w \in \mathbb{R}^p, b\in\mathbb{R}} \sum_{i=1}^n (w^T\mathbf{x}_i + b - y_i)^2 + \alpha ||w||^2 \]</div>
-<p>Always has a unique solution.</p>
-<p>Tuning parameter alpha.</p>
-<p>In Ridge regression we add another term to the optimization
-problem. Not only do we want to fit the training data well,
-we also want w to have a small squared l2 norm or squared
-euclidean norm. The idea here is that we’re decreasing the
-“slope” along each of the feature by pushing the
-coefficients towards zero. This constraings the model to be
-more simple.</p>
-<p>So there are two terms in this optimization problem, which
-is also called the objective function of the model: the data
-fitting term here that wants to be close to the training
-data according to the squared norm, and the prenalty or
-regularization term here that wants w to have small norm,
-and that doesn’t depend on the data.</p>
-<p>Usually these two goals are somewhat opposing. If we made w
-zero, the second term would be zero, but the predictions
-would be bad. So we need to trade off between these two. The
-trade off is problem specific and is specified by the user.
-If we set alpha to zero, we get linear regression, if we set
-alpha to infinity we get a constant model. Obviously usually
-we want something in between.</p>
-<p>This is a very typical example of a general principle in
-machine learning, called regularized empirical risk
-minimization.</p>
+<p>Ridge regression is an extension to OLS in which we add another demand to our solution. Not only do we want our model to fit the training data well, we also want it to be simple.
+We already discussed in chapter TODO, that we prefer simple solutions, as they will generalize more readily to new data. TODO this needs work.
+We can include this directly in our modeling process-however, we have to formalize what we mean by “simple”. In Ridge regression, simple is encoded as having small slope in all directions.
+In other words, we want our coefficient vectors <span class="math notranslate nohighlight">\(w\)</span> to be as close as possible to 0 (in fact the restriction is on <span class="math notranslate nohighlight">\(w^2\)</span>). So now we have to goals: we want a simple model (i.e. one with small coefficients) that also fits the training data well. To allow optimizing both, we need to introduce a parameter, often called <span class="math notranslate nohighlight">\(\alpha\)</span> (or sometimes <span class="math notranslate nohighlight">\(\lambda\)</span>) that trades off between the two goals. Now <span class="math notranslate nohighlight">\(\alpha\)</span> is a hyper-parameter that we need to tune or pick, say using <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code>. Setting <span class="math notranslate nohighlight">\(alpha=0\)</span> will disregard the simplicity demand, and is equivalent to using OLS. Setting <span class="math notranslate nohighlight">\(\alpha=\infty\)</span> will basically disregard the data fitting demand, and will produce a coefficient vector of all zeros, which is the most “simple” solution according to the least squares measure used in Ridge regression. The <span class="math notranslate nohighlight">\(\alpha\)</span> parameter is known as <em>regularization parameter</em> or <em>penalty term</em>, as it regularizes or penalizes overly complex solutions <span class="math notranslate nohighlight">\(w\)</span>.</p>
+<div class="admonition-mathematical-details admonition">
+<p class="admonition-title">Mathematical details</p>
+<p>The objective function of Ridge regression is very similar to OLS; it only has the addition of the penalty term <span class="math notranslate nohighlight">\(\alpha ||w||^2\)</span>. Notice that the intercept <span class="math notranslate nohighlight">\(b\)</span> is not penalized. TODO explain?
+<span class="math notranslate nohighlight">\($ \min_{w \in \mathbb{R}^p, b\in\mathbb{R}} \sum_{i=1}^n (w^T\mathbf{x}_i + b - y_i)^2 + \alpha ||w||^2 $\)</span>
+The first term in the objective function is also known as the data fitting term, while the second term, the penalty term, is completely independent of the data.
+For <span class="math notranslate nohighlight">\(\alpha&gt;0\)</span>, this objective function is always strongly convex, which leads to simple and robust optimization methods.</p>
+</div>
+<p>The benefit of Ridge regression is that it is much more stable than linear regression with OLS. If <span class="math notranslate nohighlight">\(\alpha&gt;0\)</span>, it always has a unique solution, no matter how badly behaved your data is.
+From a statistical perspective Ridge regression has the disadvantage that it is not an unbiased estimator: we explicitly biased our model to make the coefficients small, so predictions are biased towards zero. In predictive modeling, this is rarely an issue, however, you should keep it in mind.</p>
+<p>The presence of a hyper-parameter could be seen either as an advantage or a disadvantage: one the one hand, it allows us to control the model fitting more closely, on the other it requires us to use some method to adjust the hyper-parameter, which makes the whole modeling process more complicated.</p>
+<div class="admonition-mathematical-details admonition">
+<p class="admonition-title">Mathematical details</p>
+</div>
 </div>
 <div class="section" id="regularized-empirical-risk-minimization">
 <h2>(regularized) Empirical Risk Minimization<a class="headerlink" href="#regularized-empirical-risk-minimization" title="Permalink to this headline">¶</a></h2>
+<p>The objective function shown in TODO is a typical example of a mathematical framework that’s widely used in machine learning,
+known as regularized empirical risk minimization.
+As mentioned in TODO we didn’t mention it yet, the goal in supervised learning is usually to find a function <span class="math notranslate nohighlight">\(f\)</span> from a fixed familiy of fuctions <span class="math notranslate nohighlight">\(F\)</span> that minimizes</p>
 <div class="math notranslate nohighlight">
-\[ min_{f \in F} \sum_{i=1}^n L(f(\mathbf{x}_i), y_i) + \alpha R(f) \]</div>
-<p>FIXME pointers data fitting / regularization!</p>
-<p>Many models in machine learning, like linear models, SVMs
-and neural networks follow the general framework of
-empirical risk minimization, which you can see here. We
-formulate the machine learning problem as an optimization
-problem over a family of functions. In our case that was the
-family of linear functions parametrized by w and b. The
-minimization problem consists of two parts, the data fitting
-part and the model complexity part. The data fitting part
-says that the predictions mad eby our functions should be
-accurate according to some loss L. For our regression
-problems that was the squared loss. The model complexity
-part says that we prefer simple models and penalizes
-complicated f. Most machine learning algorithms can be cast
-into this, with a particular choice of family of functions
-f, loss function L and regularizer R. And most of machine
-learning theory is build around this framework. People proof
-for differnt choices of F and L and R that if you minimize
-this, you’ll be able to generalize well. And that makes
-intuitive sense. To do well on the test set, we definitely
-want to do reasonably well on the training set. We don’t
-expect that we can do better on a test set than the training
-set. But we also want to minimize the performance difference
-between training and test set. If we restrict our model to
-be simple via the regularizer R, we have better chances of
-the model generalizing.</p>
+\[\min_{f\in F} \mathbb{E}_{(x, y) \propto p} \ell(f(x), y)\]</div>
+<p>for some loss function <span class="math notranslate nohighlight">\(\ell\)</span>. In other words, we want to minimize the expected loss between the prediction made by <span class="math notranslate nohighlight">\(f\)</span> and the true outcome <span class="math notranslate nohighlight">\(y\)</span>,
+when sampling <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> from the data distribution. However, in practice, it’s usually impossible to access the data distribution <span class="math notranslate nohighlight">\(p\)</span>, and instead,
+we have an i.i.d. sample from it, the training data.</p>
+<p>The idea behind empirical risk minimization is that if we minimize the training set error, and the function <span class="math notranslate nohighlight">\(f\)</span> is simple, then the error on new samples will also be small.
+In other words, we replace the expectation in formula TODO by the empirical estimate on the training set:
+<span class="math notranslate nohighlight">\($\min_{f\in F} \sum_{i=i}^n\ell(f(x_i), y_i)\)</span>$
+This is now a problem we can solve, and it is exactly the form of the objective found in OLS in equation TODO, where <span class="math notranslate nohighlight">\(F\)</span> is the family of all linear models, as parametrized by <span class="math notranslate nohighlight">\(w\)</span> and <span class="math notranslate nohighlight">\(b\)</span>, and <span class="math notranslate nohighlight">\(\ell\)</span> is the squared loss.
+If we take this approach, it’s possible to proof theorems of the form TODO</p>
+<p>In other words, we are trying to ensure a small error on the training set, and if we achive that, we can show that the test set error will also be small, if <span class="math notranslate nohighlight">\(f\)</span> is sufficiently simple.
+We could now try to optimize the bound in Equation TODO more directly, by optimizing both the training set error and encouraging the model to be simple.
+This leads to <em>regularized empirical risk minimization</em> in which we add an additional <em>regularization term</em> <span class="math notranslate nohighlight">\(R\)</span>:
+<span class="math notranslate nohighlight">\($ \min_{f \in F} \sum_{i=1}^n L(f(\mathbf{x}_i), y_i) + \alpha R(f) $\)</span>
+This is the approach taken by ridge regression, where <span class="math notranslate nohighlight">\(R\)</span> is the squared norm of the coefficients.
+Maybe somewhat surprisingly, equation TODO summarizes most of supervised machine learning, and nearly every supervised algorithm in this book follows this idea.
+Linear models, support vector machines, neural networks and gradient boosting can all be formulated in this way, using different choices of the family of functions F, the loss <span class="math notranslate nohighlight">\(\ell\)</span> and the regularizer <span class="math notranslate nohighlight">\(R\)</span>.
+It is also the basis of nearly all theoretical analysis of machine learning algorithms. Interestingly, it is now thought to not adequately explain the generalization ability of the very large neural networks used today, as they are not “simple” in any way we can quantify easily. This has led to a large body of interesting work investigating new theoretical underpinning for deep neural networks TODO reference.
+Please keep in mind that this is a very birds-eye view, as we are much more concerned with practical issues in this book.
+Theoretical machine learning is a fascinating topic, and you can learn much, much more in the amazing book TODO.</p>
+<div class="section" id="coefficient-of-determination">
+<h3>Coefficient of determination<a class="headerlink" href="#coefficient-of-determination" title="Permalink to this headline">¶</a></h3>
+<p>To evaluate model fit for regression, scikit-learn by default uses the coefficient of determination, also known as <span class="math notranslate nohighlight">\(R^2\)</span>, which is defined as follows:
+<span class="math notranslate nohighlight">\($ R^2(y, \hat{y}) = 1 - \frac{\sum_{i=0}^{n - 1} (y_i - \hat{y}_i)^2}{\sum_{i=0}^{n - 1} (y_i - \bar{y})^2} $\)</span>
+where <span class="math notranslate nohighlight">\(\bar{y}\)</span> is the mean response over the training set:
+<span class="math notranslate nohighlight">\($ \bar{y} =  \frac{1}{n} \sum_{i=0}^{n - 1} y_i\)</span>$
+The intuition of the measure it that it looks at the relative average distance between prediction and ground truth.</p>
+<p>There are several definitions of this metric, but the one given in Equation TODO works for any model, and is what <code class="docutils literal notranslate"><span class="pre">score</span></code> will return for any regressor.
+The benefit of this metric is that its scale is easily interpretable: a score of 1 means perfect prediction, while a score of 0 means constant or entirely random predictions.
+Note that with this definition, the <span class="math notranslate nohighlight">\(R^2\)</span> score can be negative, which basically means that predictions are worse than just predicting the mean.
+A disadvantage of this score is that it depends on the variance of the data it is applied to, which has several peculiar implications.
+In particular, adding a data point with an extreme true response value will improve the overall score. Also, the mean is estimated independently when scoring the test set,
+which can lead to artifacts if the test set is small. In particular, when computing the score on a single data point, it is undefined.
+TODO reference Max Kuhn.</p>
+<p>An alternative metric that has very different properties, is the root mean squared error (RMSE), which we’ll discuss in more detail in Chapter TODO.</p>
 </div>
-<div class="section" id="reminder-on-model-complexity">
-<h2>Reminder on model complexity<a class="headerlink" href="#reminder-on-model-complexity" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 80%" src="../_images/overfitting_underfitting_cartoon_full.png" /></p>
-<p>I hope this sounds familiar from what we talked about last
-time. This is a particular way of dealing with overfitting
-and underfitting. For this framework in general, or for
-ridge regression in particular, trading off the data fitting
-and the regularization changes the model complexity. If we
-set alpha high we restrict the model, and we will be on the
-left side of the graph. If we make alpha small, we allow the
-model to fit the data more, and we’re on the right side of
-the graph.</p>
 </div>
-<div class="section" id="ames-housing-dataset">
-<h2>Ames Housing Dataset<a class="headerlink" href="#ames-housing-dataset" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 80%" src="../_images/ames_housing_scatter.png" />
-.tiny[</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<div class="section" id="linear-regression-on-the-diabetes-dataset">
+<h2>Linear regression on the diabetes dataset<a class="headerlink" href="#linear-regression-on-the-diabetes-dataset" title="Permalink to this headline">¶</a></h2>
+<p>We start out with a relatively small dataset that comes with scikit-learn, the diabetes dataset.
+It has 442 rows corresponding to patients with diabetes, and 10 features describing different aspects of their health. The goal is to predict a quantiative measure of desease progression after one year.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># start by loading the dataset and doing a quick first look</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_diabetes</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_diabetes</span><span class="p">(</span><span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">X</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2195</span><span class="p">,</span> <span class="mi">79</span><span class="p">)</span>
-<span class="p">(</span><span class="mi">2195</span><span class="p">,)</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(442, 10)
 </pre></div>
 </div>
-<p>]</p>
-<p>Ok after all this pretty abstract talk, let’s make this
-concrete. Let’s do some regression on the boston housing
-dataset. After the last homework you’re hopefully familiar
-with it. The idea is to predict prices of property in the
-boston area in different neighborhoods. This is a dataset
-from the 70s I think, so everything is pretty cheap. Most of
-the features you can see are continuous, with the exception
-of the charlston river variable which says whether the
-neighborhood is on the river.</p>
-<p>Keep in mind that this data lives in a 13 dimensional space
-and these univariate plots only look at 13 different
-projections of the data, and can’t capture any of the
-interactions.</p>
-<p>But still we can see that the price clearly depends on some
-of these variables. It’s also pretty clear that the
-dependency is non-linear for some of the variables. We’ll
-still start with a linear model, because its a very simple
-class of models, and I’d always star approaching any model
-from the simplest baseline. In this case it’s linear
-regression. We’re having 506 samples and 13 features. We
-have much more samples than features. Linear regression
-should work just fine. Also it’s a tiny dataset, so
-basically anything we’ll try will run instantaneously, which
-is also good to keep in mind.</p>
-<p>Another thing that you can see in this graph is that the
-features have very different scales. Here’s a box plot that
-shows that even more clearly.</p>
-<p><img alt=":scale 100%" src="../_images/ames_scaling.png" /></p>
-<p>That’s something that will trip up the distance based models
-models we talked about last time, as well as the linear
-models we’re talking about today.  For the penalized models
-the different scales mean that different features are
-penalized differently, which you usually want to avoid.
-Usually there is no particular semantics attached to the
-fact that one feature has different magnitutes than another.
-We could measure something in inches instead of miles, and
-that would change the outcome of the model. That’s certainly
-not something we want. A good idea is to scale the data to
-get rid of this effect. We’ll talk about that and other
-preprocessing methods in-depth on Wednesday next week. Today
-I’m mostly gonna ignore this. But let’s get started with
-Linear Regression</p>
-</div>
-<div class="section" id="coefficient-of-determination-r-2">
-<h2>Coefficient of determination R^2<a class="headerlink" href="#coefficient-of-determination-r-2" title="Permalink to this headline">¶</a></h2>
-<div class="math notranslate nohighlight">
-\[ R^2(y, \hat{y}) = 1 - \frac{\sum_{i=0}^{n - 1} (y_i - \hat{y}_i)^2}{\sum_{i=0}^{n - 1} (y_i - \bar{y})^2} \]</div>
-<div class="math notranslate nohighlight">
-\[ \bar{y} =  \frac{1}{n} \sum_{i=0}^{n - 1} y_i\]</div>
-<p>Can be negative for biased estimators - or the test set!</p>
-<p>The scores are R squared or coefficient of determination.
-This is basically a score that’s usually between zero and
-one, where one means perfect prediction or perfect
-correlation and zero means a random prediction. What it does
-is it computes the mean of the targets over the data you’re
-evaluating it on and then it looks at the distance between
-the prediction and the ground truth relative to the mean. If
-it’s negative, it means you do a worse job at predicting and
-just predicting the mean. It can happen if your model was
-really bad and bias. The other reason is if you use a test
-set. This is guaranteed to be positive on the data it was
-fit on with an unbiased linear model, which will nearly
-never apply to what we’re doing.</p>
-<p>The R^2 can be misleading if there’s outliers in the training
-data and some consider it a bad metric. Max Kuhn, author of APM
-thinks it’s a bad metric. It’s not clear to me that MSE is much
-better in general, though. Reducing anything to a single number
-is tricky.</p>
-</div>
-<div class="section" id="preprocessing">
-<h2>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cat_preprocessing</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span>
-    <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="s1">&#39;NA&#39;</span><span class="p">),</span>
-    <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">handle_unknown</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">))</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="n">cont_preprocessing</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span>
-    <span class="n">SimpleImputer</span><span class="p">(),</span>
-    <span class="n">StandardScaler</span><span class="p">())</span>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-<span class="n">preprocess</span> <span class="o">=</span> <span class="n">make_column_transformer</span><span class="p">(</span>
-    <span class="p">(</span><span class="n">cat_preprocessing</span><span class="p">,</span> <span class="n">make_column_selector</span><span class="p">(</span><span class="n">dtype_include</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">)),</span>
-    <span class="n">remainder</span><span class="o">=</span><span class="n">cont_preprocessing</span><span class="p">)</span>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>sex</th>
+      <th>bmi</th>
+      <th>bp</th>
+      <th>s1</th>
+      <th>s2</th>
+      <th>s3</th>
+      <th>s4</th>
+      <th>s5</th>
+      <th>s6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.038076</td>
+      <td>0.050680</td>
+      <td>0.061696</td>
+      <td>0.021872</td>
+      <td>-0.044223</td>
+      <td>-0.034821</td>
+      <td>-0.043401</td>
+      <td>-0.002592</td>
+      <td>0.019908</td>
+      <td>-0.017646</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-0.001882</td>
+      <td>-0.044642</td>
+      <td>-0.051474</td>
+      <td>-0.026328</td>
+      <td>-0.008449</td>
+      <td>-0.019163</td>
+      <td>0.074412</td>
+      <td>-0.039493</td>
+      <td>-0.068330</td>
+      <td>-0.092204</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.085299</td>
+      <td>0.050680</td>
+      <td>0.044451</td>
+      <td>-0.005671</td>
+      <td>-0.045599</td>
+      <td>-0.034194</td>
+      <td>-0.032356</td>
+      <td>-0.002592</td>
+      <td>0.002864</td>
+      <td>-0.025930</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.089063</td>
+      <td>-0.044642</td>
+      <td>-0.011595</td>
+      <td>-0.036656</td>
+      <td>0.012191</td>
+      <td>0.024991</td>
+      <td>-0.036038</td>
+      <td>0.034309</td>
+      <td>0.022692</td>
+      <td>-0.009362</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.005383</td>
+      <td>-0.044642</td>
+      <td>-0.036385</td>
+      <td>0.021872</td>
+      <td>0.003935</td>
+      <td>0.015596</td>
+      <td>0.008142</td>
+      <td>-0.002592</td>
+      <td>-0.031991</td>
+      <td>-0.046641</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Before we’re staring to build our regression models, it’s a good idea to do some basic visualization to familiarize yourself with the dataset and spot any particularly salient aspects or data quality issues.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># It&#39;s a good idea to get an idea of the distribution of the target variable.</span>
+<span class="c1"># Here we&#39;re using matplotlib&#39;s histogram function.</span>
+<span class="c1"># Remember to set bins to auto, otherwise it&#39;s using 10 bins</span>
+<span class="c1"># the histogram is somewhat skewed to the left, though not extremely</span>
+<span class="c1"># and has a maximum around somewhere around 90</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">y</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f9bc4db4c40&gt;
+</pre></div>
+</div>
+<img alt="../_images/05-linear-models-regression_8_1.png" src="../_images/05-linear-models-regression_8_1.png" />
+</div>
+</div>
+<p>At this point we split off a test set, which we will set aside for now. It can be used later to evaluate a final model of our choice.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Split the data into training and test set before doing more in-depth visualization</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Given that the dataset has only ten features, it’s not too much to look at all of them. Here we’re doing a scatterplot of the feature on the x-axis against the target we want to predict on y-axis.
+This will show us any direct dependency of the target on each feature, but will not show more complex interactions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create dataframe containing target for plotting</span>
+<span class="n">df_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_train</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_train</span>
 
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()):</span>
+    <span class="n">df_train</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/05-linear-models-regression_12_0.png" src="../_images/05-linear-models-regression_12_0.png" />
+</div>
+</div>
+<p>The first thing you might notice in these plots is that the data was already scaled, as the age is between -0.1 and 0.1. Therefore we will use the data as-is.
+You can also see that the sex column is a categorical feature, as might be expected. while all of the other features are continuous. Feature s4 is concentrated on some particular values, though.
+Looking at the relationship with the target, there is a clear dependency of the target on the BMI, and several of the other features also seem informative.
+It can also be a good idea to look at the correlation between features, which are best shown using a seaborn clustermap. The clustermap rearranges the features to make correlations more apparent.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="c1"># plot correlation, annmotate with values</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">clustermap</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">corr</span><span class="p">(),</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;bwr_r&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.matrix.ClusterGrid at 0x7f9bc3b1cbe0&gt;
+</pre></div>
+</div>
+<img alt="../_images/05-linear-models-regression_14_1.png" src="../_images/05-linear-models-regression_14_1.png" />
+</div>
+</div>
+<p>We can see that there’s a strong correlation between s1 and s2, and a relatively strong negative correlation between s3 and s4. We will keep all of the features for now.</p>
+<p>Now we will use cross-validation to evaluate linear regression:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span><span class="p">,</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_validate</span>
 
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
-    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">cross_val_score</span><span class="p">(</span>
-    <span class="n">make_pipeline</span><span class="p">(</span><span class="n">preprocess</span><span class="p">,</span> <span class="n">LinearRegression</span><span class="p">()),</span>
-    <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span><span class="mf">0.928</span><span class="p">,</span> <span class="mf">0.927</span><span class="p">,</span> <span class="mf">0.932</span><span class="p">,</span> <span class="mf">0.898</span><span class="p">,</span> <span class="mf">0.884</span><span class="p">])</span>
+<span class="c1"># run cross-validation, convert the results to a pandas dataframe for analysis</span>
+<span class="c1"># return_train_score=True means that the training score is also computed</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cross_validate</span><span class="p">(</span><span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">res</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="skewed-targets">
-<h2>Skewed targets<a class="headerlink" href="#skewed-targets" title="Permalink to this headline">¶</a></h2>
-<p>.left-column[</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_train</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><img alt=":scale 100%" src="../_images/ames_housing_price_hist.png" /></p>
-<p>]
-.right-column[</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><img alt=":scale 100%" src="../_images/ames_housing_price_hist_log.png" /></p>
-<p>]</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">make_pipeline</span><span class="p">(</span><span class="n">preprocess</span><span class="p">,</span> <span class="n">LinearRegression</span><span class="p">()),</span>
-                <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span><span class="mf">0.928</span><span class="p">,</span> <span class="mf">0.927</span><span class="p">,</span> <span class="mf">0.932</span><span class="p">,</span> <span class="mf">0.898</span><span class="p">,</span> <span class="mf">0.884</span><span class="p">])</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.compose</span> <span class="kn">import</span> <span class="n">TransformedTargetRegressor</span>
-<span class="n">log_regressor</span> <span class="o">=</span> <span class="n">TransformedTargetRegressor</span><span class="p">(</span>
-    <span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">func</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">,</span> <span class="n">inverse_func</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">)</span>
-<span class="n">cross_val_score</span><span class="p">(</span><span class="n">make_pipeline</span><span class="p">(</span><span class="n">preprocess</span><span class="p">,</span> <span class="n">log_regressor</span><span class="p">),</span>
-                <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span><span class="mf">0.95</span> <span class="p">,</span> <span class="mf">0.943</span><span class="p">,</span> <span class="mf">0.941</span><span class="p">,</span> <span class="mf">0.913</span><span class="p">,</span> <span class="mf">0.922</span><span class="p">])</span>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-</pre></div>
-</div>
-</div>
-<div class="section" id="linear-regression-vs-ridge">
-<h2>Linear Regression vs Ridge<a class="headerlink" href="#linear-regression-vs-ridge" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">log_regressor</span> <span class="o">=</span> <span class="n">TransformedTargetRegressor</span><span class="p">(</span>
-    <span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">func</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">,</span> <span class="n">inverse_func</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">)</span>
-<span class="n">cross_val_score</span><span class="p">(</span><span class="n">make_pipeline</span><span class="p">(</span><span class="n">preprocess</span><span class="p">,</span> <span class="n">log_regressor</span><span class="p">),</span>
-                <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>fit_time</th>
+      <th>score_time</th>
+      <th>test_score</th>
+      <th>train_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.002023</td>
+      <td>0.001105</td>
+      <td>0.528990</td>
+      <td>0.506324</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.001728</td>
+      <td>0.001106</td>
+      <td>0.390191</td>
+      <td>0.539171</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.001560</td>
+      <td>0.001085</td>
+      <td>0.491299</td>
+      <td>0.521227</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.001472</td>
+      <td>0.001290</td>
+      <td>0.611033</td>
+      <td>0.480505</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.001720</td>
+      <td>0.001226</td>
+      <td>0.225245</td>
+      <td>0.561162</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span><span class="mf">0.95</span> <span class="p">,</span> <span class="mf">0.943</span><span class="p">,</span> <span class="mf">0.941</span><span class="p">,</span> <span class="mf">0.913</span><span class="p">,</span> <span class="mf">0.922</span><span class="p">])</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>fit_time       0.001700
+score_time     0.001162
+test_score     0.449352
+train_score    0.521678
+dtype: float64
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">log_ridge</span> <span class="o">=</span> <span class="n">TransformedTargetRegressor</span><span class="p">(</span>
-    <span class="n">Ridge</span><span class="p">(),</span> <span class="n">func</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">,</span> <span class="n">inverse_func</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">)</span>
-<span class="n">cross_val_score</span><span class="p">(</span><span class="n">make_pipeline</span><span class="p">(</span><span class="n">preprocess</span><span class="p">,</span> <span class="n">log_ridge</span><span class="p">),</span>
-                <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</div>
+</div>
+<p>We can see that the model achives an <span class="math notranslate nohighlight">\(R^2\)</span> of around 0.52 on the training set, while the test set score has quite a bit of variablilty over the five cross-validation folds, with a mean score of 0.44.
+Given the small size of the dataset, such a variability is not very surprising, though.</p>
+<p>Next, we can evaluate the <code class="docutils literal notranslate"><span class="pre">Ridge</span></code> model, with its default regularization parameter of alpha=1:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cross_validate</span><span class="p">(</span><span class="n">Ridge</span><span class="p">(),</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">res</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span><span class="mf">0.948</span><span class="p">,</span> <span class="mf">0.95</span> <span class="p">,</span> <span class="mf">0.941</span><span class="p">,</span> <span class="mf">0.915</span><span class="p">,</span> <span class="mf">0.931</span><span class="p">])</span>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>fit_time</th>
+      <th>score_time</th>
+      <th>test_score</th>
+      <th>train_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.002253</td>
+      <td>0.001197</td>
+      <td>0.383890</td>
+      <td>0.397288</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.001504</td>
+      <td>0.001310</td>
+      <td>0.323097</td>
+      <td>0.428432</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.001865</td>
+      <td>0.001067</td>
+      <td>0.448959</td>
+      <td>0.402556</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.001474</td>
+      <td>0.001267</td>
+      <td>0.420870</td>
+      <td>0.373094</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.001430</td>
+      <td>0.001118</td>
+      <td>0.251547</td>
+      <td>0.437884</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Let’s look at two simple models. Linear regression and Ridge
-regression. What I’ve done is I’ve split the data into
-training and test set and used 10 fold cross-validation to
-evaluate them. Here I use cross_val_score together with the
-model, the training data, training labels, and 10 fold
-cross-validation. This will return 10 scores and I’m going
-to compute the mean of them. I’m doing this for both linear
-regression and Ridge regression. Here is ridge regression
-uses a default value of alpha of 1. Here these two scores
-are quite similar.</p>
-<p>.smallest[</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">&#39;preprocessing&#39;</span><span class="p">,</span> <span class="n">preprocess</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;ridge&#39;</span><span class="p">,</span> <span class="n">log_ridge</span><span class="p">)])</span>
-<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ridge__regressor__alpha&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">13</span><span class="p">)}</span>
-
-<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">RepeatedKFold</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
-                    <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>fit_time       0.001705
+score_time     0.001192
+test_score     0.365672
+train_score    0.407851
+dtype: float64
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;ridge__regressor__alpha&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">0.001</span><span class="p">,</span>  <span class="mf">0.003</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.032</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.316</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">3.162</span><span class="p">,</span>
-           <span class="mf">10.</span><span class="p">,</span> <span class="mf">31.623</span><span class="p">,</span> <span class="mf">100.</span><span class="p">,</span> <span class="mf">316.228</span><span class="p">,</span> <span class="mf">1000.</span><span class="p">])}</span>
+</div>
+</div>
+<p>Both training and test score are lower using Ridge, though there is less variability in the test set score. The lower scores indicate that the model was overly restricted by the penalty term. There is no reason the default parameters would be optimal, an so we should always tune the regularization parameter in Ridge using <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code>. Regularization parameters such as alpha in Ridge are usually searched on a logarithmic scale. Given that using alpha=1 seems already too much weight on the regularization, we pick a grid of <code class="docutils literal notranslate"><span class="pre">[0.0001,</span> <span class="pre">0.001,</span> <span class="pre">0.01,</span> <span class="pre">0.1,</span> <span class="pre">1,</span> <span class="pre">10]</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="c1"># logspace creates numbers that are evenly spaces in log-space</span>
+<span class="c1"># it uses a base of 10 by default, here starting from 10^-4 to 10^1, with 6 steps in total</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)}</span>
+<span class="n">param_grid</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;alpha&#39;: array([1.e-04, 1.e-03, 1.e-02, 1.e-01, 1.e+00, 1.e+01])}
 </pre></div>
 </div>
-<p>]
-.center[
-<img alt=":scale 50%" src="../_images/ridge_alpha_search.png" />
-]</p>
-<p>Coming back to the ridge regression we used the standard
-alpha of one which is a reasonable default, but by no means,
-this is guaranteed to make sense in this particular problem.
-Here I’ve done the grid search. As we talked about on
-Monday, I defined a parameter grid where the key is the
-parameter I want to search (alpha in Ridge) and the
-parameters I want to try. For regularization parameters,
-like alpha, it’s usually good to do them on the logarithmic
-grid. I do a relatively fine grid here with 13 different
-points mostly because I wanted to have a nice plot. In
-reality, I would use a three or six or something like that.
-I’ve instantiated GridSearchCV with Ridge(), the parameter
-grid and do 10 fold cross-validation and then I called
-grid.fit. I’ve reported the mean training accuracy and mean
-test accuracy over 10 cross-validation folds for each of the
-parameter settings. Okay, you can see a couple things here.
-A) There’s a lot of uncertainty B) The training set is
-always better than the test set. C) The most important thing
-that you can see here is that regularization didn’t help.
-Making alpha as small as possible is the best. What I’m
-going to do next is I’m going to modify this dataset a
-little bit so that we can see the effect of the
-regularization. I’m going to modifying by using a polynomial
-expansion, again we’re going to talk about a little bit more
-on Wednesday.</p>
-<p>.padding-top[
-.left-column[
-<img alt=":scale 100%" src="../_images/ridge_alpha_search.png" />
-]
-.right-column[
-<img alt=":scale 100%" src="../_images/ridge_alpha_search_cv_runs.png" />
-]
-]</p>
 </div>
-<div class="section" id="triazine-dataset">
-<h2>Triazine Dataset<a class="headerlink" href="#triazine-dataset" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">triazines</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s1">&#39;triazines&#39;</span><span class="p">)</span>
-<span class="n">triazines</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">186</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">triazines</span><span class="o">.</span><span class="n">target</span><span class="p">)</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>.center[
-<img alt=":scale 40%" src="../_images/triazine_bar.png" />
-]</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">triazines</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">triazines</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="n">cross_val_score</span><span class="p">(</span><span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">4.749e+24</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.224e+24</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.317e+23</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.318e+23</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.733e+22</span><span class="p">])</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">Ridge</span><span class="p">(),</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span><span class="mf">0.263</span><span class="p">,</span> <span class="mf">0.455</span><span class="p">,</span> <span class="mf">0.024</span><span class="p">,</span> <span class="mf">0.23</span> <span class="p">,</span> <span class="mf">0.036</span><span class="p">])</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">13</span><span class="p">)}</span>
-
-<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">Ridge</span><span class="p">(),</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">RepeatedKFold</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
-                    <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># define and execute grid-search</span>
+<span class="c1"># return training scores</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">Ridge</span><span class="p">(),</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>.center[
-<img alt=":scale 40%" src="../_images/ridge_alpha_triazine.png" />
-]</p>
 </div>
-<div class="section" id="plotting-coefficient-values-lr">
-<h2>Plotting coefficient values (LR)<a class="headerlink" href="#plotting-coefficient-values-lr" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">lr</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span>
-            <span class="n">c</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">lr</span><span class="o">.</span><span class="n">coef_</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;bwr_r&#39;</span><span class="p">)</span>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.4516801116608531
+{&#39;alpha&#39;: 0.1}
+</pre></div>
+</div>
+</div>
+</div>
+<p>The best cross-validation score of 0.45 is achieved with <code class="docutils literal notranslate"><span class="pre">alpha=0.1</span></code>. However, it’s not substantially better than the score achieved by linear regression.
+We should confirm that the parameter range we chose is appropriate by looking at the training and validation scores for the different parameters, stored in <code class="docutils literal notranslate"><span class="pre">grid.cv_results_</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">)</span>
+<span class="n">res</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean_fit_time</th>
+      <th>std_fit_time</th>
+      <th>mean_score_time</th>
+      <th>std_score_time</th>
+      <th>param_alpha</th>
+      <th>params</th>
+      <th>split0_test_score</th>
+      <th>split1_test_score</th>
+      <th>split2_test_score</th>
+      <th>split3_test_score</th>
+      <th>...</th>
+      <th>mean_test_score</th>
+      <th>std_test_score</th>
+      <th>rank_test_score</th>
+      <th>split0_train_score</th>
+      <th>split1_train_score</th>
+      <th>split2_train_score</th>
+      <th>split3_train_score</th>
+      <th>split4_train_score</th>
+      <th>mean_train_score</th>
+      <th>std_train_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.002091</td>
+      <td>0.000228</td>
+      <td>0.001326</td>
+      <td>0.000162</td>
+      <td>0.0001</td>
+      <td>{'alpha': 0.0001}</td>
+      <td>0.528816</td>
+      <td>0.390597</td>
+      <td>0.491218</td>
+      <td>0.610916</td>
+      <td>...</td>
+      <td>0.449455</td>
+      <td>0.132386</td>
+      <td>4</td>
+      <td>0.506324</td>
+      <td>0.539168</td>
+      <td>0.521226</td>
+      <td>0.480504</td>
+      <td>0.561159</td>
+      <td>0.521676</td>
+      <td>0.027553</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.001447</td>
+      <td>0.000118</td>
+      <td>0.001109</td>
+      <td>0.000086</td>
+      <td>0.001</td>
+      <td>{'alpha': 0.001}</td>
+      <td>0.527445</td>
+      <td>0.393458</td>
+      <td>0.490536</td>
+      <td>0.609957</td>
+      <td>...</td>
+      <td>0.450115</td>
+      <td>0.130527</td>
+      <td>3</td>
+      <td>0.506268</td>
+      <td>0.538987</td>
+      <td>0.521141</td>
+      <td>0.480426</td>
+      <td>0.560971</td>
+      <td>0.521559</td>
+      <td>0.027506</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.001661</td>
+      <td>0.000212</td>
+      <td>0.001114</td>
+      <td>0.000092</td>
+      <td>0.01</td>
+      <td>{'alpha': 0.01}</td>
+      <td>0.521839</td>
+      <td>0.400945</td>
+      <td>0.487998</td>
+      <td>0.604883</td>
+      <td>...</td>
+      <td>0.451007</td>
+      <td>0.124386</td>
+      <td>2</td>
+      <td>0.505220</td>
+      <td>0.535916</td>
+      <td>0.519616</td>
+      <td>0.478931</td>
+      <td>0.557753</td>
+      <td>0.519487</td>
+      <td>0.026768</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.001451</td>
+      <td>0.000179</td>
+      <td>0.001098</td>
+      <td>0.000105</td>
+      <td>0.1</td>
+      <td>{'alpha': 0.1}</td>
+      <td>0.513270</td>
+      <td>0.401617</td>
+      <td>0.498042</td>
+      <td>0.584170</td>
+      <td>...</td>
+      <td>0.451680</td>
+      <td>0.111577</td>
+      <td>1</td>
+      <td>0.498822</td>
+      <td>0.527579</td>
+      <td>0.512636</td>
+      <td>0.471906</td>
+      <td>0.548880</td>
+      <td>0.511965</td>
+      <td>0.026017</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.001344</td>
+      <td>0.000097</td>
+      <td>0.001039</td>
+      <td>0.000086</td>
+      <td>1</td>
+      <td>{'alpha': 1.0}</td>
+      <td>0.383890</td>
+      <td>0.323097</td>
+      <td>0.448959</td>
+      <td>0.420870</td>
+      <td>...</td>
+      <td>0.365672</td>
+      <td>0.070926</td>
+      <td>5</td>
+      <td>0.397288</td>
+      <td>0.428432</td>
+      <td>0.402556</td>
+      <td>0.373094</td>
+      <td>0.437884</td>
+      <td>0.407851</td>
+      <td>0.023123</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.001522</td>
+      <td>0.000010</td>
+      <td>0.001155</td>
+      <td>0.000006</td>
+      <td>10</td>
+      <td>{'alpha': 10.0}</td>
+      <td>0.079865</td>
+      <td>0.107844</td>
+      <td>0.149916</td>
+      <td>0.118348</td>
+      <td>...</td>
+      <td>0.094234</td>
+      <td>0.045432</td>
+      <td>6</td>
+      <td>0.126741</td>
+      <td>0.138133</td>
+      <td>0.120183</td>
+      <td>0.118031</td>
+      <td>0.137972</td>
+      <td>0.128212</td>
+      <td>0.008532</td>
+    </tr>
+  </tbody>
+</table>
+<p>6 rows × 21 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot training score vs parameter alpha, with x on logscale</span>
+<span class="c1"># use std over cross-validation folds for error bars</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;param_alpha&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mean_train_score&#39;</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="s1">&#39;std_train_score&#39;</span><span class="p">,</span> <span class="n">logx</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># same for test set, plot in the same axes</span>
+<span class="n">res</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;param_alpha&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="s1">&#39;std_test_score&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>.center[
-<img alt=":scale 55%" src="../_images/lr_coefficients_large.png" />
-]</p>
-<p>In the previous slide, linear regression did nearly as well
-as the Ridge Regression with the default parameters but
-let’s look at the coefficients of a linear model. These are
-the coefficients of the linear model trained on the
-polynomial futures. I plot them adding a color to represent
-positive and negative. The magnitude here is 1 and then 13
-zeros. We have two features, one is like, probably more than
-trillions times two and then there’s another one that’s very
-negative. What I conclude from this is, these 2 features are
-very highly correlated. The model makes both of them really,
-really big and then they cancel each other out. This is not
-a very nice model, because it relates to American stability
-and also it tells me that these 2 features are like
-extremely important, but they might not be important at all.
-Like the other features might be more important, but they’re
-nullified by this cancellation effect. They (0.2 and -0.8)
-need to cancel each other out because the predictions are
-reasonable and all the houses only cost like $70,000.</p>
 </div>
-<div class="section" id="ridge-coefficients">
-<h2>Ridge Coefficients<a class="headerlink" href="#ridge-coefficients" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ridge</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">best_estimator_</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">ridge</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span>
-            <span class="n">c</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">ridge</span><span class="o">.</span><span class="n">coef_</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;bwr_r&quot;</span><span class="p">)</span>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f9be80b1d90&gt;
 </pre></div>
 </div>
-<p>.center[
-<img alt=":scale 55%" src="../_images/ridge_coefficients.png" />
-]</p>
-<p>Let’s look at the Ridge model. This is the best estimator,
-which is the model that was found in a grid search with the
-best parameter settings. This looks much more reasonable.
-This feature, which was a very negative one, still is very
-negative. But now this is actually three and minus three. So
-this is a much more reasonable range. We can also look at
-the features and the effect of different values of alpha.
-Here is a Ridge with 3 different values of alpha. In the
-previous random seat, alpha equal to 14 was the best now and
-now we have it equal to 30 something. The green one is more
-or less the best setting and then there’s a smaller and a
-bigger one. You can see that basically what alpha does is,
-on average, it pushes all the coefficients toward zero. So
-here you can see this coefficient shrank going from 1 to 14
-going to 0 and the same here. So basically, they all push
-the different features towards 0. If you look at this long
-enough, you can see things that are interesting, the first
-one with alpha equal to one it’s positive, and with alpha
-equal to 100, it’s negative. That means depending on how
-much you regularize the direction of effect goes in opposite
-directions, what that tells me is don’t interpret your
-models too much because clearly, either it has a positive or
-negative effect, it can’t have both.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ridge100</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="n">ridge1</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=.</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<img alt="../_images/05-linear-models-regression_27_1.png" src="../_images/05-linear-models-regression_27_1.png" />
+</div>
+</div>
+<p>From the plot we can see that as we expected, traihning and test set score are low for alpha=1 and even lower for higher alpha. There seems little difference between the three lowest values of alpha; using alpha=10**-4 is low enough to be roughly equivalent to linear regression. We can see that using alpha=10*-1=0.1 performs slightly worse on the training set, but has slightly lower standard deviation on the test set. However, this is not much of an advantage over just using LinearRegression.</p>
+<p>This is not entirely surprising as the data has many more samples than features, and there are only moderate correlations in the dataset. We can likely eliminate any advantage Ridge might have by dropping the highly correlated features <code class="docutils literal notranslate"><span class="pre">s2</span></code> and <code class="docutils literal notranslate"><span class="pre">s4</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># create a new data matrix without s2 and s4</span>
+<span class="n">X_train_sub</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;s2&#39;</span><span class="p">,</span> <span class="s1">&#39;s4&#39;</span><span class="p">])</span>
+<span class="n">X_train_sub</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>sex</th>
+      <th>bmi</th>
+      <th>bp</th>
+      <th>s1</th>
+      <th>s3</th>
+      <th>s5</th>
+      <th>s6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>16</th>
+      <td>-0.005515</td>
+      <td>-0.044642</td>
+      <td>0.042296</td>
+      <td>0.049415</td>
+      <td>0.024574</td>
+      <td>0.074412</td>
+      <td>0.052280</td>
+      <td>0.027917</td>
+    </tr>
+    <tr>
+      <th>408</th>
+      <td>0.063504</td>
+      <td>-0.044642</td>
+      <td>-0.050396</td>
+      <td>0.107944</td>
+      <td>0.031454</td>
+      <td>-0.017629</td>
+      <td>0.058039</td>
+      <td>0.040343</td>
+    </tr>
+    <tr>
+      <th>432</th>
+      <td>0.009016</td>
+      <td>-0.044642</td>
+      <td>0.055229</td>
+      <td>-0.005671</td>
+      <td>0.057597</td>
+      <td>-0.002903</td>
+      <td>0.055684</td>
+      <td>0.106617</td>
+    </tr>
+    <tr>
+      <th>316</th>
+      <td>0.016281</td>
+      <td>0.050680</td>
+      <td>0.014272</td>
+      <td>0.001215</td>
+      <td>0.001183</td>
+      <td>-0.032356</td>
+      <td>0.074968</td>
+      <td>0.040343</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.089063</td>
+      <td>-0.044642</td>
+      <td>-0.011595</td>
+      <td>-0.036656</td>
+      <td>0.012191</td>
+      <td>-0.036038</td>
+      <td>0.022692</td>
+      <td>-0.009362</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># run cross-validation on the reduced dataset</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cross_validate</span><span class="p">(</span><span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">X_train_sub</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">res</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>fit_time</th>
+      <th>score_time</th>
+      <th>test_score</th>
+      <th>train_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.002007</td>
+      <td>0.001261</td>
+      <td>0.514748</td>
+      <td>0.504328</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.001455</td>
+      <td>0.001040</td>
+      <td>0.424273</td>
+      <td>0.528065</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.001617</td>
+      <td>0.001548</td>
+      <td>0.482717</td>
+      <td>0.516778</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.001481</td>
+      <td>0.001160</td>
+      <td>0.600992</td>
+      <td>0.477712</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.001539</td>
+      <td>0.001131</td>
+      <td>0.234819</td>
+      <td>0.553382</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>fit_time       0.001620
+score_time     0.001228
+test_score     0.451510
+train_score    0.516053
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>The results on the reduced dataset are basically identical to the results from ridge, and have lower variance than the results of Linear Regression on the original dataset.
+TODO inspect coefficients.</p>
+</div>
+<div class="section" id="linear-regression-on-the-triazine-dataset">
+<h2>Linear regression on the Triazine Dataset<a class="headerlink" href="#linear-regression-on-the-triazine-dataset" title="Permalink to this headline">¶</a></h2>
+<p>Next we will look at a dataset with quite different characteristics, the triazine dataset, which was collected in a drug discovery application.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_openml</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s1">&#39;triazines&#39;</span><span class="p">,</span> <span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="stderr docutils container">
+<pre class="stderr literal-block">/home/andy/checkout/scikit-learn/sklearn/datasets/_openml.py:373: UserWarning: Multiple active versions of the dataset matching the name triazines exist. Versions may be fundamentally different, returning version 1.
+  warn(&quot;Multiple active versions of the dataset matching the name&quot;
+</pre>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>p1_polar</th>
+      <th>p1_size</th>
+      <th>p1_flex</th>
+      <th>p1_h_doner</th>
+      <th>p1_h_acceptor</th>
+      <th>p1_pi_doner</th>
+      <th>p1_pi_acceptor</th>
+      <th>p1_polarisable</th>
+      <th>p1_sigma</th>
+      <th>p1_branch</th>
+      <th>...</th>
+      <th>p6_polar</th>
+      <th>p6_size</th>
+      <th>p6_flex</th>
+      <th>p6_h_doner</th>
+      <th>p6_h_acceptor</th>
+      <th>p6_pi_doner</th>
+      <th>p6_pi_acceptor</th>
+      <th>p6_polarisable</th>
+      <th>p6_sigma</th>
+      <th>p6_branch</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.58</td>
+      <td>0.233</td>
+      <td>0.100</td>
+      <td>0.1</td>
+      <td>0.100</td>
+      <td>0.5</td>
+      <td>0.1</td>
+      <td>0.5</td>
+      <td>0.900</td>
+      <td>0.1</td>
+      <td>...</td>
+      <td>0.9</td>
+      <td>0.5</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.9</td>
+      <td>0.9</td>
+      <td>0.633</td>
+      <td>0.633</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.10</td>
+      <td>0.100</td>
+      <td>0.100</td>
+      <td>0.1</td>
+      <td>0.100</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.100</td>
+      <td>0.1</td>
+      <td>...</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.100</td>
+      <td>0.100</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.26</td>
+      <td>0.100</td>
+      <td>0.100</td>
+      <td>0.1</td>
+      <td>0.100</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.100</td>
+      <td>0.1</td>
+      <td>...</td>
+      <td>0.3</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.100</td>
+      <td>0.100</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.42</td>
+      <td>0.500</td>
+      <td>0.633</td>
+      <td>0.1</td>
+      <td>0.633</td>
+      <td>0.5</td>
+      <td>0.1</td>
+      <td>0.5</td>
+      <td>0.367</td>
+      <td>0.1</td>
+      <td>...</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.100</td>
+      <td>0.100</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.58</td>
+      <td>0.233</td>
+      <td>0.100</td>
+      <td>0.1</td>
+      <td>0.100</td>
+      <td>0.5</td>
+      <td>0.1</td>
+      <td>0.5</td>
+      <td>0.900</td>
+      <td>0.1</td>
+      <td>...</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.100</td>
+      <td>0.100</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 60 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(186, 60)
+</pre></div>
+</div>
+</div>
+</div>
+<p>This dataset has 186 rows and 60 features, which is likely to pose a problem to unpenalized linear regression.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can try to plot all features, however, looking at 60 plots becomes quickly overwhelming.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create dataframe containing target for plotting</span>
+<span class="n">df_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_train</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_train</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()):</span>
+    <span class="n">df_train</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/05-linear-models-regression_39_0.png" src="../_images/05-linear-models-regression_39_0.png" />
+</div>
+</div>
+<p>However, we can see that <code class="docutils literal notranslate"><span class="pre">p5_flex</span></code> and <code class="docutils literal notranslate"><span class="pre">p5_h_doner</span></code> are constant, and therefore can be dropped:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">[[</span><span class="s1">&#39;p5_flex&#39;</span><span class="p">,</span> <span class="s1">&#39;p5_h_doner&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>p5_flex       0.0
+p5_h_doner    0.0
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;p5_flex&#39;</span><span class="p">,</span> <span class="s1">&#39;p5_h_doner&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(58, 58)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#TODO why is this not showiung the full matrix?</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">clustermap</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">corr</span><span class="p">(),</span>  <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;bwr_r&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.matrix.ClusterGrid at 0x7f9bb7655d60&gt;
+</pre></div>
+</div>
+<img alt="../_images/05-linear-models-regression_44_1.png" src="../_images/05-linear-models-regression_44_1.png" />
+</div>
+</div>
+<p>The correlations in this datset are much more complex as you can see. Still, we can use <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> as a baseline:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cross_validate</span><span class="p">(</span><span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">res</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>fit_time       2.422237e-03
+score_time     1.335001e-03
+test_score    -1.222657e+20
+train_score    4.868313e-01
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>While the training score is 0.48, the test score is very, very negative, indicating numeric instabilities in the model. Given the strong correlations in the dataset, that’s not surprising.
+Ridge will fare much better here. As we expect to require a lot of regularization, we’ll change the grid a bit to go until alpha=1000:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">)}</span>
+<span class="n">param_grid</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;alpha&#39;: array([1.e-02, 1.e-01, 1.e+00, 1.e+01, 1.e+02, 1.e+03])}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">Ridge</span><span class="p">(),</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.07556489256250143
+{&#39;alpha&#39;: 10.0}
+</pre></div>
+</div>
+</div>
+</div>
+<p>The best average score is 0.07, which is quite low, indicating that the model is only slightly better than predicting the mean. Again, we can look at the results for all parameters to get a better idea of the role of alpha:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;param_alpha&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mean_train_score&#39;</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="s1">&#39;std_train_score&#39;</span><span class="p">,</span> <span class="n">logx</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">res</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;param_alpha&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="s1">&#39;std_test_score&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="c1"># cut off scores much below 0</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-.</span><span class="mi">1</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(-0.1, 0.5)
+</pre></div>
+</div>
+<img alt="../_images/05-linear-models-regression_51_1.png" src="../_images/05-linear-models-regression_51_1.png" />
+</div>
+</div>
+<p>You can see a clear optimum around alpha=10, and a very characteristic pattern that mirrors the plot in TODO overfitting underfitting very closely.
+The more we increase alpha, the lower the training set score goes - which is expected, as a larger value of alpha puts less emphasis on the training set error. On the test set, we can see that for low values of alpha, the results are terrible, while for very high values of alpha, they go towards 0. Between these extremes, there is a clear sweetspot where the penalty reduces model complexity, but still allows fitting a model that can make reasonable predictions (though an R^2 of 0.07 potentially stretches the meaning of “reasonable” a bit).</p>
+<p>Given the numeric instabilities, we won’t bother visualizing the coefficients for linear regression, but we will show them for the ridge model for several values of alpha.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># extract the model with the best parameters from our grid-search (alpha=10)</span>
+<span class="n">ridge</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">best_estimator_</span>
+<span class="n">ridge</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Ridge(alpha=10.0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># instantiate and fit models for two neighboring values of alpha</span>
+<span class="n">ridge100</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">ridge1</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ridge1</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;alpha=.1&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ridge</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;alpha=</span><span class="si">{</span><span class="n">ridge</span><span class="o">.</span><span class="n">alpha</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># plot coefficients for all three models</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ridge1</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;alpha=1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ridge</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;alpha=</span><span class="si">{</span><span class="n">ridge</span><span class="o">.</span><span class="n">alpha</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ridge100</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;alpha=100&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;coefficient&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;feature index&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>.center[
-<img alt=":scale 60%" src="../_images/ridge_coefficients_alpha.png" />
-]</p>
-<p>One other way to visualize the coefficient is to look at the
-coefficient path or regularization path. On the x-axis is
-the alpha, and on the y-axis, the coefficient magnitude.
-Basically, I looped over all of the different alphas and you
-can see how they shrink towards zero to increase alpha.
-There are some very big coefficients that go to zero very
-quickly and some coefficients here that stay the same for a
-long time.</p>
 </div>
-<div class="section" id="learning-curves">
-<h2>Learning Curves<a class="headerlink" href="#learning-curves" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 90%" src="../_images/ridge_learning_curve.png" /></p>
-<p>The thing I want to illustrate is if you have less data,
-regularization helps more. You can see the effects here
-between the orange and the red are very drastic. The green
-one probably has too much regularization. If you have very
-little data, even regularizing way too much is okay, but
-there’s sort of a sweet spot here which is the orange one
-and the orange one does best. The more data you add, the
-less important regularization becomes. If you take the blue
-curve at the beginning it’s much higher than the red curve,
-but then, in the end, they overlap.</p>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f9bb172cd00&gt;
+</pre></div>
+</div>
+<img alt="../_images/05-linear-models-regression_55_1.png" src="../_images/05-linear-models-regression_55_1.png" />
+</div>
+</div>
+<p>You can see that as we discussed above, increasing alpha will shrink each coefficient more towards zero. Usually the sign of the coefficient stays the same, independent of alpha, however, that’s not guaranteed to happen.</p>
+<p>TODO learning curve maybe?</p>
 </div>
 <div class="section" id="lasso-regression">
 <h2>Lasso Regression<a class="headerlink" href="#lasso-regression" title="Permalink to this headline">¶</a></h2>
-<div class="math notranslate nohighlight">
-\[ \min_{w \in \mathbb{R}^p, b\in\mathbb{R}} \sum_{i=1}^n (w^T\mathbf{x}_i + b - y_i)^2 + \alpha ||w||_1 \]</div>
-<ul class="simple">
-<li><p>Shrinks w towards zero like Ridge</p></li>
-<li><p>Sets some w exactly to zero - automatic feature selection!</p></li>
-</ul>
-<p>Lasso Regression looks very similar to Ridge Regression. The
-only thing that is changed is we use the L1 norm instead of
-the L2 norm. L2 norm is the sum of squares, the L1 norm is
-the sum of the absolute values. So again, we are shrinking w
-towards 0, but we’re shrinking it in a different way. The L2
-norm penalizes very large coefficients more, the L1 norm
-penalizes all coefficients equally. What this does in
-practice is its sets some entries of W to exactly 0. It does
-automatic feature selection if the coefficient of zero means
-it doesn’t influence the prediction and so you can just drop
-it out of the model. This model does features selection
-together with prediction. Ideally what you would want is,
-let’s say you want a model that does features selections.
-The goal is to make our model automatically select the
-features that are good. What you would want to penalize the
-number of features that it uses, that would be L0 norm.</p>
+<p>Another very commonly used model for regression is Lasso (TODO short for). Similar to ridge, lasso also penalizes large values of the coefficients. However, instead of using the euclidean norm or L2 norm as in Ridge, lasso uses the sum of absolute values, also known as the L1 norm. This is only a small change in the objective, however, it has a big effect on the model and optimization. While in Ridge, all of the coefficients are pushed towards zero, they are unlikely to ever be exactly zero. Using lasso on the other hand, increasing the regularization parameter alpha will make more and more parameters exactly zero.
+This is a form of automatic feature selection, and can be helpful to find more compact and interpretable models.</p>
+<div class="admonition-mathematical-details admonition">
+<p class="admonition-title">Mathematical details</p>
+<p>The motivation for lasso is relatively straight-forward: find a linear model with as few nonzero coefficients as possible.
+While this is a very natural requirement, solving this problem exactly is usually not feasible (it would be using what’s known as the L-infinity norm as penalty, which yields an NP-Hard optimization problem TODO Rudin can solve it).
+Lasso can be seen as a relaxed version of this problem that is much more easily solvable but still results in a reduced set of features.
+Lasso can be written as:
+<span class="math notranslate nohighlight">\($ \min_{w \in \mathbb{R}^p, b\in\mathbb{R}} \sum_{i=1}^n (w^T\mathbf{x}_i + b - y_i)^2 + \alpha ||w||_1 $\)</span>
+As Ridge, this is a (TODO strongly?) convex optimization problem for alpha&gt;0. However, unlike lasso, it’s not a least squares problem, and is not differentiable.
+This makes the optimization slightly more tricky; however, it’s a well-studied problem with plenty of algorithms available to solve it.
+Read more in ESL TODO.</p>
 </div>
-<div class="section" id="understanding-l1-and-l2-penalties">
-<h2>Understanding L1 and L2 Penalties<a class="headerlink" href="#understanding-l1-and-l2-penalties" title="Permalink to this headline">¶</a></h2>
-<p>.wide-left-column[
-<img alt=":scale 100%" src="../_images/l2_l1_l0.png" />
-]</p>
-<p>.narrow-right-column[
-.smaller[
-<span class="math notranslate nohighlight">\($ \ell_2(w) = \sqrt{\sum_i w_i ^ 2}\)</span>$
-<span class="math notranslate nohighlight">\($ \ell_1(w) = \sum_i |w_i|\)</span>$
-<span class="math notranslate nohighlight">\($ \ell_0(w) = \sum_i 1_{w_i != 0}\)</span>$
-]]</p>
-<p>The L0 norm penalizes the number of features that are not
-zero. The L1 norm penalizes the absolute values. L2 norm
-penalizes the squared norm. The problem with L0 norm is it’s
-one everywhere except at zero. And that’s not
-differentiable, it’s not even continuous, so this is very
-hard to optimize. Basically, we just gave up on this and we
-use the next best thing we can do, which is the L1 norm. The
-L1 norm is not differentiable, there’s like this kink in
-zero, but we can still optimize it pretty well. The L2 norm
-penalizes large values much more than small values.</p>
-</div>
-<div class="section" id="id3">
-<h2>Understanding L1 and L2 Penalties<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p>.wide-left-column[
-<img alt=":scale 100%" src="../_images/l1_kink.png" />
-]
-.narrow-right-column[
-.padding-top[
-.smaller[
-$ f(x) = (2 x - 1)^2 $</p>
-<p>$ f(x) + L2 = (2 x - 1)^2 + \alpha x^2$</p>
-<p>$ f(x) + L1= (2 x - 1)^2 + \alpha |x|$
-]]]</p>
-<p>Let’s say I want to do a one-dimensional linear regression
-problem. The problem to solve is something of this form. I
-want my coefficients to be such that, let’s say x, the one
-coefficient I’m looking for and this is sort of the squared
-loss function that I have. F is the daycare fitting term
-here, and this is would be like some quadratic. The loss
-function is in blue, its quadratic. The loss function plus
-our L2 regularization, the ridge is in orange. The data
-fitting plus L1 regularization is in green. The blue is a
-squared quadratic function, the orange is a quadratic
-function that sort of moved a little bit toward zero and the
-green one also moved towards zero but there’s a kink here.
-Basically, this is just sort of the kink at the absolute
-value of zero and that makes it much more likely that the
-optimum will actually be at zero. So here the optimum for
-orange is somewhere here, so it was pushed towards zero but
-not exactly zero.</p>
-</div>
-<div class="section" id="id4">
-<h2>Understanding L1 and L2 Penalties<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 70%" src="../_images/l1l2ball.png" /></p>
-<p>A different way to visualize this is in two dimensions.
-Let’s say we have 2 coefficients. So one way to look at
-these norms, let’s say we want to minimize the norm but say
-we want to fix the norm, like more or less equivalent, these
-are the L1 and L2 balls. So this is all the 2D vectors that
-have Euclidean norm 1 or the ball and all the vectors that
-have L1 norm is the diamond. Let’s say we restrict ourselves
-to a solution that lies on this ball.</p>
-</div>
-<div class="section" id="id5">
-<h2>Understanding L1 and L2 Penalties<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 70%" src="../_images/l1l2ball_intersect.png" /></p>
-<p>And then we have a quadratic function like this, this is
-sort of the data fitting term again and so now if we want a
-solution with L2 norm equal to zero, we get the solution
-here, the intersection of the height lines of the data
-fitting term and constraint to L2 norm. But for this
-diamond, we’re going to hit very likely one of the corners
-just because of the geometry of the space, we’re likely to
-either of these corners. The corner means one of the
-coefficients is exactly zero, and the other one is one. So
-this is another sort of geometric realization of trying to
-understand why does this lead to exact zeros hop.</p>
-</div>
-<div class="section" id="grid-search-for-lasso">
-<h2>Grid-Search for Lasso<a class="headerlink" href="#grid-search-for-lasso" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)}</span>
-<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">Lasso</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Lasso</span>
+
+<span class="c1"># TODO explain options</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)}</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">Lasso</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">0.0016</span><span class="p">}</span>
-<span class="mf">0.163</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.021748024821626865
+{&#39;alpha&#39;: 0.0004641588833612782}
 </pre></div>
 </div>
-<p>Now we can do Grid Search again, the default parameters
-usually don’t work very well for Lasso. I use alpha on the
-logarithmic grid. I fitted and then I get the best score.</p>
+</div>
+</div>
+<p>For this dataset, Lasso doesn’t fare as well as Ridge did. However, the model is much simpler, it only uses 15 out of the 62 features:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">coef_</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>15
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can look at the training and validation scores, as well as how the alpha parameter influences the number of features TODO recreate plot:</p>
 <p><img alt=":scale 90%" src="../_images/lasso_alpha_triazine.png" /></p>
-<p>Looking at the training test set performance, you can see
-that if you increase the regularization, this model gets
-really bad. The ridge regression didn’t go this badly. If
-you set the realization to one, all coefficients become
-zero. Other than that there’s reasonable performance, which
-is about as good as the ridge performance.</p>
-<p>.center[
-<img alt=":scale 60%" src="../_images/lasso_coefficients.png" />
-]</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">lasso</span><span class="o">.</span><span class="n">coef_</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">139</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
-<span class="mi">13</span>
-</pre></div>
-</div>
-<p>These are the coefficients of the model. Out of the 104
-features, it only selected 64 that are non-zero, the other
-ones are exactly zero. You can see this visualized here. The
-white ones are exactly zero and the other ones on non-zero.
-If I wanted I could prune the future space a lot and that
-makes the model possibly more interpretable. There’s a
-slight caveat here if two of the features that are very
-correlated, Lasso will pick one of them at random and make
-the other one zero. Just because something’s zero doesn’t
-mean it’s not important. It means you can drop it out of
-this model. If you have two features that are identical, one
-of them will be zero and one of them will be not zero and
-it’s going to be randomly selected. That makes
-interpretation a little bit harder.</p>
+<p>As you can see, increasing alpha decreases the amount of non-zero features and around alpha=0.05, all features become zero.
+Often, Ridge performs better in terms of cross-validation score, but lasso will usually provide a more simple model. There is one caveat for the interpretability of lasso, though.
+In a case such as the triazine dataset we’re using here, with many highly correlated features, the selection of features made by Lasso is very unstable. Lasso will usually select one out of a group of correlated features, and which one is selected can easily change, for example when splitting the data differently:</p>
+<p>=</p>
 </div>
 <div class="section" id="elastic-net">
 <h2>Elastic Net<a class="headerlink" href="#elastic-net" title="Permalink to this headline">¶</a></h2>
@@ -1005,14 +1625,6 @@ anything in between. Generally, ridge helps generalization.
 So it’s a good idea to have the ridge penalty in there, but
 also maybe if there are some features that are really not
 useful, the L1 penalty helps makes the same exactly zero.</p>
-</div>
-<div class="section" id="comparing-unit-balls">
-<h2>Comparing unit balls<a class="headerlink" href="#comparing-unit-balls" title="Permalink to this headline">¶</a></h2>
-<p><img alt=":scale 70%" src="../_images/l1l2_elasticnet.png" /></p>
-<p>Looking at the unit balls, if you zoom in here you would see
-the Elastic Net ball is kind of round, but also has a
-corner. Important things are the corners because that allows
-you to hit the exact zeros.</p>
 </div>
 <div class="section" id="parametrization-in-scikit-learn">
 <h2>Parametrization in scikit-learn<a class="headerlink" href="#parametrization-in-scikit-learn" title="Permalink to this headline">¶</a></h2>
@@ -1118,248 +1730,6 @@ Ridge which is L2 penalty, Lasso which is an L1 penalty and
 combining two of them which is Elastic Net. So now I want to
 talk about changing the first part, which was the squared
 loss of the predictions, basically.</p>
-</div>
-<div class="section" id="questions">
-<h2>Questions ?<a class="headerlink" href="#questions" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">sklearn</span>
-<span class="n">sklearn</span><span class="o">.</span><span class="n">set_config</span><span class="p">(</span><span class="n">print_changed_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span><span class="p">,</span> <span class="n">LinearRegression</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_boston</span>
-<span class="n">boston</span> <span class="o">=</span> <span class="n">load_boston</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">boston</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">boston</span><span class="o">.</span><span class="n">target</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">boston</span><span class="o">.</span><span class="n">DESCR</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()):</span>
-    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">12</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-        <span class="k">continue</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">5</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">boston</span><span class="o">.</span><span class="n">feature_names</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;MEDV&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
-    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">LinearRegression</span><span class="p">(),</span>
-                        <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span>
-        <span class="n">Ridge</span><span class="p">(),</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
-<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">14</span><span class="p">)}</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">param_grid</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">Ridge</span><span class="p">(),</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-<span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">)</span>
-<span class="n">results</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;param_alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;mean_train_score&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">())</span>
-<span class="n">results</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;param_alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;mean_test_score&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">())</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">PolynomialFeatures</span><span class="p">,</span> <span class="n">scale</span>
-<span class="c1"># being lazy and not really doing things properly whoops</span>
-<span class="n">X_poly</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="n">include_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">scale</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">X_poly</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_poly</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">LinearRegression</span><span class="p">(),</span>
-                        <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">Ridge</span><span class="p">(),</span>
-                        <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">Ridge</span><span class="p">(),</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">)</span>
-
-<span class="n">results</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;param_alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;mean_train_score&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">())</span>
-<span class="n">results</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;param_alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;mean_test_score&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">())</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">X_poly</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">lr</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">lr</span><span class="o">.</span><span class="n">coef_</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;bwr_r&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ridge</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">best_estimator_</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">X_poly</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">ridge</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">ridge</span><span class="o">.</span><span class="n">coef_</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;bwr_r&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ridge100</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="n">ridge1</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ridge1</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;alpha=1&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ridge</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;alpha=14&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ridge100</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;alpha=100&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Lasso</span>
-
-<span class="n">lasso</span> <span class="o">=</span> <span class="n">Lasso</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training set score: </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lasso</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test set score: </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lasso</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of features used:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">lasso</span><span class="o">.</span><span class="n">coef_</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="exercise">
-<h1>Exercise<a class="headerlink" href="#exercise" title="Permalink to this headline">¶</a></h1>
-<p>Load the diabetes dataset using <code class="docutils literal notranslate"><span class="pre">sklearn.datasets.load_diabetes</span></code>. Apply <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code>, <code class="docutils literal notranslate"><span class="pre">Ridge</span></code> and <code class="docutils literal notranslate"><span class="pre">Lasso</span></code> and visualize the coefficients. Try polynomial features.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %load solutions/linear_models_diabetes.py</span>
-</pre></div>
-</div>
-</div>
 </div>
 </div>
 
