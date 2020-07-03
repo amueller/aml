@@ -25,7 +25,7 @@
     <script src="../_static/copybutton.js"></script>
     <script src="../_static/mystnb.js"></script>
     <script src="../_static/sphinx-book-theme.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -68,60 +68,53 @@
   
   <ul class="nav sidenav_l1">
   <li class="">
-    <a href="../index.html">1. Welcome</a>
+    <a href="../00-introduction/00-introduction.html">1. Introduction</a>
   </li>
   <li class="">
-    <a href="../00-introduction/00-introduction.html">2. Introduction</a>
-  </li>
-  <li class="">
-    <a href="../01-ml-workflow/00-ml-workflow.html">3. The Machine Learning Workflow</a>
+    <a href="../01-ml-workflow/00-ml-workflow.html">2. The Machine Learning Workflow</a>
   </li>
   <li class="active">
-    <a href="index.html">4. Supervised Learning Algorithms</a>
+    <a href="index.html">3. Supervised Learning Algorithms</a>
   <ul class="nav sidenav_l2">
     <li class="active">
-      <a href="">4.1 Linear Models for Regression</a>
+      <a href="">3.1 Linear Models for Regression</a>
     </li>
     <li class="">
-      <a href="06-linear-models-classification.html">4.2 Linear Models for Classification</a>
+      <a href="06-linear-models-classification.html">3.2 Linear Models for Classification</a>
     </li>
     <li class="">
-      <a href="07-support-vector-machines.html">4.3 Support Vector Machines</a>
+      <a href="07-support-vector-machines.html">3.3 Support Vector Machines</a>
     </li>
     <li class="">
-      <a href="08-decision-trees.html">4.4 Decision Trees</a>
+      <a href="08-decision-trees.html">3.4 Decision Trees</a>
     </li>
     <li class="">
-      <a href="09-random-forests.html">4.5 Random Forests</a>
+      <a href="09-random-forests.html">3.5 Random Forests</a>
     </li>
     <li class="">
-      <a href="10-gradient-boosting.html">4.6 (Stochastic) Gradient Descent, Gradient Boosting</a>
+      <a href="10-gradient-boosting.html">3.6 (Stochastic) Gradient Descent, Gradient Boosting</a>
     </li>
     <li class="">
-      <a href="11-neural-networks.html">4.7 Neural Networks</a>
+      <a href="11-neural-networks.html">3.7 Neural Networks</a>
     </li>
     <li class="">
-      <a href="12-advanced-nets.html">4.8 Neural Networks beyond scikit-learn</a>
+      <a href="12-advanced-nets.html">3.8 Neural Networks beyond scikit-learn</a>
     </li>
   </ul>
   </li>
   <li class="">
-    <a href="../03-unsupervised-learning/index.html">5. Unsupervised Learning Algorithms</a>
+    <a href="../03-unsupervised-learning/index.html">4. Unsupervised Learning Algorithms</a>
   </li>
   <li class="">
-    <a href="../04-model-evaluation/index.html">6. Model Evaluation</a>
+    <a href="../04-model-evaluation/index.html">5. Model Evaluation</a>
   </li>
   <li class="">
-    <a href="../05-advanced-topics/index.html">7. Advanced Topics</a>
+    <a href="../05-advanced-topics/index.html">6. Advanced Topics</a>
   </li>
 </ul>
 </nav>
 
  <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
 
 </div>
 
@@ -137,55 +130,43 @@
     </div>
     <div class="col pl-2 topbar-main">
         
-        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse" data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu" aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation" title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
             <i class="fas fa-bars"></i>
             <i class="fas fa-arrow-left"></i>
             <i class="fas fa-arrow-up"></i>
         </button>
         
         <div class="dropdown-buttons-trigger">
-            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
 
-            
-            <div class="dropdown-buttons">
-                <!-- ipynb file if we had a myst markdown file -->
-                
-                <!-- Download raw file -->
-                <a class="dropdown-buttons" href="../_sources/02-supervised-learning/05-linear-models-regression.ipynb.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
-                <!-- Download PDF via print -->
-                <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
-            </div>
-            
-        </div>
-
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/02-supervised-learning/05-linear-models-regression.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
         <!-- Source interaction buttons -->
-        
-        <div class="dropdown-buttons-trigger">
-            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-            <div class="dropdown-buttons sourcebuttons">
-                <a class="repository-button" href="https://github.com/executablebooks/jupyter-book"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-                <a class="issues-button" href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2F02-supervised-learning/05-linear-models-regression.html&body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-                
-            </div>
-        </div>
-        
+
 
         <!-- Full screen (wrap in <a> to have style consistency -->
-        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
 
         <!-- Launch buttons -->
-        
-        <div class="dropdown-buttons-trigger">
-            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-            <div class="dropdown-buttons">
-                
-                <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/02-supervised-learning/05-linear-models-regression.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
-                
-                
-                
-            </div>
-        </div>
-        
+
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
 <div class="tocsection onthispage pt-5 pb-3">
@@ -227,18 +208,6 @@
     
         <li class="nav-item toc-entry toc-h2">
             <a href="#elastic-net" class="nav-link">Elastic Net</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#parametrization-in-scikit-learn" class="nav-link">Parametrization in scikit-learn</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#grid-searching-elasticnet" class="nav-link">Grid-searching ElasticNet</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#analyzing-grid-search-results" class="nav-link">Analyzing grid-search results</a>
         </li>
     
     </ul>
@@ -484,7 +453,7 @@ It has 442 rows corresponding to patients with diabetes, and 10 features describ
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f9bc4db4c40&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fb5f6832b50&gt;
 </pre></div>
 </div>
 <img alt="../_images/05-linear-models-regression_8_1.png" src="../_images/05-linear-models-regression_8_1.png" />
@@ -531,7 +500,7 @@ It can also be a good idea to look at the correlation between features, which ar
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.matrix.ClusterGrid at 0x7f9bc3b1cbe0&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.matrix.ClusterGrid at 0x7fb5f5bf1a60&gt;
 </pre></div>
 </div>
 <img alt="../_images/05-linear-models-regression_14_1.png" src="../_images/05-linear-models-regression_14_1.png" />
@@ -580,36 +549,36 @@ It can also be a good idea to look at the correlation between features, which ar
   <tbody>
     <tr>
       <th>0</th>
-      <td>0.002023</td>
-      <td>0.001105</td>
+      <td>0.023110</td>
+      <td>0.001446</td>
       <td>0.528990</td>
       <td>0.506324</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>0.001728</td>
-      <td>0.001106</td>
+      <td>0.001793</td>
+      <td>0.001304</td>
       <td>0.390191</td>
       <td>0.539171</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>0.001560</td>
-      <td>0.001085</td>
+      <td>0.001826</td>
+      <td>0.001309</td>
       <td>0.491299</td>
       <td>0.521227</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>0.001472</td>
-      <td>0.001290</td>
+      <td>0.001717</td>
+      <td>0.001298</td>
       <td>0.611033</td>
       <td>0.480505</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>0.001720</td>
-      <td>0.001226</td>
+      <td>0.002076</td>
+      <td>0.001570</td>
       <td>0.225245</td>
       <td>0.561162</td>
     </tr>
@@ -624,8 +593,8 @@ It can also be a good idea to look at the correlation between features, which ar
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>fit_time       0.001700
-score_time     0.001162
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>fit_time       0.006104
+score_time     0.001385
 test_score     0.449352
 train_score    0.521678
 dtype: float64
@@ -671,36 +640,36 @@ Given the small size of the dataset, such a variability is not very surprising, 
   <tbody>
     <tr>
       <th>0</th>
-      <td>0.002253</td>
-      <td>0.001197</td>
+      <td>0.006885</td>
+      <td>0.001608</td>
       <td>0.383890</td>
       <td>0.397288</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>0.001504</td>
-      <td>0.001310</td>
+      <td>0.002185</td>
+      <td>0.001338</td>
       <td>0.323097</td>
       <td>0.428432</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>0.001865</td>
-      <td>0.001067</td>
+      <td>0.001623</td>
+      <td>0.001185</td>
       <td>0.448959</td>
       <td>0.402556</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>0.001474</td>
-      <td>0.001267</td>
+      <td>0.001570</td>
+      <td>0.001195</td>
       <td>0.420870</td>
       <td>0.373094</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>0.001430</td>
-      <td>0.001118</td>
+      <td>0.001701</td>
+      <td>0.001238</td>
       <td>0.251547</td>
       <td>0.437884</td>
     </tr>
@@ -715,8 +684,8 @@ Given the small size of the dataset, such a variability is not very surprising, 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>fit_time       0.001705
-score_time     0.001192
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>fit_time       0.002793
+score_time     0.001313
 test_score     0.365672
 train_score    0.407851
 dtype: float64
@@ -814,10 +783,10 @@ We should confirm that the parameter range we chose is appropriate by looking at
   <tbody>
     <tr>
       <th>0</th>
-      <td>0.002091</td>
-      <td>0.000228</td>
-      <td>0.001326</td>
-      <td>0.000162</td>
+      <td>0.001814</td>
+      <td>0.000098</td>
+      <td>0.001335</td>
+      <td>0.000231</td>
       <td>0.0001</td>
       <td>{'alpha': 0.0001}</td>
       <td>0.528816</td>
@@ -838,10 +807,10 @@ We should confirm that the parameter range we chose is appropriate by looking at
     </tr>
     <tr>
       <th>1</th>
-      <td>0.001447</td>
-      <td>0.000118</td>
-      <td>0.001109</td>
-      <td>0.000086</td>
+      <td>0.001347</td>
+      <td>0.000043</td>
+      <td>0.001025</td>
+      <td>0.000084</td>
       <td>0.001</td>
       <td>{'alpha': 0.001}</td>
       <td>0.527445</td>
@@ -862,10 +831,10 @@ We should confirm that the parameter range we chose is appropriate by looking at
     </tr>
     <tr>
       <th>2</th>
-      <td>0.001661</td>
-      <td>0.000212</td>
-      <td>0.001114</td>
-      <td>0.000092</td>
+      <td>0.001606</td>
+      <td>0.000331</td>
+      <td>0.001191</td>
+      <td>0.000246</td>
       <td>0.01</td>
       <td>{'alpha': 0.01}</td>
       <td>0.521839</td>
@@ -886,10 +855,10 @@ We should confirm that the parameter range we chose is appropriate by looking at
     </tr>
     <tr>
       <th>3</th>
-      <td>0.001451</td>
-      <td>0.000179</td>
-      <td>0.001098</td>
+      <td>0.001398</td>
       <td>0.000105</td>
+      <td>0.001022</td>
+      <td>0.000088</td>
       <td>0.1</td>
       <td>{'alpha': 0.1}</td>
       <td>0.513270</td>
@@ -910,10 +879,10 @@ We should confirm that the parameter range we chose is appropriate by looking at
     </tr>
     <tr>
       <th>4</th>
-      <td>0.001344</td>
-      <td>0.000097</td>
-      <td>0.001039</td>
-      <td>0.000086</td>
+      <td>0.001381</td>
+      <td>0.000096</td>
+      <td>0.001033</td>
+      <td>0.000081</td>
       <td>1</td>
       <td>{'alpha': 1.0}</td>
       <td>0.383890</td>
@@ -934,10 +903,10 @@ We should confirm that the parameter range we chose is appropriate by looking at
     </tr>
     <tr>
       <th>5</th>
-      <td>0.001522</td>
-      <td>0.000010</td>
-      <td>0.001155</td>
-      <td>0.000006</td>
+      <td>0.001469</td>
+      <td>0.000108</td>
+      <td>0.001089</td>
+      <td>0.000095</td>
       <td>10</td>
       <td>{'alpha': 10.0}</td>
       <td>0.079865</td>
@@ -972,7 +941,7 @@ We should confirm that the parameter range we chose is appropriate by looking at
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f9be80b1d90&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fb5f50c9310&gt;
 </pre></div>
 </div>
 <img alt="../_images/05-linear-models-regression_27_1.png" src="../_images/05-linear-models-regression_27_1.png" />
@@ -1113,36 +1082,36 @@ We should confirm that the parameter range we chose is appropriate by looking at
   <tbody>
     <tr>
       <th>0</th>
-      <td>0.002007</td>
-      <td>0.001261</td>
+      <td>0.001703</td>
+      <td>0.001000</td>
       <td>0.514748</td>
       <td>0.504328</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>0.001455</td>
-      <td>0.001040</td>
+      <td>0.001383</td>
+      <td>0.000959</td>
       <td>0.424273</td>
       <td>0.528065</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>0.001617</td>
-      <td>0.001548</td>
+      <td>0.001338</td>
+      <td>0.001132</td>
       <td>0.482717</td>
       <td>0.516778</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>0.001481</td>
-      <td>0.001160</td>
+      <td>0.001575</td>
+      <td>0.001089</td>
       <td>0.600992</td>
       <td>0.477712</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>0.001539</td>
-      <td>0.001131</td>
+      <td>0.001331</td>
+      <td>0.000943</td>
       <td>0.234819</td>
       <td>0.553382</td>
     </tr>
@@ -1157,8 +1126,8 @@ We should confirm that the parameter range we chose is appropriate by looking at
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>fit_time       0.001620
-score_time     0.001228
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>fit_time       0.001466
+score_time     0.001025
 test_score     0.451510
 train_score    0.516053
 dtype: float64
@@ -1433,7 +1402,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.matrix.ClusterGrid at 0x7f9bb7655d60&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.matrix.ClusterGrid at 0x7fb5f5e5e730&gt;
 </pre></div>
 </div>
 <img alt="../_images/05-linear-models-regression_44_1.png" src="../_images/05-linear-models-regression_44_1.png" />
@@ -1448,8 +1417,8 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>fit_time       2.422237e-03
-score_time     1.335001e-03
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>fit_time       3.137350e-03
+score_time     1.449299e-03
 test_score    -1.222657e+20
 train_score    4.868313e-01
 dtype: float64
@@ -1541,7 +1510,7 @@ The more we increase alpha, the lower the training set score goes - which is exp
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f9bb172cd00&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fb5d04f15e0&gt;
 </pre></div>
 </div>
 <img alt="../_images/05-linear-models-regression_55_1.png" src="../_images/05-linear-models-regression_55_1.png" />
@@ -1604,132 +1573,533 @@ Read more in ESL TODO.</p>
 <p>As you can see, increasing alpha decreases the amount of non-zero features and around alpha=0.05, all features become zero.
 Often, Ridge performs better in terms of cross-validation score, but lasso will usually provide a more simple model. There is one caveat for the interpretability of lasso, though.
 In a case such as the triazine dataset we’re using here, with many highly correlated features, the selection of features made by Lasso is very unstable. Lasso will usually select one out of a group of correlated features, and which one is selected can easily change, for example when splitting the data differently:</p>
-<p>=</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># split data same as above</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># use alpha close to optimum from above</span>
+<span class="n">lasso</span> <span class="o">=</span> <span class="n">Lasso</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.0005</span><span class="p">)</span>
+<span class="n">lasso</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="c1"># we validate the model on the test set to see that it&#39;s reasonable.</span>
+<span class="c1"># While it&#39;s quite a bit better than the mean cross-validated score,</span>
+<span class="c1"># it&#39;s within the range of the individual values</span>
+<span class="n">lasso</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.23610676824170862
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s look at the columns that were selected by Lasso (by virtue of having non-zero components). We’re using a threshold slightly larger than zero to account for floating point imprecisions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">lasso</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Index([&#39;p1_polarisable&#39;, &#39;p1_branch&#39;, &#39;p2_polar&#39;, &#39;p2_h_acceptor&#39;, &#39;p3_flex&#39;,
+       &#39;p3_pi_doner&#39;, &#39;p4_flex&#39;, &#39;p4_sigma&#39;, &#39;p4_branch&#39;, &#39;p5_size&#39;,
+       &#39;p6_h_acceptor&#39;, &#39;p6_pi_doner&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>And let’s look at the total count of selected features:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">lasso</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>12
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s change the initial splitting of the data and repreat the same analysis:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
+<span class="n">lasso2</span> <span class="o">=</span> <span class="n">Lasso</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.0005</span><span class="p">)</span>
+<span class="n">lasso2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">lasso2</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.152780778897191
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">lasso2</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Index([&#39;p1_h_doner&#39;, &#39;p1_h_acceptor&#39;, &#39;p1_polarisable&#39;, &#39;p1_sigma&#39;,
+       &#39;p1_branch&#39;, &#39;p2_polar&#39;, &#39;p2_pi_doner&#39;, &#39;p3_flex&#39;, &#39;p3_pi_doner&#39;,
+       &#39;p4_flex&#39;, &#39;p4_pi_doner&#39;, &#39;p4_pi_acceptor&#39;, &#39;p4_sigma&#39;, &#39;p4_branch&#39;,
+       &#39;p5_size&#39;, &#39;p5_polarisable&#39;, &#39;p6_h_acceptor&#39;, &#39;p6_pi_doner&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">lasso2</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>18
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can see that instead of 12 features in the first split, the second split selected 18 features using the same hyper-parameters. Most of the colums with non-zero coefficient in the first split also have non-zero coefficients in the second split, but not all of them: <code class="docutils literal notranslate"><span class="pre">p2_h_acceptor</span></code> was not selected for example. Therefore any interpretation about which coefficents where selected is not very reliable if correlated features are present.</p>
 </div>
 <div class="section" id="elastic-net">
 <h2>Elastic Net<a class="headerlink" href="#elastic-net" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>Combines benefits of Ridge and Lasso</p></li>
-<li><p>two parameters to tune.</p></li>
-</ul>
-<div class="math notranslate nohighlight">
-\[\min_{w \in \mathbb{R}^p, b\in\mathbb{R}} \sum_{i=1}^n ||w^T\mathbf{x}_i + b - y_i||^2 + \alpha_1 ||w||_1 +  \alpha_2 ||w||^2_2 \]</div>
-<p>You can also combine them. This actually what works best in
-practice. This is what’s called the Elastic Net. Elastic Net
-tries to combine both of these penalizations together. You
-now have both terms, you have the L1 norm and the L2 norm
-and you have different values of alpha. Basically, this
-generalizes both. If you choose both these are alpha, it can
-become ridge and it can become Lasso, it can become any
-anything in between. Generally, ridge helps generalization.
-So it’s a good idea to have the ridge penalty in there, but
-also maybe if there are some features that are really not
-useful, the L1 penalty helps makes the same exactly zero.</p>
+<p>Finally, there is a model that combines the two penalization methods of Ridge and Lasso, applying both L1 and L2 regularization.
+This model is known as Elastic Net, and has two hyper-parameters to control the two different kinds of regularization.
+This leads to a model that is more general than either, can lead to sparse solutions, but also can be more accurate and stable than Lasso.</p>
+<div class="admonition-mathematical-details admonition">
+<p class="admonition-title">Mathematical details</p>
+<p>The objective function for Elastic Net is quite straight-forward: it contains the least square data fitting term that we saw in all the models in this section, plus the L1 norm (sum of absolute values) plus the L2 norm (euclidean length) of the coefficient vector. The most obvious way to adjust the regularization strength is by multiplying each with its own hyper-parameter, called <span class="math notranslate nohighlight">\(\alpha_1\)</span> and <span class="math notranslate nohighlight">\(\alpha_2\)</span> respectively:
+<span class="math notranslate nohighlight">\($\min_{w \in \mathbb{R}^p, b\in\mathbb{R}} \sum_{i=1}^n ||w^T\mathbf{x}_i + b - y_i||^2 + \alpha_1 ||w||_1 +  \alpha_2 ||w||^2_2 $\)</span>
+The parametrization in scikit-learn is slightly different, but equivalent:
+<span class="math notranslate nohighlight">\($\min_{w \in \mathbb{R}^p, b\in\mathbb{R}} \sum_{i=1}^n (w^T\mathbf{x}_i + b - y_i)^2 + \alpha \eta ||w||_1 +  \alpha (1 - \eta) ||w||^2_2 $\)</span>
+Here, <span class="math notranslate nohighlight">\(\alpha\)</span> is the overall regularization strength, while <span class="math notranslate nohighlight">\(\eta\)</span> (called <code class="docutils literal notranslate"><span class="pre">l1_ratio</span></code> in the code) is the relative strength of the L1 compared to the L2 penalty.</p>
 </div>
-<div class="section" id="parametrization-in-scikit-learn">
-<h2>Parametrization in scikit-learn<a class="headerlink" href="#parametrization-in-scikit-learn" title="Permalink to this headline">¶</a></h2>
-<div class="math notranslate nohighlight">
-\[\min_{w \in \mathbb{R}^p, b\in\mathbb{R}} \sum_{i=1}^n (w^T\mathbf{x}_i + b - y_i)^2 + \alpha \eta ||w||_1 +  \alpha (1 - \eta) ||w||^2_2 \]</div>
-<p>Where <span class="math notranslate nohighlight">\(\eta\)</span> is the relative amount of l1 penalty (<code class="docutils literal notranslate"><span class="pre">l1_ratio</span></code> in the code).</p>
-<p>The way this parameterize in scikit-learn is slightly
-different. In scikit-learn, you have a parameter alpha,
-which is the amount of regularization and then there’s a
-parameter called l1_ratio, that says how much of the penalty
-should be L1 and L2. If you make this one, you have Lasso,
-if you make it zero, you have a Ridge. Don’t use Lasso or
-Ridge and set alpha zero, because the solver will not handle
-it well. If you actually want alpha equal to zero, use
-linear regression. Now we have more parameters to tune, but
-we just have a more general model. This actually works
-pretty well often.</p>
-</div>
-<div class="section" id="grid-searching-elasticnet">
-<h2>Grid-searching ElasticNet<a class="headerlink" href="#grid-searching-elasticnet" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">ElasticNet</span>
-<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
-              <span class="s1">&#39;l1_ratio&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">8</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">95</span><span class="p">,</span> <span class="o">.</span><span class="mi">98</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}</span>
+<p>The two hyper-parameters of the model in scikit-learn are <code class="docutils literal notranslate"><span class="pre">alpha</span></code> and <code class="docutils literal notranslate"><span class="pre">l1_ratio</span></code>, where alpha is the overall strength of regularization and should be searched on a logarithmic scale, similar to Ridge and Lasso. The <code class="docutils literal notranslate"><span class="pre">l1_ratio</span></code> hyper-parameter determines the relative strength of the two regularization options, with an <code class="docutils literal notranslate"><span class="pre">l1_ratio</span></code> of 1 resulting in a model that’s equivalent to Lasso, and an <code class="docutils literal notranslate"><span class="pre">l1_ratio</span></code> of 0 resulting in a model that’s equivalent to Ridge. I’m unaware of general guidelines for tuning the <code class="docutils literal notranslate"><span class="pre">l1_ratio</span></code> parameter, but often values close to 0 (like 0.01) or close to 1 (like 0.99) seem to be working well.</p>
+<p>Let’s see how well this model does on the Triazine dataset:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">ElasticNet</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 
-<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">ElasticNet</span><span class="p">(),</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+              <span class="s1">&#39;l1_ratio&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="o">.</span><span class="mi">8</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">95</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}</span>
+
+<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">ElasticNet</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span> <span class="s1">&#39;l1_ratio&#39;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">}</span>
-<span class="mf">0.100</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;alpha&#39;: 0.001, &#39;l1_ratio&#39;: 0.8}
+0.05746406025336763
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">coef_</span><span class="o">!=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</div>
+</div>
+<p>We can also compute the number of non-zero coefficients of the best model found:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-10</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">10</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>10
+</pre></div>
+</div>
+</div>
+</div>
+<p>With just 10 non-zero parameters, this model seem to be performing better than previous models (though still quite bad on average).</p>
+<p>As our grid-search now contains two hyper-parameters, the results are less easy to visualize. A common way to visualize two-dimensional hyper-parameter spaces is using a heat-map. We can do this either using matplotlib, pandas or seaborn.
+The results are stored in the <code class="docutils literal notranslate"><span class="pre">cv_results_</span></code> attribute as before, but now this dictionary contains two hyper-parameters:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cv_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">)</span>
+<span class="n">cv_res</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-</pre></div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean_fit_time</th>
+      <th>std_fit_time</th>
+      <th>mean_score_time</th>
+      <th>std_score_time</th>
+      <th>param_alpha</th>
+      <th>param_l1_ratio</th>
+      <th>params</th>
+      <th>split0_test_score</th>
+      <th>split1_test_score</th>
+      <th>split2_test_score</th>
+      <th>split3_test_score</th>
+      <th>split4_test_score</th>
+      <th>split5_test_score</th>
+      <th>split6_test_score</th>
+      <th>split7_test_score</th>
+      <th>split8_test_score</th>
+      <th>split9_test_score</th>
+      <th>mean_test_score</th>
+      <th>std_test_score</th>
+      <th>rank_test_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.004945</td>
+      <td>0.000487</td>
+      <td>0.001218</td>
+      <td>0.000197</td>
+      <td>0.0001</td>
+      <td>0.01</td>
+      <td>{'alpha': 0.0001, 'l1_ratio': 0.01}</td>
+      <td>0.102067</td>
+      <td>-0.667312</td>
+      <td>-0.209677</td>
+      <td>0.435300</td>
+      <td>-0.015640</td>
+      <td>-0.291946</td>
+      <td>-1.325380</td>
+      <td>-0.396977</td>
+      <td>0.062931</td>
+      <td>-0.322138</td>
+      <td>-0.262877</td>
+      <td>0.458864</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.003518</td>
+      <td>0.000752</td>
+      <td>0.001130</td>
+      <td>0.000049</td>
+      <td>0.0001</td>
+      <td>0.1</td>
+      <td>{'alpha': 0.0001, 'l1_ratio': 0.1}</td>
+      <td>0.102685</td>
+      <td>-0.701441</td>
+      <td>-0.198354</td>
+      <td>0.431830</td>
+      <td>-0.003047</td>
+      <td>-0.262406</td>
+      <td>-1.296583</td>
+      <td>-0.393008</td>
+      <td>0.067626</td>
+      <td>-0.310960</td>
+      <td>-0.256366</td>
+      <td>0.455727</td>
+      <td>89</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.002625</td>
+      <td>0.000199</td>
+      <td>0.001152</td>
+      <td>0.000132</td>
+      <td>0.0001</td>
+      <td>0.5</td>
+      <td>{'alpha': 0.0001, 'l1_ratio': 0.5}</td>
+      <td>0.092725</td>
+      <td>-0.711939</td>
+      <td>-0.137158</td>
+      <td>0.411446</td>
+      <td>-0.023455</td>
+      <td>-0.122103</td>
+      <td>-1.159561</td>
+      <td>-0.388860</td>
+      <td>0.095857</td>
+      <td>-0.258183</td>
+      <td>-0.220123</td>
+      <td>0.424984</td>
+      <td>88</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.002631</td>
+      <td>0.000131</td>
+      <td>0.001098</td>
+      <td>0.000015</td>
+      <td>0.0001</td>
+      <td>0.6</td>
+      <td>{'alpha': 0.0001, 'l1_ratio': 0.6}</td>
+      <td>0.087842</td>
+      <td>-0.699913</td>
+      <td>-0.120273</td>
+      <td>0.405647</td>
+      <td>-0.017997</td>
+      <td>-0.105653</td>
+      <td>-1.127130</td>
+      <td>-0.384588</td>
+      <td>0.104705</td>
+      <td>-0.246586</td>
+      <td>-0.210395</td>
+      <td>0.416597</td>
+      <td>86</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.002780</td>
+      <td>0.000186</td>
+      <td>0.001087</td>
+      <td>0.000004</td>
+      <td>0.0001</td>
+      <td>0.7</td>
+      <td>{'alpha': 0.0001, 'l1_ratio': 0.7}</td>
+      <td>0.084404</td>
+      <td>-0.686281</td>
+      <td>-0.106664</td>
+      <td>0.400745</td>
+      <td>-0.011885</td>
+      <td>-0.092287</td>
+      <td>-1.098836</td>
+      <td>-0.371369</td>
+      <td>0.113662</td>
+      <td>-0.238139</td>
+      <td>-0.200665</td>
+      <td>0.408786</td>
+      <td>85</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
-<p>Here is me doing a grid search. If you have two parameters
-for the grid search it will do all possible combinations.
-Here I do a logarithmic space for alpha and for the
-l1_ratio, I use something that’s very close to zero and
-something that’s very close to one and some stuff in
-between. If you want to analyze the output of a 2D grid
-search a little bit harder we can’t do the nice curve
-anymore.</p>
-</div>
-<div class="section" id="analyzing-grid-search-results">
-<h2>Analyzing grid-search results<a class="headerlink" href="#analyzing-grid-search-results" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">),</span>
+<p>I find it easiest to create a pivot table between the two parameters, containing the mean test score as the values:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">cv_res</span><span class="p">,</span>
     <span class="n">values</span><span class="o">=</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s1">&#39;param_alpha&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;param_l1_ratio&#39;</span><span class="p">)</span>
+<span class="n">res</span>
 </pre></div>
 </div>
-<p>.center[
-<img alt=":scale 60%" src="../_images/elasticnet_search.png" />
-]</p>
-<p>The way that I like to do it is, here’s the grip.cv results.
-And I put it in a data frame and then I’ll make a pivot
-table where the values are test score, the index is one
-parameter and the columns are the other parameter. It allows
-me to visualize the grid search nicely. This is alpha and
-this is l1_ratio and you can see that if the l1_ratio is
-pretty high, there are some pretty good results, if you set
-the alpha accordingly. So here’s like the diagonal of pretty
-good things. This is the model that did best. There’s a
-slight caveat here that right now I did this with
-cross-validation and so this is the cross-validation
-accuracy. Last time I said, this is not really a good
-measure of generalization performance. So here, I searched
-way more parameters, I tried like 5 or 10 times as many
-models. So it’s likely that by chance, I’ll get better
-results. I didn’t do this here in particular, because the
-data set is small and very noisy but in practice, if you
-want to compare models, you should evaluate it on a test set
-and see which of the models actually are better on the test.
-One more thing, why this is helpful is if the best value is
-on the edge of this graph that means my ranges were too
-small. Question is why we’re using r square instead of the
-squared loss, one of the answers is that’s the default in
-scikit-learn and the other answer is it’s nice to know the
-range so you know that perfect prediction is one and you
-have some idea of what 0.5 means, the RMSE (the other norm
-that you usually use is the RMSE) depends on the scale of
-the output. So for example for the housing prices, it might
-be interesting to see what is the standard error in terms of
-dollars. If you want, like something that is in the units of
-the output, RMSE is good or mean absolute error might even
-be better. If you want something that is independent of the
-units of the output r square is pretty good because you know
-it’s going to be between zero and one and it’s measure
-something like the correlation and so if it’s like 0.9, you
-know it’s a pretty good model. If my RMSE is 10,000 I don’t
-know if have a good model or a bad model depends on what the
-range of the outputs is. The last thing I want to talk about
-today is this was basically changing the regularization
-parts. The two most times regularization we looked at is
-Ridge which is L2 penalty, Lasso which is an L1 penalty and
-combining two of them which is Elastic Net. So now I want to
-talk about changing the first part, which was the squared
-loss of the predictions, basically.</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>param_l1_ratio</th>
+      <th>0.01</th>
+      <th>0.10</th>
+      <th>0.50</th>
+      <th>0.60</th>
+      <th>0.70</th>
+      <th>0.80</th>
+      <th>0.90</th>
+      <th>0.95</th>
+      <th>1.00</th>
+    </tr>
+    <tr>
+      <th>param_alpha</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0.000100</th>
+      <td>-0.262877</td>
+      <td>-0.256366</td>
+      <td>-0.220123</td>
+      <td>-0.210395</td>
+      <td>-0.200665</td>
+      <td>-0.189989</td>
+      <td>-0.182104</td>
+      <td>-0.178336</td>
+      <td>-0.175988</td>
+    </tr>
+    <tr>
+      <th>0.000215</th>
+      <td>-0.211292</td>
+      <td>-0.199394</td>
+      <td>-0.149264</td>
+      <td>-0.135405</td>
+      <td>-0.120616</td>
+      <td>-0.103799</td>
+      <td>-0.086235</td>
+      <td>-0.078930</td>
+      <td>-0.073370</td>
+    </tr>
+    <tr>
+      <th>0.000464</th>
+      <td>-0.163388</td>
+      <td>-0.148679</td>
+      <td>-0.060443</td>
+      <td>-0.038661</td>
+      <td>-0.019982</td>
+      <td>-0.004912</td>
+      <td>0.008836</td>
+      <td>0.015728</td>
+      <td>0.021748</td>
+    </tr>
+    <tr>
+      <th>0.001000</th>
+      <td>-0.118270</td>
+      <td>-0.089094</td>
+      <td>0.028846</td>
+      <td>0.046660</td>
+      <td>0.054013</td>
+      <td>0.057464</td>
+      <td>0.056977</td>
+      <td>0.054727</td>
+      <td>0.052289</td>
+    </tr>
+    <tr>
+      <th>0.002154</th>
+      <td>-0.077946</td>
+      <td>-0.035164</td>
+      <td>0.024236</td>
+      <td>0.010323</td>
+      <td>-0.007533</td>
+      <td>-0.030427</td>
+      <td>-0.057871</td>
+      <td>-0.071630</td>
+      <td>-0.085981</td>
+    </tr>
+    <tr>
+      <th>0.004642</th>
+      <td>-0.050726</td>
+      <td>-0.002223</td>
+      <td>-0.121608</td>
+      <td>-0.160650</td>
+      <td>-0.185764</td>
+      <td>-0.184572</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+    </tr>
+    <tr>
+      <th>0.010000</th>
+      <td>-0.042396</td>
+      <td>-0.039982</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+    </tr>
+    <tr>
+      <th>0.021544</th>
+      <td>-0.056039</td>
+      <td>-0.143407</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+    </tr>
+    <tr>
+      <th>0.046416</th>
+      <td>-0.090926</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+    </tr>
+    <tr>
+      <th>0.100000</th>
+      <td>-0.138160</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+      <td>-0.181428</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>You can now plot this dataframe easily using seaborn’s heatmap function:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fb5c57b7970&gt;
+</pre></div>
+</div>
+<img alt="../_images/05-linear-models-regression_85_1.png" src="../_images/05-linear-models-regression_85_1.png" />
+</div>
+</div>
+<p>Given the small size of the dataset and the instability in lasso we observed above, the conclusions from this plot should be taken with caution, but it seems that alpha=0.001, with an l1_ratio between 0.7 and 0.95 seems to be working best. We could refine our search and/or use a more elaborate cross-validation strategy if we wanted to tune parameters further. Keep in mind how many different models we trained here: each entry in the heatmap corresponds to running cross-validation with this combination of parameters, so the total number of models we trained is 9 * 10 * 10 = 900.</p>
+<p>Finally, let’s evaluate our model on the test set:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.23255259638322634
+</pre></div>
+</div>
+</div>
+</div>
+<p>The model is about as good as the first Lasso model aboe, though it uses two features less.</p>
+<p>This concludes our discussion of linear models for regression. There are several other kinds that we did not discuss, in particular those that model specific output distributions (such as count data or logistic data), called generalized linear models, and models that are robust to outliers in the training data, such as Huber’s regressor and RANSAC.
+However, in most cases, using one of the above models is quite sufficient, and problem formulation and feature engineering will likely play a larger role in determining your success than slight modifications in the model.</p>
+<p>Using Ridge is a safe default choice for most applications, though you should always ensure propers scaling of the data and tuning of the hyper-parameter alpha.
+Lasso and ElasticNet can be useful for finding sparse solution and doing automatic feature selection, though their results can be highly unstable if features are correlated. If a stable, interpretable selection of coefficient is sought, removing correlated features is a potential solution.</p>
 </div>
 </div>
 
